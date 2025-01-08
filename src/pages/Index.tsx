@@ -9,10 +9,10 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navigation />
       
-      <main className="container mx-auto px-4">
+      <main className="container mx-auto px-4 pt-20">
         {/* Hero Section */}
-        <section className="min-h-[60vh] flex items-center justify-center py-20">
-          <div className="max-w-3xl mx-auto space-y-8 fade-in">
+        <section className="min-h-[60vh] flex items-center justify-center py-32">
+          <div className="max-w-3xl mx-auto text-center space-y-8 fade-in">
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
               Compliant Dividend Documentation Made Simple
             </h1>
@@ -85,9 +85,8 @@ const Index = () => {
             </div>
           </div>
         </section>
-      </main>
 
-      {/* Footer */}
+        {/* Footer */}
       <footer className="border-t">
         <div className="container mx-auto px-4 py-8">
           <p className="text-center text-gray-600">
@@ -95,6 +94,7 @@ const Index = () => {
           </p>
         </div>
       </footer>
+      </main>
     </div>
   );
 };
