@@ -9,17 +9,17 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navigation />
       
-      <main className="pt-24 pb-16">
+      <main className="container mx-auto px-4">
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-16 text-center">
-          <div className="max-w-3xl mx-auto space-y-6 fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
+        <section className="min-h-[60vh] flex items-center justify-center py-20">
+          <div className="max-w-3xl mx-auto space-y-8 fade-in">
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
               Compliant Dividend Documentation Made Simple
             </h1>
-            <p className="text-lg text-gray-600 md:text-xl mt-6">
+            <p className="text-xl md:text-2xl text-gray-600 mt-8">
               Generate professional board meeting minutes and dividend vouchers for your UK limited company in minutes.
             </p>
-            <div className="pt-8">
+            <div className="pt-12">
               <Button size="lg" asChild className="hover-lift">
                 <Link to="/create">
                   Get Started
@@ -31,7 +31,7 @@ const Index = () => {
         </section>
 
         {/* Features Section */}
-        <section className="container mx-auto px-4 py-16">
+        <section className="py-20">
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="p-6 hover-lift">
               <FileText className="h-12 w-12 mb-4 text-gray-600" />
@@ -60,7 +60,7 @@ const Index = () => {
         </section>
 
         {/* Info Section */}
-        <section className="container mx-auto px-4 py-16">
+        <section className="py-20">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold mb-6 text-center">
               Why Proper Dividend Documentation Matters
