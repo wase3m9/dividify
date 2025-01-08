@@ -19,11 +19,16 @@ const Index = () => {
             <p className="text-xl md:text-2xl text-gray-600 mt-8">
               Generate professional board meeting minutes and dividend vouchers for your UK limited company in minutes.
             </p>
-            <div className="pt-12">
+            <div className="pt-12 flex items-center justify-center gap-4">
               <Button size="lg" asChild className="hover-lift">
                 <Link to="/create">
                   Get Started
                   <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="hover-lift">
+                <Link to="/trial">
+                  Start Free Trial
                 </Link>
               </Button>
             </div>
