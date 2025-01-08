@@ -13,13 +13,13 @@ const Index = () => {
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-16 text-center">
           <div className="max-w-3xl mx-auto space-y-6 fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">
               Compliant Dividend Documentation Made Simple
             </h1>
-            <p className="text-lg text-gray-600 md:text-xl">
+            <p className="text-lg text-gray-600 md:text-xl mt-6">
               Generate professional board meeting minutes and dividend vouchers for your UK limited company in minutes.
             </p>
-            <div className="pt-4">
+            <div className="pt-8">
               <Button size="lg" asChild className="hover-lift">
                 <Link to="/create">
                   Get Started
