@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
@@ -16,6 +16,8 @@ import {
 
 const DividendAmountForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { shareholderName, shareClass, shareholdings } = location.state || {};
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -30,7 +32,18 @@ const DividendAmountForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/dividend-voucher/waivers");
+    const amountPerShare = (e.target as HTMLFormElement).amountPerShare.value;
+    const totalAmount = (e.target as HTMLFormElement).totalAmount.value;
+    
+    navigate("/dividend-voucher/waivers", {
+      state: {
+        shareholderName,
+        shareClass,
+        shareholdings,
+        amountPerShare,
+        totalAmount
+      }
+    });
   };
 
   const currencies = [
@@ -72,7 +85,7 @@ const DividendAmountForm = () => {
                   <Label htmlFor="shareClass">Share class</Label>
                   <Input
                     id="shareClass"
-                    value="Ordinary £1.00"
+                    value={shareClass || "Ordinary £1.00"}
                     readOnly
                     className="mt-1 bg-gray-50"
                   />

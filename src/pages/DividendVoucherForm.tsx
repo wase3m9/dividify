@@ -31,7 +31,15 @@ const DividendVoucherForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/dividend-voucher/amount");
+    const formData = new FormData(e.target as HTMLFormElement);
+    
+    navigate("/dividend-voucher/amount", {
+      state: {
+        shareholderName: formData.get('shareholderName'),
+        shareClass: formData.get('shareClass'),
+        shareholdings: formData.get('shareholdings')
+      }
+    });
   };
 
   return (
@@ -60,14 +68,16 @@ const DividendVoucherForm = () => {
                   <Label htmlFor="shareholderName">Shareholder name</Label>
                   <Input
                     id="shareholderName"
+                    name="shareholderName"
                     placeholder="Enter shareholder name"
                     className="mt-1"
+                    required
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="shareClass">Share class</Label>
-                  <Select>
+                  <Select name="shareClass" required>
                     <SelectTrigger className="w-full mt-1">
                       <SelectValue placeholder="Select share class" />
                     </SelectTrigger>
@@ -82,9 +92,11 @@ const DividendVoucherForm = () => {
                   <Label htmlFor="shareholdings">Share holdings</Label>
                   <Input
                     id="shareholdings"
+                    name="shareholdings"
                     type="number"
                     placeholder="Enter number of shares"
                     className="mt-1"
+                    required
                   />
                 </div>
 

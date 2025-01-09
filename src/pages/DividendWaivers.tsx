@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
@@ -17,7 +17,9 @@ import {
 
 const DividendWaivers = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showSummary, setShowSummary] = useState(false);
+  const { shareholderName, shareClass, shareholdings, amountPerShare, totalAmount } = location.state || {};
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -44,7 +46,7 @@ const DividendWaivers = () => {
             <Card className="p-6">
               <div className="mb-6">
                 <h2 className="text-xl font-semibold text-blue-600 mb-4">
-                  Dividend payable 01/01/2025 on Ordinary £1.00 shares
+                  Dividend payable on {shareClass} shares
                 </h2>
                 <Table>
                   <TableHeader>
@@ -58,18 +60,18 @@ const DividendWaivers = () => {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell>Mr Mohammad Waseem CHOUDHARY</TableCell>
+                      <TableCell>{shareholderName}</TableCell>
                       <TableCell>1</TableCell>
-                      <TableCell>1</TableCell>
-                      <TableCell>£1,000.00</TableCell>
-                      <TableCell>£1,000.00000000</TableCell>
+                      <TableCell>{shareholdings}</TableCell>
+                      <TableCell>£{totalAmount}</TableCell>
+                      <TableCell>£{amountPerShare}</TableCell>
                     </TableRow>
                     <TableRow className="font-medium">
                       <TableCell>Total</TableCell>
                       <TableCell></TableCell>
-                      <TableCell>1</TableCell>
-                      <TableCell>£1,000.00</TableCell>
-                      <TableCell>£1,000.00000000</TableCell>
+                      <TableCell>{shareholdings}</TableCell>
+                      <TableCell>£{totalAmount}</TableCell>
+                      <TableCell>£{amountPerShare}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
