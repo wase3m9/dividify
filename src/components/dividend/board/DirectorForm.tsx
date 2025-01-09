@@ -14,7 +14,6 @@ const directorFormSchema = z.object({
   surname: z.string().min(1, "Surname is required"),
   address: z.string().min(1, "Address is required"),
   position: z.string().optional(),
-  waive_dividend: z.boolean().default(false),
   date_of_appointment: z.string().min(1, "Date of appointment is required")
 });
 
@@ -34,7 +33,6 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
       surname: "",
       address: "",
       position: "",
-      waive_dividend: false,
       date_of_appointment: new Date().toISOString().split('T')[0]
     }
   });
@@ -140,31 +138,6 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
                 <FormLabel>Position (Optional)</FormLabel>
                 <FormControl>
                   <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="waive_dividend"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Elect to Waive Dividend</FormLabel>
-                <FormControl>
-                  <Select 
-                    onValueChange={(value) => field.onChange(value === "yes")} 
-                    defaultValue={field.value ? "yes" : "no"}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select option" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="yes">Yes</SelectItem>
-                      <SelectItem value="no">No</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
