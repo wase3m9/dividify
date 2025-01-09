@@ -28,6 +28,11 @@ const DividendAmountForm = () => {
     checkAuth();
   }, [navigate]);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate("/dividend-voucher/waivers");
+  };
+
   const currencies = [
     { code: "GBP", symbol: "£", name: "GB Pound" },
     { code: "USD", symbol: "$", name: "US Dollar" },
@@ -46,6 +51,11 @@ const DividendAmountForm = () => {
       <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-3xl mx-auto space-y-8">
+          {/* Progress bar */}
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="bg-green-500 h-2.5 rounded-full" style={{ width: '50%' }}></div>
+          </div>
+
           {/* Header */}
           <div className="space-y-4">
             <h1 className="text-3xl font-bold tracking-tight">Dividend Amount</h1>
@@ -56,7 +66,7 @@ const DividendAmountForm = () => {
 
           {/* Form */}
           <Card className="p-6">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="shareClass">Share class</Label>

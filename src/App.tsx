@@ -4,6 +4,7 @@ import Auth from "@/pages/Auth";
 import DividendBoard from "@/pages/DividendBoard";
 import DividendVoucherForm from "@/pages/DividendVoucherForm";
 import DividendAmountForm from "@/pages/DividendAmountForm";
+import DividendWaivers from "@/pages/DividendWaivers";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/dividend-board" element={<DividendBoard />} />
         <Route path="/dividend-voucher/create" element={<DividendVoucherForm />} />
         <Route path="/dividend-voucher/amount" element={<DividendAmountForm />} />
+        <Route path="/dividend-voucher/waivers" element={<DividendWaivers />} />
       </Routes>
       <Toaster />
     </BrowserRouter>
