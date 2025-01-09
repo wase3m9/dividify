@@ -119,6 +119,56 @@ export type Database = {
           },
         ]
       }
+      dividend_records: {
+        Row: {
+          amount_per_share: number
+          company_id: string
+          created_at: string
+          director_name: string
+          financial_year_ending: string
+          id: string
+          payment_date: string
+          share_class: string
+          shareholder_name: string
+          total_amount: number
+          user_id: string
+        }
+        Insert: {
+          amount_per_share: number
+          company_id: string
+          created_at?: string
+          director_name: string
+          financial_year_ending: string
+          id?: string
+          payment_date: string
+          share_class: string
+          shareholder_name: string
+          total_amount: number
+          user_id: string
+        }
+        Update: {
+          amount_per_share?: number
+          company_id?: string
+          created_at?: string
+          director_name?: string
+          financial_year_ending?: string
+          id?: string
+          payment_date?: string
+          share_class?: string
+          shareholder_name?: string
+          total_amount?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dividend_records_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null

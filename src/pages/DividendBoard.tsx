@@ -9,6 +9,7 @@ import { Header } from "@/components/dividend/board/Header";
 import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
 import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
 import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
+import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { QuickActions } from "@/components/dividend/board/QuickActions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -193,6 +194,12 @@ const DividendBoard = () => {
                   >
                     Share Classes
                   </TabsTrigger>
+                  <TabsTrigger 
+                    value="dividends"
+                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6"
+                  >
+                    Dividends
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="company" className="mt-6">
                   <CompanySection 
@@ -218,6 +225,9 @@ const DividendBoard = () => {
                     onDialogOpenChange={setIsShareClassDialogOpen}
                     onSubmit={handleShareClassSubmit}
                   />
+                </TabsContent>
+                <TabsContent value="dividends" className="mt-6">
+                  <DividendsSection />
                 </TabsContent>
               </Tabs>
             </div>
