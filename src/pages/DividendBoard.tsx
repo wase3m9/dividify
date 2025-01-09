@@ -5,6 +5,14 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, BookOpen } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const DividendBoard = () => {
   const navigate = useNavigate();
@@ -19,6 +27,28 @@ const DividendBoard = () => {
 
     checkAuth();
   }, [navigate]);
+
+  // Sample recent activity data - this would typically come from your backend
+  const recentActivity = [
+    {
+      id: 1,
+      action: "Dividend Voucher Created",
+      date: "2024-04-10",
+      type: "voucher",
+    },
+    {
+      id: 2,
+      action: "Board Minutes Submitted",
+      date: "2024-04-09",
+      type: "minutes",
+    },
+    {
+      id: 3,
+      action: "Dividend Voucher Created",
+      date: "2024-04-08",
+      type: "voucher",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -65,6 +95,38 @@ const DividendBoard = () => {
                   Create Minutes
                 </Button>
               </div>
+            </Card>
+          </div>
+
+          {/* Recent Activity Section */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-semibold">Recent Activity</h2>
+            <Card>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Action</TableHead>
+                    <TableHead>Date</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {recentActivity.map((activity) => (
+                    <TableRow key={activity.id}>
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-2">
+                          {activity.type === "voucher" ? (
+                            <FileText className="h-4 w-4 text-[#9b87f5]" />
+                          ) : (
+                            <BookOpen className="h-4 w-4 text-[#9b87f5]" />
+                          )}
+                          {activity.action}
+                        </div>
+                      </TableCell>
+                      <TableCell>{activity.date}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </Card>
           </div>
         </div>
