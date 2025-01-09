@@ -1,11 +1,17 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Eye, Download } from "lucide-react"
+import { Eye, Download, FileText } from "lucide-react"
 import { useLocation } from "react-router-dom"
-import { downloadPDF } from "@/utils/documentGenerator"
+import { downloadPDF, downloadWord } from "@/utils/documentGenerator"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { useEffect, useState } from "react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const templates = [
   { id: 'basic', name: 'Basic', selected: true },
@@ -45,7 +51,7 @@ export const TemplateSelection = () => {
     fetchCompanyDetails();
   }, []);
 
-  const handleDownload = async (templateId: string) => {
+  const handleDownload = async (templateId: string, format: 'pdf' | 'word') => {
     if (!company) {
       toast({
         variant: "destructive",
@@ -68,17 +74,21 @@ export const TemplateSelection = () => {
         voucherNumber: voucherNumber,
       };
 
-      downloadPDF(documentData);
+      if (format === 'pdf') {
+        downloadPDF(documentData);
+      } else {
+        await downloadWord(documentData);
+      }
 
       toast({
         title: "Success",
-        description: "Dividend voucher downloaded successfully",
+        description: `Dividend voucher downloaded successfully as ${format.toUpperCase()}`,
       });
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to generate document",
+        description: `Failed to generate ${format.toUpperCase()} document`,
       });
     }
   };
@@ -99,13 +109,26 @@ export const TemplateSelection = () => {
               <h3 className="font-medium text-center">{template.name}</h3>
               <div className="flex justify-center">
                 {template.selected ? (
-                  <Button 
-                    onClick={() => handleDownload(template.id)}
-                    className="text-blue-600 font-medium flex items-center gap-2"
-                  >
-                    <Download className="w-4 h-4" />
-                    Download
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        className="text-blue-600 font-medium flex items-center gap-2"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={() => handleDownload(template.id, 'pdf')}>
+                        <FileText className="w-4 h-4 mr-2" />
+                        Download as PDF
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDownload(template.id, 'word')}>
+                        <FileText className="w-4 h-4 mr-2" />
+                        Download as Word
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 ) : (
                   <Button variant="ghost" size="sm" className="text-gray-500">
                     Use this template

@@ -1,4 +1,6 @@
 import { jsPDF } from 'jspdf';
+import { Document, Paragraph, TextRun, AlignmentType } from 'docx';
+import { saveAs } from 'file-saver';
 
 interface DividendVoucherData {
   companyName: string;
@@ -51,7 +53,141 @@ export const generatePDF = (data: DividendVoucherData) => {
   return doc;
 };
 
+export const generateWord = async (data: DividendVoucherData) => {
+  const doc = new Document({
+    sections: [{
+      properties: {},
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [
+            new TextRun({
+              text: data.companyName,
+              bold: true,
+              size: 32,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [
+            new TextRun({
+              text: data.registeredAddress,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [
+            new TextRun({
+              text: `Registered number: ${data.registrationNumber}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: "" })],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: data.shareholderName,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.RIGHT,
+          children: [
+            new TextRun({
+              text: `Dividend voucher number: ${data.voucherNumber}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: "" })],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `${data.companyName} has declared the final dividend for the year as follows:`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: "" })],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Payment date: ${data.paymentDate}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Share class: ${data.shareClass}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Shareholder: ${data.shareholderName}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Amount per share: £${data.amountPerShare}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Total dividend payable: £${data.totalAmount}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: "" })],
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: "" })],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: "Signature of Director/Secretary",
+              size: 24,
+            }),
+          ],
+        }),
+      ],
+    }],
+  });
+
+  return doc;
+};
+
 export const downloadPDF = (data: DividendVoucherData) => {
   const doc = generatePDF(data);
   doc.save(`dividend_voucher_${data.voucherNumber}.pdf`);
+};
+
+export const downloadWord = async (data: DividendVoucherData) => {
+  const doc = await generateWord(data);
+  const blob = await doc.save();
+  saveAs(blob, `dividend_voucher_${data.voucherNumber}.docx`);
 };
