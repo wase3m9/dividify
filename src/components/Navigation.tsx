@@ -60,7 +60,7 @@ export const Navigation = () => {
                 <Link to="/auth">Login</Link>
               </Button>
               <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]" asChild>
-                <Link to="/auth">Start Free Trial</Link>
+                <Link to="/auth">Get Started</Link>
               </Button>
             </>
           )}
