@@ -22,7 +22,7 @@ export const Navigation = () => {
             <Link to="/login">Login</Link>
           </Button>
           <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]" asChild>
-            <Link to="/get-started">Get Started</Link>
+            <Link to="/signup">Get Started</Link>
           </Button>
           {isLoggedIn && (
             <Button variant="outline" asChild>
