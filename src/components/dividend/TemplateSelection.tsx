@@ -6,6 +6,14 @@ import { downloadPDF, downloadWord } from "@/utils/documentGenerator"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { useEffect, useState } from "react"
+import { DocumentPreview } from "@/utils/previewRenderer"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,7 +75,7 @@ export const TemplateSelection = () => {
         registrationNumber: company.registration_number || '',
         registeredAddress: company.registered_address || '',
         shareholderName: formData.shareholderName || '',
-        shareholderAddress: formData.shareholderAddress || '', // Added this line
+        shareholderAddress: formData.shareholderAddress || '',
         shareClass: formData.shareClass || '',
         paymentDate: formData.paymentDate || '',
         amountPerShare: formData.amountPerShare || '0',
@@ -103,8 +111,8 @@ export const TemplateSelection = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {templates.map((template) => (
           <Card key={template.id} className={`p-4 ${template.selected ? 'ring-2 ring-blue-500' : ''}`}>
-            <div className="aspect-[3/4] bg-gray-100 mb-4 rounded flex items-center justify-center">
-              <div className="w-16 h-20 bg-gray-200 rounded" />
+            <div className="aspect-[3/4] bg-gray-100 mb-4 rounded flex items-center justify-center overflow-hidden">
+              <DocumentPreview template={template.id as 'basic' | 'classic' | 'modern'} />
             </div>
             <div className="space-y-2">
               <h3 className="font-medium text-center">{template.name}</h3>
@@ -137,10 +145,22 @@ export const TemplateSelection = () => {
                 )}
               </div>
               <div className="flex justify-center">
-                <Button variant="ghost" size="sm">
-                  <Eye className="w-4 h-4 mr-1" />
-                  Preview
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <Eye className="w-4 h-4 mr-1" />
+                      Preview
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>{template.name} Template Preview</DialogTitle>
+                    </DialogHeader>
+                    <div className="aspect-[1/1.414] bg-white rounded-lg shadow-inner p-4">
+                      <DocumentPreview template={template.id as 'basic' | 'classic' | 'modern'} />
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </Card>
