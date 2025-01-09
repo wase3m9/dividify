@@ -64,13 +64,13 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 text-left">
         <FormField
           control={form.control}
           name="shareholderName"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Shareholder name</FormLabel>
+            <FormItem className="text-left">
+              <FormLabel className="text-left">Shareholder name</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Enter shareholder name" />
               </FormControl>
@@ -83,8 +83,8 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
           control={form.control}
           name="shareClass"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Share class</FormLabel>
+            <FormItem className="text-left">
+              <FormLabel className="text-left">Share class</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Enter share class" />
               </FormControl>
@@ -97,8 +97,8 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
           control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
+            <FormItem className="text-left">
+              <FormLabel className="text-left">Description</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -120,8 +120,8 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
           control={form.control}
           name="paymentDate"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Payment date</FormLabel>
+            <FormItem className="text-left">
+              <FormLabel className="text-left">Payment date</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
@@ -134,8 +134,8 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
           control={form.control}
           name="financialYearEnding"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Financial year ending</FormLabel>
+            <FormItem className="text-left">
+              <FormLabel className="text-left">Financial year ending</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
