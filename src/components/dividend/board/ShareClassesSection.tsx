@@ -77,28 +77,27 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
           <Layers className="h-5 w-5 text-[#9b87f5]" />
           <h2 className="text-xl font-semibold">Share Classes</h2>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
-          <DialogTrigger asChild>
-            <Button 
-              variant="outline"
-              className="text-[#9b87f5] border-[#9b87f5]"
-            >
-              Add Share Class
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <ShareClassForm 
-              onSubmit={handleSubmit}
-              onCancel={handleDialogClose}
-              initialData={selectedShareClass ? {
-                shareClass: selectedShareClass.share_class,
-                numberOfShares: selectedShareClass.number_of_shares.toString(),
-                numberOfHolders: selectedShareClass.number_of_holders.toString()
-              } : undefined}
-            />
-          </DialogContent>
-        </Dialog>
+        <Button 
+          variant="outline"
+          className="text-[#9b87f5] border-[#9b87f5]"
+          onClick={() => onDialogOpenChange(true)}
+        >
+          Add Share Class
+        </Button>
       </div>
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+        <DialogContent>
+          <ShareClassForm 
+            onSubmit={handleSubmit}
+            onCancel={handleDialogClose}
+            initialData={selectedShareClass ? {
+              shareClass: selectedShareClass.share_class,
+              numberOfShares: selectedShareClass.number_of_shares.toString(),
+              numberOfHolders: selectedShareClass.number_of_holders.toString()
+            } : undefined}
+          />
+        </DialogContent>
+      </Dialog>
       {shareClasses.length > 0 ? (
         <div className="space-y-2">
           {shareClasses.map((shareClass) => (

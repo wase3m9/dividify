@@ -88,34 +88,33 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
           <Building2 className="h-5 w-5 text-[#9b87f5]" />
           <h2 className="text-xl font-semibold">Shareholders</h2>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
-          <DialogTrigger asChild>
-            <Button 
-              variant="outline"
-              className="text-[#9b87f5] border-[#9b87f5]"
-              disabled={shareholdings.length >= MAX_SHAREHOLDERS}
-            >
-              Add Shareholder {shareholdings.length >= MAX_SHAREHOLDERS && `(${MAX_SHAREHOLDERS} max)`}
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogTitle>
-              {selectedShareholder ? 'Edit Shareholder' : 'Add Shareholder'}
-            </DialogTitle>
-            <ShareholderDetailsForm 
-              onSubmit={handleSubmit}
-              onPrevious={handleDialogClose}
-              initialData={selectedShareholder ? {
-                shareholderName: selectedShareholder.shareholder_name,
-                shareClass: selectedShareholder.share_class,
-                description: "",
-                paymentDate: "",
-                financialYearEnding: ""
-              } : undefined}
-            />
-          </DialogContent>
-        </Dialog>
+        <Button 
+          variant="outline"
+          className="text-[#9b87f5] border-[#9b87f5]"
+          disabled={shareholdings.length >= MAX_SHAREHOLDERS}
+          onClick={() => onDialogOpenChange(true)}
+        >
+          Add Shareholder {shareholdings.length >= MAX_SHAREHOLDERS && `(${MAX_SHAREHOLDERS} max)`}
+        </Button>
       </div>
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+        <DialogContent>
+          <DialogTitle>
+            {selectedShareholder ? 'Edit Shareholder' : 'Add Shareholder'}
+          </DialogTitle>
+          <ShareholderDetailsForm 
+            onSubmit={handleSubmit}
+            onPrevious={handleDialogClose}
+            initialData={selectedShareholder ? {
+              shareholderName: selectedShareholder.shareholder_name,
+              shareClass: selectedShareholder.share_class,
+              description: "",
+              paymentDate: "",
+              financialYearEnding: ""
+            } : undefined}
+          />
+        </DialogContent>
+      </Dialog>
       {shareholdings.length > 0 ? (
         <div className="space-y-2">
           <div className="text-sm text-gray-500 mb-2">
