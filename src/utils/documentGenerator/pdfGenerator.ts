@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf';
 import { format } from 'date-fns';
-import { DividendVoucherData } from './types';
+import type { DividendVoucherData } from './types';
 
 export const generatePDF = (data: DividendVoucherData) => {
   const doc = new jsPDF();
@@ -8,59 +8,61 @@ export const generatePDF = (data: DividendVoucherData) => {
   // Set font
   doc.setFont("helvetica");
   
-  // Company header
-  doc.setFontSize(16);
-  doc.text(data.companyName, 105, 20, { align: "center" });
-  
-  doc.setFontSize(10);
-  doc.text(data.registeredAddress, 105, 30, { align: "center" });
-  doc.text(`Registered number: ${data.registrationNumber}`, 105, 35, { align: "center" });
-
-  // Add space
-  const yStart = 60;
-
-  // Dividend voucher number (right aligned)
-  doc.setFontSize(11);
-  doc.text(`Voucher #${data.voucherNumber.toString().padStart(3, '0')}`, 190, 20, { align: "right" });
-
-  // Shareholder details (left aligned)
-  doc.text(data.shareholderName, 20, yStart);
+  // Shareholder address (top left)
   doc.setFontSize(10);
   if (data.shareholderAddress) {
     const addressLines = data.shareholderAddress.split(',');
     addressLines.forEach((line, index) => {
-      doc.text(line.trim(), 20, yStart + 5 + (index * 5));
+      doc.text(line.trim(), 20, 20 + (index * 5));
     });
   }
-
-  // Add declaration text
-  const declarationY = yStart + 40;
+  
+  // Dividend voucher number (top right)
   doc.setFontSize(11);
-  doc.text(
-    `${data.companyName} has declared the final dividend for the year ending as follows:`,
-    105,
-    declarationY,
-    { align: "center" }
-  );
+  doc.text(`Dividend voucher number: ${data.voucherNumber}`, 190, 20, { align: "right" });
+
+  // Add space before company details
+  const yStart = 60;
+
+  // Company header
+  doc.setFontSize(16);
+  doc.text(data.companyName, 105, yStart, { align: "center" });
+  
+  doc.setFontSize(10);
+  doc.text(data.registeredAddress, 105, yStart + 10, { align: "center" });
+  doc.text(`Registered number: ${data.registrationNumber}`, 105, yStart + 15, { align: "center" });
+
+  // Declaration text
+  const declarationY = yStart + 35;
+  doc.setFontSize(11);
+  const declarationText = `${data.companyName} has declared the final dividend for the year ending ${format(new Date(data.financialYearEnding), 'dd MMM yyyy')} on its ${data.shareClass} shares as follows:`;
+  doc.text(declarationText, 20, declarationY);
+
+  // Format date to UK format
+  const formattedDate = format(new Date(data.paymentDate), 'dd/MM/yyyy');
 
   // Payment details
   const detailsStart = declarationY + 20;
   doc.setFontSize(10);
   doc.text([
-    `Payment Date:          ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
+    `Payment Date:          ${formattedDate}`,
+    `Shareholder:          ${data.shareholderName}`,
     `Share class:          ${data.shareClass}`,
+    `Dividend payable:     £${data.totalAmount}`,
     `Amount per share:     £${data.amountPerShare}`,
-    `Total amount:         £${data.totalAmount}`,
     data.holdings ? `Holdings:             ${data.holdings}` : '',
   ].filter(Boolean), 20, detailsStart);
 
   // Signature lines
   const signatureY = 150;
-  doc.line(20, signatureY, 80, signatureY);
-  doc.text('Director Signature', 20, signatureY + 10);
   
+  // Left side - Signature
+  doc.line(20, signatureY, 80, signatureY);
+  doc.text('Signature of Director/Secretary', 20, signatureY + 10);
+  
+  // Right side - Name
   doc.line(120, signatureY, 180, signatureY);
-  doc.text('Date', 120, signatureY + 10);
+  doc.text('Name of Director/Secretary', 120, signatureY + 10);
 
   return doc;
 };
