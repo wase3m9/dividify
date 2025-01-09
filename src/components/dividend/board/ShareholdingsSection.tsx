@@ -11,7 +11,6 @@ import { supabase } from "@/integrations/supabase/client";
 interface Shareholder {
   id: string;
   shareholder_name: string;
-  share_class: string;
   number_of_shares: number;
 }
 
@@ -107,10 +106,9 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
             onPrevious={handleDialogClose}
             initialData={selectedShareholder ? {
               shareholderName: selectedShareholder.shareholder_name,
-              shareClass: selectedShareholder.share_class,
-              description: "",
-              paymentDate: "",
-              financialYearEnding: ""
+              shareClass: "",
+              shareholderAddress: "",
+              numberOfShares: selectedShareholder.number_of_shares.toString()
             } : undefined}
           />
         </DialogContent>
@@ -124,7 +122,6 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
             <div key={shareholding.id} className="p-4 border rounded-lg flex justify-between items-center">
               <div>
                 <p><span className="font-medium">Name:</span> {shareholding.shareholder_name}</p>
-                <p><span className="font-medium">Share Class:</span> {shareholding.share_class}</p>
                 <p><span className="font-medium">Number of Shares:</span> {shareholding.number_of_shares}</p>
               </div>
               <div className="flex gap-2">

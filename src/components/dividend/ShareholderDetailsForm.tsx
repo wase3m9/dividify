@@ -18,6 +18,7 @@ const formSchema = z.object({
   shareholderName: z.string().min(1, "Shareholder name is required"),
   shareClass: z.string().min(1, "Share class is required"),
   shareholderAddress: z.string().min(1, "Shareholder address is required"),
+  numberOfShares: z.string().min(1, "Number of shares is required"),
 });
 
 export type ShareholderDetails = z.infer<typeof formSchema>;
@@ -37,6 +38,7 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
       shareholderName: "",
       shareClass: "",
       shareholderAddress: "",
+      numberOfShares: "",
     }
   });
 
@@ -107,6 +109,25 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
                   <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="numberOfShares"
+          render={({ field }) => (
+            <FormItem className="text-left">
+              <FormLabel className="text-left">Number of shares</FormLabel>
+              <FormControl>
+                <Input 
+                  {...field} 
+                  type="number" 
+                  min="1"
+                  placeholder="Enter number of shares" 
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

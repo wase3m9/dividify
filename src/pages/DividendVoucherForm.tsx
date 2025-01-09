@@ -12,9 +12,8 @@ const DividendVoucherForm = () => {
       state: {
         shareholderName: data.shareholderName,
         shareClass: data.shareClass,
-        description: data.description,
-        paymentDate: data.paymentDate,
-        financialYearEnding: data.financialYearEnding
+        shareholderAddress: data.shareholderAddress,
+        numberOfShares: data.numberOfShares
       }
     });
   };
