@@ -25,7 +25,7 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Building2 className="h-5 w-5 text-[#9b87f5]" />
-          <h2 className="text-xl font-semibold">Company Information</h2>
+          <h2 className="text-xl font-semibold">Company</h2>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>

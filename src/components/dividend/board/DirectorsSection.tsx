@@ -15,6 +15,7 @@ interface Director {
   address: string;
   waive_dividend: boolean;
   date_of_appointment: string;
+  company_id: string;
 }
 
 interface DirectorsSectionProps {

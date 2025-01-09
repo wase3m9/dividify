@@ -9,6 +9,7 @@ import { Header } from "@/components/dividend/board/Header";
 import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
 import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
 import { QuickActions } from "@/components/dividend/board/QuickActions";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DividendBoard = () => {
   const navigate = useNavigate();
@@ -84,6 +85,7 @@ const DividendBoard = () => {
           shareholder_name: data.shareholderName,
           share_class: data.shareClass,
           number_of_shares: parseInt(data.shareholdings),
+          number_of_holders: parseInt(data.numberOfHolders),
           company_id: company.id,
           user_id: user.id
         }]);
@@ -117,20 +119,46 @@ const DividendBoard = () => {
           <Header companyName={company?.name} />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-8">
-              <CompanySection 
-                company={company}
-                onCompanyUpdate={fetchData}
-              />
-
-              <DirectorsSection directors={directors} />
-
-              <ShareholdingsSection 
-                shareholdings={shareholdings}
-                isDialogOpen={isShareholderDialogOpen}
-                onDialogOpenChange={setIsShareholderDialogOpen}
-                onSubmit={handleShareholderSubmit}
-              />
+            <div className="lg:col-span-2">
+              <Tabs defaultValue="company" className="w-full">
+                <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0">
+                  <TabsTrigger 
+                    value="company" 
+                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6"
+                  >
+                    Company
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="officers"
+                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6"
+                  >
+                    Officers
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="shareholders"
+                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6"
+                  >
+                    Shareholders
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="company" className="mt-6">
+                  <CompanySection 
+                    company={company}
+                    onCompanyUpdate={fetchData}
+                  />
+                </TabsContent>
+                <TabsContent value="officers" className="mt-6">
+                  <DirectorsSection directors={directors} />
+                </TabsContent>
+                <TabsContent value="shareholders" className="mt-6">
+                  <ShareholdingsSection 
+                    shareholdings={shareholdings}
+                    isDialogOpen={isShareholderDialogOpen}
+                    onDialogOpenChange={setIsShareholderDialogOpen}
+                    onSubmit={handleShareholderSubmit}
+                  />
+                </TabsContent>
+              </Tabs>
             </div>
 
             <div className="space-y-8">
