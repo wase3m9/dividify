@@ -52,14 +52,23 @@ export const CompanyForm = ({ existingCompany, onSuccess }: CompanyFormProps) =>
 
   const onSubmit = async (data: CompanyFormData) => {
     try {
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) throw new Error("No user found");
+
+      const submissionData = {
+        ...data,
+        name: data.name, // Explicitly include required field
+        user_id: user.id
+      };
+
       const { error } = existingCompany
         ? await supabase
             .from('companies')
-            .update(data)
+            .update(submissionData)
             .eq('id', existingCompany.id)
         : await supabase
             .from('companies')
-            .insert([{ ...data, user_id: (await supabase.auth.getUser()).data.user?.id }]);
+            .insert([submissionData]);
 
       if (error) throw error;
 
