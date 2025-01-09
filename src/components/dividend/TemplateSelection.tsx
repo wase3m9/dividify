@@ -67,6 +67,7 @@ export const TemplateSelection = () => {
         registrationNumber: company.registration_number || '',
         registeredAddress: company.registered_address || '',
         shareholderName: formData.shareholderName || '',
+        shareholderAddress: formData.shareholderAddress || '', // Added this line
         shareClass: formData.shareClass || '',
         paymentDate: formData.paymentDate || '',
         amountPerShare: formData.amountPerShare || '0',
