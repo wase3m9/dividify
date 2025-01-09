@@ -25,7 +25,7 @@ const Auth = () => {
       });
 
       if (error) throw error;
-      navigate("/");
+      navigate("/dividend-board");
     } catch (error) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
