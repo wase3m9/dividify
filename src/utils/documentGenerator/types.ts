@@ -12,3 +12,16 @@ export interface DividendVoucherData {
   holdings?: string;
   financialYearEnding: string;
 }
+
+export interface TemplateConfig {
+  fontFamily?: string;
+  fontSize?: {
+    title: number;
+    header: number;
+    normal: number;
+  };
+  colors?: {
+    primary: string;
+    secondary: string;
+  };
+}
