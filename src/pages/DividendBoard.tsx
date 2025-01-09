@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Header } from "@/components/dividend/board/Header";
 import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
 import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
+import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
 import { QuickActions } from "@/components/dividend/board/QuickActions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -17,8 +18,10 @@ const DividendBoard = () => {
   const [company, setCompany] = useState(null);
   const [directors, setDirectors] = useState([]);
   const [shareholdings, setShareholdings] = useState([]);
+  const [shareClasses, setShareClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
+  const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -54,12 +57,21 @@ const DividendBoard = () => {
         setDirectors(directorsData);
 
         const { data: shareholdingsData, error: shareholdingsError } = await supabase
-          .from('shareholdings')
+          .from('shareholders')
           .select('*')
           .eq('company_id', companyData.id);
 
         if (shareholdingsError) throw shareholdingsError;
         setShareholdings(shareholdingsData);
+
+        // Fetch share classes (using the same shareholders table)
+        const { data: shareClassesData, error: shareClassesError } = await supabase
+          .from('shareholders')
+          .select('*')
+          .eq('company_id', companyData.id);
+
+        if (shareClassesError) throw shareClassesError;
+        setShareClasses(shareClassesData);
       }
     } catch (error: any) {
       toast({
@@ -80,7 +92,7 @@ const DividendBoard = () => {
       if (!user) throw new Error("No user found");
 
       const { error } = await supabase
-        .from('shareholdings')
+        .from('shareholders')
         .insert([{
           shareholder_name: data.shareholderName,
           share_class: data.shareClass,
@@ -97,6 +109,41 @@ const DividendBoard = () => {
         description: "Shareholder added successfully",
       });
       setIsShareholderDialogOpen(false);
+      fetchData();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
+  const handleShareClassSubmit = async (data: any) => {
+    if (!company) return;
+    
+    try {
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) throw new Error("No user found");
+
+      const { error } = await supabase
+        .from('shareholders')
+        .insert([{
+          share_class: data.shareClass,
+          number_of_shares: parseInt(data.numberOfShares),
+          number_of_holders: parseInt(data.numberOfHolders),
+          company_id: company.id,
+          user_id: user.id,
+          shareholder_name: `${data.shareClass} Class` // Required field
+        }]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Share class added successfully",
+      });
+      setIsShareClassDialogOpen(false);
       fetchData();
     } catch (error: any) {
       toast({
@@ -140,6 +187,12 @@ const DividendBoard = () => {
                   >
                     Shareholders
                   </TabsTrigger>
+                  <TabsTrigger 
+                    value="share-classes"
+                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6"
+                  >
+                    Share Classes
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="company" className="mt-6">
                   <CompanySection 
@@ -156,6 +209,14 @@ const DividendBoard = () => {
                     isDialogOpen={isShareholderDialogOpen}
                     onDialogOpenChange={setIsShareholderDialogOpen}
                     onSubmit={handleShareholderSubmit}
+                  />
+                </TabsContent>
+                <TabsContent value="share-classes" className="mt-6">
+                  <ShareClassesSection 
+                    shareClasses={shareClasses}
+                    isDialogOpen={isShareClassDialogOpen}
+                    onDialogOpenChange={setIsShareClassDialogOpen}
+                    onSubmit={handleShareClassSubmit}
                   />
                 </TabsContent>
               </Tabs>
