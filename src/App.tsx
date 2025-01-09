@@ -1,19 +1,20 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import Signup from "./pages/Signup";
-import Auth from "./pages/Auth";
-import DividendBoard from "./pages/DividendBoard";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import Auth from "@/pages/Auth";
+import DividendBoard from "@/pages/DividendBoard";
+import DividendVoucherForm from "@/pages/DividendVoucherForm";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Auth />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/dividend-board" element={<DividendBoard />} />
+        <Route path="/dividend-voucher/create" element={<DividendVoucherForm />} />
       </Routes>
-    </Router>
+      <Toaster />
+    </BrowserRouter>
   );
 }
 

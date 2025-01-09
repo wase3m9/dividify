@@ -74,7 +74,10 @@ const DividendBoard = () => {
                 <p className="text-gray-600">
                   Create and manage dividend vouchers for shareholders.
                 </p>
-                <Button className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]">
+                <Button 
+                  className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  onClick={() => navigate("/dividend-voucher/create")}
+                >
                   <FileText className="h-4 w-4 mr-2" />
                   Create Voucher
                 </Button>
