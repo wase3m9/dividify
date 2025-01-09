@@ -48,7 +48,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
       // Compute the full name
       const fullName = `${data.title} ${data.forenames} ${data.surname}`.trim();
 
-      const { error } = await supabase.from('directors').insert([{
+      const { error } = await supabase.from('officers').insert([{
         ...data,
         full_name: fullName,
         user_id: user.id,
@@ -61,6 +61,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
         title: "Success",
         description: "Officer added successfully",
       });
+      setIsDialogOpen(false);
     } catch (error: any) {
       toast({
         variant: "destructive",

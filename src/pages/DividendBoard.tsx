@@ -49,13 +49,13 @@ const DividendBoard = () => {
       setCompany(companyData);
 
       if (companyData) {
-        const { data: directorsData, error: directorsError } = await supabase
-          .from('directors')
+        const { data: officersData, error: officersError } = await supabase
+          .from('officers')
           .select('*')
           .eq('company_id', companyData.id);
 
-        if (directorsError) throw directorsError;
-        setDirectors(directorsData);
+        if (officersError) throw officersError;
+        setDirectors(officersData);
 
         // Fetch shareholders (excluding share classes)
         const { data: shareholdingsData, error: shareholdingsError } = await supabase

@@ -60,7 +60,57 @@ export type Database = {
         }
         Relationships: []
       }
-      directors: {
+      dividend_records: {
+        Row: {
+          amount_per_share: number
+          company_id: string
+          created_at: string
+          director_name: string
+          financial_year_ending: string
+          id: string
+          payment_date: string
+          share_class: string
+          shareholder_name: string
+          total_amount: number
+          user_id: string
+        }
+        Insert: {
+          amount_per_share: number
+          company_id: string
+          created_at?: string
+          director_name: string
+          financial_year_ending: string
+          id?: string
+          payment_date: string
+          share_class: string
+          shareholder_name: string
+          total_amount: number
+          user_id: string
+        }
+        Update: {
+          amount_per_share?: number
+          company_id?: string
+          created_at?: string
+          director_name?: string
+          financial_year_ending?: string
+          id?: string
+          payment_date?: string
+          share_class?: string
+          shareholder_name?: string
+          total_amount?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dividend_records_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      officers: {
         Row: {
           address: string
           company_id: string
@@ -111,57 +161,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "directors_company_id_fkey"
-            columns: ["company_id"]
-            isOneToOne: false
-            referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      dividend_records: {
-        Row: {
-          amount_per_share: number
-          company_id: string
-          created_at: string
-          director_name: string
-          financial_year_ending: string
-          id: string
-          payment_date: string
-          share_class: string
-          shareholder_name: string
-          total_amount: number
-          user_id: string
-        }
-        Insert: {
-          amount_per_share: number
-          company_id: string
-          created_at?: string
-          director_name: string
-          financial_year_ending: string
-          id?: string
-          payment_date: string
-          share_class: string
-          shareholder_name: string
-          total_amount: number
-          user_id: string
-        }
-        Update: {
-          amount_per_share?: number
-          company_id?: string
-          created_at?: string
-          director_name?: string
-          financial_year_ending?: string
-          id?: string
-          payment_date?: string
-          share_class?: string
-          shareholder_name?: string
-          total_amount?: number
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "dividend_records_company_id_fkey"
+            foreignKeyName: "officers_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
