@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/Navigation";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileText, Link2, Shield } from "lucide-react";
 
 const Index = () => {
   return (
@@ -39,21 +39,30 @@ const Index = () => {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="p-6 hover-lift">
-              <h3 className="text-xl font-semibold mb-3">Customizable Templates</h3>
+              <div className="flex items-center gap-3 mb-3">
+                <FileText className="h-5 w-5 text-gray-600" />
+                <h3 className="text-xl font-semibold">Customizable Templates</h3>
+              </div>
               <p className="text-gray-600">
                 Simplify your compliance with pre-designed templates for dividend vouchers and board meeting minutes.
               </p>
             </Card>
 
             <Card className="p-6 hover-lift">
-              <h3 className="text-xl font-semibold mb-3">Integrated Workflows</h3>
+              <div className="flex items-center gap-3 mb-3">
+                <Link2 className="h-5 w-5 text-gray-600" />
+                <h3 className="text-xl font-semibold">Integrated Workflows</h3>
+              </div>
               <p className="text-gray-600">
                 Automatically link dividend declarations with your financials and shareholder records.
               </p>
             </Card>
 
             <Card className="p-6 hover-lift">
-              <h3 className="text-xl font-semibold mb-3">Secure and Confidential</h3>
+              <div className="flex items-center gap-3 mb-3">
+                <Shield className="h-5 w-5 text-gray-600" />
+                <h3 className="text-xl font-semibold">Secure and Confidential</h3>
+              </div>
               <p className="text-gray-600">
                 Your corporate data is protected with enterprise-grade security.
               </p>
