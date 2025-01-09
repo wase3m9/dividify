@@ -20,8 +20,8 @@ export const AmountFields = ({ form }: AmountFieldsProps) => {
         control={form.control}
         name="amountPerShare"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>Net amount payable per share</FormLabel>
+          <FormItem className="text-left">
+            <FormLabel className="text-left">Net amount payable per share</FormLabel>
             <div className="relative">
               <span className="absolute left-3 top-2.5">£</span>
               <FormControl>
@@ -43,8 +43,8 @@ export const AmountFields = ({ form }: AmountFieldsProps) => {
         control={form.control}
         name="totalAmount"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>Total dividend payable</FormLabel>
+          <FormItem className="text-left">
+            <FormLabel className="text-left">Total dividend payable</FormLabel>
             <div className="relative">
               <span className="absolute left-3 top-2.5">£</span>
               <FormControl>
