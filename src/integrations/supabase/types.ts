@@ -110,6 +110,44 @@ export type Database = {
           },
         ]
       }
+      minutes: {
+        Row: {
+          company_id: string
+          created_at: string
+          file_path: string
+          id: string
+          meeting_date: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          file_path: string
+          id?: string
+          meeting_date: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          file_path?: string
+          id?: string
+          meeting_date?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "minutes_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       officers: {
         Row: {
           address: string
