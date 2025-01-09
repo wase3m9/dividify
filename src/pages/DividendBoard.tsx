@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Receipt, DollarSign } from "lucide-react";
+import { FileText, BookOpen } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 
 const DividendBoard = () => {
@@ -38,7 +38,7 @@ const DividendBoard = () => {
             <Card className="flex-1 p-6 hover:shadow-md transition-shadow">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <Receipt className="h-6 w-6 text-[#9b87f5]" />
+                  <FileText className="h-6 w-6 text-[#9b87f5]" />
                   <h3 className="text-xl font-semibold">Dividend Vouchers</h3>
                 </div>
                 <p className="text-gray-600">
@@ -54,7 +54,7 @@ const DividendBoard = () => {
             <Card className="flex-1 p-6 hover:shadow-md transition-shadow">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <DollarSign className="h-6 w-6 text-[#9b87f5]" />
+                  <BookOpen className="h-6 w-6 text-[#9b87f5]" />
                   <h3 className="text-xl font-semibold">Board Minutes</h3>
                 </div>
                 <p className="text-gray-600">
