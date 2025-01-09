@@ -34,8 +34,8 @@ const DividendBoard = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="p-6 hover:shadow-md transition-shadow">
+          <div className="flex flex-col md:flex-row gap-6">
+            <Card className="flex-1 p-6 hover:shadow-md transition-shadow">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Receipt className="h-6 w-6 text-[#9b87f5]" />
@@ -51,7 +51,7 @@ const DividendBoard = () => {
               </div>
             </Card>
 
-            <Card className="p-6 hover:shadow-md transition-shadow">
+            <Card className="flex-1 p-6 hover:shadow-md transition-shadow">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-6 w-6 text-[#9b87f5]" />
