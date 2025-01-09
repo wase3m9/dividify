@@ -12,7 +12,7 @@ const templates = [
   { id: 'contemporary', name: 'Contemporary' },
   { id: 'vintage', name: 'Vintage' },
   { id: 'vibrant', name: 'Vibrant' }
-]
+];
 
 export const TemplateSelection = () => {
   return (
@@ -56,5 +56,5 @@ export const TemplateSelection = () => {
         </Button>
       </div>
     </div>
-  )
-})
+  );
+};
