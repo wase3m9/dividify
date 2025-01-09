@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
@@ -20,10 +20,27 @@ interface DirectorsSectionProps {
   directors: Director[];
 }
 
-export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
+export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initialDirectors }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [directors, setDirectors] = useState<Director[]>(initialDirectors);
   const { toast } = useToast();
+
+  const fetchDirectors = useCallback(async (companyId: string) => {
+    const { data, error } = await supabase
+      .from('officers')
+      .select('*')
+      .eq('company_id', companyId);
+    
+    if (error) {
+      console.error('Error fetching directors:', error);
+      return;
+    }
+    
+    if (data) {
+      setDirectors(data);
+    }
+  }, []);
 
   const handleSubmit = async (data: any) => {
     setIsLoading(true);
@@ -73,6 +90,9 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
       }]);
 
       if (error) throw error;
+
+      // Fetch updated directors list
+      await fetchDirectors(companyId);
 
       toast({
         title: "Success",

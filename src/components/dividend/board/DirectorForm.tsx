@@ -12,7 +12,6 @@ const directorFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   forenames: z.string().min(1, "Forename(s) is required"),
   surname: z.string().min(1, "Surname is required"),
-  email: z.string().email("Invalid email address"),
   address: z.string().min(1, "Address is required"),
   position: z.string().optional(),
   date_of_appointment: z.string().min(1, "Date of appointment is required")
@@ -32,7 +31,6 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
       title: "",
       forenames: "",
       surname: "",
-      email: "",
       address: "",
       position: "",
       date_of_appointment: new Date().toISOString().split('T')[0]
@@ -41,7 +39,7 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
 
   const handleSubmit = async (data: DirectorFormValues) => {
     await onSubmit(data);
-    form.reset(); // Reset form after submission
+    form.reset();
   };
 
   return (
@@ -101,20 +99,6 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
                 <FormLabel>Surname</FormLabel>
                 <FormControl>
                   <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
