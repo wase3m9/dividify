@@ -7,6 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const DividendVoucherForm = () => {
   const navigate = useNavigate();
@@ -50,11 +57,16 @@ const DividendVoucherForm = () => {
 
                 <div>
                   <Label htmlFor="description">Description</Label>
-                  <Input
-                    id="description"
-                    placeholder="Select description"
-                    className="mt-1"
-                  />
+                  <Select>
+                    <SelectTrigger className="w-full mt-1">
+                      <SelectValue placeholder="Select description" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="final">Final dividend for the year</SelectItem>
+                      <SelectItem value="interim">Interim dividend for the year</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
