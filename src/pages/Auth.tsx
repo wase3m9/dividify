@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/integrations/supabase/client";
-import type { AuthError } from "@supabase/supabase-js";
 import { Link } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -35,75 +35,78 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <div className="flex justify-center mb-6">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#9b87f5"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="transform -rotate-90"
+    <div className="min-h-screen bg-white">
+      <Navigation />
+      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div className="text-center">
+            <div className="flex justify-center mb-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#9b87f5"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="transform -rotate-90"
+              >
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900">
+              Sign in to your account
+            </h2>
+          </div>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          <form onSubmit={handleSignIn} className="mt-8 space-y-6">
+            <div className="space-y-4">
+              <Input
+                id="email"
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="bg-white border-gray-200"
+              />
+              <Input
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="bg-white border-gray-200"
+              />
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+              disabled={isLoading}
             >
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-              <polyline points="10 17 15 12 10 7" />
-              <line x1="15" y1="12" x2="3" y2="12" />
-            </svg>
-          </div>
-          <h2 className="text-2xl font-bold text-gray-900">
-            Sign in to your account
-          </h2>
+              Sign in
+            </Button>
+
+            <div className="text-center text-sm">
+              <span className="text-gray-500">Don't have an account? </span>
+              <Link to="/signup" className="text-[#9b87f5] hover:underline">
+                Sign up
+              </Link>
+            </div>
+          </form>
         </div>
-
-        {error && (
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-
-        <form onSubmit={handleSignIn} className="mt-8 space-y-6">
-          <div className="space-y-4">
-            <Input
-              id="email"
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="bg-white border-gray-200"
-            />
-            <Input
-              id="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="bg-white border-gray-200"
-            />
-          </div>
-
-          <Button 
-            type="submit" 
-            className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-            disabled={isLoading}
-          >
-            Sign in
-          </Button>
-
-          <div className="text-center text-sm">
-            <span className="text-gray-500">Don't have an account? </span>
-            <Link to="/signup" className="text-[#9b87f5] hover:underline">
-              Sign up
-            </Link>
-          </div>
-        </form>
       </div>
     </div>
   );
