@@ -5,13 +5,7 @@ import { Eye } from "lucide-react"
 const templates = [
   { id: 'basic', name: 'Basic', selected: true },
   { id: 'classic', name: 'Classic' },
-  { id: 'modern', name: 'Modern' },
-  { id: 'traditional', name: 'Traditional' },
-  { id: 'bold', name: 'Bold' },
-  { id: 'diamond', name: 'Diamond' },
-  { id: 'contemporary', name: 'Contemporary' },
-  { id: 'vintage', name: 'Vintage' },
-  { id: 'vibrant', name: 'Vibrant' }
+  { id: 'modern', name: 'Modern' }
 ];
 
 export const TemplateSelection = () => {
