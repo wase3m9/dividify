@@ -1,12 +1,13 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Eye, Download, FileText } from "lucide-react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { useEffect, useState } from "react"
 import { DocumentPreview } from "@/utils/previewRenderer"
+import { templates } from "@/utils/documentGenerator/templates"
 import {
   Dialog,
   DialogContent,
@@ -21,12 +22,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-const templates = [
-  { id: 'basic', name: 'Basic', selected: true },
-  { id: 'classic', name: 'Classic' },
-  { id: 'modern', name: 'Modern' }
-];
-
 interface Company {
   name: string;
   registration_number: string;
@@ -35,9 +30,10 @@ interface Company {
 
 export const TemplateSelection = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [company, setCompany] = useState<Company | null>(null);
-  const [voucherNumber, setVoucherNumber] = useState(1);
+  const [selectedTemplate, setSelectedTemplate] = useState('basic');
   const formData = location.state || {};
 
   useEffect(() => {
@@ -80,7 +76,8 @@ export const TemplateSelection = () => {
         paymentDate: formData.paymentDate || '',
         amountPerShare: formData.amountPerShare || '0',
         totalAmount: formData.totalAmount || '0',
-        voucherNumber: voucherNumber,
+        voucherNumber: 1,
+        financialYearEnding: formData.financialYearEnding || '',
       };
 
       if (format === 'pdf') {
@@ -89,10 +86,29 @@ export const TemplateSelection = () => {
         await downloadWord(documentData);
       }
 
+      // Save the record to the database
+      const { error: saveError } = await supabase
+        .from('dividend_records')
+        .insert({
+          company_id: company.id,
+          shareholder_name: documentData.shareholderName,
+          share_class: documentData.shareClass,
+          payment_date: documentData.paymentDate,
+          financial_year_ending: documentData.financialYearEnding,
+          amount_per_share: documentData.amountPerShare,
+          total_amount: documentData.totalAmount,
+          director_name: formData.directorName || '',
+        });
+
+      if (saveError) throw saveError;
+
       toast({
         title: "Success",
-        description: `Dividend voucher downloaded successfully as ${format.toUpperCase()}`,
+        description: `Dividend voucher downloaded and saved successfully as ${format.toUpperCase()}`,
       });
+
+      // Navigate to the dividend board after successful save
+      navigate('/dividend-board');
     } catch (error) {
       toast({
         variant: "destructive",
@@ -110,39 +126,43 @@ export const TemplateSelection = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {templates.map((template) => (
-          <Card key={template.id} className={`p-4 ${template.selected ? 'ring-2 ring-blue-500' : ''}`}>
+          <Card 
+            key={template.id} 
+            className={`p-4 cursor-pointer transition-all hover:shadow-lg ${
+              selectedTemplate === template.id ? 'ring-2 ring-blue-500' : ''
+            }`}
+            onClick={() => setSelectedTemplate(template.id)}
+          >
             <div className="aspect-[3/4] bg-gray-100 mb-4 rounded flex items-center justify-center overflow-hidden">
-              <DocumentPreview template={template.id as 'basic' | 'classic' | 'modern'} />
+              <DocumentPreview template={template.id} />
             </div>
             <div className="space-y-2">
               <h3 className="font-medium text-center">{template.name}</h3>
+              <p className="text-sm text-gray-500 text-center">{template.description}</p>
               <div className="flex justify-center">
-                {template.selected ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button 
-                        className="text-blue-600 font-medium flex items-center gap-2"
-                      >
-                        <Download className="w-4 h-4" />
-                        Download
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem onClick={() => handleDownload(template.id, 'pdf')}>
-                        <FileText className="w-4 h-4 mr-2" />
-                        Download as PDF
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDownload(template.id, 'word')}>
-                        <FileText className="w-4 h-4 mr-2" />
-                        Download as Word
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <Button variant="ghost" size="sm" className="text-gray-500">
-                    Use this template
-                  </Button>
-                )}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      className={`text-blue-600 font-medium flex items-center gap-2 ${
+                        selectedTemplate !== template.id ? 'opacity-50' : ''
+                      }`}
+                      disabled={selectedTemplate !== template.id}
+                    >
+                      <Download className="w-4 h-4" />
+                      Download
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleDownload(template.id, 'pdf')}>
+                      <FileText className="w-4 h-4 mr-2" />
+                      Download as PDF
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleDownload(template.id, 'word')}>
+                      <FileText className="w-4 h-4 mr-2" />
+                      Download as Word
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               <div className="flex justify-center">
                 <Dialog>
@@ -157,7 +177,7 @@ export const TemplateSelection = () => {
                       <DialogTitle>{template.name} Template Preview</DialogTitle>
                     </DialogHeader>
                     <div className="aspect-[1/1.414] bg-white rounded-lg shadow-inner p-4">
-                      <DocumentPreview template={template.id as 'basic' | 'classic' | 'modern'} />
+                      <DocumentPreview template={template.id} />
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -168,8 +188,16 @@ export const TemplateSelection = () => {
       </div>
 
       <div className="flex justify-between pt-6 border-t">
-        <Button variant="outline">Previous</Button>
-        <Button className="bg-green-500 hover:bg-green-600">
+        <Button 
+          variant="outline"
+          onClick={() => navigate(-1)}
+        >
+          Previous
+        </Button>
+        <Button 
+          className="bg-green-500 hover:bg-green-600"
+          onClick={() => navigate('/dividend-board')}
+        >
           Continue
         </Button>
       </div>
