@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, BookOpen, Users, Building2 } from "lucide-react";
 import { Navigation } from "@/components/Navigation";
 import { CompanySection } from "@/components/dividend/CompanySection";
+import { RecentActivity } from "@/components/dividend/RecentActivity";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ShareholderDetailsForm } from "@/components/dividend/ShareholderDetailsForm";
@@ -124,116 +125,127 @@ const DividendBoard = () => {
             </p>
           </div>
 
-          {/* Company Information */}
-          <CompanySection 
-            company={company}
-            onCompanyUpdate={fetchData}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Content - Left 2 columns */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Company Information */}
+              <CompanySection 
+                company={company}
+                onCompanyUpdate={fetchData}
+              />
 
-          {/* Directors Section */}
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-[#9b87f5]" />
-                <h2 className="text-xl font-semibold">Directors</h2>
-              </div>
-              <Button 
-                variant="outline"
-                className="text-[#9b87f5] border-[#9b87f5]"
-                onClick={() => {/* TODO: Implement director form */}}
-              >
-                Add Director
-              </Button>
-            </div>
-            {directors.length > 0 ? (
-              <div className="space-y-2">
-                {directors.map((director: any) => (
-                  <div key={director.id} className="p-4 border rounded-lg">
-                    <p><span className="font-medium">Name:</span> {director.full_name}</p>
-                    <p><span className="font-medium">Position:</span> {director.position}</p>
+              {/* Directors Section */}
+              <Card className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-[#9b87f5]" />
+                    <h2 className="text-xl font-semibold">Directors</h2>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500">No directors added yet.</p>
-            )}
-          </Card>
-
-          {/* Shareholdings Section */}
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <Building2 className="h-5 w-5 text-[#9b87f5]" />
-                <h2 className="text-xl font-semibold">Shareholdings</h2>
-              </div>
-              <Dialog open={isShareholderDialogOpen} onOpenChange={setIsShareholderDialogOpen}>
-                <DialogTrigger asChild>
                   <Button 
                     variant="outline"
                     className="text-[#9b87f5] border-[#9b87f5]"
+                    onClick={() => {/* TODO: Implement director form */}}
                   >
-                    Add Shareholder
+                    Add Director
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <ShareholderDetailsForm 
-                    onSubmit={handleShareholderSubmit}
-                    onPrevious={() => setIsShareholderDialogOpen(false)}
-                  />
-                </DialogContent>
-              </Dialog>
-            </div>
-            {shareholdings.length > 0 ? (
-              <div className="space-y-2">
-                {shareholdings.map((shareholding: any) => (
-                  <div key={shareholding.id} className="p-4 border rounded-lg">
-                    <p><span className="font-medium">Name:</span> {shareholding.shareholder_name}</p>
-                    <p><span className="font-medium">Share Class:</span> {shareholding.share_class}</p>
-                    <p><span className="font-medium">Number of Shares:</span> {shareholding.number_of_shares}</p>
+                </div>
+                {directors.length > 0 ? (
+                  <div className="space-y-2">
+                    {directors.map((director: any) => (
+                      <div key={director.id} className="p-4 border rounded-lg">
+                        <p><span className="font-medium">Name:</span> {director.full_name}</p>
+                        <p><span className="font-medium">Position:</span> {director.position}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500">No shareholdings added yet.</p>
-            )}
-          </Card>
+                ) : (
+                  <p className="text-gray-500">No directors added yet.</p>
+                )}
+              </Card>
 
-          {/* Quick Actions */}
-          <div className="flex flex-col md:flex-row gap-6">
-            <Card className="flex-1 p-6 hover:shadow-md transition-shadow">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <FileText className="h-6 w-6 text-[#9b87f5]" />
-                  <h3 className="text-xl font-semibold">Dividend Vouchers</h3>
+              {/* Shareholdings Section */}
+              <Card className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-5 w-5 text-[#9b87f5]" />
+                    <h2 className="text-xl font-semibold">Shareholdings</h2>
+                  </div>
+                  <Dialog open={isShareholderDialogOpen} onOpenChange={setIsShareholderDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button 
+                        variant="outline"
+                        className="text-[#9b87f5] border-[#9b87f5]"
+                      >
+                        Add Shareholder
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <ShareholderDetailsForm 
+                        onSubmit={handleShareholderSubmit}
+                        onPrevious={() => setIsShareholderDialogOpen(false)}
+                      />
+                    </DialogContent>
+                  </Dialog>
                 </div>
-                <p className="text-gray-600">
-                  Create and manage dividend vouchers for shareholders.
-                </p>
-                <Button 
-                  className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-                  onClick={() => navigate("/dividend-voucher/create")}
-                >
-                  <FileText className="h-4 w-4 mr-2" />
-                  Create Voucher
-                </Button>
-              </div>
-            </Card>
+                {shareholdings.length > 0 ? (
+                  <div className="space-y-2">
+                    {shareholdings.map((shareholding: any) => (
+                      <div key={shareholding.id} className="p-4 border rounded-lg">
+                        <p><span className="font-medium">Name:</span> {shareholding.shareholder_name}</p>
+                        <p><span className="font-medium">Share Class:</span> {shareholding.share_class}</p>
+                        <p><span className="font-medium">Number of Shares:</span> {shareholding.number_of_shares}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500">No shareholdings added yet.</p>
+                )}
+              </Card>
+            </div>
 
-            <Card className="flex-1 p-6 hover:shadow-md transition-shadow">
+            {/* Right Column */}
+            <div className="space-y-8">
+              {/* Recent Activity */}
+              <RecentActivity />
+
+              {/* Quick Actions */}
               <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <BookOpen className="h-6 w-6 text-[#9b87f5]" />
-                  <h3 className="text-xl font-semibold">Board Minutes</h3>
-                </div>
-                <p className="text-gray-600">
-                  Record and store board meeting minutes for dividend declarations.
-                </p>
-                <Button className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Create Minutes
-                </Button>
+                <Card className="p-6 hover:shadow-md transition-shadow">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <FileText className="h-6 w-6 text-[#9b87f5]" />
+                      <h3 className="text-xl font-semibold">Dividend Vouchers</h3>
+                    </div>
+                    <p className="text-gray-600">
+                      Create and manage dividend vouchers for shareholders.
+                    </p>
+                    <Button 
+                      className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+                      onClick={() => navigate("/dividend-voucher/create")}
+                    >
+                      <FileText className="h-4 w-4 mr-2" />
+                      Create Voucher
+                    </Button>
+                  </div>
+                </Card>
+
+                <Card className="p-6 hover:shadow-md transition-shadow">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="h-6 w-6 text-[#9b87f5]" />
+                      <h3 className="text-xl font-semibold">Board Minutes</h3>
+                    </div>
+                    <p className="text-gray-600">
+                      Record and store board meeting minutes for dividend declarations.
+                    </p>
+                    <Button className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]">
+                      <FileText className="h-4 w-4 mr-2" />
+                      Create Minutes
+                    </Button>
+                  </div>
+                </Card>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </div>
