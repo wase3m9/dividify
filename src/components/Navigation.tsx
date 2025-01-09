@@ -27,16 +27,13 @@ export const Navigation = () => {
           </Link>
         </div>
 
-        {/* Right side - Original navigation items */}
+        {/* Right side - Login and Dashboard */}
         <div className="flex gap-4 ml-auto">
           <Button variant="ghost" asChild>
-            <Link to="/board-minutes">Board Minutes</Link>
-          </Button>
-          <Button variant="ghost" asChild>
-            <Link to="/dividend-voucher">Dividend Voucher</Link>
+            <Link to="/login">Login</Link>
           </Button>
           <Button asChild>
-            <Link to="/create">Create Document</Link>
+            <Link to="/dashboard">Dashboard</Link>
           </Button>
         </div>
       </div>
