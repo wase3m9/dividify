@@ -43,7 +43,7 @@ export const Navigation = () => {
           {user ? (
             <>
               <Button variant="outline" asChild>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/dividend-board">Dividend Board</Link>
               </Button>
               <Button 
                 variant="ghost" 
