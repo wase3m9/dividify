@@ -1,4 +1,4 @@
-import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -9,12 +9,17 @@ import {
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { NavigationButtons } from "./NavigationButtons";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
 
-export interface ShareholderDetails {
-  shareholderName: string;
-  shareClass: string;
-  shareholdings: string;
-}
+const formSchema = z.object({
+  shareholderName: z.string().min(1, "Shareholder name is required"),
+  shareClass: z.string().min(1, "Share class is required"),
+  shareholdings: z.string().min(1, "Share holdings is required")
+});
+
+export type ShareholderDetails = z.infer<typeof formSchema>;
 
 interface ShareholderDetailsFormProps {
   onSubmit: (data: ShareholderDetails) => void;
@@ -22,7 +27,10 @@ interface ShareholderDetailsFormProps {
 }
 
 export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDetailsFormProps) => {
+  const { toast } = useToast();
+  
   const form = useForm<ShareholderDetails>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       shareholderName: "",
       shareClass: "",
@@ -30,9 +38,21 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDeta
     }
   });
 
+  const handleSubmit = (data: ShareholderDetails) => {
+    if (Object.keys(form.formState.errors).length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please fill in all required fields",
+      });
+      return;
+    }
+    onSubmit(data);
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="shareholderName"
@@ -42,6 +62,7 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDeta
               <FormControl>
                 <Input placeholder="Enter shareholder name" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -63,6 +84,7 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDeta
                   <SelectItem value="preference">Preference Shares</SelectItem>
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -80,13 +102,13 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDeta
                   {...field} 
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
 
         <NavigationButtons
           onPrevious={onPrevious}
-          onNext={() => {}}  // This is handled by form submission
           previousLabel="Cancel"
           type="submit"
         />

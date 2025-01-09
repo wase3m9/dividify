@@ -1,25 +1,11 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
 import { ShareholderDetailsForm, ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
-import { NavigationButtons } from "@/components/dividend/NavigationButtons";
 
 const DividendVoucherForm = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/auth");
-      }
-    };
-
-    checkAuth();
-  }, [navigate]);
 
   const handleSubmit = (data: ShareholderDetails) => {
     navigate("/dividend-voucher/amount", {
@@ -29,6 +15,10 @@ const DividendVoucherForm = () => {
         shareholdings: data.shareholdings
       }
     });
+  };
+
+  const handlePrevious = () => {
+    navigate("/dividend-board");
   };
 
   return (
@@ -43,11 +33,9 @@ const DividendVoucherForm = () => {
           />
 
           <Card className="p-6">
-            <ShareholderDetailsForm onSubmit={handleSubmit} />
-            <NavigationButtons
-              onPrevious={() => navigate("/dividend-board")}
-              onNext={() => {}} // This will be handled by the form submission
-              previousLabel="Cancel"
+            <ShareholderDetailsForm 
+              onSubmit={handleSubmit} 
+              onPrevious={handlePrevious}
             />
           </Card>
         </div>
