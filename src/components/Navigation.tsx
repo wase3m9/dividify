@@ -6,7 +6,7 @@ export const Navigation = () => {
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="text-xl font-semibold hover:opacity-80 transition-opacity">
-          DividendDocs
+          Dividify
         </Link>
         <div className="flex gap-4">
           <Button variant="ghost" asChild>

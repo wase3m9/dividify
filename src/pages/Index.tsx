@@ -90,7 +90,7 @@ const Index = () => {
       <footer className="border-t">
         <div className="container mx-auto px-4 py-8">
           <p className="text-center text-gray-600">
-            DividendDocs - Simplifying dividend documentation for UK companies
+            Dividify - Simplifying dividend documentation for UK companies
           </p>
         </div>
       </footer>
