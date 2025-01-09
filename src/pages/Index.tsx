@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/Navigation";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, FileText, Link2, Shield } from "lucide-react";
+import { ArrowRight, FileText, Link2, Shield, CheckCircle } from "lucide-react";
 
 const Index = () => {
   return (
@@ -11,8 +11,14 @@ const Index = () => {
       
       <main className="container mx-auto px-4">
         {/* Hero Section */}
-        <section className="flex flex-col items-center justify-center min-h-[70vh] py-16">
+        <section className="flex flex-col items-center justify-center min-h-screen py-16">
           <div className="max-w-3xl mx-auto text-center space-y-8">
+            {/* New badge/bubble */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-sm mb-6">
+              <CheckCircle className="h-4 w-4 text-[#8E9196]" />
+              Built for Directors legal compliance
+            </div>
+            
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
               <span className="bg-gradient-to-r from-[#9b87f5] to-gray-900 bg-clip-text text-transparent">
                 Dividend Voucher and Board Meeting Solutions for Savvy Directors
