@@ -35,14 +35,24 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
         throw new Error("No authenticated user found");
       }
 
+      // Check if we've reached the limit
+      if (directors.length >= 10) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Maximum number of officers (10) reached",
+        });
+        return;
+      }
+
       // Compute the full name
       const fullName = `${data.title} ${data.forenames} ${data.surname}`.trim();
 
       const { error } = await supabase.from('directors').insert([{
         ...data,
-        full_name: fullName, // Add the computed full name
+        full_name: fullName,
         user_id: user.id,
-        company_id: directors[0]?.company_id // Assuming all directors belong to the same company
+        company_id: directors[0]?.company_id
       }]);
 
       if (error) throw error;
@@ -51,7 +61,6 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
         title: "Success",
         description: "Officer added successfully",
       });
-      // Note: Dialog stays open for adding multiple officers
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -68,12 +77,13 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-[#9b87f5]" />
-          <h2 className="text-xl font-semibold">Officers</h2>
+          <h2 className="text-xl font-semibold">Officers ({directors.length}/10)</h2>
         </div>
         <Button 
           variant="outline"
           className="text-[#9b87f5] border-[#9b87f5]"
           onClick={() => setIsDialogOpen(true)}
+          disabled={directors.length >= 10}
         >
           Add Officer
         </Button>
