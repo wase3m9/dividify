@@ -10,6 +10,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ShareClassFormProps {
   onSubmit: (data: { shareClass: string; numberOfShares: string; numberOfHolders: string }) => void;
@@ -43,9 +50,17 @@ export const ShareClassForm: FC<ShareClassFormProps> = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Share Class</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., Ordinary" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select share class" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Ordinary">Ordinary</SelectItem>
+                  <SelectItem value="Preference">Preference</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
