@@ -51,20 +51,6 @@ export const FormFields = ({ form }: FormFieldsProps) => {
           </FormItem>
         )}
       />
-
-      <FormField
-        control={form.control}
-        name="place_of_registration"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Place of Registration</FormLabel>
-            <FormControl>
-              <Input placeholder="Enter place of registration" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
     </>
   );
 };

@@ -15,7 +15,7 @@ const directorFormSchema = z.object({
   email: z.string().email("Invalid email address"),
   address: z.string().min(1, "Address is required"),
   position: z.string().optional(),
-  waive_dividend: z.string().transform(val => val === "yes")
+  waive_dividend: z.boolean().default(false)
 });
 
 type DirectorFormValues = z.infer<typeof directorFormSchema>;
@@ -35,14 +35,14 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
       email: "",
       address: "",
       position: "",
-      waive_dividend: "no"
+      waive_dividend: false
     }
   });
 
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>Add New Director</DialogTitle>
+        <DialogTitle>Add New Officer</DialogTitle>
       </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -148,7 +148,10 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
               <FormItem>
                 <FormLabel>Elect to Waive Dividend</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select 
+                    onValueChange={(value) => field.onChange(value === "yes")} 
+                    defaultValue={field.value ? "yes" : "no"}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select option" />
                     </SelectTrigger>
@@ -164,7 +167,7 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
           />
 
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Adding..." : "Add Director"}
+            {isLoading ? "Adding..." : "Add Officer"}
           </Button>
         </form>
       </Form>

@@ -37,7 +37,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
 
       toast({
         title: "Success",
-        description: "Director added successfully",
+        description: "Officer added successfully",
       });
       setIsDialogOpen(false);
     } catch (error: any) {
@@ -56,14 +56,14 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-[#9b87f5]" />
-          <h2 className="text-xl font-semibold">Directors</h2>
+          <h2 className="text-xl font-semibold">Officers</h2>
         </div>
         <Button 
           variant="outline"
           className="text-[#9b87f5] border-[#9b87f5]"
           onClick={() => setIsDialogOpen(true)}
         >
-          Add Director
+          Add Officer
         </Button>
       </div>
       {directors.length > 0 ? (
@@ -79,7 +79,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500">No directors added yet.</p>
+        <p className="text-gray-500">No officers added yet.</p>
       )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
