@@ -40,7 +40,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="p-6 hover-lift">
               <div className="flex items-center gap-3 mb-3">
-                <FileText className="h-5 w-5 text-gray-600" />
+                <FileText className="h-5 w-5 text-[#9b87f5]" />
                 <h3 className="text-xl font-semibold">Customizable Templates</h3>
               </div>
               <p className="text-gray-600">
@@ -50,7 +50,7 @@ const Index = () => {
 
             <Card className="p-6 hover-lift">
               <div className="flex items-center gap-3 mb-3">
-                <Link2 className="h-5 w-5 text-gray-600" />
+                <Link2 className="h-5 w-5 text-[#9b87f5]" />
                 <h3 className="text-xl font-semibold">Integrated Workflows</h3>
               </div>
               <p className="text-gray-600">
@@ -60,7 +60,7 @@ const Index = () => {
 
             <Card className="p-6 hover-lift">
               <div className="flex items-center gap-3 mb-3">
-                <Shield className="h-5 w-5 text-gray-600" />
+                <Shield className="h-5 w-5 text-[#9b87f5]" />
                 <h3 className="text-xl font-semibold">Secure and Confidential</h3>
               </div>
               <p className="text-gray-600">
@@ -93,13 +93,13 @@ const Index = () => {
         </section>
 
         {/* Footer */}
-      <footer className="border-t">
-        <div className="container mx-auto px-4 py-8">
-          <p className="text-center text-gray-600">
-            Dividify - Simplifying dividend documentation for UK companies
-          </p>
-        </div>
-      </footer>
+        <footer className="border-t">
+          <div className="container mx-auto px-4 py-8">
+            <p className="text-center text-gray-600">
+              Dividify - Simplifying dividend documentation for UK companies
+            </p>
+          </div>
+        </footer>
       </main>
     </div>
   );
