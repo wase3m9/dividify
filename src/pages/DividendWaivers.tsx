@@ -14,11 +14,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { TemplateSelection } from "@/components/dividend/TemplateSelection";
 
 const DividendWaivers = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showSummary, setShowSummary] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
   const { shareholderName, shareClass, shareholdings, amountPerShare, totalAmount } = location.state || {};
 
   useEffect(() => {
@@ -36,6 +38,19 @@ const DividendWaivers = () => {
     e.preventDefault();
     setShowSummary(true);
   };
+
+  if (showTemplates) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-24">
+          <div className="max-w-6xl mx-auto">
+            <TemplateSelection />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (showSummary) {
     return (
@@ -87,7 +102,7 @@ const DividendWaivers = () => {
                 <Button
                   type="button"
                   className="bg-green-500 hover:bg-green-600"
-                  onClick={() => navigate("/dividend-board")}
+                  onClick={() => setShowTemplates(true)}
                 >
                   Next
                 </Button>
