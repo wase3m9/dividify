@@ -69,6 +69,11 @@ export const MinutesSection: FC = () => {
         throw new Error("Please fill in all fields");
       }
 
+      // Get the current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+      if (!user) throw new Error("No authenticated user found");
+
       const { data: companyData } = await supabase
         .from('companies')
         .select('id')
@@ -93,6 +98,7 @@ export const MinutesSection: FC = () => {
           meeting_date: meetingDate,
           file_path: filePath,
           company_id: companyData.id,
+          user_id: user.id, // Add the user_id here
         }]);
 
       if (insertError) throw insertError;
