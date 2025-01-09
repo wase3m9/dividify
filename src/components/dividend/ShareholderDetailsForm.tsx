@@ -12,8 +12,7 @@ import { NavigationButtons } from "./NavigationButtons";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   shareholderName: z.string().min(1, "Shareholder name is required"),
@@ -31,18 +30,8 @@ interface ShareholderDetailsFormProps {
   initialData?: ShareholderDetails;
 }
 
-interface Officer {
-  full_name: string;
-}
-
-interface ShareClass {
-  share_class: string;
-}
-
 export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: ShareholderDetailsFormProps) => {
   const { toast } = useToast();
-  const [officers, setOfficers] = useState<Officer[]>([]);
-  const [shareClasses, setShareClasses] = useState<ShareClass[]>([]);
   
   const form = useForm<ShareholderDetails>({
     resolver: zodResolver(formSchema),
@@ -54,38 +43,6 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
       financialYearEnding: "",
     }
   });
-
-  useEffect(() => {
-    const fetchOfficers = async () => {
-      const { data, error } = await supabase
-        .from('directors')
-        .select('full_name');
-      
-      if (error) {
-        console.error('Error fetching officers:', error);
-        return;
-      }
-      
-      setOfficers(data || []);
-    };
-
-    const fetchShareClasses = async () => {
-      const { data, error } = await supabase
-        .from('shareholders')
-        .select('share_class')
-        .distinct();
-      
-      if (error) {
-        console.error('Error fetching share classes:', error);
-        return;
-      }
-      
-      setShareClasses(data || []);
-    };
-
-    fetchOfficers();
-    fetchShareClasses();
-  }, []);
 
   useEffect(() => {
     if (initialData) {
@@ -114,28 +71,9 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
           render={({ field }) => (
             <FormItem>
               <FormLabel>Shareholder name</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select or enter shareholder name" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {officers.map((officer, index) => (
-                    <SelectItem key={index} value={officer.full_name}>
-                      {officer.full_name}
-                    </SelectItem>
-                  ))}
-                  <SelectItem value="manual">Enter manually</SelectItem>
-                </SelectContent>
-              </Select>
-              {field.value === "manual" && (
-                <Input 
-                  placeholder="Enter shareholder name" 
-                  onChange={(e) => field.onChange(e.target.value)}
-                  className="mt-2"
-                />
-              )}
+              <FormControl>
+                <Input {...field} placeholder="Enter shareholder name" />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -147,28 +85,9 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
           render={({ field }) => (
             <FormItem>
               <FormLabel>Share class</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select or enter share class" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {shareClasses.map((shareClass, index) => (
-                    <SelectItem key={index} value={shareClass.share_class}>
-                      {shareClass.share_class}
-                    </SelectItem>
-                  ))}
-                  <SelectItem value="manual">Enter manually</SelectItem>
-                </SelectContent>
-              </Select>
-              {field.value === "manual" && (
-                <Input 
-                  placeholder="Enter share class" 
-                  onChange={(e) => field.onChange(e.target.value)}
-                  className="mt-2"
-                />
-              )}
+              <FormControl>
+                <Input {...field} placeholder="Enter share class" />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

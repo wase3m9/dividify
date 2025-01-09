@@ -82,7 +82,9 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
               initialData={selectedShareholder ? {
                 shareholderName: selectedShareholder.shareholder_name,
                 shareClass: selectedShareholder.share_class,
-                shareholdings: selectedShareholder.number_of_shares.toString(),
+                description: "",
+                paymentDate: "",
+                financialYearEnding: ""
               } : undefined}
             />
           </DialogContent>
