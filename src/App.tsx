@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "@/components/ui/toaster";
 import Auth from "@/pages/Auth";
 import DividendBoard from "@/pages/DividendBoard";
 import DividendVoucherForm from "@/pages/DividendVoucherForm";
