@@ -1,10 +1,10 @@
-import { Document, Paragraph, TextRun, AlignmentType, Table, TableRow, TableCell, BorderStyle } from 'docx';
+import { Document, Paragraph, TextRun, AlignmentType, Table, TableRow, TableCell, BorderStyle, ShadingType } from 'docx';
 import { format } from 'date-fns';
 import { DividendVoucherData } from './types';
-import { modernConfig } from './templates/modernTemplate';
+import { classicConfig } from './templates/classicTemplate';
 
 export const generateWord = async (data: DividendVoucherData) => {
-  const config = modernConfig;
+  const config = classicConfig;
   const yearEnd = format(new Date(data.financialYearEnding), 'dd MMM yyyy');
   
   const doc = new Document({
@@ -15,13 +15,12 @@ export const generateWord = async (data: DividendVoucherData) => {
         new Paragraph({
           alignment: AlignmentType.CENTER,
           spacing: { before: 0, after: 200 },
-          shading: { fill: config.colors?.primary || '#002B4E' },
+          shading: { type: ShadingType.SOLID, color: '98E2D0' },
           children: [
             new TextRun({
-              text: data.companyName,
+              text: data.companyName.toUpperCase(),
               bold: true,
-              size: 36,
-              color: 'FFFFFF',
+              size: 32,
             }),
           ],
         }),
@@ -31,7 +30,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           children: [
             new TextRun({
               text: data.registeredAddress,
-              size: 20,
+              size: 24,
             }),
           ],
         }),
@@ -40,7 +39,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           children: [
             new TextRun({
               text: `Registered number: ${data.registrationNumber}`,
-              size: 20,
+              size: 24,
             }),
           ],
         }),
@@ -60,7 +59,6 @@ export const generateWord = async (data: DividendVoucherData) => {
           children: [
             new TextRun({
               text: `Dividend voucher number: ${data.voucherNumber}`,
-              italics: true,
               size: 20,
             }),
           ],
@@ -86,9 +84,9 @@ export const generateWord = async (data: DividendVoucherData) => {
             new TableRow({
               children: [
                 new TableCell({
-                  shading: { fill: config.colors?.primary || '#002B4E' },
+                  shading: { type: ShadingType.SOLID, color: '98E2D0' },
                   children: [new Paragraph({
-                    children: [new TextRun({ text: row[0], color: 'FFFFFF', size: 20 })],
+                    children: [new TextRun({ text: row[0], size: 20 })],
                   })],
                 }),
                 new TableCell({
