@@ -1,6 +1,11 @@
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Eye } from "lucide-react"
+import { Eye, Download } from "lucide-react"
+import { useLocation } from "react-router-dom"
+import { downloadPDF } from "@/utils/documentGenerator"
+import { useToast } from "@/hooks/use-toast"
+import { supabase } from "@/integrations/supabase/client"
+import { useEffect, useState } from "react"
 
 const templates = [
   { id: 'basic', name: 'Basic', selected: true },
@@ -8,7 +13,76 @@ const templates = [
   { id: 'modern', name: 'Modern' }
 ];
 
+interface Company {
+  name: string;
+  registration_number: string;
+  registered_address: string;
+}
+
 export const TemplateSelection = () => {
+  const location = useLocation();
+  const { toast } = useToast();
+  const [company, setCompany] = useState<Company | null>(null);
+  const [voucherNumber, setVoucherNumber] = useState(1);
+  const formData = location.state || {};
+
+  useEffect(() => {
+    const fetchCompanyDetails = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: companies } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (companies) {
+        setCompany(companies);
+      }
+    };
+
+    fetchCompanyDetails();
+  }, []);
+
+  const handleDownload = async (templateId: string) => {
+    if (!company) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Company details not found",
+      });
+      return;
+    }
+
+    try {
+      const documentData = {
+        companyName: company.name,
+        registrationNumber: company.registration_number || '',
+        registeredAddress: company.registered_address || '',
+        shareholderName: formData.shareholderName || '',
+        shareClass: formData.shareClass || '',
+        paymentDate: formData.paymentDate || '',
+        amountPerShare: formData.amountPerShare || '0',
+        totalAmount: formData.totalAmount || '0',
+        voucherNumber: voucherNumber,
+      };
+
+      downloadPDF(documentData);
+
+      toast({
+        title: "Success",
+        description: "Dividend voucher downloaded successfully",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to generate document",
+      });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-blue-600 bg-blue-500/10 p-4 rounded-md">
@@ -25,7 +99,13 @@ export const TemplateSelection = () => {
               <h3 className="font-medium text-center">{template.name}</h3>
               <div className="flex justify-center">
                 {template.selected ? (
-                  <div className="text-sm text-blue-600 font-medium">Template selected</div>
+                  <Button 
+                    onClick={() => handleDownload(template.id)}
+                    className="text-blue-600 font-medium flex items-center gap-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download
+                  </Button>
                 ) : (
                   <Button variant="ghost" size="sm" className="text-gray-500">
                     Use this template
