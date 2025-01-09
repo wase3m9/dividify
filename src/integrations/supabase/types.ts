@@ -11,27 +11,51 @@ export type Database = {
     Tables: {
       companies: {
         Row: {
+          accounting_category: string | null
+          company_category: string | null
+          company_status: string | null
           created_at: string
           id: string
+          incorporation_date: string | null
           name: string
+          place_of_registration: string | null
           registered_address: string | null
+          registered_email: string | null
           registration_number: string | null
+          trade_classification: string | null
+          trading_on_market: boolean | null
           user_id: string
         }
         Insert: {
+          accounting_category?: string | null
+          company_category?: string | null
+          company_status?: string | null
           created_at?: string
           id?: string
+          incorporation_date?: string | null
           name: string
+          place_of_registration?: string | null
           registered_address?: string | null
+          registered_email?: string | null
           registration_number?: string | null
+          trade_classification?: string | null
+          trading_on_market?: boolean | null
           user_id: string
         }
         Update: {
+          accounting_category?: string | null
+          company_category?: string | null
+          company_status?: string | null
           created_at?: string
           id?: string
+          incorporation_date?: string | null
           name?: string
+          place_of_registration?: string | null
           registered_address?: string | null
+          registered_email?: string | null
           registration_number?: string | null
+          trade_classification?: string | null
+          trading_on_market?: boolean | null
           user_id?: string
         }
         Relationships: []
