@@ -42,7 +42,6 @@ export const Navigation = () => {
         {/* Left side - Brand and Navigation */}
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2">
-            <Receipt className="h-5 w-5 text-[#9b87f5]" />
             <span className="bg-gradient-to-r from-[#9b87f5] to-[#7c67d5] bg-clip-text text-transparent">
               Dividify
             </span>
