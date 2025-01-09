@@ -2,63 +2,60 @@ import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/Navigation";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, FileCheck, FileText, Shield } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navigation />
       
-      <main className="container mx-auto px-4 pt-20">
-        {/* Hero Section */}
-        <section className="min-h-[60vh] flex items-center justify-center py-32">
-          <div className="max-w-3xl mx-auto text-center space-y-8 fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
-              Compliant Dividend Documentation Made Simple
+      <main className="container mx-auto px-4">
+        {/* Hero Section - Reduced spacing */}
+        <section className="py-16">
+          <div className="max-w-3xl mx-auto text-center space-y-6 fade-in">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700">
+                Dividend Voucher and Board Meeting Solutions for Savvy Directors
+              </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mt-8">
-              Generate professional board meeting minutes and dividend vouchers for your UK limited company in minutes.
+            <p className="text-lg md:text-xl text-gray-600 mt-4">
+              Turn compliance into simplicity. Tailored for directors who need to manage dividends and board meetings effortlessly.
             </p>
-            <div className="pt-12 flex items-center justify-center gap-4">
+            <div className="pt-8">
               <Button size="lg" asChild className="hover-lift">
-                <Link to="/create">
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="hover-lift">
                 <Link to="/trial">
                   Start Free Trial
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-20">
+        {/* Features Section - With new content */}
+        <section className="py-16">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Built for Director Success
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="p-6 hover-lift">
-              <FileText className="h-12 w-12 mb-4 text-gray-600" />
-              <h3 className="text-xl font-semibold mb-2">Board Meeting Minutes</h3>
+              <h3 className="text-xl font-semibold mb-3">Customizable Templates</h3>
               <p className="text-gray-600">
-                Generate compliant meeting minutes documenting dividend declarations with all necessary details.
+                Simplify your compliance with pre-designed templates for dividend vouchers and board meeting minutes.
               </p>
             </Card>
 
             <Card className="p-6 hover-lift">
-              <FileCheck className="h-12 w-12 mb-4 text-gray-600" />
-              <h3 className="text-xl font-semibold mb-2">Dividend Vouchers</h3>
+              <h3 className="text-xl font-semibold mb-3">Integrated Workflows</h3>
               <p className="text-gray-600">
-                Create professional dividend vouchers with all required information for shareholders and company records.
+                Automatically link dividend declarations with your financials and shareholder records.
               </p>
             </Card>
 
             <Card className="p-6 hover-lift">
-              <Shield className="h-12 w-12 mb-4 text-gray-600" />
-              <h3 className="text-xl font-semibold mb-2">Legal Compliance</h3>
+              <h3 className="text-xl font-semibold mb-3">Secure and Confidential</h3>
               <p className="text-gray-600">
-                Stay compliant with UK company law requirements for dividend documentation.
+                Your corporate data is protected with enterprise-grade security.
               </p>
             </Card>
           </div>
