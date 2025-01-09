@@ -1,76 +1,62 @@
 import { jsPDF } from 'jspdf';
 import { format } from 'date-fns';
 import { DividendVoucherData } from './types';
-import { classicConfig } from './templates/classicTemplate';
 
 export const generatePDF = (data: DividendVoucherData) => {
   const doc = new jsPDF();
-  const config = classicConfig;
   
   // Set font
-  doc.setFont(config.fontFamily);
+  doc.setFont("helvetica");
   
-  // Header with mint green background
-  doc.setFillColor(152, 226, 208); // Mint green color
-  doc.rect(0, 0, 210, 40, 'F');
+  // Company header
+  doc.setFontSize(16);
+  doc.text(data.companyName, 105, 20, { align: "center" });
   
-  // Company name
-  doc.setFontSize(config.fontSize.title);
-  doc.text(data.companyName.toUpperCase(), 105, 20, { align: "center" });
-  
-  // Company details
-  doc.setFontSize(config.fontSize.header);
-  doc.text(data.registeredAddress, 105, 25, { align: "center" });
-  doc.text(`Registered number: ${data.registrationNumber}`, 105, 30, { align: "center" });
+  doc.setFontSize(10);
+  doc.text(data.registeredAddress, 105, 30, { align: "center" });
+  doc.text(`Registered number: ${data.registrationNumber}`, 105, 35, { align: "center" });
 
-  // Shareholder address (top left)
-  doc.setFontSize(config.fontSize.normal);
+  // Add space
+  const yStart = 60;
+
+  // Dividend voucher number (right aligned)
+  doc.setFontSize(11);
+  doc.text(`Dividend voucher number: ${data.voucherNumber}`, 150, yStart, { align: "right" });
+
+  // Shareholder details (left aligned)
+  doc.text(data.shareholderName, 20, yStart);
+  doc.setFontSize(10);
   const addressLines = data.shareholderAddress.split(',');
   addressLines.forEach((line, index) => {
-    doc.text(line.trim(), 20, 50 + (index * 5));
+    doc.text(line.trim(), 20, yStart + 5 + (index * 5));
   });
+
+  // Add space before declaration
+  const declarationY = yStart + 30;
   
-  // Dividend voucher number
-  doc.setFontSize(config.fontSize.normal);
-  doc.text(`Dividend voucher number: ${data.voucherNumber}`, 20, 80);
-
   // Declaration text
-  const yearEnd = format(new Date(data.financialYearEnding), 'dd MMM yyyy');
-  const declarationText = 
-    `${data.companyName} has declared the final dividend for the year ending ${yearEnd} on its`;
-  doc.text(declarationText, 20, 95);
-  doc.text(`${data.shareClass} shares as follows:`, 20, 100);
+  doc.setFontSize(11);
+  doc.text(`${data.companyName} has declared the final dividend`, 105, declarationY, { align: "center" });
+  doc.text(`for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`, 105, declarationY + 6, { align: "center" });
 
-  // Payment details table with mint green background
-  const tableY = 115;
-  const leftCol = 20;
-  const rightCol = 80;
-  const rowHeight = 7;
+  // Add space before payment details
+  const detailsStart = declarationY + 20;
 
-  const rows = [
-    ['Payment date:', format(new Date(data.paymentDate), 'dd MMM yyyy')],
-    ['Shareholders as at:', format(new Date(data.paymentDate), 'dd MMM yyyy')],
-    ['Shareholder:', data.shareholderName],
-    ['Holding:', data.holdings || ''],
-    ['Dividend payable:', `£${data.totalAmount}`],
-  ];
-
-  rows.forEach((row, index) => {
-    // Draw cell background
-    doc.setFillColor(152, 226, 208);
-    doc.rect(leftCol, tableY + (index * rowHeight), 50, 7, 'F');
-    
-    // Add text
-    doc.text(row[0], leftCol + 2, tableY + 5 + (index * rowHeight));
-    doc.text(row[1], rightCol, tableY + 5 + (index * rowHeight));
-  });
+  // Payment details
+  doc.setFontSize(10);
+  doc.text([
+    `Payment Date:          ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
+    `Share class:          ${data.shareClass}`,
+    `Amount per Share:     £${data.amountPerShare}`,
+    `Total Amount:         £${data.totalAmount}`,
+  ], 20, detailsStart);
 
   // Signature lines
-  const signatureY = 180;
+  const signatureY = 150;
   doc.line(20, signatureY, 80, signatureY);
-  doc.text('Signature of Director/Secretary', 20, signatureY + 5);
+  doc.text('Signature of Director/Secretary', 20, signatureY + 10);
   doc.line(120, signatureY, 180, signatureY);
-  doc.text('Name of Director/Secretary', 120, signatureY + 5);
+  doc.text('Name of Director/Secretary', 120, signatureY + 10);
 
   return doc;
 };

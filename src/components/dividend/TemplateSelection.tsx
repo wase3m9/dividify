@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 interface Company {
+  id: string;
   name: string;
   registration_number: string;
   registered_address: string;
@@ -66,6 +67,16 @@ export const TemplateSelection = () => {
     }
 
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "User not authenticated",
+        });
+        return;
+      }
+
       const documentData = {
         companyName: company.name,
         registrationNumber: company.registration_number || '',
@@ -91,6 +102,7 @@ export const TemplateSelection = () => {
         .from('dividend_records')
         .insert({
           company_id: company.id,
+          user_id: user.id,
           shareholder_name: documentData.shareholderName,
           share_class: documentData.shareClass,
           payment_date: documentData.paymentDate,

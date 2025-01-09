@@ -1,30 +1,22 @@
-import { Document, Paragraph, TextRun, AlignmentType, Table, TableRow, TableCell, BorderStyle, ShadingType } from 'docx';
+import { Document, Paragraph, TextRun, AlignmentType } from 'docx';
 import { format } from 'date-fns';
 import { DividendVoucherData } from './types';
-import { classicConfig } from './templates/classicTemplate';
 
 export const generateWord = async (data: DividendVoucherData) => {
-  const config = classicConfig;
-  const yearEnd = format(new Date(data.financialYearEnding), 'dd MMM yyyy');
-  
   const doc = new Document({
     sections: [{
       properties: {},
       children: [
-        // Company header
         new Paragraph({
           alignment: AlignmentType.CENTER,
-          spacing: { before: 0, after: 200 },
-          shading: { type: ShadingType.SOLID, color: '98E2D0' },
           children: [
             new TextRun({
-              text: data.companyName.toUpperCase(),
+              text: data.companyName,
               bold: true,
               size: 32,
             }),
           ],
         }),
-        // Company details
         new Paragraph({
           alignment: AlignmentType.CENTER,
           children: [
@@ -43,75 +35,98 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
-        // Shareholder address
-        ...data.shareholderAddress.split(',').map(line => 
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: line.trim(),
-                size: 20,
-              }),
-            ],
-          })
-        ),
-        // Voucher number
+        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
         new Paragraph({
+          children: [
+            new TextRun({
+              text: data.shareholderName,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: data.shareholderAddress,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.RIGHT,
           children: [
             new TextRun({
               text: `Dividend voucher number: ${data.voucherNumber}`,
-              size: 20,
+              size: 24,
             }),
           ],
         }),
-        // Declaration
+        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
+        // Declaration text
+        new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [
+            new TextRun({
+              text: `${data.companyName} has declared the final dividend`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [
+            new TextRun({
+              text: `for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
         new Paragraph({
           children: [
             new TextRun({
-              text: `${data.companyName} has declared the final dividend for the year ending ${yearEnd} on its ${data.shareClass} shares as follows:`,
-              size: 20,
+              text: `Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
+              size: 24,
             }),
           ],
         }),
-        // Payment details table
-        new Table({
-          rows: [
-            ['Payment date:', format(new Date(data.paymentDate), 'dd MMM yyyy')],
-            ['Shareholders as at:', format(new Date(data.paymentDate), 'dd MMM yyyy')],
-            ['Shareholder:', data.shareholderName],
-            ['Holding:', data.holdings || ''],
-            ['Dividend payable:', `£${data.totalAmount}`],
-          ].map(row => 
-            new TableRow({
-              children: [
-                new TableCell({
-                  shading: { type: ShadingType.SOLID, color: '98E2D0' },
-                  children: [new Paragraph({
-                    children: [new TextRun({ text: row[0], size: 20 })],
-                  })],
-                }),
-                new TableCell({
-                  children: [new Paragraph({
-                    children: [new TextRun({ text: row[1], size: 20 })],
-                  })],
-                }),
-              ],
-            })
-          ),
-        }),
-        // Signature lines
         new Paragraph({
-          spacing: { before: 4000 },
+          children: [
+            new TextRun({
+              text: `Share class: ${data.shareClass}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Amount per Share: £${data.amountPerShare}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Total Amount: £${data.totalAmount}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({ children: [new TextRun({ text: "\n\n" })] }),
+        new Paragraph({
           children: [
             new TextRun({
               text: "Signature of Director/Secretary",
-              size: 20,
-              border: { style: BorderStyle.SINGLE, size: 6, space: 1 },
+              size: 24,
+              border: { bottom: { style: 'single', size: 6, space: 1 } },
             }),
-            new TextRun({ text: "     ", size: 20 }),
+            new TextRun({ text: "     ", size: 24 }),
             new TextRun({
               text: "Name of Director/Secretary",
-              size: 20,
-              border: { style: BorderStyle.SINGLE, size: 6, space: 1 },
+              size: 24,
+              border: { bottom: { style: 'single', size: 6, space: 1 } },
             }),
           ],
         }),
