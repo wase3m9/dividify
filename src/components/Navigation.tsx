@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, LogIn } from "lucide-react";
+import { LogIn } from "lucide-react";
 
 // In a real app, this would come from your auth context/provider
 const isLoggedIn = false; // Temporary mock value
@@ -9,15 +9,9 @@ export const Navigation = () => {
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4 py-2 flex items-center">
-        {/* Left side - Home and Brand */}
+        {/* Left side - Brand */}
         <div className="flex flex-col items-start">
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/">
-              <Home className="h-4 w-4 mr-1" />
-              Home
-            </Link>
-          </Button>
-          <Link to="/" className="text-sm font-semibold hover:opacity-80 transition-opacity">
+          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity">
             Dividify
           </Link>
         </div>
@@ -27,7 +21,7 @@ export const Navigation = () => {
           <Button variant="ghost" asChild>
             <Link to="/login">Login</Link>
           </Button>
-          <Button asChild>
+          <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]" asChild>
             <Link to="/get-started">Get Started</Link>
           </Button>
           {isLoggedIn && (

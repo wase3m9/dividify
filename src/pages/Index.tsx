@@ -14,7 +14,7 @@ const Index = () => {
         <section className="flex flex-col items-center justify-center min-h-[70vh] py-16">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700">
+              <span className="bg-gradient-to-r from-[#9b87f5] to-gray-900 bg-clip-text text-transparent">
                 Dividend Voucher and Board Meeting Solutions for Savvy Directors
               </span>
             </h1>
@@ -22,7 +22,7 @@ const Index = () => {
               Turn compliance into simplicity. Tailored for directors who need to manage dividends and board meetings effortlessly.
             </p>
             <div className="pt-8">
-              <Button size="lg" asChild className="hover-lift shadow-sm">
+              <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm" asChild>
                 <Link to="/trial">
                   Start Free Trial
                   <ArrowRight className="ml-2 h-4 w-4" />
