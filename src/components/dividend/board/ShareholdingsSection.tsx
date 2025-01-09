@@ -2,16 +2,16 @@ import { FC, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Building2, Pencil } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ShareholderDetailsForm } from "@/components/dividend/ShareholderDetailsForm";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface Shareholder {
   id: string;
   shareholder_name: string;
   share_class: string;
   number_of_shares: number;
-  number_of_holders: number;
 }
 
 interface ShareholdingsSectionProps {
@@ -28,6 +28,8 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
   onSubmit
 }) => {
   const [selectedShareholder, setSelectedShareholder] = useState<Shareholder | null>(null);
+  const { toast } = useToast();
+  const MAX_SHAREHOLDERS = 10;
 
   const handleEdit = (shareholder: Shareholder) => {
     setSelectedShareholder(shareholder);
@@ -40,6 +42,15 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
   };
 
   const handleSubmit = (data: ShareholderDetails) => {
+    if (shareholdings.length >= MAX_SHAREHOLDERS && !selectedShareholder) {
+      toast({
+        variant: "destructive",
+        title: "Maximum shareholders reached",
+        description: `You can only add up to ${MAX_SHAREHOLDERS} shareholders.`,
+      });
+      handleDialogClose();
+      return;
+    }
     onSubmit(data, selectedShareholder?.id);
     setSelectedShareholder(null);
   };
@@ -56,11 +67,15 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
             <Button 
               variant="outline"
               className="text-[#9b87f5] border-[#9b87f5]"
+              disabled={shareholdings.length >= MAX_SHAREHOLDERS}
             >
-              Add Shareholder
+              Add Shareholder {shareholdings.length >= MAX_SHAREHOLDERS && `(${MAX_SHAREHOLDERS} max)`}
             </Button>
           </DialogTrigger>
           <DialogContent>
+            <DialogTitle>
+              {selectedShareholder ? 'Edit Shareholder' : 'Add Shareholder'}
+            </DialogTitle>
             <ShareholderDetailsForm 
               onSubmit={handleSubmit}
               onPrevious={handleDialogClose}
@@ -75,6 +90,9 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
       </div>
       {shareholdings.length > 0 ? (
         <div className="space-y-2">
+          <div className="text-sm text-gray-500 mb-2">
+            {shareholdings.length} of {MAX_SHAREHOLDERS} shareholders added
+          </div>
           {shareholdings.map((shareholding) => (
             <div key={shareholding.id} className="p-4 border rounded-lg flex justify-between items-center">
               <div>
