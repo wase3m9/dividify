@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -36,7 +35,6 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">

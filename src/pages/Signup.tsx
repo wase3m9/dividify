@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Navigation } from "@/components/Navigation";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -52,7 +51,6 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md p-8 space-y-6">
           <div className="text-center space-y-2">
