@@ -1,10 +1,11 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { Receipt } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { Receipt, Trash2 } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface DividendRecord {
   id: string;
@@ -19,6 +20,9 @@ interface DividendRecord {
 }
 
 export const DividendsSection: FC = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
   const { data: dividendRecords, isLoading } = useQuery({
     queryKey: ['dividend-records'],
     queryFn: async () => {
@@ -31,6 +35,31 @@ export const DividendsSection: FC = () => {
       return data as DividendRecord[];
     }
   });
+
+  const handleDelete = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('dividend_records')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['dividend-records'] });
+
+      toast({
+        title: "Success",
+        description: "Dividend record deleted successfully",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
 
   const handleDownload = (record: DividendRecord, format: 'pdf' | 'docx') => {
     const data = {
@@ -97,6 +126,14 @@ export const DividendsSection: FC = () => {
                     className="text-[#9b87f5] border-[#9b87f5]"
                   >
                     Download Word
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDelete(record.id)}
+                    className="text-red-500 border-red-500 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
