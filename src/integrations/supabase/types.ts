@@ -9,6 +9,68 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      companies: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          registered_address: string | null
+          registration_number: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          registered_address?: string | null
+          registration_number?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          registered_address?: string | null
+          registration_number?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      directors: {
+        Row: {
+          company_id: string
+          created_at: string
+          full_name: string
+          id: string
+          position: string | null
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          full_name: string
+          id?: string
+          position?: string | null
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          position?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "directors_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -29,6 +91,44 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      shareholdings: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          number_of_shares: number
+          share_class: string
+          shareholder_name: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          number_of_shares: number
+          share_class: string
+          shareholder_name: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          number_of_shares?: number
+          share_class?: string
+          shareholder_name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shareholdings_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
