@@ -29,7 +29,8 @@ import { useToast } from "@/hooks/use-toast";
 const formSchema = z.object({
   currency: z.string().min(1, "Currency is required"),
   amountPerShare: z.string().min(1, "Amount per share is required"),
-  totalAmount: z.string().min(1, "Total amount is required")
+  totalAmount: z.string().min(1, "Total amount is required"),
+  date: z.string().min(1, "Date is required")
 });
 
 type DividendAmountFormValues = z.infer<typeof formSchema>;
@@ -37,7 +38,7 @@ type DividendAmountFormValues = z.infer<typeof formSchema>;
 const DividendAmountForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { shareholderName, shareClass, shareholdings } = location.state || {};
+  const { shareholderName, shareClass, description, paymentDate, financialYearEnding } = location.state || {};
   const { toast } = useToast();
 
   const form = useForm<DividendAmountFormValues>({
@@ -45,7 +46,8 @@ const DividendAmountForm = () => {
     defaultValues: {
       currency: "GBP",
       amountPerShare: "",
-      totalAmount: ""
+      totalAmount: "",
+      date: new Date().toISOString().split('T')[0]
     }
   });
 
@@ -74,10 +76,13 @@ const DividendAmountForm = () => {
       state: {
         shareholderName,
         shareClass,
-        shareholdings,
+        description,
+        paymentDate,
+        financialYearEnding,
         amountPerShare: data.amountPerShare,
         totalAmount: data.totalAmount,
-        currency: data.currency
+        currency: data.currency,
+        date: data.date
       }
     });
   };
@@ -97,6 +102,20 @@ const DividendAmountForm = () => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Date</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="currency"
