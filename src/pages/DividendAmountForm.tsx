@@ -4,36 +4,14 @@ import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
 import { NavigationButtons } from "@/components/dividend/NavigationButtons";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
-
-const formSchema = z.object({
-  currency: z.string().min(1, "Currency is required"),
-  amountPerShare: z.string().min(1, "Amount per share is required"),
-  totalAmount: z.string().min(1, "Total amount is required"),
-  date: z.string().min(1, "Date is required")
-});
-
-type DividendAmountFormValues = z.infer<typeof formSchema>;
+import { CurrencyField } from "@/components/dividend/amount/CurrencyField";
+import { AmountFields } from "@/components/dividend/amount/AmountFields";
+import { formSchema, DividendAmountFormValues } from "@/components/dividend/amount/types";
 
 const DividendAmountForm = () => {
   const navigate = useNavigate();
@@ -47,7 +25,6 @@ const DividendAmountForm = () => {
       currency: "GBP",
       amountPerShare: "",
       totalAmount: "",
-      date: new Date().toISOString().split('T')[0]
     }
   });
 
@@ -82,7 +59,6 @@ const DividendAmountForm = () => {
         amountPerShare: data.amountPerShare,
         totalAmount: data.totalAmount,
         currency: data.currency,
-        date: data.date
       }
     });
   };
@@ -102,91 +78,8 @@ const DividendAmountForm = () => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="date"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Date</FormLabel>
-                        <FormControl>
-                          <Input type="date" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="currency"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Currency of dividend</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select currency" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="GBP">£ - GB Pound</SelectItem>
-                            <SelectItem value="USD">$ - US Dollar</SelectItem>
-                            <SelectItem value="EUR">€ - Euro</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="amountPerShare"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Net amount payable per share</FormLabel>
-                        <div className="relative">
-                          <span className="absolute left-3 top-2.5">£</span>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              step="0.01"
-                              className="pl-7"
-                              placeholder="0.00"
-                              {...field}
-                            />
-                          </FormControl>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="totalAmount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Total dividend payable</FormLabel>
-                        <div className="relative">
-                          <span className="absolute left-3 top-2.5">£</span>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              step="0.01"
-                              className="pl-7"
-                              placeholder="0.00"
-                              {...field}
-                            />
-                          </FormControl>
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <CurrencyField form={form} />
+                  <AmountFields form={form} />
                 </div>
 
                 <NavigationButtons
