@@ -1,10 +1,38 @@
 import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/Navigation";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, FileText, Link2, Shield, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleStartFreeTrial = () => {
+    if (user) {
+      navigate("/dividend-board");
+    } else {
+      navigate("/auth");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -28,11 +56,13 @@ const Index = () => {
               Turn compliance into simplicity. Tailored for directors who need to manage dividends and board meetings effortlessly.
             </p>
             <div className="pt-8">
-              <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm" asChild>
-                <Link to="/signup">
-                  Start Free Trial
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+              <Button 
+                size="lg" 
+                className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm"
+                onClick={handleStartFreeTrial}
+              >
+                Start Free Trial
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>

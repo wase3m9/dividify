@@ -28,6 +28,14 @@ export const Navigation = () => {
     navigate("/");
   };
 
+  const handleStartFreeTrial = () => {
+    if (user) {
+      navigate("/dividend-board");
+    } else {
+      navigate("/auth");
+    }
+  };
+
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4 py-2 flex items-center">
@@ -59,8 +67,11 @@ export const Navigation = () => {
               <Button variant="ghost" asChild>
                 <Link to="/auth">Login</Link>
               </Button>
-              <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]" asChild>
-                <Link to="/signup">Get Started</Link>
+              <Button 
+                className="bg-[#9b87f5] hover:bg-[#8b77e5]" 
+                onClick={handleStartFreeTrial}
+              >
+                Get Started
               </Button>
             </>
           )}
