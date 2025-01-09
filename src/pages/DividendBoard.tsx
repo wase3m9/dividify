@@ -206,6 +206,9 @@ const DividendBoard = () => {
                     company={company}
                     onCompanyUpdate={fetchData}
                   />
+                  <div className="mt-8">
+                    <QuickActions />
+                  </div>
                 </TabsContent>
                 <TabsContent value="officers" className="mt-6">
                   <DirectorsSection directors={directors} />
@@ -234,7 +237,6 @@ const DividendBoard = () => {
 
             <div className="space-y-8">
               <RecentActivity />
-              <QuickActions />
             </div>
           </div>
         </div>
