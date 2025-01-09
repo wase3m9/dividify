@@ -119,7 +119,7 @@ const DividendBoard = () => {
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Header */}
           <div className="space-y-4">
-            <h1 className="text-3xl font-bold tracking-tight">Dividend Board</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{company?.name || 'Company Dashboard'}</h1>
             <p className="text-gray-600">
               Manage your company information, directors, shareholdings, and dividend vouchers in one place.
             </p>

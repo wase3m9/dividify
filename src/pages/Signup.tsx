@@ -9,6 +9,7 @@ import { Home } from "lucide-react";
 const Signup = () => {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,7 +21,7 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const { data, error: signUpError } = await supabase.auth.signUp({
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -32,12 +33,24 @@ const Signup = () => {
 
       if (signUpError) throw signUpError;
 
-      if (data) {
-        // Also update the profile with the username
+      if (authData.user) {
+        // Create company record
+        const { error: companyError } = await supabase
+          .from('companies')
+          .insert([
+            {
+              name: companyName,
+              user_id: authData.user.id,
+            }
+          ]);
+
+        if (companyError) throw companyError;
+
+        // Update profile
         const { error: profileError } = await supabase
           .from('profiles')
           .update({ username: fullName })
-          .eq('id', data.user?.id);
+          .eq('id', authData.user.id);
 
         if (profileError) throw profileError;
 
@@ -80,6 +93,18 @@ const Signup = () => {
                 placeholder="Full Name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                required
+                className="bg-gray-50 border-gray-200"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Input
+                id="companyName"
+                type="text"
+                placeholder="Company Name Ltd"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
                 required
                 className="bg-gray-50 border-gray-200"
               />
