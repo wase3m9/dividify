@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users } from "lucide-react";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { DirectorForm } from "./DirectorForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -48,11 +48,28 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
       // Compute the full name
       const fullName = `${data.title} ${data.forenames} ${data.surname}`.trim();
 
+      // Get the company ID from the first director (assuming all directors belong to the same company)
+      const companyId = directors[0]?.company_id;
+      
+      if (!companyId) {
+        // If no company ID is available from directors, try to get it from the companies table
+        const { data: companyData, error: companyError } = await supabase
+          .from('companies')
+          .select('id')
+          .eq('user_id', user.id)
+          .single();
+
+        if (companyError) throw companyError;
+        if (!companyData) throw new Error("No company found");
+        
+        companyId = companyData.id;
+      }
+
       const { error } = await supabase.from('officers').insert([{
         ...data,
         full_name: fullName,
         user_id: user.id,
-        company_id: directors[0]?.company_id
+        company_id: companyId
       }]);
 
       if (error) throw error;
@@ -105,7 +122,9 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
       )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DirectorForm onSubmit={handleSubmit} isLoading={isLoading} />
+        <DialogContent>
+          <DirectorForm onSubmit={handleSubmit} isLoading={isLoading} />
+        </DialogContent>
       </Dialog>
     </Card>
   );
