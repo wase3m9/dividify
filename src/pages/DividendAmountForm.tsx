@@ -5,7 +5,8 @@ import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
+import { NavigationButtons } from "@/components/dividend/NavigationButtons";
 import {
   Select,
   SelectContent,
@@ -32,65 +33,33 @@ const DividendAmountForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const amountPerShare = (e.target as HTMLFormElement).amountPerShare.value;
-    const totalAmount = (e.target as HTMLFormElement).totalAmount.value;
+    const formData = new FormData(e.target as HTMLFormElement);
     
     navigate("/dividend-voucher/waivers", {
       state: {
         shareholderName,
         shareClass,
         shareholdings,
-        amountPerShare,
-        totalAmount
+        amountPerShare: formData.get('amountPerShare'),
+        totalAmount: formData.get('totalAmount')
       }
     });
   };
-
-  const currencies = [
-    { code: "GBP", symbol: "£", name: "GB Pound" },
-    { code: "USD", symbol: "$", name: "US Dollar" },
-    { code: "EUR", symbol: "€", name: "Euro" },
-    { code: "JPY", symbol: "¥", name: "Japanese Yen" },
-    { code: "CNY", symbol: "¥", name: "Chinese Yuan" },
-    { code: "CHF", symbol: "Fr", name: "Swiss Franc" },
-    { code: "AUD", symbol: "$", name: "Australian Dollar" },
-    { code: "CAD", symbol: "$", name: "Canadian Dollar" },
-    { code: "HKD", symbol: "$", name: "Hong Kong Dollar" },
-    { code: "SGD", symbol: "$", name: "Singapore Dollar" },
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-3xl mx-auto space-y-8">
-          {/* Progress bar */}
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
-            <div className="bg-green-500 h-2.5 rounded-full" style={{ width: '50%' }}></div>
-          </div>
+          <DividendFormHeader
+            title="Dividend Amount"
+            description="Enter the dividend amount details."
+            progress={50}
+          />
 
-          {/* Header */}
-          <div className="space-y-4">
-            <h1 className="text-3xl font-bold tracking-tight">Dividend Amount</h1>
-            <p className="text-gray-600">
-              Enter the dividend amount details.
-            </p>
-          </div>
-
-          {/* Form */}
           <Card className="p-6">
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
-                <div>
-                  <Label htmlFor="shareClass">Share class</Label>
-                  <Input
-                    id="shareClass"
-                    value={shareClass || "Ordinary £1.00"}
-                    readOnly
-                    className="mt-1 bg-gray-50"
-                  />
-                </div>
-
                 <div>
                   <Label htmlFor="currency">Currency of dividend</Label>
                   <Select defaultValue="GBP">
@@ -98,17 +67,11 @@ const DividendAmountForm = () => {
                       <SelectValue placeholder="Select currency" />
                     </SelectTrigger>
                     <SelectContent>
-                      {currencies.map((currency) => (
-                        <SelectItem key={currency.code} value={currency.code}>
-                          {currency.symbol} - {currency.name}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="GBP">£ - GB Pound</SelectItem>
+                      <SelectItem value="USD">$ - US Dollar</SelectItem>
+                      <SelectItem value="EUR">€ - Euro</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 rounded-md p-4 text-sm text-blue-700">
-                  Please enter either the amount of dividend payable per share or the total dividend payable for the class of share selected.
                 </div>
 
                 <div>
@@ -117,6 +80,7 @@ const DividendAmountForm = () => {
                     <span className="absolute left-3 top-2.5">£</span>
                     <Input
                       id="amountPerShare"
+                      name="amountPerShare"
                       type="number"
                       step="0.01"
                       className="pl-7"
@@ -131,6 +95,7 @@ const DividendAmountForm = () => {
                     <span className="absolute left-3 top-2.5">£</span>
                     <Input
                       id="totalAmount"
+                      name="totalAmount"
                       type="number"
                       step="0.01"
                       className="pl-7"
@@ -140,21 +105,10 @@ const DividendAmountForm = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => navigate("/dividend-voucher/create")}
-                >
-                  Previous
-                </Button>
-                <Button
-                  type="submit"
-                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-                >
-                  Next
-                </Button>
-              </div>
+              <NavigationButtons
+                onPrevious={() => navigate("/dividend-voucher/create")}
+                onNext={() => {}} // This will be handled by the form submission
+              />
             </form>
           </Card>
         </div>
