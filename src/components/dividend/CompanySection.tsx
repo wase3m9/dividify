@@ -22,7 +22,7 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
 
   const handleSuccess = () => {
     onCompanyUpdate();
-    // Note: Dialog stays open for potential additional edits
+    setIsDialogOpen(false);
   };
 
   return (
