@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 
 interface NavigationButtonsProps {
   onPrevious: () => void;
-  onNext: () => void;
+  onNext?: () => void;
   previousLabel?: string;
   nextLabel?: string;
+  type?: "button" | "submit";
 }
 
 export const NavigationButtons = ({
@@ -12,6 +13,7 @@ export const NavigationButtons = ({
   onNext,
   previousLabel = "Previous",
   nextLabel = "Next",
+  type = "button"
 }: NavigationButtonsProps) => {
   return (
     <div className="flex justify-between pt-4">
@@ -23,9 +25,9 @@ export const NavigationButtons = ({
         {previousLabel}
       </Button>
       <Button
-        type="submit"
+        type={type}
         className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-        onClick={onNext}
+        onClick={type === "button" ? onNext : undefined}
       >
         {nextLabel}
       </Button>

@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
+import { NavigationButtons } from "./NavigationButtons";
 
 export interface ShareholderDetails {
   shareholderName: string;
@@ -17,10 +18,17 @@ export interface ShareholderDetails {
 
 interface ShareholderDetailsFormProps {
   onSubmit: (data: ShareholderDetails) => void;
+  onPrevious: () => void;
 }
 
-export const ShareholderDetailsForm = ({ onSubmit }: ShareholderDetailsFormProps) => {
-  const form = useForm<ShareholderDetails>();
+export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDetailsFormProps) => {
+  const form = useForm<ShareholderDetails>({
+    defaultValues: {
+      shareholderName: "",
+      shareClass: "",
+      shareholdings: ""
+    }
+  });
 
   return (
     <Form {...form}>
@@ -74,6 +82,13 @@ export const ShareholderDetailsForm = ({ onSubmit }: ShareholderDetailsFormProps
               </FormControl>
             </FormItem>
           )}
+        />
+
+        <NavigationButtons
+          onPrevious={onPrevious}
+          onNext={() => {}}  // This is handled by form submission
+          previousLabel="Cancel"
+          type="submit"
         />
       </form>
     </Form>
