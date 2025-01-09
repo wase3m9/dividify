@@ -74,7 +74,6 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
             <div key={director.id} className="p-4 border rounded-lg">
               <p><span className="font-medium">Name:</span> {director.computed_full_name}</p>
               {director.position && <p><span className="font-medium">Position:</span> {director.position}</p>}
-              <p><span className="font-medium">Email:</span> {director.email}</p>
               <p><span className="font-medium">Address:</span> {director.address}</p>
               <p><span className="font-medium">Waives Dividend:</span> {director.waive_dividend ? "Yes" : "No"}</p>
               <p><span className="font-medium">Date of Appointment:</span> {new Date(director.date_of_appointment).toLocaleDateString()}</p>
