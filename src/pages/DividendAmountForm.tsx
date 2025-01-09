@@ -11,6 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
 import { NavigationButtons } from "@/components/dividend/NavigationButtons";
@@ -21,19 +22,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
 
-interface DividendAmountFormValues {
-  currency: string;
-  amountPerShare: string;
-  totalAmount: string;
-}
+const formSchema = z.object({
+  currency: z.string().min(1, "Currency is required"),
+  amountPerShare: z.string().min(1, "Amount per share is required"),
+  totalAmount: z.string().min(1, "Total amount is required")
+});
+
+type DividendAmountFormValues = z.infer<typeof formSchema>;
 
 const DividendAmountForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { shareholderName, shareClass, shareholdings } = location.state || {};
+  const { toast } = useToast();
 
   const form = useForm<DividendAmountFormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       currency: "GBP",
       amountPerShare: "",
@@ -53,6 +61,15 @@ const DividendAmountForm = () => {
   }, [navigate]);
 
   const onSubmit = (data: DividendAmountFormValues) => {
+    if (Object.keys(form.formState.errors).length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please fill in all required fields",
+      });
+      return;
+    }
+    
     navigate("/dividend-voucher/waivers", {
       state: {
         shareholderName,
@@ -101,6 +118,7 @@ const DividendAmountForm = () => {
                             <SelectItem value="EUR">€ - Euro</SelectItem>
                           </SelectContent>
                         </Select>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -123,6 +141,7 @@ const DividendAmountForm = () => {
                             />
                           </FormControl>
                         </div>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -145,6 +164,7 @@ const DividendAmountForm = () => {
                             />
                           </FormControl>
                         </div>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
