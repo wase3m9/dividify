@@ -12,7 +12,6 @@ interface Director {
   computed_full_name: string | null;
   position: string | null;
   address: string;
-  waive_dividend: boolean;
   date_of_appointment: string;
   company_id: string;
 }
@@ -36,9 +35,13 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
         throw new Error("No authenticated user found");
       }
 
+      // Compute the full name
+      const fullName = `${data.title} ${data.forenames} ${data.surname}`.trim();
+
       const { error } = await supabase.from('directors').insert([{
         ...data,
-        user_id: user.id, // Add the user_id
+        full_name: fullName, // Add the computed full name
+        user_id: user.id,
         company_id: directors[0]?.company_id // Assuming all directors belong to the same company
       }]);
 
@@ -82,7 +85,6 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
               <p><span className="font-medium">Name:</span> {director.computed_full_name}</p>
               {director.position && <p><span className="font-medium">Position:</span> {director.position}</p>}
               <p><span className="font-medium">Address:</span> {director.address}</p>
-              <p><span className="font-medium">Waives Dividend:</span> {director.waive_dividend ? "Yes" : "No"}</p>
               <p><span className="font-medium">Date of Appointment:</span> {new Date(director.date_of_appointment).toLocaleDateString()}</p>
             </div>
           ))}
