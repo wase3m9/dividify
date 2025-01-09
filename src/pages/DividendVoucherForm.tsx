@@ -29,6 +29,11 @@ const DividendVoucherForm = () => {
     checkAuth();
   }, [navigate]);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate("/dividend-voucher/amount");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -44,7 +49,7 @@ const DividendVoucherForm = () => {
 
           {/* Form */}
           <Card className="p-6">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="shareClass">Share class</Label>
