@@ -12,6 +12,7 @@ import { NavigationButtons } from "./NavigationButtons";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   shareholderName: z.string().min(1, "Shareholder name is required"),
@@ -25,9 +26,10 @@ export type ShareholderDetails = z.infer<typeof formSchema>;
 interface ShareholderDetailsFormProps {
   onSubmit: (data: ShareholderDetails) => void;
   onPrevious: () => void;
+  initialData?: ShareholderDetails;
 }
 
-export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDetailsFormProps) => {
+export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: ShareholderDetailsFormProps) => {
   const { toast } = useToast();
   
   const form = useForm<ShareholderDetails>({
@@ -39,6 +41,12 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDeta
       numberOfHolders: "1"
     }
   });
+
+  useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form]);
 
   const handleSubmit = (data: ShareholderDetails) => {
     if (Object.keys(form.formState.errors).length > 0) {

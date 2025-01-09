@@ -140,7 +140,7 @@ export type Database = {
         }
         Relationships: []
       }
-      shareholdings: {
+      shareholders: {
         Row: {
           company_id: string
           created_at: string
