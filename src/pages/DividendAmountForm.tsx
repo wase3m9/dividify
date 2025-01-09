@@ -1,10 +1,17 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
 import { NavigationButtons } from "@/components/dividend/NavigationButtons";
 import {
@@ -15,10 +22,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface DividendAmountFormValues {
+  currency: string;
+  amountPerShare: string;
+  totalAmount: string;
+}
+
 const DividendAmountForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { shareholderName, shareClass, shareholdings } = location.state || {};
+
+  const form = useForm<DividendAmountFormValues>({
+    defaultValues: {
+      currency: "GBP",
+      amountPerShare: "",
+      totalAmount: ""
+    }
+  });
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -31,17 +52,15 @@ const DividendAmountForm = () => {
     checkAuth();
   }, [navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    
+  const onSubmit = (data: DividendAmountFormValues) => {
     navigate("/dividend-voucher/waivers", {
       state: {
         shareholderName,
         shareClass,
         shareholdings,
-        amountPerShare: formData.get('amountPerShare'),
-        totalAmount: formData.get('totalAmount')
+        amountPerShare: data.amountPerShare,
+        totalAmount: data.totalAmount,
+        currency: data.currency
       }
     });
   };
@@ -58,58 +77,85 @@ const DividendAmountForm = () => {
           />
 
           <Card className="p-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="currency">Currency of dividend</Label>
-                  <Select defaultValue="GBP">
-                    <SelectTrigger className="w-full mt-1">
-                      <SelectValue placeholder="Select currency" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="GBP">£ - GB Pound</SelectItem>
-                      <SelectItem value="USD">$ - US Dollar</SelectItem>
-                      <SelectItem value="EUR">€ - Euro</SelectItem>
-                    </SelectContent>
-                  </Select>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="currency"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Currency of dividend</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select currency" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="GBP">£ - GB Pound</SelectItem>
+                            <SelectItem value="USD">$ - US Dollar</SelectItem>
+                            <SelectItem value="EUR">€ - Euro</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="amountPerShare"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Net amount payable per share</FormLabel>
+                        <div className="relative">
+                          <span className="absolute left-3 top-2.5">£</span>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              step="0.01"
+                              className="pl-7"
+                              placeholder="0.00"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="totalAmount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Total dividend payable</FormLabel>
+                        <div className="relative">
+                          <span className="absolute left-3 top-2.5">£</span>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              step="0.01"
+                              className="pl-7"
+                              placeholder="0.00"
+                              {...field}
+                            />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
-                <div>
-                  <Label htmlFor="amountPerShare">Net amount payable per share</Label>
-                  <div className="relative mt-1">
-                    <span className="absolute left-3 top-2.5">£</span>
-                    <Input
-                      id="amountPerShare"
-                      name="amountPerShare"
-                      type="number"
-                      step="0.01"
-                      className="pl-7"
-                      placeholder="0.00"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="totalAmount">Total dividend payable</Label>
-                  <div className="relative mt-1">
-                    <span className="absolute left-3 top-2.5">£</span>
-                    <Input
-                      id="totalAmount"
-                      name="totalAmount"
-                      type="number"
-                      step="0.01"
-                      className="pl-7"
-                      placeholder="0.00"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <NavigationButtons
-                onPrevious={() => navigate("/dividend-voucher/create")}
-                onNext={() => {}} // This will be handled by the form submission
-              />
-            </form>
+                <NavigationButtons
+                  onPrevious={() => navigate("/dividend-voucher/create")}
+                  type="submit"
+                />
+              </form>
+            </Form>
           </Card>
         </div>
       </div>
