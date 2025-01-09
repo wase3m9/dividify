@@ -38,7 +38,7 @@ export const DividendsSection: FC = () => {
       registeredAddress: "Registered Address", // TODO: Add address from context
       registrationNumber: "Registration Number", // TODO: Add reg number from context
       shareholderName: record.shareholder_name,
-      voucherNumber: record.id.slice(0, 8),
+      voucherNumber: parseInt(record.id.slice(0, 8), 16), // Convert first 8 chars of UUID to number
       paymentDate: new Date(record.payment_date).toLocaleDateString(),
       shareClass: record.share_class,
       amountPerShare: record.amount_per_share.toString(),
