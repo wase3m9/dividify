@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Grid, User as UserIcon, Gem } from "lucide-react";
+import { LogOut, Home, Grid, User as UserIcon, Receipt } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -42,7 +42,7 @@ export const Navigation = () => {
         {/* Left side - Brand and Navigation */}
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2">
-            <Gem className="h-5 w-5 text-[#9b87f5]" />
+            <Receipt className="h-5 w-5 text-[#9b87f5]" />
             <span className="bg-gradient-to-r from-[#9b87f5] to-[#7c67d5] bg-clip-text text-transparent">
               Dividify
             </span>
