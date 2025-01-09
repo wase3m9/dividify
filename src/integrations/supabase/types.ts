@@ -62,28 +62,49 @@ export type Database = {
       }
       directors: {
         Row: {
+          address: string
           company_id: string
+          computed_full_name: string | null
           created_at: string
+          email: string
+          forenames: string
           full_name: string
           id: string
           position: string | null
+          surname: string
+          title: string
           user_id: string
+          waive_dividend: boolean | null
         }
         Insert: {
+          address: string
           company_id: string
+          computed_full_name?: string | null
           created_at?: string
+          email: string
+          forenames: string
           full_name: string
           id?: string
           position?: string | null
+          surname: string
+          title: string
           user_id: string
+          waive_dividend?: boolean | null
         }
         Update: {
+          address?: string
           company_id?: string
+          computed_full_name?: string | null
           created_at?: string
+          email?: string
+          forenames?: string
           full_name?: string
           id?: string
           position?: string | null
+          surname?: string
+          title?: string
           user_id?: string
+          waive_dividend?: boolean | null
         }
         Relationships: [
           {
