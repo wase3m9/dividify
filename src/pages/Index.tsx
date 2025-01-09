@@ -6,23 +6,23 @@ import { ArrowRight, FileText, Link2, Shield } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
       <main className="container mx-auto px-4">
-        {/* Hero Section - Reduced spacing */}
-        <section className="py-16">
-          <div className="max-w-3xl mx-auto text-center space-y-6 fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
+        {/* Hero Section */}
+        <section className="flex flex-col items-center justify-center min-h-[70vh] py-16">
+          <div className="max-w-3xl mx-auto text-center space-y-8">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700">
                 Dividend Voucher and Board Meeting Solutions for Savvy Directors
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mt-4">
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
               Turn compliance into simplicity. Tailored for directors who need to manage dividends and board meetings effortlessly.
             </p>
             <div className="pt-8">
-              <Button size="lg" asChild className="hover-lift">
+              <Button size="lg" asChild className="hover-lift shadow-sm">
                 <Link to="/trial">
                   Start Free Trial
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -32,48 +32,50 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Features Section - With new content */}
-        <section className="py-16">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Built for Director Success
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-6 hover-lift">
-              <div className="flex items-center gap-3 mb-3">
-                <FileText className="h-5 w-5 text-[#9b87f5]" />
-                <h3 className="text-xl font-semibold">Customizable Templates</h3>
-              </div>
-              <p className="text-gray-600">
-                Simplify your compliance with pre-designed templates for dividend vouchers and board meeting minutes.
-              </p>
-            </Card>
+        {/* Features Section */}
+        <section className="py-24 bg-gray-50">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-16">
+              Built for Director Success
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <FileText className="h-6 w-6 text-[#9b87f5]" />
+                  <h3 className="text-xl font-semibold">Customizable Templates</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Simplify your compliance with pre-designed templates for dividend vouchers and board meeting minutes.
+                </p>
+              </Card>
 
-            <Card className="p-6 hover-lift">
-              <div className="flex items-center gap-3 mb-3">
-                <Link2 className="h-5 w-5 text-[#9b87f5]" />
-                <h3 className="text-xl font-semibold">Integrated Workflows</h3>
-              </div>
-              <p className="text-gray-600">
-                Automatically link dividend declarations with your financials and shareholder records.
-              </p>
-            </Card>
+              <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <Link2 className="h-6 w-6 text-[#9b87f5]" />
+                  <h3 className="text-xl font-semibold">Integrated Workflows</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Automatically link dividend declarations with your financials and shareholder records.
+                </p>
+              </Card>
 
-            <Card className="p-6 hover-lift">
-              <div className="flex items-center gap-3 mb-3">
-                <Shield className="h-5 w-5 text-[#9b87f5]" />
-                <h3 className="text-xl font-semibold">Secure and Confidential</h3>
-              </div>
-              <p className="text-gray-600">
-                Your corporate data is protected with enterprise-grade security.
-              </p>
-            </Card>
+              <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <Shield className="h-6 w-6 text-[#9b87f5]" />
+                  <h3 className="text-xl font-semibold">Secure and Confidential</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Your corporate data is protected with enterprise-grade security.
+                </p>
+              </Card>
+            </div>
           </div>
         </section>
 
         {/* Info Section */}
-        <section className="py-20">
+        <section className="py-24">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6 text-center">
+            <h2 className="text-3xl font-bold mb-8 text-center">
               Why Proper Dividend Documentation Matters
             </h2>
             <div className="prose prose-gray mx-auto">
