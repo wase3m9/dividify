@@ -57,10 +57,33 @@ const DividendVoucherForm = () => {
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="shareClass">Share class</Label>
+                  <Label htmlFor="shareholderName">Shareholder name</Label>
                   <Input
-                    id="shareClass"
-                    placeholder="Ordinary £1.00"
+                    id="shareholderName"
+                    placeholder="Enter shareholder name"
+                    className="mt-1"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="shareClass">Share class</Label>
+                  <Select>
+                    <SelectTrigger className="w-full mt-1">
+                      <SelectValue placeholder="Select share class" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ordinary">Ordinary Shares</SelectItem>
+                      <SelectItem value="preference">Preference Shares</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="shareholdings">Share holdings</Label>
+                  <Input
+                    id="shareholdings"
+                    type="number"
+                    placeholder="Enter number of shares"
                     className="mt-1"
                   />
                 </div>
