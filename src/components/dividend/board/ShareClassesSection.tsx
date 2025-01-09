@@ -1,9 +1,11 @@
 import { FC, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Pencil, Layers } from "lucide-react";
+import { Pencil, Layers, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ShareClassForm } from "@/components/dividend/board/ShareClassForm";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ShareClass {
   id: string;
@@ -26,6 +28,7 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
   onSubmit
 }) => {
   const [selectedShareClass, setSelectedShareClass] = useState<ShareClass | null>(null);
+  const { toast } = useToast();
 
   const handleEdit = (shareClass: ShareClass) => {
     setSelectedShareClass(shareClass);
@@ -35,6 +38,31 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
   const handleDialogClose = () => {
     setSelectedShareClass(null);
     onDialogOpenChange(false);
+  };
+
+  const handleDelete = async (shareClassId: string) => {
+    try {
+      const { error } = await supabase
+        .from('shareholders')
+        .delete()
+        .eq('id', shareClassId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Share class deleted successfully",
+      });
+      
+      // Refresh the page to update the list
+      window.location.reload();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
   };
 
   const handleSubmit = (data: { shareClass: string; numberOfShares: string; numberOfHolders: string }) => {
@@ -80,14 +108,24 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
                 <p><span className="font-medium">Number of Shares:</span> {shareClass.number_of_shares}</p>
                 <p><span className="font-medium">Number of Holders:</span> {shareClass.number_of_holders}</p>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => handleEdit(shareClass)}
-                className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
-              >
-                <Pencil className="h-4 w-4" />
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleEdit(shareClass)}
+                  className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleDelete(shareClass.id)}
+                  className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           ))}
         </div>

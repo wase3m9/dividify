@@ -1,11 +1,12 @@
 import { FC, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building2, Pencil } from "lucide-react";
+import { Building2, Pencil, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ShareholderDetailsForm } from "@/components/dividend/ShareholderDetailsForm";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Shareholder {
   id: string;
@@ -39,6 +40,31 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
   const handleDialogClose = () => {
     setSelectedShareholder(null);
     onDialogOpenChange(false);
+  };
+
+  const handleDelete = async (shareholderId: string) => {
+    try {
+      const { error } = await supabase
+        .from('shareholders')
+        .delete()
+        .eq('id', shareholderId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Shareholder deleted successfully",
+      });
+      
+      // Refresh the page to update the list
+      window.location.reload();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
   };
 
   const handleSubmit = (data: ShareholderDetails) => {
@@ -102,14 +128,24 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
                 <p><span className="font-medium">Share Class:</span> {shareholding.share_class}</p>
                 <p><span className="font-medium">Number of Shares:</span> {shareholding.number_of_shares}</p>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => handleEdit(shareholding)}
-                className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
-              >
-                <Pencil className="h-4 w-4" />
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleEdit(shareholding)}
+                  className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleDelete(shareholding.id)}
+                  className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           ))}
         </div>
