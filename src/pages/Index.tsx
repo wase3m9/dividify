@@ -29,7 +29,7 @@ const Index = () => {
             </p>
             <div className="pt-8">
               <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm" asChild>
-                <Link to="/trial">
+                <Link to="/signup">
                   Start Free Trial
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
