@@ -50,10 +50,10 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#1c1c1c] to-[#2c2c2c]">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-md p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-white">Create your account</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Create your account</h1>
         </div>
 
         {error && (
@@ -71,7 +71,7 @@ const Signup = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+              className="bg-gray-50 border-gray-200"
             />
           </div>
 
@@ -83,7 +83,7 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+              className="bg-gray-50 border-gray-200"
             />
           </div>
 
@@ -95,7 +95,7 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+              className="bg-gray-50 border-gray-200"
             />
           </div>
 
@@ -108,7 +108,7 @@ const Signup = () => {
           </Button>
 
           <div className="text-center text-sm">
-            <span className="text-white">Already have an account? </span>
+            <span className="text-gray-600">Already have an account? </span>
             <Link to="/login" className="text-[#9b87f5] hover:underline">
               Sign in
             </Link>
