@@ -17,9 +17,6 @@ import { useEffect } from "react";
 const formSchema = z.object({
   shareholderName: z.string().min(1, "Shareholder name is required"),
   shareClass: z.string().min(1, "Share class is required"),
-  description: z.string().min(1, "Description is required"),
-  paymentDate: z.string().min(1, "Payment date is required"),
-  financialYearEnding: z.string().min(1, "Financial year ending is required"),
   shareholderAddress: z.string().min(1, "Shareholder address is required"),
 });
 
@@ -39,9 +36,6 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
     defaultValues: {
       shareholderName: "",
       shareClass: "",
-      description: "",
-      paymentDate: "",
-      financialYearEnding: "",
       shareholderAddress: "",
     }
   });
@@ -101,60 +95,18 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious, initialData }: Sh
           render={({ field }) => (
             <FormItem className="text-left">
               <FormLabel className="text-left">Share class</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter share class" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem className="text-left">
-              <FormLabel className="text-left">Description</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select description" />
+                    <SelectValue placeholder="Select share class" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="final">Final dividend for the year</SelectItem>
-                  <SelectItem value="interim">Interim dividend for the year</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
+                  <SelectItem value="Ordinary">Ordinary share</SelectItem>
+                  <SelectItem value="Preference">Preference share</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="paymentDate"
-          render={({ field }) => (
-            <FormItem className="text-left">
-              <FormLabel className="text-left">Payment date</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="financialYearEnding"
-          render={({ field }) => (
-            <FormItem className="text-left">
-              <FormLabel className="text-left">Financial year ending</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
