@@ -107,13 +107,13 @@ export const generateWord = async (data: DividendVoucherData) => {
             new TextRun({
               text: "Signature of Director/Secretary",
               size: 20,
-              border: { bottom: { style: BorderStyle.SINGLE, size: 6 } },
+              border: { style: BorderStyle.SINGLE, size: 6, space: 1 },
             }),
             new TextRun({ text: "     ", size: 20 }),
             new TextRun({
               text: "Name of Director/Secretary",
               size: 20,
-              border: { bottom: { style: BorderStyle.SINGLE, size: 6 } },
+              border: { style: BorderStyle.SINGLE, size: 6, space: 1 },
             }),
           ],
         }),

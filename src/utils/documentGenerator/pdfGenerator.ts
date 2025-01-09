@@ -34,9 +34,9 @@ export const generatePDF = (data: DividendVoucherData) => {
   });
   
   // Dividend voucher number (italics)
-  doc.setFontStyle('italic');
+  doc.setFont("helvetica", "italic");
   doc.text(`Dividend voucher number: ${data.voucherNumber}`, 20, 80);
-  doc.setFontStyle('normal');
+  doc.setFont("helvetica", "normal");
 
   // Declaration text
   const yearEnd = format(new Date(data.financialYearEnding), 'dd MMM yyyy');
