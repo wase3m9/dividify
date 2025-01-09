@@ -11,7 +11,6 @@ interface Director {
   id: string;
   computed_full_name: string | null;
   position: string | null;
-  email: string;
   address: string;
   waive_dividend: boolean;
   date_of_appointment: string;
@@ -41,7 +40,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
         title: "Success",
         description: "Officer added successfully",
       });
-      setIsDialogOpen(false);
+      // Note: Dialog stays open for adding multiple officers
     } catch (error: any) {
       toast({
         variant: "destructive",

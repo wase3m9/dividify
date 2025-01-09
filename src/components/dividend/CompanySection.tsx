@@ -20,6 +20,11 @@ interface CompanySectionProps {
 export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const handleSuccess = () => {
+    onCompanyUpdate();
+    // Note: Dialog stays open for potential additional edits
+  };
+
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -39,10 +44,7 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
           <DialogContent className="max-w-2xl">
             <CompanyForm 
               existingCompany={company}
-              onSuccess={() => {
-                setIsDialogOpen(false);
-                onCompanyUpdate();
-              }}
+              onSuccess={handleSuccess}
             />
           </DialogContent>
         </Dialog>

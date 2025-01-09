@@ -12,7 +12,6 @@ const directorFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   forenames: z.string().min(1, "Forename(s) is required"),
   surname: z.string().min(1, "Surname is required"),
-  email: z.string().email("Invalid email address"),
   address: z.string().min(1, "Address is required"),
   position: z.string().optional(),
   waive_dividend: z.boolean().default(false),
@@ -33,7 +32,6 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
       title: "",
       forenames: "",
       surname: "",
-      email: "",
       address: "",
       position: "",
       waive_dividend: false,
@@ -41,13 +39,18 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
     }
   });
 
+  const handleSubmit = async (data: DirectorFormValues) => {
+    await onSubmit(data);
+    form.reset(); // Reset form after submission
+  };
+
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
         <DialogTitle>Add New Officer</DialogTitle>
       </DialogHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <FormField
             control={form.control}
             name="title"
@@ -95,20 +98,6 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
                 <FormLabel>Surname</FormLabel>
                 <FormControl>
                   <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email Address</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
