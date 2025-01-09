@@ -49,7 +49,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
       const fullName = `${data.title} ${data.forenames} ${data.surname}`.trim();
 
       // Get the company ID from the first director (assuming all directors belong to the same company)
-      const companyId = directors[0]?.company_id;
+      let companyId = directors[0]?.company_id;
       
       if (!companyId) {
         // If no company ID is available from directors, try to get it from the companies table
