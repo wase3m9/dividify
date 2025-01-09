@@ -10,4 +10,5 @@ export interface DividendVoucherData {
   totalAmount: string;
   voucherNumber: number;
   holdings?: string;
+  financialYearEnding: string;
 }
