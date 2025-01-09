@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import { Document, Paragraph, TextRun, AlignmentType } from 'docx';
+import { Document, Paragraph, TextRun, AlignmentType, Packer } from 'docx';
 import { saveAs } from 'file-saver';
 
 interface DividendVoucherData {
@@ -188,6 +188,6 @@ export const downloadPDF = (data: DividendVoucherData) => {
 
 export const downloadWord = async (data: DividendVoucherData) => {
   const doc = await generateWord(data);
-  const blob = await doc.save();
+  const blob = await Packer.toBlob(doc);
   saveAs(blob, `dividend_voucher_${data.voucherNumber}.docx`);
 };
