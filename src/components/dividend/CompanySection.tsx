@@ -10,7 +10,6 @@ interface Company {
   name: string;
   registration_number: string | null;
   registered_address: string | null;
-  place_of_registration: string | null;
 }
 
 interface CompanySectionProps {
@@ -53,7 +52,6 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
           <p><span className="font-medium">Name:</span> {company.name}</p>
           <p><span className="font-medium">Registration Number:</span> {company.registration_number}</p>
           <p><span className="font-medium">Registered Address:</span> {company.registered_address}</p>
-          <p><span className="font-medium">Place of Registration:</span> {company.place_of_registration}</p>
         </div>
       ) : (
         <p className="text-gray-500">No company information added yet.</p>
