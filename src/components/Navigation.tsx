@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Grid, User as UserIcon } from "lucide-react";
+import { LogOut, Home, Grid, User as UserIcon, Gem } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -41,8 +41,9 @@ export const Navigation = () => {
       <div className="container mx-auto px-4 py-2 flex items-center">
         {/* Left side - Brand and Navigation */}
         <div className="flex items-center gap-6">
-          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity">
-            Dividify
+          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2">
+            <Gem className="h-5 w-5 text-[#9b87f5]" />
+            Purple Tax
           </Link>
           
           {user && (
