@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from "react-router-dom";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Home } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -35,6 +35,14 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <div className="absolute top-4 left-4">
+        <Button variant="ghost" asChild className="flex items-center gap-2">
+          <Link to="/">
+            <Home className="h-4 w-4" />
+            Home
+          </Link>
+        </Button>
+      </div>
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
