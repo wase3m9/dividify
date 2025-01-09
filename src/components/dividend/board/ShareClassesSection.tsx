@@ -54,7 +54,6 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
         description: "Share class deleted successfully",
       });
       
-      // Refresh the page to update the list
       window.location.reload();
     } catch (error: any) {
       toast({

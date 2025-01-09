@@ -57,19 +57,22 @@ const DividendBoard = () => {
         if (directorsError) throw directorsError;
         setDirectors(directorsData);
 
+        // Fetch shareholders (excluding share classes)
         const { data: shareholdingsData, error: shareholdingsError } = await supabase
           .from('shareholders')
           .select('*')
-          .eq('company_id', companyData.id);
+          .eq('company_id', companyData.id)
+          .eq('is_share_class', false);
 
         if (shareholdingsError) throw shareholdingsError;
         setShareholdings(shareholdingsData);
 
-        // Fetch share classes (using the same shareholders table)
+        // Fetch share classes separately
         const { data: shareClassesData, error: shareClassesError } = await supabase
           .from('shareholders')
           .select('*')
-          .eq('company_id', companyData.id);
+          .eq('company_id', companyData.id)
+          .eq('is_share_class', true);
 
         if (shareClassesError) throw shareClassesError;
         setShareClasses(shareClassesData);
@@ -97,10 +100,10 @@ const DividendBoard = () => {
         .insert([{
           shareholder_name: data.shareholderName,
           share_class: data.shareClass,
-          number_of_shares: parseInt(data.shareholdings),
-          number_of_holders: parseInt(data.numberOfHolders),
+          number_of_shares: parseInt(data.numberOfShares),
           company_id: company.id,
-          user_id: user.id
+          user_id: user.id,
+          is_share_class: false
         }]);
 
       if (error) throw error;
@@ -135,7 +138,8 @@ const DividendBoard = () => {
           number_of_holders: parseInt(data.numberOfHolders),
           company_id: company.id,
           user_id: user.id,
-          shareholder_name: `${data.shareClass} Class` // Required field
+          shareholder_name: `${data.shareClass} Class`,
+          is_share_class: true
         }]);
 
       if (error) throw error;

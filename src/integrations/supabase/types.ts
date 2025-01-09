@@ -195,6 +195,7 @@ export type Database = {
           company_id: string
           created_at: string
           id: string
+          is_share_class: boolean | null
           number_of_holders: number
           number_of_shares: number
           share_class: string
@@ -205,6 +206,7 @@ export type Database = {
           company_id: string
           created_at?: string
           id?: string
+          is_share_class?: boolean | null
           number_of_holders?: number
           number_of_shares: number
           share_class: string
@@ -215,6 +217,7 @@ export type Database = {
           company_id?: string
           created_at?: string
           id?: string
+          is_share_class?: boolean | null
           number_of_holders?: number
           number_of_shares?: number
           share_class?: string
