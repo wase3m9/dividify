@@ -29,8 +29,16 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
   const handleSubmit = async (data: any) => {
     setIsLoading(true);
     try {
+      // Get the current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error("No authenticated user found");
+      }
+
       const { error } = await supabase.from('directors').insert([{
         ...data,
+        user_id: user.id, // Add the user_id
         company_id: directors[0]?.company_id // Assuming all directors belong to the same company
       }]);
 
