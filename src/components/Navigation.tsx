@@ -57,10 +57,10 @@ export const Navigation = () => {
           ) : (
             <>
               <Button variant="ghost" asChild>
-                <Link to="/signup">Login</Link>
+                <Link to="/auth">Login</Link>
               </Button>
               <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]" asChild>
-                <Link to="/signup">Start Free Trial</Link>
+                <Link to="/auth">Start Free Trial</Link>
               </Button>
             </>
           )}
