@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Receipt, DollarSign } from "lucide-react";
+import { Navigation } from "@/components/Navigation";
 
 const DividendBoard = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const DividendBoard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Header */}
