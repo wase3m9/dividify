@@ -14,6 +14,7 @@ interface Director {
   email: string;
   address: string;
   waive_dividend: boolean;
+  date_of_appointment: string;
 }
 
 interface DirectorsSectionProps {
@@ -75,6 +76,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors }) => {
               <p><span className="font-medium">Email:</span> {director.email}</p>
               <p><span className="font-medium">Address:</span> {director.address}</p>
               <p><span className="font-medium">Waives Dividend:</span> {director.waive_dividend ? "Yes" : "No"}</p>
+              <p><span className="font-medium">Date of Appointment:</span> {new Date(director.date_of_appointment).toLocaleDateString()}</p>
             </div>
           ))}
         </div>

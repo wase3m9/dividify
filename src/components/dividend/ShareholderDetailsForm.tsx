@@ -16,7 +16,8 @@ import { useToast } from "@/hooks/use-toast";
 const formSchema = z.object({
   shareholderName: z.string().min(1, "Shareholder name is required"),
   shareClass: z.string().min(1, "Share class is required"),
-  shareholdings: z.string().min(1, "Share holdings is required")
+  shareholdings: z.string().min(1, "Share holdings is required"),
+  numberOfHolders: z.string().min(1, "Number of holders is required")
 });
 
 export type ShareholderDetails = z.infer<typeof formSchema>;
@@ -34,7 +35,8 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDeta
     defaultValues: {
       shareholderName: "",
       shareClass: "",
-      shareholdings: ""
+      shareholdings: "",
+      numberOfHolders: "1"
     }
   });
 
@@ -99,6 +101,24 @@ export const ShareholderDetailsForm = ({ onSubmit, onPrevious }: ShareholderDeta
                 <Input 
                   type="number" 
                   placeholder="Enter number of shares" 
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="numberOfHolders"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Number of holders</FormLabel>
+              <FormControl>
+                <Input 
+                  type="number" 
+                  placeholder="Enter number of holders" 
                   {...field} 
                 />
               </FormControl>

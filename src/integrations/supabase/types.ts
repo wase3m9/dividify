@@ -66,6 +66,7 @@ export type Database = {
           company_id: string
           computed_full_name: string | null
           created_at: string
+          date_of_appointment: string
           email: string
           forenames: string
           full_name: string
@@ -81,6 +82,7 @@ export type Database = {
           company_id: string
           computed_full_name?: string | null
           created_at?: string
+          date_of_appointment?: string
           email: string
           forenames: string
           full_name: string
@@ -96,6 +98,7 @@ export type Database = {
           company_id?: string
           computed_full_name?: string | null
           created_at?: string
+          date_of_appointment?: string
           email?: string
           forenames?: string
           full_name?: string
@@ -142,6 +145,7 @@ export type Database = {
           company_id: string
           created_at: string
           id: string
+          number_of_holders: number
           number_of_shares: number
           share_class: string
           shareholder_name: string
@@ -151,6 +155,7 @@ export type Database = {
           company_id: string
           created_at?: string
           id?: string
+          number_of_holders?: number
           number_of_shares: number
           share_class: string
           shareholder_name: string
@@ -160,6 +165,7 @@ export type Database = {
           company_id?: string
           created_at?: string
           id?: string
+          number_of_holders?: number
           number_of_shares?: number
           share_class?: string
           shareholder_name?: string

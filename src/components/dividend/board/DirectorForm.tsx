@@ -15,7 +15,8 @@ const directorFormSchema = z.object({
   email: z.string().email("Invalid email address"),
   address: z.string().min(1, "Address is required"),
   position: z.string().optional(),
-  waive_dividend: z.boolean().default(false)
+  waive_dividend: z.boolean().default(false),
+  date_of_appointment: z.string().min(1, "Date of appointment is required")
 });
 
 type DirectorFormValues = z.infer<typeof directorFormSchema>;
@@ -35,7 +36,8 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
       email: "",
       address: "",
       position: "",
-      waive_dividend: false
+      waive_dividend: false,
+      date_of_appointment: new Date().toISOString().split('T')[0]
     }
   });
 
@@ -121,6 +123,20 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
                 <FormLabel>Address</FormLabel>
                 <FormControl>
                   <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="date_of_appointment"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Date of Appointment</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
