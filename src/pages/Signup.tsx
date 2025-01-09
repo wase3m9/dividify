@@ -39,7 +39,7 @@ const Signup = () => {
           </Button>
 
           <div className="text-center text-sm">
-            <span className="text-gray-600">Already have an account? </span>
+            <span className="text-white">Already have an account? </span>
             <Link to="/login" className="text-[#9b87f5] hover:underline">
               Login
             </Link>
