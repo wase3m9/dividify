@@ -39,6 +39,11 @@ const DividendVoucherForm = () => {
       <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-3xl mx-auto space-y-8">
+          {/* Progress bar */}
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="bg-green-500 h-2.5 rounded-full" style={{ width: '33%' }}></div>
+          </div>
+
           {/* Header */}
           <div className="space-y-4">
             <h1 className="text-3xl font-bold tracking-tight">Create Dividend Voucher</h1>
