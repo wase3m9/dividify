@@ -68,7 +68,6 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
                 shareholderName: selectedShareholder.shareholder_name,
                 shareClass: selectedShareholder.share_class,
                 shareholdings: selectedShareholder.number_of_shares.toString(),
-                numberOfHolders: selectedShareholder.number_of_holders.toString()
               } : undefined}
             />
           </DialogContent>
@@ -82,7 +81,6 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
                 <p><span className="font-medium">Name:</span> {shareholding.shareholder_name}</p>
                 <p><span className="font-medium">Share Class:</span> {shareholding.share_class}</p>
                 <p><span className="font-medium">Number of Shares:</span> {shareholding.number_of_shares}</p>
-                <p><span className="font-medium">Number of Holders:</span> {shareholding.number_of_holders}</p>
               </div>
               <Button
                 variant="ghost"
