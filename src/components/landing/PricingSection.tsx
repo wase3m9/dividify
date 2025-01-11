@@ -63,11 +63,11 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>Up to 2 dividend vouchers</span>
+                <span>Up to 2 Dividend Vouchers</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>Up to 2 board meeting minutes</span>
+                <span>Up to 2 Board Meeting Minutes</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
@@ -105,11 +105,11 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>Up to 10 dividend vouchers</span>
+                <span>Up to 10 Dividend Vouchers</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>Up to 10 Board meeting minutes</span>
+                <span>Up to 10 Board Meeting Minutes</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
@@ -144,11 +144,11 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>Unlimited dividend vouchers</span>
+                <span>Unlimited Dividend Vouchers</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>Unlimited Board meeting minutes</span>
+                <span>Unlimited Board Meeting Minutes</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
