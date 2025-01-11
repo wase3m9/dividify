@@ -120,7 +120,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
           .from('officers')
           .update({
             ...data,
-            full_name: fullName,
+            computed_full_name: fullName,
           })
           .eq('id', editingDirector.id);
 
@@ -131,7 +131,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
           .from('officers')
           .insert([{
             ...data,
-            full_name: fullName,
+            computed_full_name: fullName,
             user_id: user.id,
             company_id: companyId
           }]);
@@ -194,7 +194,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
                     variant="ghost"
                     size="icon"
                     onClick={() => handleEdit(director)}
-                    className="h-8 w-8"
+                    className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -202,7 +202,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
                     variant="ghost"
                     size="icon"
                     onClick={() => handleDelete(director.id)}
-                    className="h-8 w-8 text-red-500 hover:text-red-600"
+                    className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
