@@ -168,91 +168,95 @@ const DividendBoard = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="container mx-auto px-4 py-24">
-        <div className="max-w-5xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-12">
           <Header companyName={company?.name} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
-            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm overflow-hidden">
-              <Tabs defaultValue="company" className="w-full">
-                <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0 sticky top-0 z-10">
-                  <TabsTrigger 
-                    value="company" 
-                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base"
-                  >
-                    Company
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="officers"
-                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base"
-                  >
-                    Officers
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="shareholders"
-                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base"
-                  >
-                    Shareholders
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="share-classes"
-                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base"
-                  >
-                    Share Classes
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="dividends"
-                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base"
-                  >
-                    Dividends
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="minutes"
-                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base"
-                  >
-                    Minutes
-                  </TabsTrigger>
-                </TabsList>
-                <div className="p-6">
-                  <TabsContent value="company" className="mt-0">
-                    <CompanySection 
-                      company={company}
-                      onCompanyUpdate={fetchData}
-                    />
-                    <div className="mt-8">
-                      <QuickActions />
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="officers" className="mt-0">
-                    <DirectorsSection directors={directors} />
-                  </TabsContent>
-                  <TabsContent value="shareholders" className="mt-0">
-                    <ShareholdingsSection 
-                      shareholdings={shareholdings}
-                      isDialogOpen={isShareholderDialogOpen}
-                      onDialogOpenChange={setIsShareholderDialogOpen}
-                      onSubmit={handleShareholderSubmit}
-                    />
-                  </TabsContent>
-                  <TabsContent value="share-classes" className="mt-0">
-                    <ShareClassesSection 
-                      shareClasses={shareClasses}
-                      isDialogOpen={isShareClassDialogOpen}
-                      onDialogOpenChange={setIsShareClassDialogOpen}
-                      onSubmit={handleShareClassSubmit}
-                    />
-                  </TabsContent>
-                  <TabsContent value="dividends" className="mt-0">
-                    <DividendsSection />
-                  </TabsContent>
-                  <TabsContent value="minutes" className="mt-0">
-                    <MinutesSection />
-                  </TabsContent>
-                </div>
-              </Tabs>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <Tabs defaultValue="company" className="w-full">
+                  <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0 overflow-x-auto flex-nowrap">
+                    <TabsTrigger 
+                      value="company" 
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                    >
+                      Company
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="officers"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                    >
+                      Officers
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="shareholders"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                    >
+                      Shareholders
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="share-classes"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                    >
+                      Share Classes
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="dividends"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                    >
+                      Dividends
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="minutes"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                    >
+                      Minutes
+                    </TabsTrigger>
+                  </TabsList>
+                  <div className="p-6">
+                    <TabsContent value="company" className="mt-0">
+                      <CompanySection 
+                        company={company}
+                        onCompanyUpdate={fetchData}
+                      />
+                      <div className="mt-8">
+                        <QuickActions />
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="officers" className="mt-0">
+                      <DirectorsSection directors={directors} />
+                    </TabsContent>
+                    <TabsContent value="shareholders" className="mt-0">
+                      <ShareholdingsSection 
+                        shareholdings={shareholdings}
+                        isDialogOpen={isShareholderDialogOpen}
+                        onDialogOpenChange={setIsShareholderDialogOpen}
+                        onSubmit={handleShareholderSubmit}
+                      />
+                    </TabsContent>
+                    <TabsContent value="share-classes" className="mt-0">
+                      <ShareClassesSection 
+                        shareClasses={shareClasses}
+                        isDialogOpen={isShareClassDialogOpen}
+                        onDialogOpenChange={setIsShareClassDialogOpen}
+                        onSubmit={handleShareClassSubmit}
+                      />
+                    </TabsContent>
+                    <TabsContent value="dividends" className="mt-0">
+                      <DividendsSection />
+                    </TabsContent>
+                    <TabsContent value="minutes" className="mt-0">
+                      <MinutesSection />
+                    </TabsContent>
+                  </div>
+                </Tabs>
+              </div>
             </div>
 
-            <div className="space-y-8 lg:sticky lg:top-8 self-start">
-              <RecentActivity />
+            <div className="lg:col-start-3">
+              <div className="sticky top-24">
+                <RecentActivity />
+              </div>
             </div>
           </div>
         </div>
