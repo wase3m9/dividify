@@ -42,9 +42,10 @@ export const PlanLimits = () => {
         .from('profiles')
         .select('subscription_plan, current_month_dividends, current_month_minutes')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (profileError) throw profileError;
+      if (!profile) throw new Error("Profile not found");
 
       return {
         ...profile,
