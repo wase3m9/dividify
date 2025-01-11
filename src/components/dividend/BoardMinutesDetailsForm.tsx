@@ -90,12 +90,13 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
 
       const { error: insertError } = await supabase
         .from('minutes')
-        .insert([{
+        .insert({
           title: `Board Minutes - ${new Date(data.meetingDate).toLocaleDateString()}`,
           meeting_date: data.meetingDate,
           company_id: companyData.id,
           user_id: user.id,
-        }]);
+          file_path: '' // Adding empty string as default since file upload was removed
+        });
 
       if (insertError) throw insertError;
 
