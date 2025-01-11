@@ -90,6 +90,10 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ sele
     });
   };
 
+  const handleCancel = () => {
+    navigate("/dividend-board");
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -250,7 +254,14 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ sele
           )}
         />
 
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-between pt-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
           <Button
             type="submit"
             className="bg-[#9b87f5] hover:bg-[#8b77e5]"
