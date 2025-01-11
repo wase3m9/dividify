@@ -13,7 +13,6 @@ import {
 
 export const Navigation = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const location = useLocation();
@@ -127,7 +126,7 @@ export const Navigation = () => {
   );
 
   const AuthButtons = () => (
-    <>
+    <div className="flex items-center gap-2 shrink-0">
       {user ? (
         <>
           <Button variant="ghost" asChild className="flex items-center gap-2">
@@ -151,36 +150,36 @@ export const Navigation = () => {
             <Link to="/auth">Login</Link>
           </Button>
           <Button 
-            className="bg-[#9b87f5] hover:bg-[#8b77e5] whitespace-nowrap" 
+            className="bg-[#9b87f5] hover:bg-[#8b77e5] whitespace-nowrap min-w-[120px]" 
             onClick={handleStartFreeTrial}
           >
             Get Started
           </Button>
         </>
       )}
-    </>
+    </div>
   );
 
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      <div className="container mx-auto px-4 py-2">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 whitespace-nowrap">
+          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0">
             <span className="bg-gradient-to-r from-[#9b87f5] to-[#7c67d5] bg-clip-text text-transparent">
               Dividify
             </span>
           </Link>
 
           {/* Center - Navigation Links (Hidden on mobile) */}
-          <div className="hidden md:flex items-center justify-center flex-1 px-4">
+          <div className="hidden md:flex items-center justify-center flex-1 px-4 overflow-x-auto">
             <div className="flex items-center gap-4">
               <NavLinks />
             </div>
           </div>
 
           {/* Right side - Auth buttons (Hidden on mobile) */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:block">
             <AuthButtons />
           </div>
 
