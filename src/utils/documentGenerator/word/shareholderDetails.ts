@@ -10,7 +10,7 @@ export const createShareholderDetails = (data: DividendVoucherData): Paragraph[]
       },
       children: [
         new TextRun({
-          text: `Dividend Voucher No: ${data.voucherNumber}`,
+          text: `Voucher No: ${data.voucherNumber}`,
           size: 24,
         }),
       ],
@@ -29,7 +29,7 @@ export const createShareholderDetails = (data: DividendVoucherData): Paragraph[]
     }),
   ];
 
-  // Add address lines
+  // Add address lines without label
   const addressLines = data.shareholderAddress.split(',');
   addressLines.forEach(line => {
     paragraphs.push(

@@ -3,8 +3,9 @@ import { DividendVoucherData } from '../types';
 
 export const addShareholderDetails = (doc: jsPDF, data: DividendVoucherData, yStart: number) => {
   doc.setFontSize(11);
-  doc.text(`Dividend Voucher No: ${data.voucherNumber}`, 190, yStart, { align: "right" });
+  doc.text(`Voucher No: ${data.voucherNumber}`, 190, yStart, { align: "right" });
 
+  // Add shareholder details without labels
   doc.text(data.shareholderName, 20, yStart + 8);
   
   if (data.shareholderAddress) {

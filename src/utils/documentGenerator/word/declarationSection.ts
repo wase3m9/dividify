@@ -11,23 +11,11 @@ export const createDeclarationSection = (data: DividendVoucherData): Paragraph[]
     new Paragraph({
       alignment: AlignmentType.LEFT,
       spacing: {
-        after: convertInchesToTwip(0.1),
-      },
-      children: [
-        new TextRun({
-          text: `${data.companyName} has declared the final dividend`,
-          size: 24,
-        }),
-      ],
-    }),
-    new Paragraph({
-      alignment: AlignmentType.LEFT,
-      spacing: {
         after: convertInchesToTwip(0.2),
       },
       children: [
         new TextRun({
-          text: `for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
+          text: `${data.companyName} has declared the final dividend for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} on the shares as follows:`,
           size: 24,
         }),
       ],
