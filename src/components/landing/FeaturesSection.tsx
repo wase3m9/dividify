@@ -94,8 +94,8 @@ export const FeaturesSection = () => {
           <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-6">
             <img src="/lovable-uploads/5564abe5-0f0a-4c8e-b2ee-a15dca652dee.png" alt="Sage" className="max-w-full max-h-full object-contain" />
           </div>
-          <div className="w-32 h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
-            <img src="/placeholder.svg" alt="Logo 4" className="max-w-full max-h-full object-contain" />
+          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-6">
+            <img src="/lovable-uploads/d673fbe0-87d4-4a78-ad1e-62f3c89e0918.png" alt="FreeAgent" className="max-w-full max-h-full object-contain" />
           </div>
         </div>
       </div>
