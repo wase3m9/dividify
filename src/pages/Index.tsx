@@ -1,5 +1,5 @@
 import { Navigation } from "@/components/Navigation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
@@ -12,6 +12,7 @@ import { Footer } from "@/components/landing/Footer";
 
 const Index = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -23,8 +24,20 @@ const Index = () => {
       setUser(session?.user ?? null);
     });
 
+    // Handle scrolling when navigating from other pages
+    if (location.state && location.state.scrollTo) {
+      const element = document.getElementById(location.state.scrollTo);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+      // Clear the state to prevent unwanted scrolling
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+
     return () => subscription.unsubscribe();
-  }, []);
+  }, [location.state, navigate]);
 
   const handleStartFreeTrial = () => {
     if (user) {
@@ -40,10 +53,16 @@ const Index = () => {
       
       <main className="container mx-auto px-4 pt-16">
         <HeroBanner onStartFreeTrial={handleStartFreeTrial} />
-        <FeaturesSection />
-        <PricingSection onStartFreeTrial={handleStartFreeTrial} />
+        <div id="features">
+          <FeaturesSection />
+        </div>
+        <div id="pricing">
+          <PricingSection onStartFreeTrial={handleStartFreeTrial} />
+        </div>
         <TestimonialsSection />
-        <FAQSection />
+        <div id="faq">
+          <FAQSection />
+        </div>
         <Footer />
       </main>
     </div>

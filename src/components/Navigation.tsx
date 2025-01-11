@@ -78,19 +78,33 @@ export const Navigation = () => {
   };
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const scrollToTop = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
     }
   };
 
   const NavLinks = () => (
     <>
-      <Button variant="ghost" asChild className="flex items-center gap-2">
-        <Link to="/">
-          <Home className="h-4 w-4" />
-          Home
-        </Link>
+      <Button 
+        variant="ghost" 
+        className="flex items-center gap-2"
+        onClick={scrollToTop}
+      >
+        <Home className="h-4 w-4" />
+        Home
       </Button>
       {user && (
         <Button variant="ghost" asChild className="flex items-center gap-2">
@@ -165,11 +179,14 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0">
+          <button 
+            onClick={scrollToTop}
+            className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0"
+          >
             <span className="bg-gradient-to-r from-[#9b87f5] to-[#7c67d5] bg-clip-text text-transparent">
               Dividify
             </span>
-          </Link>
+          </button>
 
           {/* Center - Navigation Links (Hidden on mobile) */}
           <div className="hidden md:flex items-center justify-center flex-1 px-4 overflow-x-auto">
