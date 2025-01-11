@@ -21,19 +21,6 @@ export const createShareholderDetails = (data: DividendVoucherData): Paragraph[]
         after: convertInchesToTwip(0.1),
       },
       children: [
-        new TextRun({ 
-          text: "To:",
-          size: 24,
-          bold: true
-        }),
-      ],
-    }),
-    new Paragraph({
-      alignment: AlignmentType.LEFT,
-      spacing: {
-        after: convertInchesToTwip(0.1),
-      },
-      children: [
         new TextRun({
           text: data.shareholderName,
           size: 24,

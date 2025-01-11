@@ -5,7 +5,6 @@ export const addShareholderDetails = (doc: jsPDF, data: DividendVoucherData, ySt
   doc.setFontSize(11);
   doc.text(`Dividend Voucher No: ${data.voucherNumber}`, 190, yStart, { align: "right" });
 
-  doc.text("To:", 20, yStart);
   doc.text(data.shareholderName, 20, yStart + 8);
   
   if (data.shareholderAddress) {
