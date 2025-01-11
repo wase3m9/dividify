@@ -4,7 +4,13 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           <div className="text-left">
-            <h3 className="font-bold mb-4">Dividify</h3>
+            <div className="mb-4">
+              <img 
+                src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" 
+                alt="Dividify Logo" 
+                className="h-8 w-auto"
+              />
+            </div>
             <p className="text-sm text-gray-600">
               Simplifying dividend documentation for UK companies.
             </p>
