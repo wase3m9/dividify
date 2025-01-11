@@ -29,7 +29,7 @@ export const PlanLimits = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // First get the company count
+      // Get the company count
       const { count: companiesCount, error: countError } = await supabase
         .from('companies')
         .select('*', { count: 'exact', head: true })
@@ -37,7 +37,7 @@ export const PlanLimits = () => {
 
       if (countError) throw countError;
 
-      // Then get the profile data
+      // Get the profile data
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('subscription_plan, current_month_dividends, current_month_minutes')
@@ -82,7 +82,7 @@ export const PlanLimits = () => {
             </span>
           </div>
           <Progress 
-            value={(usage.companies_count / limits.companies) * 100} 
+            value={(usage.companies_count / (limits.companies === Infinity ? 1 : limits.companies)) * 100} 
             className="h-2"
           />
         </div>
@@ -95,7 +95,7 @@ export const PlanLimits = () => {
             </span>
           </div>
           <Progress 
-            value={(usage.current_month_dividends / limits.dividends) * 100}
+            value={(usage.current_month_dividends / (limits.dividends === Infinity ? 1 : limits.dividends)) * 100}
             className="h-2"
           />
         </div>
@@ -108,7 +108,7 @@ export const PlanLimits = () => {
             </span>
           </div>
           <Progress 
-            value={(usage.current_month_minutes / limits.minutes) * 100}
+            value={(usage.current_month_minutes / (limits.minutes === Infinity ? 1 : limits.minutes)) * 100}
             className="h-2"
           />
         </div>

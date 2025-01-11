@@ -14,7 +14,7 @@ export const QuickActions = () => {
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { data: profile } = useQuery({
+  const { data: profile, refetch: refetchProfile } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -36,13 +36,13 @@ export const QuickActions = () => {
     
     switch (profile.subscription_plan) {
       case 'starter':
-        return profile.companies_count < 1;
+        return (profile.companies_count || 0) < 1;
       case 'professional':
-        return profile.companies_count < 3;
+        return (profile.companies_count || 0) < 3;
       case 'enterprise':
         return true;
       default:
-        return profile.companies_count < 1;
+        return (profile.companies_count || 0) < 1;
     }
   };
 
@@ -61,9 +61,10 @@ export const QuickActions = () => {
     }
   };
 
-  const handleCompanySuccess = () => {
+  const handleCompanySuccess = async () => {
     setIsDialogOpen(false);
-    window.location.reload(); // Refresh to update company count
+    await refetchProfile();
+    window.location.reload();
   };
 
   return (
