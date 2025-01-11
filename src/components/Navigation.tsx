@@ -175,20 +175,22 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
+      <div className="container max-w-[1400px] mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <Link 
-            to="/" 
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0" 
-            onClick={handleHomeClick}
-          >
-            <img 
-              src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
-              alt="Dividify Logo" 
-              className="h-10 w-auto"
-            />
-          </Link>
+          <div className="flex-shrink-0">
+            <Link 
+              to="/" 
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity" 
+              onClick={handleHomeClick}
+            >
+              <img 
+                src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
+                alt="Dividify Logo" 
+                className="h-10 w-auto"
+              />
+            </Link>
+          </div>
 
           {/* Center - Navigation Links (Hidden on mobile) */}
           <div className="hidden md:flex items-center justify-center flex-1 px-4 overflow-x-auto">
