@@ -22,7 +22,9 @@ export const DocumentPreview: React.FC<PreviewProps> = ({ template, darkMode = f
       </div>
       <div className="mb-4">
         <div>Shareholder Name</div>
-        <div>Shareholder Address</div>
+        <div className="text-[0.6rem] mt-1">123 Shareholder Street</div>
+        <div className="text-[0.6rem]">City, Country</div>
+        <div className="text-[0.6rem]">Postcode</div>
       </div>
       <div className="flex-grow">
         <div className="text-center mb-2">
@@ -53,12 +55,16 @@ export const DocumentPreview: React.FC<PreviewProps> = ({ template, darkMode = f
         </div>
       </div>
       <div className="space-y-4">
-        <div className="text-right">
-          <div>Voucher #001</div>
-        </div>
-        <div>
-          <div>Shareholder Name</div>
-          <div>Shareholder Address</div>
+        <div className="flex justify-between items-start">
+          <div>
+            <div className="font-medium">Shareholder Name</div>
+            <div className="text-[0.6rem] mt-1">123 Shareholder Street</div>
+            <div className="text-[0.6rem]">City, Country</div>
+            <div className="text-[0.6rem]">Postcode</div>
+          </div>
+          <div>
+            <div>Voucher #001</div>
+          </div>
         </div>
         <div className="bg-[#98E2D0]/10 p-2 rounded">
           <div className="text-center mb-2">
@@ -107,9 +113,11 @@ export const DocumentPreview: React.FC<PreviewProps> = ({ template, darkMode = f
         <div className="flex justify-between items-start">
           <div>
             <div className="font-medium">Shareholder Name</div>
-            <div className="text-[0.6rem]">Shareholder Address</div>
+            <div className="text-[0.6rem] mt-1">123 Shareholder Street</div>
+            <div className="text-[0.6rem]">City, Country</div>
+            <div className="text-[0.6rem]">Postcode</div>
           </div>
-          <div className="text-right">
+          <div>
             <div className="text-[0.6rem] text-gray-500">Voucher</div>
             <div className="font-medium">#001</div>
           </div>
