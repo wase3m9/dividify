@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { MessageSquareQuote } from "lucide-react";
 
 export const TestimonialsSection = () => {
   return (
@@ -6,7 +7,8 @@ export const TestimonialsSection = () => {
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="p-8 bg-white">
+          <Card className="p-8 bg-white relative">
+            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
             <p className="text-gray-600 mb-6">
               "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures we're always compliant."
             </p>
@@ -21,7 +23,8 @@ export const TestimonialsSection = () => {
             </div>
           </Card>
 
-          <Card className="p-8 bg-white">
+          <Card className="p-8 bg-white relative">
+            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
             <p className="text-gray-600 mb-6">
               "The automated document generation is fantastic. It's like having a company secretary at your fingertips."
             </p>
@@ -36,7 +39,8 @@ export const TestimonialsSection = () => {
             </div>
           </Card>
 
-          <Card className="p-8 bg-white">
+          <Card className="p-8 bg-white relative">
+            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
             <p className="text-gray-600 mb-6">
               "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration."
             </p>

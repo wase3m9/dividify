@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Sparkles, Rocket, Building2 } from "lucide-react";
 
 interface PricingSectionProps {
   onStartFreeTrial: () => void;
@@ -13,7 +13,10 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         <h2 className="text-3xl font-bold text-center mb-16">Simple, Transparent Pricing</h2>
         <div className="grid md:grid-cols-3 gap-8">
           <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all">
-            <h3 className="text-xl font-bold mb-4">Starter</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="h-6 w-6 text-[#9b87f5]" />
+              <h3 className="text-xl font-bold">Starter</h3>
+            </div>
             <div className="mb-6">
               <span className="text-4xl font-bold">£3</span>
               <span className="text-gray-600">/month</span>
@@ -48,7 +51,10 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#9b87f5] text-white px-4 py-1 rounded-full text-sm">
               Most Popular
             </div>
-            <h3 className="text-xl font-bold mb-4">Professional</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <Rocket className="h-6 w-6 text-[#9b87f5]" />
+              <h3 className="text-xl font-bold">Professional</h3>
+            </div>
             <div className="mb-6">
               <span className="text-4xl font-bold">£12</span>
               <span className="text-gray-600">/month</span>
@@ -84,7 +90,10 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
           </Card>
 
           <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all">
-            <h3 className="text-xl font-bold mb-4">Enterprise</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <Building2 className="h-6 w-6 text-[#9b87f5]" />
+              <h3 className="text-xl font-bold">Enterprise</h3>
+            </div>
             <div className="mb-6">
               <span className="text-4xl font-bold">£29</span>
               <span className="text-gray-600">/month</span>
