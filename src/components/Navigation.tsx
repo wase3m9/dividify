@@ -184,7 +184,7 @@ export const Navigation = () => {
             onClick={handleHomeClick}
           >
             <img 
-              src="/lovable-uploads/47c0e897-6be7-449b-87c5-2f66021c51f8.png" 
+              src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
               alt="Dividify Logo" 
               className="h-8 w-auto"
             />

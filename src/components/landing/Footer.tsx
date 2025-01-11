@@ -6,7 +6,7 @@ export const Footer = () => {
           <div className="text-left">
             <div className="mb-4">
               <img 
-                src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" 
+                src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
                 alt="Dividify Logo" 
                 className="h-8 w-auto"
               />
