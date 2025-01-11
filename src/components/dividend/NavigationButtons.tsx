@@ -6,6 +6,7 @@ interface NavigationButtonsProps {
   previousLabel?: string;
   nextLabel?: string;
   type?: "button" | "submit";
+  submitText?: string;
 }
 
 export const NavigationButtons = ({
@@ -13,7 +14,8 @@ export const NavigationButtons = ({
   onNext,
   previousLabel = "Previous",
   nextLabel = "Next",
-  type = "button"
+  type = "button",
+  submitText
 }: NavigationButtonsProps) => {
   return (
     <div className="flex justify-between pt-4">
@@ -29,7 +31,7 @@ export const NavigationButtons = ({
         className="bg-[#9b87f5] hover:bg-[#8b77e5]"
         onClick={type === "button" ? onNext : undefined}
       >
-        {nextLabel}
+        {submitText || nextLabel}
       </Button>
     </div>
   );

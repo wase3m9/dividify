@@ -1,9 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { NavigationButtons } from "@/components/dividend/NavigationButtons";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,9 +19,19 @@ interface BoardMinutesDetailsFormProps {
   onPrevious: () => void;
 }
 
+interface Director {
+  name: string;
+}
+
 interface FormData {
-  title: string;
   meetingDate: string;
+  meetingAddress: string;
+  directors: Director[];
+  paymentDate: string;
+  amount: number;
+  shareClassName: string;
+  nominalValue: number;
+  financialYearEnd: string;
   minutesFile: FileList;
 }
 
@@ -31,7 +40,18 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [directors, setDirectors] = useState<Director[]>([{ name: "" }]);
   const form = useForm<FormData>();
+
+  const addDirector = () => {
+    setDirectors([...directors, { name: "" }]);
+  };
+
+  const updateDirector = (index: number, name: string) => {
+    const newDirectors = [...directors];
+    newDirectors[index] = { name };
+    setDirectors(newDirectors);
+  };
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -60,7 +80,7 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
       const { error: insertError } = await supabase
         .from('minutes')
         .insert([{
-          title: data.title,
+          title: `Board Minutes - ${new Date(data.meetingDate).toLocaleDateString()}`,
           meeting_date: data.meetingDate,
           file_path: filePath,
           company_id: companyData.id,
@@ -89,12 +109,12 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="title"
+          name="meetingDate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Date Held</FormLabel>
               <FormControl>
-                <Input placeholder="Enter the title of the meeting" {...field} />
+                <Input type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,10 +123,96 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
 
         <FormField
           control={form.control}
-          name="meetingDate"
+          name="meetingAddress"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Meeting Date</FormLabel>
+              <FormLabel>Meeting Address</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the meeting address" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="space-y-4">
+          <label className="block text-sm font-medium">Present (Directors/Shareholders)</label>
+          {directors.map((director, index) => (
+            <div key={index} className="flex gap-2">
+              <Input
+                placeholder={`Director ${index + 1} name`}
+                value={director.name}
+                onChange={(e) => updateDirector(index, e.target.value)}
+              />
+            </div>
+          ))}
+          <Button type="button" variant="outline" onClick={addDirector}>
+            Add Another Director
+          </Button>
+        </div>
+
+        <FormField
+          control={form.control}
+          name="paymentDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date Dividend to be Paid</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Amount</FormLabel>
+              <FormControl>
+                <Input type="number" step="0.01" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="shareClassName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Share Class Name</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="nominalValue"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nominal Value</FormLabel>
+              <FormControl>
+                <Input type="number" step="0.01" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="financialYearEnd"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Financial Year End Date</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
@@ -137,6 +243,7 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
         <NavigationButtons
           onPrevious={onPrevious}
           submitText="Create Minutes"
+          type="submit"
         />
       </form>
     </Form>
