@@ -9,7 +9,7 @@ export const FeaturesSection = () => {
           Everything You Need for Dividend Management
         </h2>
         <div className="grid md:grid-cols-3 gap-8 mb-8">
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+          <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
               <FileCheck className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-semibold">Compliant Documentation</h3>
@@ -19,7 +19,7 @@ export const FeaturesSection = () => {
             </p>
           </Card>
 
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+          <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
               <Clock className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-semibold">Time-Saving</h3>
@@ -29,7 +29,7 @@ export const FeaturesSection = () => {
             </p>
           </Card>
 
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+          <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
               <Users className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-semibold">Multi-Shareholder</h3>
@@ -41,7 +41,7 @@ export const FeaturesSection = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+          <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
               <FileText className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-semibold">Tax Compliance</h3>
@@ -51,7 +51,7 @@ export const FeaturesSection = () => {
             </p>
           </Card>
 
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+          <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
               <History className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-semibold">Audit Trail</h3>
@@ -61,7 +61,7 @@ export const FeaturesSection = () => {
             </p>
           </Card>
 
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
+          <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
               <Link className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-semibold">Accounting Integration</h3>
@@ -84,17 +84,17 @@ export const FeaturesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center justify-items-center">
-          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-center justify-items-center max-w-4xl mx-auto">
+          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
             <img src="/lovable-uploads/6cb830b0-4fd4-4cb9-8dc0-d265559b8a01.png" alt="Xero" className="w-full h-full object-contain" />
           </div>
-          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-4">
+          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
             <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks" className="w-full h-full object-contain" />
           </div>
-          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-4">
+          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
             <img src="/lovable-uploads/05d42872-d6b8-49fd-8d69-f6ba2d20e8c8.png" alt="Sage" className="w-full h-full object-contain" />
           </div>
-          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-4">
+          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
             <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent" className="w-full h-full object-contain" />
           </div>
         </div>
