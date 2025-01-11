@@ -22,6 +22,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 interface Company {
   id: string;
@@ -37,52 +38,50 @@ export const TemplateSelection = () => {
   const [company, setCompany] = useState<Company | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState('basic');
   const [recordId, setRecordId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const formData = location.state || {};
 
-  console.log("Form Data in Template Selection:", formData); // Debug log
+  console.log("Form Data in Template Selection:", formData);
 
   useEffect(() => {
     const fetchCompanyDetails = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        if (!user) {
+          setError("User not authenticated");
+          return;
+        }
 
         // Get the companyId from the form data
         const companyId = formData.companyId;
         if (!companyId) {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Company ID not found in form data",
-          });
+          setError("Company ID not found in form data");
           return;
         }
 
-        const { data: company, error } = await supabase
+        const { data: companyData, error: companyError } = await supabase
           .from('companies')
           .select('*')
           .eq('id', companyId)
+          .eq('user_id', user.id)
           .maybeSingle();
 
-        if (error) {
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Failed to fetch company details",
-          });
+        if (companyError) {
+          console.error('Error fetching company:', companyError);
+          setError("Failed to fetch company details");
           return;
         }
 
-        if (company) {
-          setCompany(company);
+        if (!companyData) {
+          setError("Company not found");
+          return;
         }
+
+        setCompany(companyData);
+        setError(null);
       } catch (error) {
         console.error('Error fetching company details:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to fetch company details",
-        });
+        setError("An unexpected error occurred");
       }
     };
 
@@ -229,6 +228,24 @@ export const TemplateSelection = () => {
       });
     }
   };
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+        <div className="flex justify-between pt-6 border-t">
+          <Button 
+            variant="outline"
+            onClick={() => navigate(-1)}
+          >
+            Previous
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
