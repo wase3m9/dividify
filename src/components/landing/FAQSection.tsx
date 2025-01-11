@@ -14,7 +14,7 @@ export const FAQSection = () => {
           <AccordionItem value="item-1">
             <AccordionTrigger>How does the free trial work?</AccordionTrigger>
             <AccordionContent className="text-left">
-              Our free trial gives you full access to all features for 14 days. No credit card required. 
+              Our free trial gives you full access to all features for 7 days. No credit card required. 
               You can upgrade to a paid plan at any time during or after the trial.
             </AccordionContent>
           </AccordionItem>
