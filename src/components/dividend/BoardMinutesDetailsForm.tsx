@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { NavigationButtons } from "@/components/dividend/NavigationButtons";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { X } from "lucide-react";
@@ -23,10 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface BoardMinutesDetailsFormProps {
-  onPrevious: () => void;
-}
-
 interface Director {
   name: string;
 }
@@ -42,9 +37,7 @@ interface FormData {
   financialYearEnd: string;
 }
 
-export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
-  onPrevious,
-}) => {
+export const BoardMinutesDetailsForm: FC = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [directors, setDirectors] = useState<Director[]>([{ name: "" }]);
@@ -167,9 +160,11 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
               )}
             </div>
           ))}
-          <Button type="button" variant="outline" onClick={addDirector}>
-            Add Another Officer
-          </Button>
+          <div className="text-left">
+            <Button type="button" variant="outline" onClick={addDirector}>
+              Add Another Officer
+            </Button>
+          </div>
         </div>
 
         <FormField
@@ -251,11 +246,14 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({
           )}
         />
 
-        <NavigationButtons
-          onPrevious={onPrevious}
-          submitText="Create Minutes"
-          type="submit"
-        />
+        <div className="flex justify-end pt-4">
+          <Button
+            type="submit"
+            className="bg-[#9b87f5] hover:bg-[#8b77e5]"
+          >
+            Create Minutes
+          </Button>
+        </div>
       </form>
     </Form>
   );

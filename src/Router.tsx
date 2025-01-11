@@ -7,6 +7,7 @@ import DividendAmountForm from "@/pages/DividendAmountForm";
 import DividendWaivers from "@/pages/DividendWaivers";
 import Signup from "@/pages/Signup";
 import BoardMinutesForm from "@/pages/BoardMinutesForm";
+import BoardMinutesTemplate from "@/pages/BoardMinutesTemplate";
 
 export const Router = () => {
   return (
@@ -19,6 +20,7 @@ export const Router = () => {
       <Route path="/dividend-voucher/amount" element={<DividendAmountForm />} />
       <Route path="/dividend-voucher/waivers" element={<DividendWaivers />} />
       <Route path="/board-minutes/create" element={<BoardMinutesForm />} />
+      <Route path="/board-minutes/template" element={<BoardMinutesTemplate />} />
     </Routes>
   );
 };
