@@ -1,12 +1,57 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckCircle, Sparkles, Rocket, Building2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
 interface PricingSectionProps {
   onStartFreeTrial: () => void;
 }
 
 export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleSubscribe = async (plan: 'starter' | 'professional' | 'enterprise') => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        navigate("/auth");
+        return;
+      }
+
+      if (plan === 'enterprise') {
+        // For enterprise plan, redirect to a contact form or show contact information
+        toast({
+          title: "Contact Sales",
+          description: "Please contact our sales team for enterprise pricing.",
+          duration: 5000,
+        });
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { plan }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        duration: 5000,
+      });
+    }
+  };
+
   return (
     <section className="py-24" id="pricing">
       <div className="max-w-6xl mx-auto">
@@ -41,9 +86,9 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             </ul>
             <Button 
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-              onClick={onStartFreeTrial}
+              onClick={() => handleSubscribe('starter')}
             >
-              Start Free Trial
+              Subscribe Now
             </Button>
           </Card>
 
@@ -83,9 +128,9 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             </ul>
             <Button 
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-              onClick={onStartFreeTrial}
+              onClick={() => handleSubscribe('professional')}
             >
-              Start Free Trial
+              Subscribe Now
             </Button>
           </Card>
 
@@ -126,7 +171,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             </ul>
             <Button 
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-              onClick={onStartFreeTrial}
+              onClick={() => handleSubscribe('enterprise')}
             >
               Contact Sales
             </Button>
