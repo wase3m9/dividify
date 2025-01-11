@@ -178,10 +178,16 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0" onClick={handleHomeClick}>
-            <span className="bg-gradient-to-r from-[#9b87f5] to-[#7c67d5] bg-clip-text text-transparent">
-              Dividify
-            </span>
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity shrink-0" 
+            onClick={handleHomeClick}
+          >
+            <img 
+              src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" 
+              alt="Dividify Logo" 
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Center - Navigation Links (Hidden on mobile) */}
