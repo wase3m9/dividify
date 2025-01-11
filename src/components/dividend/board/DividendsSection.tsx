@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { Receipt, Trash2 } from "lucide-react";
+import { BadgePoundSterling, Trash2 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
@@ -92,7 +92,7 @@ export const DividendsSection: FC = () => {
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Receipt className="h-5 w-5 text-[#9b87f5]" />
+          <BadgePoundSterling className="h-5 w-5 text-[#9b87f5]" />
           <h2 className="text-xl font-semibold">Dividend Vouchers</h2>
         </div>
       </div>
