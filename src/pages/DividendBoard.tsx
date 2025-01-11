@@ -172,7 +172,7 @@ const DividendBoard = () => {
           <Header companyName={company?.name} />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
-            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm">
+            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm overflow-hidden">
               <Tabs defaultValue="company" className="w-full">
                 <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0 sticky top-0 z-10">
                   <TabsTrigger 
@@ -212,40 +212,42 @@ const DividendBoard = () => {
                     Minutes
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="company" className="mt-6">
-                  <CompanySection 
-                    company={company}
-                    onCompanyUpdate={fetchData}
-                  />
-                  <div className="mt-8">
-                    <QuickActions />
-                  </div>
-                </TabsContent>
-                <TabsContent value="officers" className="mt-6">
-                  <DirectorsSection directors={directors} />
-                </TabsContent>
-                <TabsContent value="shareholders" className="mt-6">
-                  <ShareholdingsSection 
-                    shareholdings={shareholdings}
-                    isDialogOpen={isShareholderDialogOpen}
-                    onDialogOpenChange={setIsShareholderDialogOpen}
-                    onSubmit={handleShareholderSubmit}
-                  />
-                </TabsContent>
-                <TabsContent value="share-classes" className="mt-6">
-                  <ShareClassesSection 
-                    shareClasses={shareClasses}
-                    isDialogOpen={isShareClassDialogOpen}
-                    onDialogOpenChange={setIsShareClassDialogOpen}
-                    onSubmit={handleShareClassSubmit}
-                  />
-                </TabsContent>
-                <TabsContent value="dividends" className="mt-6">
-                  <DividendsSection />
-                </TabsContent>
-                <TabsContent value="minutes" className="mt-6">
-                  <MinutesSection />
-                </TabsContent>
+                <div className="p-6">
+                  <TabsContent value="company" className="mt-0">
+                    <CompanySection 
+                      company={company}
+                      onCompanyUpdate={fetchData}
+                    />
+                    <div className="mt-8">
+                      <QuickActions />
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="officers" className="mt-0">
+                    <DirectorsSection directors={directors} />
+                  </TabsContent>
+                  <TabsContent value="shareholders" className="mt-0">
+                    <ShareholdingsSection 
+                      shareholdings={shareholdings}
+                      isDialogOpen={isShareholderDialogOpen}
+                      onDialogOpenChange={setIsShareholderDialogOpen}
+                      onSubmit={handleShareholderSubmit}
+                    />
+                  </TabsContent>
+                  <TabsContent value="share-classes" className="mt-0">
+                    <ShareClassesSection 
+                      shareClasses={shareClasses}
+                      isDialogOpen={isShareClassDialogOpen}
+                      onDialogOpenChange={setIsShareClassDialogOpen}
+                      onSubmit={handleShareClassSubmit}
+                    />
+                  </TabsContent>
+                  <TabsContent value="dividends" className="mt-0">
+                    <DividendsSection />
+                  </TabsContent>
+                  <TabsContent value="minutes" className="mt-0">
+                    <MinutesSection />
+                  </TabsContent>
+                </div>
               </Tabs>
             </div>
 
