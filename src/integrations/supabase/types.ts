@@ -66,6 +66,7 @@ export type Database = {
           company_id: string
           created_at: string
           director_name: string
+          file_path: string | null
           financial_year_ending: string
           id: string
           payment_date: string
@@ -79,6 +80,7 @@ export type Database = {
           company_id: string
           created_at?: string
           director_name: string
+          file_path?: string | null
           financial_year_ending: string
           id?: string
           payment_date: string
@@ -92,6 +94,7 @@ export type Database = {
           company_id?: string
           created_at?: string
           director_name?: string
+          file_path?: string | null
           financial_year_ending?: string
           id?: string
           payment_date?: string

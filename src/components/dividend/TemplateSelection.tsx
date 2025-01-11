@@ -96,10 +96,34 @@ export const TemplateSelection = () => {
         holdings: formData.shareholdings?.toString() || '',
       };
 
+      let filePath = '';
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const fileName = `dividend_voucher_${timestamp}.${format}`;
+
       if (format === 'pdf') {
-        await downloadPDF(documentData);
+        const doc = await downloadPDF(documentData);
+        const pdfBlob = doc.output('blob');
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('dividend_vouchers')
+          .upload(fileName, pdfBlob, {
+            contentType: 'application/pdf',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+        filePath = uploadData.path;
       } else {
-        await downloadWord(documentData);
+        const doc = await downloadWord(documentData);
+        const wordBlob = await doc.save('blob');
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('dividend_vouchers')
+          .upload(fileName, wordBlob, {
+            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+        filePath = uploadData.path;
       }
 
       // Save the record to the database
@@ -115,6 +139,7 @@ export const TemplateSelection = () => {
           amount_per_share: parseFloat(documentData.amountPerShare),
           total_amount: parseFloat(documentData.totalAmount),
           director_name: formData.directorName || '',
+          file_path: filePath
         });
 
       if (saveError) throw saveError;
@@ -124,8 +149,6 @@ export const TemplateSelection = () => {
         description: `Dividend voucher downloaded and saved successfully as ${format.toUpperCase()}`,
       });
 
-      // Navigate to the dividend board after successful save
-      navigate('/dividend-board');
     } catch (error) {
       console.error('Download error:', error);
       toast({

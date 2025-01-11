@@ -15,6 +15,7 @@ interface DividendVoucherData {
   totalAmount: string;
   voucherNumber: number;
   holdings?: string;
+  financialYearEnding: string;
 }
 
 export const generatePDF = (data: DividendVoucherData) => {
@@ -46,30 +47,30 @@ export const generatePDF = (data: DividendVoucherData) => {
     doc.text(line.trim(), 20, yStart + 5 + (index * 5));
   });
 
-  // Add space before payment details
-  const detailsStart = yStart + 40;
+  // Add space before declaration
+  const declarationY = yStart + 30;
+  
+  // Declaration text
+  doc.setFontSize(11);
+  doc.text(`${data.companyName} has declared the final dividend`, 105, declarationY, { align: "center" });
+  doc.text(`for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`, 105, declarationY + 6, { align: "center" });
 
-  // Format date to UK format
-  const formattedDate = format(new Date(data.paymentDate), 'dd/MM/yyyy');
+  // Add space before payment details
+  const detailsStart = declarationY + 20;
 
   // Payment details
   doc.setFontSize(10);
   doc.text([
-    `Payment Date:          ${formattedDate}`,
-    `Shareholder:          ${data.shareholderName}`,
+    `Payment Date:          ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
     `Share class:          ${data.shareClass}`,
-    `Dividend payable:     £${data.totalAmount}`,
-    `Holdings:             ${data.holdings || 'N/A'}`,
+    `Amount per Share:     £${data.amountPerShare}`,
+    `Total Amount:         £${data.totalAmount}`,
   ], 20, detailsStart);
 
   // Signature lines
   const signatureY = 150;
-  
-  // Left side - Signature
   doc.line(20, signatureY, 80, signatureY);
   doc.text('Signature of Director/Secretary', 20, signatureY + 10);
-  
-  // Right side - Name
   doc.line(120, signatureY, 180, signatureY);
   doc.text('Name of Director/Secretary', 120, signatureY + 10);
 
@@ -77,8 +78,6 @@ export const generatePDF = (data: DividendVoucherData) => {
 };
 
 export const generateWord = async (data: DividendVoucherData) => {
-  const formattedDate = format(new Date(data.paymentDate), 'dd/MM/yyyy');
-  
   const doc = new Document({
     sections: [{
       properties: {},
@@ -111,7 +110,7 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
-        new Paragraph({ children: [new TextRun({ text: "\n\n\n" })] }),
+        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
         new Paragraph({
           children: [
             new TextRun({
@@ -137,19 +136,30 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
-        new Paragraph({ children: [new TextRun({ text: "\n\n\n" })] }),
+        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
         new Paragraph({
+          alignment: AlignmentType.CENTER,
           children: [
             new TextRun({
-              text: `Payment Date: ${formattedDate}`,
+              text: `${data.companyName} has declared the final dividend`,
               size: 24,
             }),
           ],
         }),
         new Paragraph({
+          alignment: AlignmentType.CENTER,
           children: [
             new TextRun({
-              text: `Shareholder: ${data.shareholderName}`,
+              text: `for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
               size: 24,
             }),
           ],
@@ -165,7 +175,7 @@ export const generateWord = async (data: DividendVoucherData) => {
         new Paragraph({
           children: [
             new TextRun({
-              text: `Dividend payable: £${data.totalAmount}`,
+              text: `Amount per Share: £${data.amountPerShare}`,
               size: 24,
             }),
           ],
@@ -173,25 +183,32 @@ export const generateWord = async (data: DividendVoucherData) => {
         new Paragraph({
           children: [
             new TextRun({
-              text: `Holdings: ${data.holdings || 'N/A'}`,
+              text: `Total Amount: £${data.totalAmount}`,
               size: 24,
             }),
           ],
         }),
-        new Paragraph({ children: [new TextRun({ text: "\n\n\n" })] }),
+        new Paragraph({ children: [new TextRun({ text: "\n\n" })] }),
         new Paragraph({
           children: [
             new TextRun({
               text: "Signature of Director/Secretary",
               size: 24,
+              border: {
+                style: 'single',
+                size: 6,
+                space: 1,
+              },
             }),
-            new TextRun({
-              text: "                    ",
-              size: 24,
-            }),
+            new TextRun({ text: "     ", size: 24 }),
             new TextRun({
               text: "Name of Director/Secretary",
               size: 24,
+              border: {
+                style: 'single',
+                size: 6,
+                space: 1,
+              },
             }),
           ],
         }),
@@ -205,10 +222,12 @@ export const generateWord = async (data: DividendVoucherData) => {
 export const downloadPDF = (data: DividendVoucherData) => {
   const doc = generatePDF(data);
   doc.save(`dividend_voucher_${data.voucherNumber}.pdf`);
+  return doc;
 };
 
 export const downloadWord = async (data: DividendVoucherData) => {
   const doc = await generateWord(data);
   const blob = await Packer.toBlob(doc);
   saveAs(blob, `dividend_voucher_${data.voucherNumber}.docx`);
+  return doc;
 };
