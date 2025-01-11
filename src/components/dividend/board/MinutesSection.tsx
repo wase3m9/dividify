@@ -58,11 +58,22 @@ export const MinutesSection: FC = () => {
 
   const handleDownload = async (filePath: string) => {
     try {
+      if (!filePath) {
+        throw new Error("No file path provided");
+      }
+
       const { data, error } = await supabase.storage
-        .from('minutes')
+        .from('dividend_vouchers')
         .download(filePath);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Download error:', error);
+        throw error;
+      }
+
+      if (!data) {
+        throw new Error("No data received from storage");
+      }
 
       // Create a URL for the downloaded file
       const url = URL.createObjectURL(data);
@@ -83,10 +94,11 @@ export const MinutesSection: FC = () => {
         description: "Document downloaded successfully",
       });
     } catch (error: any) {
+      console.error('Download error details:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to download document. " + error.message,
+        description: "Failed to download document. Please try again.",
       });
     }
   };
