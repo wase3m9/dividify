@@ -175,40 +175,40 @@ const DividendBoard = () => {
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-sm overflow-hidden">
                 <Tabs defaultValue="company" className="w-full">
-                  <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0 overflow-x-auto flex-nowrap">
+                  <TabsList className="w-full justify-between bg-white border-b rounded-none h-12 p-0">
                     <TabsTrigger 
                       value="company" 
-                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
                     >
                       Company
                     </TabsTrigger>
                     <TabsTrigger 
                       value="officers"
-                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
                     >
                       Officers
                     </TabsTrigger>
                     <TabsTrigger 
                       value="shareholders"
-                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
                     >
                       Shareholders
                     </TabsTrigger>
                     <TabsTrigger 
                       value="share-classes"
-                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
                     >
                       Share Classes
                     </TabsTrigger>
                     <TabsTrigger 
                       value="dividends"
-                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
                     >
                       Dividends
                     </TabsTrigger>
                     <TabsTrigger 
                       value="minutes"
-                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base whitespace-nowrap"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
                     >
                       Minutes
                     </TabsTrigger>
