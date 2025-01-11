@@ -1,11 +1,16 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { FileText, Trash2 } from "lucide-react";
+import { FileText, Trash2, Edit } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { format } from "date-fns";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface MinuteRecord {
   id: string;
@@ -56,7 +61,7 @@ export const MinutesSection: FC = () => {
     }
   };
 
-  const handleDownload = async (filePath: string) => {
+  const handleDownload = async (filePath: string, format: 'pdf' | 'word') => {
     try {
       if (!filePath) {
         throw new Error("No file path provided");
@@ -81,7 +86,7 @@ export const MinutesSection: FC = () => {
       // Create a temporary link element
       const link = document.createElement('a');
       link.href = url;
-      link.download = filePath.split('/').pop() || 'minutes.pdf'; // Use the original filename or a default
+      link.download = filePath.split('/').pop() || `minutes.${format}`; 
       document.body.appendChild(link);
       link.click();
       
@@ -103,6 +108,13 @@ export const MinutesSection: FC = () => {
     }
   };
 
+  const handleEdit = (record: MinuteRecord) => {
+    toast({
+      title: "Coming Soon",
+      description: "Edit functionality will be available soon",
+    });
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -122,23 +134,42 @@ export const MinutesSection: FC = () => {
               <div className="flex justify-between items-start">
                 <div>
                   <p><span className="font-medium">Title:</span> {record.title}</p>
-                  <p><span className="font-medium">Meeting Date:</span> {format(new Date(record.meeting_date), 'PPP')}</p>
-                  <p><span className="font-medium">Created:</span> {format(new Date(record.created_at), 'PPP')}</p>
+                  <p><span className="font-medium">Meeting Date:</span> {new Date(record.meeting_date).toLocaleDateString()}</p>
+                  <p><span className="font-medium">Created:</span> {new Date(record.created_at).toLocaleDateString()}</p>
                 </div>
                 <div className="flex gap-2">
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleDownload(record.file_path)}
-                    className="text-[#9b87f5] border-[#9b87f5]"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleEdit(record)}
+                    className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
                   >
-                    Download
+                    <Edit className="h-4 w-4" />
                   </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
+                      >
+                        <FileText className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={() => handleDownload(record.file_path, 'pdf')}>
+                        Download PDF
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDownload(record.file_path, 'word')}>
+                        Download Word
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <Button
-                    variant="outline"
-                    size="sm"
+                    variant="ghost"
+                    size="icon"
                     onClick={() => handleDelete(record.id)}
-                    className="text-red-500 border-red-500 hover:bg-red-50"
+                    className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
