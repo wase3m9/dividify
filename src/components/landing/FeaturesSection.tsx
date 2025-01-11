@@ -131,7 +131,7 @@ export const FeaturesSection = () => {
             <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
               <div className="w-20 h-20 flex items-center justify-center">
                 <img 
-                  src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" 
+                  src="/lovable-uploads/ca8672b8-c17e-45da-bde8-a3bca3983961.png" 
                   alt="Xero" 
                   className="max-w-full max-h-full object-contain"
                 />
