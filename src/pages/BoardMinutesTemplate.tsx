@@ -43,7 +43,8 @@ const BoardMinutesTemplate = () => {
       };
 
       let filePath = '';
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const now = new Date();
+      const timestamp = now.toISOString().replace(/[:.]/g, '-');
       const fileName = `board_minutes_${timestamp}.${format}`;
 
       if (format === 'pdf') {

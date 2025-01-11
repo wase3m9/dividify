@@ -124,7 +124,7 @@ export const TemplateSelection = () => {
         return;
       }
 
-      console.log("Form Data being processed:", formData); // Debug log
+      console.log("Form Data being processed:", formData);
 
       const documentData = {
         companyName: company.name,
@@ -141,10 +141,11 @@ export const TemplateSelection = () => {
         holdings: formData.shareholdings?.toString() || '',
       };
 
-      console.log("Document Data being sent:", documentData); // Debug log
+      console.log("Document Data being sent:", documentData);
 
       let filePath = '';
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const now = new Date();
+      const timestamp = now.toISOString().replace(/[:.]/g, '-');
       const fileName = `dividend_voucher_${timestamp}.${format}`;
 
       if (format === 'pdf') {
