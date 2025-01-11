@@ -77,6 +77,10 @@ export const TemplateSelection = () => {
         return;
       }
 
+      // Format dates properly
+      const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString() : new Date().toISOString();
+      const financialYearEnding = formData.financialYearEnding ? new Date(formData.financialYearEnding).toISOString() : new Date().toISOString();
+
       const documentData = {
         companyName: company.name,
         registrationNumber: company.registration_number || '',
@@ -84,15 +88,16 @@ export const TemplateSelection = () => {
         shareholderName: formData.shareholderName || '',
         shareholderAddress: formData.shareholderAddress || '',
         shareClass: formData.shareClass || '',
-        paymentDate: formData.paymentDate || '',
-        amountPerShare: formData.amountPerShare || '0',
-        totalAmount: formData.totalAmount || '0',
+        paymentDate: paymentDate,
+        amountPerShare: formData.amountPerShare?.toString() || '0',
+        totalAmount: formData.totalAmount?.toString() || '0',
         voucherNumber: 1,
-        financialYearEnding: formData.financialYearEnding || '',
+        financialYearEnding: financialYearEnding,
+        holdings: formData.shareholdings?.toString() || '',
       };
 
       if (format === 'pdf') {
-        downloadPDF(documentData);
+        await downloadPDF(documentData);
       } else {
         await downloadWord(documentData);
       }
@@ -105,10 +110,10 @@ export const TemplateSelection = () => {
           user_id: user.id,
           shareholder_name: documentData.shareholderName,
           share_class: documentData.shareClass,
-          payment_date: documentData.paymentDate,
-          financial_year_ending: documentData.financialYearEnding,
-          amount_per_share: documentData.amountPerShare,
-          total_amount: documentData.totalAmount,
+          payment_date: paymentDate,
+          financial_year_ending: financialYearEnding,
+          amount_per_share: parseFloat(documentData.amountPerShare),
+          total_amount: parseFloat(documentData.totalAmount),
           director_name: formData.directorName || '',
         });
 
@@ -122,13 +127,16 @@ export const TemplateSelection = () => {
       // Navigate to the dividend board after successful save
       navigate('/dividend-board');
     } catch (error) {
+      console.error('Download error:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to generate ${format.toUpperCase()} document`,
+        description: `Failed to generate ${format.toUpperCase()} document. Please ensure all required fields are filled.`,
       });
     }
   };
+
+  // ... keep existing code (template selection UI rendering)
 
   return (
     <div className="space-y-6">
