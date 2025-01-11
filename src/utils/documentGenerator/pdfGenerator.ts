@@ -40,7 +40,7 @@ export const generatePDF = (data: DividendVoucherData) => {
   const declarationY = yStart + 45;
   doc.setFontSize(11);
   doc.text([
-    `A dividend has been declared by ${data.companyName}`,
+    `${data.companyName} has declared the final dividend`,
     `for the financial year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')}`,
     'as follows:'
   ], 20, declarationY);

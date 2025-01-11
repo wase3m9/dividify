@@ -108,7 +108,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           children: [new TextRun({ text: "" })]
         }),
         
-        // Declaration
+        // Declaration (left aligned)
         new Paragraph({
           alignment: AlignmentType.LEFT,
           spacing: {
@@ -116,7 +116,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           },
           children: [
             new TextRun({
-              text: `A dividend has been declared by ${data.companyName}`,
+              text: `${data.companyName} has declared the final dividend`,
               size: 24,
             }),
           ],
