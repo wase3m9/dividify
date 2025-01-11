@@ -214,18 +214,24 @@ export type Database = {
         Row: {
           avatar_url: string | null
           id: string
+          trial_expired: boolean | null
+          trial_start_date: string | null
           updated_at: string | null
           username: string | null
         }
         Insert: {
           avatar_url?: string | null
           id: string
+          trial_expired?: boolean | null
+          trial_start_date?: string | null
           updated_at?: string | null
           username?: string | null
         }
         Update: {
           avatar_url?: string | null
           id?: string
+          trial_expired?: boolean | null
+          trial_start_date?: string | null
           updated_at?: string | null
           username?: string | null
         }
