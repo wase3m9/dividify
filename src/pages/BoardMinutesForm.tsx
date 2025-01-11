@@ -2,8 +2,18 @@ import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
 import { BoardMinutesDetailsForm } from "@/components/dividend/BoardMinutesDetailsForm";
+import { CompanySelector } from "@/components/dividend/company/CompanySelector";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const BoardMinutesForm = () => {
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
+  const { toast } = useToast();
+
+  const handleCompanySelect = (companyId: string) => {
+    setSelectedCompanyId(companyId);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -15,8 +25,16 @@ const BoardMinutesForm = () => {
             progress={100}
           />
 
-          <Card className="p-6">
-            <BoardMinutesDetailsForm />
+          <Card className="p-6 space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Select Company</h3>
+              <CompanySelector
+                onSelect={handleCompanySelect}
+                selectedCompanyId={selectedCompanyId}
+              />
+            </div>
+
+            <BoardMinutesDetailsForm selectedCompanyId={selectedCompanyId} />
           </Card>
         </div>
       </div>
