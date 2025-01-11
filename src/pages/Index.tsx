@@ -126,7 +126,7 @@ const Index = () => {
         </section>
 
         {/* Pricing Section */}
-        <section className="py-24">
+        <section className="py-24" id="pricing">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-16">Simple, Transparent Pricing</h2>
             <div className="grid md:grid-cols-3 gap-8">
@@ -325,7 +325,7 @@ const Index = () => {
         <footer className="border-t py-12">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-4 gap-8">
-              <div>
+              <div className="text-left">
                 <h3 className="font-bold mb-4">Dividify</h3>
                 <p className="text-sm text-gray-600">
                   Simplifying dividend documentation for UK companies.
