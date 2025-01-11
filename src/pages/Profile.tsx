@@ -30,8 +30,8 @@ const Profile = () => {
   const [subscriptionPlan, setSubscriptionPlan] = useState<string>("loading...");
   const [isEditing, setIsEditing] = useState(false);
   const [loginHistory] = useState([
-    { date: new Date(), ip: "192.168.1.1" },
-    { date: new Date(Date.now() - 86400000), ip: "192.168.1.1" },
+    { date: new Date() },
+    { date: new Date(Date.now() - 86400000) },
   ]);
   const [invoices] = useState<Invoice[]>([
     {
@@ -292,9 +292,6 @@ const Profile = () => {
                       <p className="font-medium">Logged in</p>
                       <p className="text-sm text-gray-500">
                         {format(login.date, "PPp")}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        IP: {login.ip}
                       </p>
                     </div>
                   </div>
