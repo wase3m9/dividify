@@ -19,7 +19,7 @@ const DividendAmountForm = () => {
   const { shareholderName, shareClass, shareholderAddress } = location.state || {};
   const { toast } = useToast();
 
-  console.log("Location state in DividendAmountForm:", location.state); // Debug log
+  console.log("Location state in DividendAmountForm:", location.state);
 
   const form = useForm<DividendAmountFormValues>({
     resolver: zodResolver(formSchema),
@@ -51,15 +51,15 @@ const DividendAmountForm = () => {
       return;
     }
     
-    navigate("/dividend-voucher/waivers", {
+    navigate("/dividend-waivers", {
       state: {
         shareholderName,
         shareClass,
-        shareholderAddress, // Make sure we pass the shareholder address forward
+        shareholderAddress,
         amountPerShare: data.amountPerShare,
         totalAmount: data.totalAmount,
         currency: data.currency,
-        paymentDate: data.paymentDate, // Pass the payment date
+        paymentDate: data.paymentDate,
       }
     });
   };
@@ -84,7 +84,7 @@ const DividendAmountForm = () => {
                 </div>
 
                 <NavigationButtons
-                  onPrevious={() => navigate("/dividend-voucher/create")}
+                  onPrevious={() => navigate("/dividend-voucher")}
                   type="submit"
                 />
               </form>

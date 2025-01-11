@@ -22,7 +22,7 @@ const DividendVoucherForm = () => {
       return;
     }
 
-    navigate("/dividend-voucher/amount", {
+    navigate("/dividend-amount", {
       state: {
         companyId: selectedCompanyId,
         shareholderName: data.shareholderName,
