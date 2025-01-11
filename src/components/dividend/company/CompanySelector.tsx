@@ -41,9 +41,13 @@ export const CompanySelector = ({ onSelect, selectedCompanyId }: CompanySelector
   const { data: companies, isLoading } = useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
       const { data, error } = await supabase
         .from('companies')
-        .select('id, name');
+        .select('id, name')
+        .eq('user_id', user.id);
       
       if (error) {
         toast({
@@ -54,7 +58,7 @@ export const CompanySelector = ({ onSelect, selectedCompanyId }: CompanySelector
         throw error;
       }
       
-      return data;
+      return data || [];
     },
   });
 
