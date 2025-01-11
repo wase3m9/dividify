@@ -171,10 +171,10 @@ const DividendBoard = () => {
         <div className="max-w-5xl mx-auto space-y-8">
           <Header companyName={company?.name} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 relative">
+            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm">
               <Tabs defaultValue="company" className="w-full">
-                <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0">
+                <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0 sticky top-0 z-10">
                   <TabsTrigger 
                     value="company" 
                     className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-6 text-base"
@@ -249,7 +249,7 @@ const DividendBoard = () => {
               </Tabs>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-8 lg:sticky lg:top-8 self-start">
               <RecentActivity />
             </div>
           </div>
