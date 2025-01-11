@@ -50,7 +50,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             </div>
             <h3 className="text-xl font-bold mb-4">Professional</h3>
             <div className="mb-6">
-              <span className="text-4xl font-bold">£9</span>
+              <span className="text-4xl font-bold">£12</span>
               <span className="text-gray-600">/month</span>
             </div>
             <ul className="space-y-4 mb-8">
@@ -70,6 +70,10 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
                 <span>Premium templates</span>
               </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Priority support</span>
+              </li>
             </ul>
             <Button 
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
@@ -82,13 +86,21 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
           <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all">
             <h3 className="text-xl font-bold mb-4">Enterprise</h3>
             <div className="mb-6">
-              <span className="text-4xl font-bold">£99</span>
+              <span className="text-4xl font-bold">£29</span>
               <span className="text-gray-600">/month</span>
             </div>
             <ul className="space-y-4 mb-8">
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
                 <span>Unlimited companies</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Unlimited dividend vouchers</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Unlimited Board meeting minutes</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
