@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { FileText, Trash2, Edit } from "lucide-react";
+import { FileText, Trash2 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -16,33 +16,16 @@ interface MinuteRecord {
   id: string;
   title: string;
   meeting_date: string;
-  file_path: string;
   created_at: string;
+  file_path: string;
 }
 
 export const MinutesSection: FC = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: profile } = useQuery({
-    queryKey: ['profile'],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('subscription_plan')
-        .eq('id', user.id)
-        .single();
-
-      if (error) throw error;
-      return data;
-    }
-  });
-
-  const { data: minuteRecords, isLoading } = useQuery({
-    queryKey: ['minute-records'],
+  const { data: minutes, isLoading } = useQuery({
+    queryKey: ['minutes'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('minutes')
@@ -63,11 +46,11 @@ export const MinutesSection: FC = () => {
 
       if (error) throw error;
 
-      queryClient.invalidateQueries({ queryKey: ['minute-records'] });
+      queryClient.invalidateQueries({ queryKey: ['minutes'] });
 
       toast({
         title: "Success",
-        description: "Board minutes deleted successfully",
+        description: "Minutes record deleted successfully",
       });
     } catch (error: any) {
       toast({
@@ -78,63 +61,44 @@ export const MinutesSection: FC = () => {
     }
   };
 
-  const handleDownload = async (filePath: string, format: 'pdf' | 'word') => {
+  const handleDownload = async (record: MinuteRecord, format: 'pdf' | 'docx') => {
     try {
-      if (!filePath) {
-        throw new Error("No file path provided");
+      if (!record.file_path) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "File not found",
+        });
+        return;
       }
 
       const { data, error } = await supabase.storage
         .from('dividend_vouchers')
-        .download(filePath);
+        .download(record.file_path);
 
       if (error) {
-        console.error('Download error:', error);
         throw error;
       }
 
-      if (!data) {
-        throw new Error("No data received from storage");
-      }
-
-      // Create a URL for the downloaded file
+      // Create a download link
       const url = URL.createObjectURL(data);
-      
-      // Create a temporary link element
       const link = document.createElement('a');
       link.href = url;
-      // Set the correct file extension based on the format
-      const fileName = filePath.split('/').pop() || `minutes.${format === 'word' ? 'docx' : 'pdf'}`; 
-      link.download = fileName;
+      link.download = `board_minutes_${record.id}.${format}`;
       document.body.appendChild(link);
       link.click();
-      
-      // Clean up
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      toast({
-        title: "Success",
-        description: "Document downloaded successfully",
-      });
     } catch (error: any) {
-      console.error('Download error details:', error);
+      console.error('Download error:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to download document. Please try again.",
+        description: "Failed to download file",
       });
     }
   };
-
-  const handleEdit = (record: MinuteRecord) => {
-    toast({
-      title: "Coming Soon",
-      description: "Edit functionality will be available soon",
-    });
-  };
-
-  const canDelete = profile?.subscription_plan !== 'starter' && profile?.subscription_plan !== 'trial';
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -148,25 +112,22 @@ export const MinutesSection: FC = () => {
           <h2 className="text-xl font-semibold">Board Minutes</h2>
         </div>
       </div>
-      {minuteRecords && minuteRecords.length > 0 ? (
+      {minutes && minutes.length > 0 ? (
         <div className="space-y-4">
-          {minuteRecords.map((record) => (
+          {minutes.map((record) => (
             <div key={record.id} className="p-4 border rounded-lg">
               <div className="flex justify-between items-start">
-                <div className="space-y-1">
-                  <p className="text-sm text-gray-600"><span className="font-medium">Title:</span> {record.title}</p>
-                  <p className="text-sm text-gray-600"><span className="font-medium">Meeting Date:</span> {new Date(record.meeting_date).toLocaleDateString()}</p>
-                  <p className="text-sm text-gray-600"><span className="font-medium">Created:</span> {new Date(record.created_at).toLocaleDateString()}</p>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                  <div className="text-gray-500">Title:</div>
+                  <div>{record.title}</div>
+                  
+                  <div className="text-gray-500">Meeting Date:</div>
+                  <div>{new Date(record.meeting_date).toLocaleDateString()}</div>
+                  
+                  <div className="text-gray-500">Created:</div>
+                  <div>{new Date(record.created_at).toLocaleDateString()}</div>
                 </div>
                 <div className="flex gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleEdit(record)}
-                    className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
@@ -178,31 +139,29 @@ export const MinutesSection: FC = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem onClick={() => handleDownload(record.file_path, 'pdf')}>
+                      <DropdownMenuItem onClick={() => handleDownload(record, 'pdf')}>
                         Download PDF
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDownload(record.file_path, 'word')}>
+                      <DropdownMenuItem onClick={() => handleDownload(record, 'docx')}>
                         Download Word
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  {canDelete && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => handleDelete(record.id)}
-                      className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDelete(record.id)}
+                    className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-sm text-gray-500">No board minutes uploaded yet.</p>
+        <p className="text-gray-500">No board minutes created yet.</p>
       )}
     </Card>
   );

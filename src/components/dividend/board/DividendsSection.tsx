@@ -23,6 +23,7 @@ interface DividendRecord {
   total_amount: number;
   director_name: string;
   created_at: string;
+  file_path: string;
 }
 
 export const DividendsSection: FC = () => {
@@ -83,26 +84,42 @@ export const DividendsSection: FC = () => {
     }
   };
 
-  const handleDownload = (record: DividendRecord, format: 'pdf' | 'docx') => {
-    const data = {
-      companyName: "Company Name", // TODO: Add company name from context
-      registeredAddress: "Registered Address", // TODO: Add address from context
-      registrationNumber: "Registration Number", // TODO: Add reg number from context
-      shareholderName: record.shareholder_name,
-      shareholderAddress: "", // Added this line with a default empty string
-      voucherNumber: parseInt(record.id.slice(0, 8), 16), // Convert first 8 chars of UUID to number
-      paymentDate: new Date(record.payment_date).toLocaleDateString(),
-      shareClass: record.share_class,
-      amountPerShare: record.amount_per_share.toString(),
-      totalAmount: record.total_amount.toString(),
-      directorName: record.director_name,
-      financialYearEnding: new Date(record.financial_year_ending).toLocaleDateString()
-    };
+  const handleDownload = async (record: DividendRecord, format: 'pdf' | 'docx') => {
+    try {
+      if (!record.file_path) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "File not found",
+        });
+        return;
+      }
 
-    if (format === 'pdf') {
-      downloadPDF(data);
-    } else {
-      downloadWord(data);
+      const { data, error } = await supabase.storage
+        .from('dividend_vouchers')
+        .download(record.file_path);
+
+      if (error) {
+        throw error;
+      }
+
+      // Create a download link
+      const url = URL.createObjectURL(data);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `dividend_voucher_${record.id}.${format}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+    } catch (error: any) {
+      console.error('Download error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to download file",
+      });
     }
   };
 
