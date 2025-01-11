@@ -64,19 +64,15 @@ const BoardMinutesPreview = () => {
         companyName: company.name,
         registrationNumber: company.registration_number || "",
         registeredAddress: company.registered_address || "",
-        shareholderName: "",
-        shareholderAddress: "",
-        voucherNumber: 1,
-        paymentDate: formData.paymentDate || new Date().toISOString(),
-        shareClass: formData.shareClassName || "",
-        amountPerShare: "0",
-        totalAmount: formData.amount?.toString() || "0",
-        directorName: formData.directors?.[0]?.name || "",
-        financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
         meetingDate: formData.meetingDate,
         meetingAddress: formData.meetingAddress,
         directors: formData.directors || [],
+        paymentDate: formData.paymentDate,
+        amount: formData.amount?.toString() || "0",
+        shareClassName: formData.shareClassName || "",
         dividendType: formData.dividendType || "Final",
+        nominalValue: formData.nominalValue?.toString() || "0",
+        financialYearEnd: formData.financialYearEnd
       };
 
       let filePath = '';
@@ -123,10 +119,9 @@ const BoardMinutesPreview = () => {
 
       toast({
         title: "Success",
-        description: `Board minutes downloaded and saved successfully as ${format.toUpperCase()}`,
+        description: `Board minutes downloaded successfully as ${format.toUpperCase()}`,
       });
 
-      navigate("/dividend-board");
     } catch (error: any) {
       console.error('Download error:', error);
       toast({
@@ -150,23 +145,6 @@ const BoardMinutesPreview = () => {
           
           <Card className="p-6">
             <div className="space-y-6">
-              <div className="flex justify-center space-x-4">
-                <Button
-                  onClick={() => handleDownload('pdf')}
-                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  Download PDF
-                </Button>
-                <Button
-                  onClick={() => handleDownload('word')}
-                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  Download Word
-                </Button>
-              </div>
-              
               <div className="mt-8 p-6 border rounded-lg">
                 <div className="space-y-4">
                   <div className="text-center">
@@ -198,7 +176,7 @@ const BoardMinutesPreview = () => {
                     </div>
                   </div>
                   
-                  <div className="space-y-4 mt-12 text-left">
+                  <div className="mt-16 space-y-4 text-left">
                     <h3 className="font-semibold">1. NOTICE AND QUORUM</h3>
                     <p>The chairperson reported that sufficient notice of the meeting had been given to all the directors, and as a quorum was present declared the meeting open.</p>
                     
@@ -207,32 +185,48 @@ const BoardMinutesPreview = () => {
                     <p>It was resolved that dividend vouchers be distributed to shareholders and bank transfers made accordingly.</p>
                     
                     <h3 className="font-semibold">3. CLOSE</h3>
-                    <p>There being no further business the meeting was closed.</p>
+                    <p className="mb-12">There being no further business the meeting was closed.</p>
                     
-                    <div className="mt-16 space-y-4">
+                    <div className="mt-20 space-y-4">
                       <p>Signed: _________________________</p>
                       <p>Dated: _________________________</p>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <div className="flex justify-between mt-8">
+                <Button
+                  variant="outline"
+                  onClick={() => navigate(-1)}
+                >
+                  Back
+                </Button>
+                <div className="space-x-4">
+                  <Button
+                    onClick={() => handleDownload('pdf')}
+                    className="bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Download PDF
+                  </Button>
+                  <Button
+                    onClick={() => handleDownload('word')}
+                    className="bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Download Word
+                  </Button>
+                  <Button
+                    onClick={() => navigate("/dividend-board")}
+                    className="bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  >
+                    Done
+                  </Button>
+                </div>
+              </div>
             </div>
           </Card>
-
-          <div className="flex justify-between">
-            <Button
-              variant="outline"
-              onClick={() => navigate(-1)}
-            >
-              Back
-            </Button>
-            <Button
-              onClick={() => navigate("/dividend-board")}
-              className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-            >
-              Done
-            </Button>
-          </div>
         </div>
       </div>
     </div>
