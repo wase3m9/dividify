@@ -100,7 +100,7 @@ export const QuickActions = () => {
         <Button
           variant="outline"
           className="w-full justify-start"
-          onClick={() => navigate("/dividend-voucher/create")}
+          onClick={() => navigate("/dividend-voucher")}
         >
           <Plus className="mr-2 h-4 w-4" />
           Create Dividend Voucher
@@ -109,7 +109,7 @@ export const QuickActions = () => {
         <Button
           variant="outline"
           className="w-full justify-start"
-          onClick={() => navigate("/board-minutes/create")}
+          onClick={() => navigate("/board-minutes")}
         >
           <FileText className="mr-2 h-4 w-4" />
           Create Board Minutes
