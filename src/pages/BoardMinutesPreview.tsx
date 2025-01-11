@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Packer } from "docx";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
+import { BoardMinutesData } from "@/utils/documentGenerator/types";
 import { useEffect, useState } from "react";
 
 const BoardMinutesPreview = () => {
