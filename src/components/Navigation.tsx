@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { LogOut, Home, Grid, User as UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -10,6 +10,8 @@ export const Navigation = () => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const location = useLocation();
+  const isLandingPage = location.pathname === '/';
 
   useEffect(() => {
     // Get initial session
@@ -73,6 +75,13 @@ export const Navigation = () => {
     }
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4 py-2 flex items-center">
@@ -84,7 +93,7 @@ export const Navigation = () => {
             </span>
           </Link>
           
-          {user && (
+          {user ? (
             <div className="flex items-center gap-4">
               <Button variant="ghost" asChild className="flex items-center gap-2">
                 <Link to="/">
@@ -97,6 +106,33 @@ export const Navigation = () => {
                   <Grid className="h-4 w-4" />
                   Dashboard
                 </Link>
+              </Button>
+            </div>
+          ) : isLandingPage && (
+            <div className="hidden md:flex items-center gap-4">
+              <Button 
+                variant="ghost" 
+                onClick={() => scrollToSection('features')}
+              >
+                Features
+              </Button>
+              <Button 
+                variant="ghost" 
+                onClick={() => scrollToSection('pricing')}
+              >
+                Pricing
+              </Button>
+              <Button 
+                variant="ghost" 
+                onClick={() => scrollToSection('testimonials')}
+              >
+                Testimonials
+              </Button>
+              <Button 
+                variant="ghost" 
+                onClick={() => scrollToSection('faq')}
+              >
+                FAQ
               </Button>
             </div>
           )}
