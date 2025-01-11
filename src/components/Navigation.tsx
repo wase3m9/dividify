@@ -71,7 +71,7 @@ export const Navigation = () => {
     if (user) {
       navigate("/dividend-board");
     } else {
-      navigate("/auth");
+      navigate("/signup");
     }
   };
 
