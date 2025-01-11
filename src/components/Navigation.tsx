@@ -139,7 +139,7 @@ export const Navigation = () => {
   );
 
   const AuthButtons = () => (
-    <div className="flex items-center gap-2 shrink-0 pr-2">
+    <div className="flex items-center gap-2 shrink-0 pr-1">
       {user ? (
         <>
           <Button variant="ghost" asChild className="flex items-center gap-2">
