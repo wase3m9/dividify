@@ -62,9 +62,8 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({ children: [new TextRun({ text: "\n" })] }),
-        // Declaration text
+        // Declaration text (left aligned)
         new Paragraph({
-          alignment: AlignmentType.CENTER,
           children: [
             new TextRun({
               text: `${data.companyName} has declared the final dividend`,
@@ -73,7 +72,6 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
-          alignment: AlignmentType.CENTER,
           children: [
             new TextRun({
               text: `for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,

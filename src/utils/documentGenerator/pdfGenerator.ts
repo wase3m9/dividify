@@ -44,22 +44,16 @@ export const generatePDF = (data: DividendVoucherData) => {
   // Add more space before payment details
   const detailsStart = declarationY + 20;
 
-  // Format currency values
-  const formatCurrency = (value: string) => {
-    const num = parseFloat(value);
-    return `£${num.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  };
-
-  // Payment details (left aligned with more spacing)
+  // Payment details (left aligned)
   doc.setFontSize(10);
   doc.text([
     `Payment Date:          ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
     '',
     `Share class:          ${data.shareClass}`,
     '',
-    `Amount per Share:     ${formatCurrency(data.amountPerShare)}`,
+    `Amount per Share:     £${data.amountPerShare}`,
     '',
-    `Total Amount:         ${formatCurrency(data.totalAmount)}`,
+    `Total Amount:         £${data.totalAmount}`,
   ], 20, detailsStart);
 
   // Signature lines
