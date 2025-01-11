@@ -84,7 +84,7 @@ export const FeaturesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center justify-items-center">
           <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-4">
             <img src="/lovable-uploads/6cb830b0-4fd4-4cb9-8dc0-d265559b8a01.png" alt="Xero" className="w-full h-full object-contain" />
           </div>
