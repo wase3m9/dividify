@@ -120,7 +120,7 @@ export const FeaturesSection = () => {
         <div className="mt-12 flex justify-center gap-4">
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
-              <img src="/lovable-uploads/47c0e897-6be7-449b-87c5-2f66021c51f8.png" alt="QuickBooks" className="h-6 w-6" />
+              <img src="/lovable-uploads/8ee4d861-36ee-4d61-b0e5-2c688acb6879.png" alt="QuickBooks" className="h-6 w-6" />
               <h3 className="text-xl font-semibold">QuickBooks Integration</h3>
             </div>
             <p className="text-gray-600 leading-relaxed mb-6">
