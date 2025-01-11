@@ -92,7 +92,7 @@ export const FeaturesSection = () => {
             <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks" className="w-full h-full object-contain" />
           </div>
           <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-4">
-            <img src="/lovable-uploads/9d5fc094-9534-4f3d-918d-df0100dba5b3.png" alt="Sage" className="w-full h-full object-contain" />
+            <img src="/lovable-uploads/05d42872-d6b8-49fd-8d69-f6ba2d20e8c8.png" alt="Sage" className="w-full h-full object-contain" />
           </div>
           <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-4">
             <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent" className="w-full h-full object-contain" />
