@@ -78,15 +78,28 @@ export const Navigation = () => {
   };
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
     }
   };
 
   const NavLinks = () => (
     <>
-      <Button variant="ghost" asChild className="flex items-center gap-2">
+      <Button variant="ghost" asChild className="flex items-center gap-2" onClick={handleHomeClick}>
         <Link to="/">
           <Home className="h-4 w-4" />
           Home
@@ -165,7 +178,7 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0">
+          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0" onClick={handleHomeClick}>
             <span className="bg-gradient-to-r from-[#9b87f5] to-[#7c67d5] bg-clip-text text-transparent">
               Dividify
             </span>
