@@ -53,7 +53,7 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
             ],
           }),
           
-          // Shareholder address
+          // Shareholder address with proper spacing
           ...data.shareholderAddress.split(',').map(line => 
             new Paragraph({
               children: [
@@ -65,7 +65,9 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
             })
           ),
           
-          // Spacing
+          // Add three line breaks before declaration
+          new Paragraph({ text: '' }),
+          new Paragraph({ text: '' }),
           new Paragraph({ text: '' }),
           
           // Declaration
@@ -78,8 +80,10 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
             ],
           }),
           
-          // Payment details
+          // Add spacing before payment details
           new Paragraph({ text: '' }),
+          
+          // Payment details
           new Paragraph({
             children: [
               new TextRun({
@@ -113,9 +117,11 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
             ],
           }),
           
+          // Add more spacing before signature section
+          new Paragraph({ text: '' }),
+          new Paragraph({ text: '' }),
+          
           // Signature section
-          new Paragraph({ text: '' }),
-          new Paragraph({ text: '' }),
           new Paragraph({
             children: [
               new TextRun({

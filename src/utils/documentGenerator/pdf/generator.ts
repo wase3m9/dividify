@@ -15,43 +15,42 @@ export const generatePDF = (data: DividendVoucherData | BoardMinutesData) => {
     doc.text(`Company number: ${data.registrationNumber}`, 105, 30, { align: 'center' });
     doc.text(data.registeredAddress, 105, 40, { align: 'center' });
     
-    // Add shareholder details and voucher number on the same line
+    // Add shareholder name and voucher number on the same line
     doc.setFontSize(11);
-    
-    // Add shareholder name (left-aligned) and voucher number (right-aligned) on the same line
     const yPos = 70;
     doc.text(data.shareholderName, 20, yPos);
     doc.text(`Voucher No: ${data.voucherNumber}`, 190, yPos, { align: 'right' });
     
-    // Add shareholder address below the name
+    // Add shareholder address below the name with proper spacing
+    let currentY = yPos + 10;
     if (data.shareholderAddress) {
       const addressLines = data.shareholderAddress.split(',');
-      addressLines.forEach((line, index) => {
-        doc.text(line.trim(), 20, yPos + 10 + (index * 7));
+      addressLines.forEach((line) => {
+        doc.text(line.trim(), 20, currentY);
+        currentY += 7;
       });
     }
     
-    // Calculate new Y position after address
-    const addressLines = data.shareholderAddress ? data.shareholderAddress.split(',').length : 0;
-    const declarationYPos = yPos + 20 + (addressLines * 7);
+    // Add more space before declaration (3 line breaks)
+    currentY += 21; // 3 * 7px line height
     
     // Add declaration
     const declarationText = `${data.companyName} has declared the final dividend for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} on the shares as follows:`;
     const maxWidth = 170;
     const lines = doc.splitTextToSize(declarationText, maxWidth);
     lines.forEach((line: string, index: number) => {
-      doc.text(line, 20, declarationYPos + (index * 7));
+      doc.text(line, 20, currentY + (index * 7));
     });
     
-    // Add payment details
-    const detailsYPos = declarationYPos + (lines.length * 7) + 10;
-    doc.text(`Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`, 20, detailsYPos);
-    doc.text(`Share Class: ${data.shareClass}`, 20, detailsYPos + 10);
-    doc.text(`Amount per Share: £${data.amountPerShare}`, 20, detailsYPos + 20);
-    doc.text(`Total Amount: £${data.totalAmount}`, 20, detailsYPos + 30);
+    // Add payment details with proper spacing
+    currentY += (lines.length * 7) + 14; // Add extra space after declaration
+    doc.text(`Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`, 20, currentY);
+    doc.text(`Share Class: ${data.shareClass}`, 20, currentY + 10);
+    doc.text(`Amount per Share: £${data.amountPerShare}`, 20, currentY + 20);
+    doc.text(`Total Amount: £${data.totalAmount}`, 20, currentY + 30);
     
-    // Add signature lines
-    const signatureY = detailsYPos + 60;
+    // Add signature lines with proper spacing
+    const signatureY = currentY + 60;
     doc.line(20, signatureY, 80, signatureY);
     doc.text('Signature of Director/Secretary', 20, signatureY + 10);
     
@@ -109,11 +108,6 @@ export const generatePDF = (data: DividendVoucherData | BoardMinutesData) => {
     doc.text('3. CLOSE', 20, yPos);
     yPos += 8;
     doc.text('There being no further business the meeting was closed.', 20, yPos);
-    
-    yPos += 25;
-    doc.text('Signed: _________________________', 20, yPos);
-    yPos += 15;
-    doc.text('Dated: _________________________', 20, yPos);
   }
 
   return doc;
