@@ -6,9 +6,11 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { FileText, Download, ArrowRight } from "lucide-react";
+import { FileText, Download, ArrowRight, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
@@ -65,6 +67,15 @@ export default function Profile() {
 
   return (
     <div className="container mx-auto py-24 px-4">
+      <div className="mb-6">
+        <Button
+          variant="outline"
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" /> Back
+        </Button>
+      </div>
       <div className="grid md:grid-cols-3 gap-6">
         {/* Left Column - Personal Details */}
         <div className="space-y-6">
