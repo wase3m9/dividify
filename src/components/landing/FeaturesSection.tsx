@@ -150,7 +150,7 @@ export const FeaturesSection = () => {
             <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
               <div className="w-20 h-20 flex items-center justify-center">
                 <img 
-                  src="/lovable-uploads/e2f79c33-ae65-4036-9ecc-558e39ccd26d.png" 
+                  src="/lovable-uploads/0862c29f-36a7-41b3-8463-6912b7f27f89.png" 
                   alt="Sage" 
                   className="max-w-full max-h-full object-contain"
                 />
