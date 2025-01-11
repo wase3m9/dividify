@@ -40,7 +40,7 @@ export const FeaturesSection = () => {
           </Card>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-24">
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
               <FileText className="h-6 w-6 text-[#9b87f5]" />
