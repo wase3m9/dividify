@@ -15,28 +15,40 @@ interface AmountFieldsProps {
 
 export const AmountFields = ({ form }: AmountFieldsProps) => {
   const formatCurrency = (value: string) => {
-    // Remove any existing commas and handle empty or invalid input
-    const cleanValue = value.replace(/,/g, '');
+    // Remove any non-numeric characters except decimal point
+    const cleanValue = value.replace(/[^\d.]/g, '');
+    
+    // Handle empty or invalid input
     if (!cleanValue) return "";
+    
+    // Ensure only one decimal point
+    const parts = cleanValue.split('.');
+    if (parts.length > 2) {
+      return parts[0] + '.' + parts[1];
+    }
     
     const num = parseFloat(cleanValue);
     if (isNaN(num)) return "";
     
-    // Format with 2 decimal places
-    return num.toFixed(2);
+    // If there's a decimal point, maintain the exact input precision up to 2 places
+    if (cleanValue.includes('.')) {
+      const decimalPart = parts[1] || '';
+      if (decimalPart.length > 2) {
+        return num.toFixed(2);
+      }
+      return cleanValue;
+    }
+    
+    // For whole numbers, return as is
+    return cleanValue;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
-    // Only allow numbers and decimal point
-    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
-    
-    // Ensure we only have one decimal point
-    const parts = rawValue.split('.');
-    const sanitizedValue = parts.length > 2 
-      ? `${parts[0]}.${parts.slice(1).join('')}`
-      : rawValue;
-    
-    onChange(sanitizedValue);
+    const value = e.target.value;
+    // Allow numbers and one decimal point
+    if (/^\d*\.?\d*$/.test(value) || value === '') {
+      onChange(value);
+    }
   };
 
   return (
