@@ -249,7 +249,7 @@ const DividendBoard = () => {
               </Tabs>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-8 lg:pl-4">
               <RecentActivity />
             </div>
           </div>

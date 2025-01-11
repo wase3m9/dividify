@@ -132,10 +132,10 @@ export const MinutesSection: FC = () => {
           {minuteRecords.map((record) => (
             <div key={record.id} className="p-4 border rounded-lg">
               <div className="flex justify-between items-start">
-                <div>
-                  <p><span className="font-medium">Title:</span> {record.title}</p>
-                  <p><span className="font-medium">Meeting Date:</span> {new Date(record.meeting_date).toLocaleDateString()}</p>
-                  <p><span className="font-medium">Created:</span> {new Date(record.created_at).toLocaleDateString()}</p>
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-600"><span className="font-medium">Title:</span> {record.title}</p>
+                  <p className="text-sm text-gray-600"><span className="font-medium">Meeting Date:</span> {new Date(record.meeting_date).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-600"><span className="font-medium">Created:</span> {new Date(record.created_at).toLocaleDateString()}</p>
                 </div>
                 <div className="flex gap-2">
                   <Button
@@ -179,7 +179,7 @@ export const MinutesSection: FC = () => {
           ))}
         </div>
       ) : (
-        <p className="text-gray-500">No board minutes uploaded yet.</p>
+        <p className="text-sm text-gray-500">No board minutes uploaded yet.</p>
       )}
     </Card>
   );

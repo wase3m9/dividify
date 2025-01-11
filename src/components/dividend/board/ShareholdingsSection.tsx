@@ -120,9 +120,9 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
           </div>
           {shareholdings.map((shareholding) => (
             <div key={shareholding.id} className="p-4 border rounded-lg flex justify-between items-center">
-              <div>
-                <p><span className="font-medium">Name:</span> {shareholding.shareholder_name}</p>
-                <p><span className="font-medium">Number of Shares:</span> {shareholding.number_of_shares}</p>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-600"><span className="font-medium">Name:</span> {shareholding.shareholder_name}</p>
+                <p className="text-sm text-gray-600"><span className="font-medium">Number of Shares:</span> {shareholding.number_of_shares}</p>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -146,7 +146,7 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
           ))}
         </div>
       ) : (
-        <p className="text-gray-500">No shareholders added yet.</p>
+        <p className="text-sm text-gray-500">No shareholders added yet.</p>
       )}
     </Card>
   );
