@@ -41,9 +41,8 @@ export const generatePDF = (data: DividendVoucherData) => {
   doc.setFontSize(11);
   doc.text([
     `${data.companyName} has declared the final dividend`,
-    `for the financial year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')}`,
-    'as follows:'
-  ], 20, declarationY);
+    `for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
+  ], 20, declarationY, { align: 'left' });
 
   // Payment details section (left aligned with increased spacing)
   const detailsStart = declarationY + 25;

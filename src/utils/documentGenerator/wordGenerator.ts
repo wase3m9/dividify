@@ -128,7 +128,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           },
           children: [
             new TextRun({
-              text: `for the financial year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
+              text: `for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
               size: 24,
             }),
           ],
