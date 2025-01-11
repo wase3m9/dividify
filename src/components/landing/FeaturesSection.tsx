@@ -72,31 +72,30 @@ export const FeaturesSection = () => {
           </Card>
         </div>
 
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-6">
-            Connect <span className="text-[#9b87f5]">Dividify</span> with your accounting software
-          </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            Dividify connects seamlessly with your accounting software to simplify your workflows. With integrations
-            across leading platforms like QuickBooks, Xero, and others, Dividify allows you to manage dividends and
-            board meeting compliance effortlessly. Keep your accounting streamlined and your documentation
-            compliant without any hassle.
-          </p>
-        </div>
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-bold mb-6">
+          Connect <span className="text-[#9b87f5]">Dividify</span> with your accounting software
+        </h2>
+        <p className="text-gray-600 max-w-3xl mx-auto">
+          Dividify connects seamlessly with your accounting software to simplify your workflows. With integrations
+          across leading platforms like QuickBooks, Xero, and others, Dividify allows you to manage dividends and
+          board meeting compliance effortlessly. Keep your accounting streamlined and your documentation
+          compliant without any hassle.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 items-center justify-items-center max-w-3xl mx-auto">
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
-            <img src="/lovable-uploads/9171f7b9-ea58-44a7-88ed-69742b5968e7.png" alt="Xero" className="w-full h-full object-contain" />
-          </div>
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
-            <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks" className="w-full h-full object-contain" />
-          </div>
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
-            <img src="/lovable-uploads/05d42872-d6b8-49fd-8d69-f6ba2d20e8c8.png" alt="Sage" className="w-full h-full object-contain" />
-          </div>
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
-            <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent" className="w-full h-full object-contain" />
-          </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-1 items-center justify-items-center max-w-3xl mx-auto">
+        <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+          <img src="/lovable-uploads/58de35bd-d003-4898-8f07-85bf2be09dcc.png" alt="Xero" className="w-full h-full object-contain" />
+        </div>
+        <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+          <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks" className="w-full h-full object-contain" />
+        </div>
+        <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+          <img src="/lovable-uploads/05d42872-d6b8-49fd-8d69-f6ba2d20e8c8.png" alt="Sage" className="w-full h-full object-contain" />
+        </div>
+        <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+          <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent" className="w-full h-full object-contain" />
         </div>
       </div>
     </section>
