@@ -22,16 +22,6 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         return;
       }
 
-      if (plan === 'enterprise') {
-        // For enterprise plan, redirect to a contact form or show contact information
-        toast({
-          title: "Contact Sales",
-          description: "Please contact our sales team for enterprise pricing.",
-          duration: 5000,
-        });
-        return;
-      }
-
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { plan }
       });
@@ -177,7 +167,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
               onClick={() => handleSubscribe('enterprise')}
             >
-              Contact Sales
+              Subscribe Now
             </Button>
           </Card>
         </div>
