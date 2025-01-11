@@ -43,22 +43,51 @@ export const TemplateSelection = () => {
 
   useEffect(() => {
     const fetchCompanyDetails = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
 
-      const { data: companies } = await supabase
-        .from('companies')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
+        // Get the companyId from the form data
+        const companyId = formData.companyId;
+        if (!companyId) {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Company ID not found in form data",
+          });
+          return;
+        }
 
-      if (companies) {
-        setCompany(companies);
+        const { data: company, error } = await supabase
+          .from('companies')
+          .select('*')
+          .eq('id', companyId)
+          .maybeSingle();
+
+        if (error) {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Failed to fetch company details",
+          });
+          return;
+        }
+
+        if (company) {
+          setCompany(company);
+        }
+      } catch (error) {
+        console.error('Error fetching company details:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to fetch company details",
+        });
       }
     };
 
     fetchCompanyDetails();
-  }, []);
+  }, [formData.companyId, toast]);
 
   const createOrUpdateRecord = async (filePath: string) => {
     try {
