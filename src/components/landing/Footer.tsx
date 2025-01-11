@@ -1,14 +1,14 @@
 export const Footer = () => {
   return (
     <footer className="border-t py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
+      <div className="container mx-auto">
+        <div className="grid md:grid-cols-4 gap-8 px-4 md:px-0">
           <div className="text-left">
             <div className="mb-4">
               <img 
                 src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
                 alt="Dividify Logo" 
-                className="h-10 w-auto" // Increased from h-8 to h-10
+                className="h-10 w-auto"
               />
             </div>
             <p className="text-sm text-gray-600">
