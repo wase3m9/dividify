@@ -1,4 +1,5 @@
 import { jsPDF } from 'jspdf';
+import { format } from 'date-fns';
 import { DividendVoucherData, BoardMinutesData } from '../types';
 
 export const generatePDF = (data: DividendVoucherData | BoardMinutesData) => {
@@ -14,33 +15,34 @@ export const generatePDF = (data: DividendVoucherData | BoardMinutesData) => {
     doc.text(`Company number: ${data.registrationNumber}`, 105, 30, { align: 'center' });
     doc.text(data.registeredAddress, 105, 40, { align: 'center' });
     
-    // Add shareholder details on the left
+    // Add shareholder details and voucher number
     doc.setFontSize(11);
-    doc.text('Shareholder Name:', 20, 60);
+    doc.text(`Voucher No: ${data.voucherNumber}`, 190, 60, { align: 'right' });
     doc.text(data.shareholderName, 20, 70);
     
-    doc.text('Shareholder Address:', 20, 85);
     const addressLines = data.shareholderAddress.split(',');
     addressLines.forEach((line, index) => {
-      doc.text(line.trim(), 20, 95 + (index * 10));
+      doc.text(line.trim(), 20, 80 + (index * 10));
     });
     
-    // Add voucher number on the right
-    doc.text(`Dividend Voucher No: ${data.voucherNumber}`, 190, 60, { align: 'right' });
-    
-    // Add declaration
-    const yPos = 140; // After 3 line breaks from the address section
-    doc.text(`${data.companyName} has declared the final dividend`, 20, yPos);
-    doc.text(`for the year ending ${new Date(data.financialYearEnding).toLocaleDateString()} on the shares as follows:`, 20, yPos + 10);
+    // Add declaration with proper text wrapping
+    const yPos = 120;
+    const declarationText = `${data.companyName} has declared the final dividend for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} on the shares as follows:`;
+    const maxWidth = 170;
+    const lines = doc.splitTextToSize(declarationText, maxWidth);
+    lines.forEach((line: string, index: number) => {
+      doc.text(line, 20, yPos + (index * 7));
+    });
     
     // Add payment details
-    doc.text(`Payment Date: ${new Date(data.paymentDate).toLocaleDateString()}`, 20, yPos + 30);
-    doc.text(`Share Class: ${data.shareClass}`, 20, yPos + 40);
-    doc.text(`Amount per Share: £${data.amountPerShare}`, 20, yPos + 50);
-    doc.text(`Total Amount: £${data.totalAmount}`, 20, yPos + 60);
+    const detailsYPos = yPos + (lines.length * 7) + 10;
+    doc.text(`Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`, 20, detailsYPos);
+    doc.text(`Share Class: ${data.shareClass}`, 20, detailsYPos + 10);
+    doc.text(`Amount per Share: £${data.amountPerShare}`, 20, detailsYPos + 20);
+    doc.text(`Total Amount: £${data.totalAmount}`, 20, detailsYPos + 30);
     
-    // Add signature lines at the bottom
-    const signatureY = yPos + 100;
+    // Add signature lines
+    const signatureY = detailsYPos + 60;
     doc.line(20, signatureY, 80, signatureY);
     doc.text('Signature of Director/Secretary', 20, signatureY + 10);
     

@@ -1,9 +1,9 @@
 import { Document, Paragraph, TextRun, HeadingLevel, AlignmentType } from 'docx';
+import { format } from 'date-fns';
 import { DividendVoucherData, BoardMinutesData } from '../types';
 
 export const generateWord = async (data: DividendVoucherData | BoardMinutesData) => {
   if ('voucherNumber' in data) {
-    // Handle dividend voucher generation
     const doc = new Document({
       sections: [{
         properties: {},
@@ -39,28 +39,22 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
           }),
           new Paragraph({ text: '' }),
           
-          // Two-column layout for shareholder details and voucher number
+          // Voucher number (right-aligned)
           new Paragraph({
+            alignment: AlignmentType.RIGHT,
             children: [
               new TextRun({
-                text: 'Shareholder Name:',
+                text: `Voucher No: ${data.voucherNumber}`,
                 size: 24,
               }),
             ],
           }),
+          
+          // Shareholder details (left-aligned, no labels)
           new Paragraph({
             children: [
               new TextRun({
                 text: data.shareholderName,
-                size: 24,
-              }),
-            ],
-          }),
-          new Paragraph({ text: '' }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: 'Shareholder Address:',
                 size: 24,
               }),
             ],
@@ -75,32 +69,17 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
               ],
             })
           ),
-          new Paragraph({
-            alignment: AlignmentType.RIGHT,
-            children: [
-              new TextRun({
-                text: `Dividend Voucher No: ${data.voucherNumber}`,
-                size: 24,
-              }),
-            ],
-          }),
           
-          // Declaration
+          // Spacing
           new Paragraph({ text: '' }),
           new Paragraph({ text: '' }),
           new Paragraph({ text: '' }),
+          
+          // Declaration (full width)
           new Paragraph({
             children: [
               new TextRun({
-                text: `${data.companyName} has declared the final dividend`,
-                size: 24,
-              }),
-            ],
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: `for the year ending ${new Date(data.financialYearEnding).toLocaleDateString()} on the shares as follows:`,
+                text: `${data.companyName} has declared the final dividend for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} on the shares as follows:`,
                 size: 24,
               }),
             ],
@@ -111,7 +90,7 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
           new Paragraph({
             children: [
               new TextRun({
-                text: `Payment Date: ${new Date(data.paymentDate).toLocaleDateString()}`,
+                text: `Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
                 size: 24,
               }),
             ],
