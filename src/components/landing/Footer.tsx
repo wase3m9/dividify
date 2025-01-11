@@ -1,8 +1,8 @@
 export const Footer = () => {
   return (
     <footer className="border-t py-12">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="grid md:grid-cols-4 gap-8 px-4 lg:px-8">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
+        <div className="grid md:grid-cols-4 gap-8">
           <div className="text-left">
             <div className="mb-4">
               <img 
@@ -42,7 +42,7 @@ export const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600 px-4 lg:px-8">
+        <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
           <p>&copy; {new Date().getFullYear()} Dividify. All rights reserved.</p>
         </div>
       </div>
