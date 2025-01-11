@@ -69,7 +69,6 @@ export const TemplateSelection = () => {
       const financialYearEnding = formData.financialYearEnding ? new Date(formData.financialYearEnding).toISOString() : new Date().toISOString();
 
       if (recordId) {
-        // Update existing record with new file path
         const { error: updateError } = await supabase
           .from('dividend_records')
           .update({ file_path: filePath })
@@ -77,7 +76,6 @@ export const TemplateSelection = () => {
 
         if (updateError) throw updateError;
       } else {
-        // Create new record
         const { data: newRecord, error: saveError } = await supabase
           .from('dividend_records')
           .insert({
@@ -132,7 +130,7 @@ export const TemplateSelection = () => {
         registrationNumber: company.registration_number || '',
         registeredAddress: company.registered_address || '',
         shareholderName: formData.shareholderName || '',
-        shareholderAddress: formData.shareholderAddress || '',
+        shareholderAddress: formData.shareholderAddress || '', // Make sure we pass the shareholder address
         shareClass: formData.shareClass || '',
         paymentDate: paymentDate,
         amountPerShare: formData.amountPerShare?.toString() || '0',
