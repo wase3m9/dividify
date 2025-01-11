@@ -12,6 +12,7 @@ import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSec
 import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { QuickActions } from "@/components/dividend/board/QuickActions";
+import { PlanLimits } from "@/components/dividend/board/PlanLimits";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DividendBoard = () => {
@@ -58,7 +59,6 @@ const DividendBoard = () => {
         if (officersError) throw officersError;
         setDirectors(officersData);
 
-        // Fetch shareholders (excluding share classes)
         const { data: shareholdingsData, error: shareholdingsError } = await supabase
           .from('shareholders')
           .select('*')
@@ -68,7 +68,6 @@ const DividendBoard = () => {
         if (shareholdingsError) throw shareholdingsError;
         setShareholdings(shareholdingsData);
 
-        // Fetch share classes separately
         const { data: shareClassesData, error: shareClassesError } = await supabase
           .from('shareholders')
           .select('*')
@@ -254,7 +253,8 @@ const DividendBoard = () => {
             </div>
 
             <div className="lg:col-start-3">
-              <div className="sticky top-24">
+              <div className="sticky top-24 space-y-6">
+                <PlanLimits />
                 <RecentActivity />
               </div>
             </div>

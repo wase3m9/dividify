@@ -213,26 +213,41 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          companies_count: number | null
+          current_month_dividends: number | null
+          current_month_minutes: number | null
           id: string
+          subscription_plan: string | null
           trial_expired: boolean | null
           trial_start_date: string | null
           updated_at: string | null
+          usage_reset_date: string | null
           username: string | null
         }
         Insert: {
           avatar_url?: string | null
+          companies_count?: number | null
+          current_month_dividends?: number | null
+          current_month_minutes?: number | null
           id: string
+          subscription_plan?: string | null
           trial_expired?: boolean | null
           trial_start_date?: string | null
           updated_at?: string | null
+          usage_reset_date?: string | null
           username?: string | null
         }
         Update: {
           avatar_url?: string | null
+          companies_count?: number | null
+          current_month_dividends?: number | null
+          current_month_minutes?: number | null
           id?: string
+          subscription_plan?: string | null
           trial_expired?: boolean | null
           trial_start_date?: string | null
           updated_at?: string | null
+          usage_reset_date?: string | null
           username?: string | null
         }
         Relationships: []
