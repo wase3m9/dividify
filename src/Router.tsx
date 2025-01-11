@@ -29,11 +29,11 @@ const routes = [
     element: <DividendBoard />,
   },
   {
-    path: "dividend-voucher",
+    path: "dividend-voucher/create",
     element: <DividendVoucherForm />,
   },
   {
-    path: "dividend-amount",
+    path: "dividend-voucher/amount",
     element: <DividendAmountForm />,
   },
   {
@@ -41,7 +41,7 @@ const routes = [
     element: <DividendWaivers />,
   },
   {
-    path: "board-minutes",
+    path: "board-minutes/create",
     element: <BoardMinutesForm />,
   },
   {
