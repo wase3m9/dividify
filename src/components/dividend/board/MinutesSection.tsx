@@ -24,6 +24,23 @@ export const MinutesSection: FC = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('subscription_plan')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    }
+  });
+
   const { data: minuteRecords, isLoading } = useQuery({
     queryKey: ['minute-records'],
     queryFn: async () => {
@@ -117,6 +134,8 @@ export const MinutesSection: FC = () => {
     });
   };
 
+  const canDelete = profile?.subscription_plan !== 'starter' && profile?.subscription_plan !== 'trial';
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -167,14 +186,16 @@ export const MinutesSection: FC = () => {
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(record.id)}
-                    className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  {canDelete && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDelete(record.id)}
+                      className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

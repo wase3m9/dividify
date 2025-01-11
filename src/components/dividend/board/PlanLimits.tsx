@@ -29,14 +29,27 @@ export const PlanLimits = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
+      // First get the company count
+      const { count: companiesCount, error: countError } = await supabase
+        .from('companies')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id);
+
+      if (countError) throw countError;
+
+      // Then get the profile data
+      const { data: profile, error: profileError } = await supabase
         .from('profiles')
-        .select('subscription_plan, companies_count, current_month_dividends, current_month_minutes')
+        .select('subscription_plan, current_month_dividends, current_month_minutes')
         .eq('id', user.id)
         .single();
 
-      if (error) throw error;
-      return data as UsageData;
+      if (profileError) throw profileError;
+
+      return {
+        ...profile,
+        companies_count: companiesCount || 0
+      } as UsageData;
     }
   });
 

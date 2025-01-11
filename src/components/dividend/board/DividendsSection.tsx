@@ -29,6 +29,23 @@ export const DividendsSection: FC = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('subscription_plan')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    }
+  });
+
   const { data: dividendRecords, isLoading } = useQuery({
     queryKey: ['dividend-records'],
     queryFn: async () => {
@@ -51,7 +68,6 @@ export const DividendsSection: FC = () => {
 
       if (error) throw error;
 
-      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['dividend-records'] });
 
       toast({
@@ -96,6 +112,8 @@ export const DividendsSection: FC = () => {
       description: "Edit functionality will be available soon",
     });
   };
+
+  const canDelete = profile?.subscription_plan !== 'starter' && profile?.subscription_plan !== 'trial';
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -164,14 +182,16 @@ export const DividendsSection: FC = () => {
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(record.id)}
-                    className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  {canDelete && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDelete(record.id)}
+                      className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
