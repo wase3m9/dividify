@@ -118,7 +118,7 @@ export const FeaturesSection = () => {
 
         <div className="mt-24 text-center px-4">
           <h2 className="text-4xl font-bold mb-4">
-            Connect Dividify with your accounting software
+            Connect <span className="text-[#9b87f5]">Dividify</span> with your accounting software
           </h2>
           <p className="text-gray-600 max-w-3xl mx-auto mb-12">
             Dividify connects seamlessly with your accounting software to simplify your workflows. 
@@ -128,16 +128,16 @@ export const FeaturesSection = () => {
           </p>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
               <img src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" alt="Xero" className="h-12 w-12" />
             </div>
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
               <img src="/lovable-uploads/8ee4d861-36ee-4d61-b0e5-2c688acb6879.png" alt="QuickBooks" className="h-12 w-12" />
             </div>
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
               <img src="/lovable-uploads/e2f79c33-ae65-4036-9ecc-558e39ccd26d.png" alt="Sage" className="h-12 w-12" />
             </div>
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
               <img src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" alt="FreeAgent" className="h-12 w-12" />
             </div>
           </div>
