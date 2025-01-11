@@ -16,6 +16,7 @@ const BoardMinutesPreview = () => {
   const { toast } = useToast();
   const formData = location.state || {};
   const [company, setCompany] = useState<any>(null);
+  const [recordId, setRecordId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCompanyData = async () => {
@@ -39,6 +40,43 @@ const BoardMinutesPreview = () => {
 
     fetchCompanyData();
   }, [toast]);
+
+  const createOrUpdateRecord = async (filePath: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      if (!company) throw new Error("Company data not found");
+
+      if (recordId) {
+        // Update existing record with new file path
+        const { error: updateError } = await supabase
+          .from('minutes')
+          .update({ file_path: filePath })
+          .eq('id', recordId);
+
+        if (updateError) throw updateError;
+      } else {
+        // Create new record
+        const { data: newRecord, error: saveError } = await supabase
+          .from('minutes')
+          .insert({
+            company_id: company.id,
+            user_id: user.id,
+            title: `Board Minutes - ${new Date(formData.meetingDate).toLocaleDateString()}`,
+            meeting_date: formData.meetingDate,
+            file_path: filePath
+          })
+          .select()
+          .single();
+
+        if (saveError) throw saveError;
+        setRecordId(newRecord.id);
+      }
+    } catch (error: any) {
+      throw error;
+    }
+  };
 
   const handleDownload = async (format: 'pdf' | 'word') => {
     try {
@@ -76,9 +114,10 @@ const BoardMinutesPreview = () => {
         financialYearEnd: formData.financialYearEnd
       };
 
-      let filePath = '';
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const fileName = `board_minutes_${timestamp}.${format}`;
+
+      let filePath = '';
 
       if (format === 'pdf') {
         const doc = await downloadPDF(documentData);
@@ -106,17 +145,7 @@ const BoardMinutesPreview = () => {
         filePath = uploadData.path;
       }
 
-      const { error: saveError } = await supabase
-        .from('minutes')
-        .insert({
-          company_id: company.id,
-          user_id: user.id,
-          title: `Board Minutes - ${new Date(formData.meetingDate).toLocaleDateString()}`,
-          meeting_date: formData.meetingDate,
-          file_path: filePath
-        });
-
-      if (saveError) throw saveError;
+      await createOrUpdateRecord(filePath);
 
       toast({
         title: "Success",

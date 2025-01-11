@@ -36,6 +36,7 @@ export const TemplateSelection = () => {
   const { toast } = useToast();
   const [company, setCompany] = useState<Company | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState('basic');
+  const [recordId, setRecordId] = useState<string | null>(null);
   const formData = location.state || {};
 
   useEffect(() => {
@@ -56,6 +57,51 @@ export const TemplateSelection = () => {
 
     fetchCompanyDetails();
   }, []);
+
+  const createOrUpdateRecord = async (filePath: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      if (!company) throw new Error("Company data not found");
+
+      const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString() : new Date().toISOString();
+      const financialYearEnding = formData.financialYearEnding ? new Date(formData.financialYearEnding).toISOString() : new Date().toISOString();
+
+      if (recordId) {
+        // Update existing record with new file path
+        const { error: updateError } = await supabase
+          .from('dividend_records')
+          .update({ file_path: filePath })
+          .eq('id', recordId);
+
+        if (updateError) throw updateError;
+      } else {
+        // Create new record
+        const { data: newRecord, error: saveError } = await supabase
+          .from('dividend_records')
+          .insert({
+            company_id: company.id,
+            user_id: user.id,
+            shareholder_name: formData.shareholderName || '',
+            share_class: formData.shareClass || '',
+            payment_date: paymentDate,
+            financial_year_ending: financialYearEnding,
+            amount_per_share: parseFloat(formData.amountPerShare || '0'),
+            total_amount: parseFloat(formData.totalAmount || '0'),
+            director_name: formData.directorName || '',
+            file_path: filePath
+          })
+          .select()
+          .single();
+
+        if (saveError) throw saveError;
+        setRecordId(newRecord.id);
+      }
+    } catch (error: any) {
+      throw error;
+    }
+  };
 
   const handleDownload = async (templateId: string, format: 'pdf' | 'word') => {
     if (!company) {
@@ -78,7 +124,6 @@ export const TemplateSelection = () => {
         return;
       }
 
-      // Format dates properly
       const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString() : new Date().toISOString();
       const financialYearEnding = formData.financialYearEnding ? new Date(formData.financialYearEnding).toISOString() : new Date().toISOString();
 
@@ -127,27 +172,11 @@ export const TemplateSelection = () => {
         filePath = uploadData.path;
       }
 
-      // Save the record to the database
-      const { error: saveError } = await supabase
-        .from('dividend_records')
-        .insert({
-          company_id: company.id,
-          user_id: user.id,
-          shareholder_name: documentData.shareholderName,
-          share_class: documentData.shareClass,
-          payment_date: paymentDate,
-          financial_year_ending: financialYearEnding,
-          amount_per_share: parseFloat(documentData.amountPerShare),
-          total_amount: parseFloat(documentData.totalAmount),
-          director_name: formData.directorName || '',
-          file_path: filePath
-        });
-
-      if (saveError) throw saveError;
+      await createOrUpdateRecord(filePath);
 
       toast({
         title: "Success",
-        description: `Dividend voucher downloaded and saved successfully as ${format.toUpperCase()}`,
+        description: `Dividend voucher downloaded successfully as ${format.toUpperCase()}`,
       });
 
     } catch (error) {
