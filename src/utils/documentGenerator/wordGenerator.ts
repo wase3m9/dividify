@@ -1,4 +1,4 @@
-import { Document, Paragraph, TextRun, AlignmentType, convertInchesToTwip, spacing } from 'docx';
+import { Document, Paragraph, TextRun, AlignmentType, convertInchesToTwip, Spacing } from 'docx';
 import { format } from 'date-fns';
 import { DividendVoucherData } from './types';
 
