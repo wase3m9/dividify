@@ -8,7 +8,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { DividendAmountFormValues } from "./types";
-import { useEffect } from "react";
 
 interface AmountFieldsProps {
   form: UseFormReturn<DividendAmountFormValues>;
@@ -16,23 +15,17 @@ interface AmountFieldsProps {
 
 export const AmountFields = ({ form }: AmountFieldsProps) => {
   const formatCurrency = (value: string) => {
-    const num = parseFloat(value);
+    // Remove any existing commas first
+    const cleanValue = value.replace(/,/g, '');
+    const num = parseFloat(cleanValue);
     if (isNaN(num)) return "";
-    return num.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    // Format with commas and always 2 decimal places
+    return new Intl.NumberFormat('en-GB', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(num);
   };
-
-  useEffect(() => {
-    const subscription = form.watch((value, { name }) => {
-      if (name === "amountPerShare" || name === "totalAmount") {
-        const fieldValue = value[name as keyof DividendAmountFormValues];
-        if (fieldValue) {
-          form.setValue(name as keyof DividendAmountFormValues, formatCurrency(fieldValue.toString()));
-        }
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form]);
 
   return (
     <>
@@ -50,7 +43,9 @@ export const AmountFields = ({ form }: AmountFieldsProps) => {
                   className="pl-7"
                   placeholder="0.00"
                   {...field}
+                  value={field.value ? formatCurrency(field.value.toString()) : ""}
                   onChange={(e) => {
+                    // Only allow numbers and decimal point
                     const value = e.target.value.replace(/[^0-9.]/g, '');
                     field.onChange(value);
                   }}
@@ -76,7 +71,9 @@ export const AmountFields = ({ form }: AmountFieldsProps) => {
                   className="pl-7"
                   placeholder="0.00"
                   {...field}
+                  value={field.value ? formatCurrency(field.value.toString()) : ""}
                   onChange={(e) => {
+                    // Only allow numbers and decimal point
                     const value = e.target.value.replace(/[^0-9.]/g, '');
                     field.onChange(value);
                   }}
