@@ -37,7 +37,11 @@ interface FormData {
   financialYearEnd: string;
 }
 
-export const BoardMinutesDetailsForm: FC = () => {
+interface BoardMinutesDetailsFormProps {
+  selectedCompanyId?: string;
+}
+
+export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ selectedCompanyId }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [directors, setDirectors] = useState<Director[]>([{ name: "" }]);
@@ -68,10 +72,20 @@ export const BoardMinutesDetailsForm: FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
+    if (!selectedCompanyId) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please select a company first",
+      });
+      return;
+    }
+
     navigate("/board-minutes/preview", {
       state: {
         ...data,
         directors,
+        companyId: selectedCompanyId,
       }
     });
   };
