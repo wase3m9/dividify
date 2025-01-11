@@ -1,31 +1,68 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { LogOut, Home, Grid, User as UserIcon, Receipt } from "lucide-react";
+import { LogOut, Home, Grid, User as UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import { useToast } from "@/components/ui/use-toast";
 
 export const Navigation = () => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error("Error getting session:", error);
+        return;
+      }
       setUser(session?.user ?? null);
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'TOKEN_REFRESHED') {
+        setUser(session?.user ?? null);
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+        // Clear any local storage items related to auth
+        localStorage.removeItem('supabase.auth.token');
+        // Redirect to home page
+        navigate('/');
+      } else if (event === 'SIGNED_IN') {
+        setUser(session?.user ?? null);
+      }
     });
 
-    return () => subscription.unsubscribe();
-  }, []);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      // Clear any remaining auth state
+      setUser(null);
+      navigate("/");
+      
+      toast({
+        title: "Signed out successfully",
+        duration: 2000,
+      });
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast({
+        variant: "destructive",
+        title: "Error signing out",
+        description: "Please try again",
+        duration: 3000,
+      });
+    }
   };
 
   const handleStartFreeTrial = () => {
