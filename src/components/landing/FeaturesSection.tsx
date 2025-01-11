@@ -86,16 +86,16 @@ export const FeaturesSection = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
           <div className="w-32 h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
-            <img src="/lovable-uploads/xero-logo.png" alt="Xero" className="max-w-full max-h-full object-contain" />
+            <img src="/placeholder.svg" alt="Logo 1" className="max-w-full max-h-full object-contain" />
           </div>
           <div className="w-32 h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
-            <img src="/lovable-uploads/quickbooks-logo.png" alt="QuickBooks" className="max-w-full max-h-full object-contain" />
+            <img src="/placeholder.svg" alt="Logo 2" className="max-w-full max-h-full object-contain" />
           </div>
           <div className="w-32 h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
-            <img src="/lovable-uploads/sage-logo.png" alt="Sage" className="max-w-full max-h-full object-contain" />
+            <img src="/placeholder.svg" alt="Logo 3" className="max-w-full max-h-full object-contain" />
           </div>
           <div className="w-32 h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
-            <img src="/lovable-uploads/freeagent-logo.png" alt="FreeAgent" className="max-w-full max-h-full object-contain" />
+            <img src="/placeholder.svg" alt="Logo 4" className="max-w-full max-h-full object-contain" />
           </div>
         </div>
       </div>
