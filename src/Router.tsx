@@ -1,28 +1,54 @@
-import { Routes, Route } from "react-router-dom";
-import Auth from "@/pages/Auth";
+import { createBrowserRouter } from "react-router-dom";
 import Index from "@/pages/Index";
+import Auth from "@/pages/Auth";
+import Signup from "@/pages/Signup";
 import DividendBoard from "@/pages/DividendBoard";
 import DividendVoucherForm from "@/pages/DividendVoucherForm";
 import DividendAmountForm from "@/pages/DividendAmountForm";
-import DividendWaivers from "@/pages/DividendWaivers";
-import Signup from "@/pages/Signup";
 import BoardMinutesForm from "@/pages/BoardMinutesForm";
 import BoardMinutesTemplate from "@/pages/BoardMinutesTemplate";
 import BoardMinutesPreview from "@/pages/BoardMinutesPreview";
+import Profile from "@/pages/Profile";
 
-export const Router = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Index />} />
-      <Route path="/auth" element={<Auth />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/dividend-board" element={<DividendBoard />} />
-      <Route path="/dividend-voucher/create" element={<DividendVoucherForm />} />
-      <Route path="/dividend-voucher/amount" element={<DividendAmountForm />} />
-      <Route path="/dividend-voucher/waivers" element={<DividendWaivers />} />
-      <Route path="/board-minutes/create" element={<BoardMinutesForm />} />
-      <Route path="/board-minutes/preview" element={<BoardMinutesPreview />} />
-      <Route path="/board-minutes/template" element={<BoardMinutesTemplate />} />
-    </Routes>
-  );
-};
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Index />,
+  },
+  {
+    path: "/auth",
+    element: <Auth />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/dividend-board",
+    element: <DividendBoard />,
+  },
+  {
+    path: "/dividend-voucher",
+    element: <DividendVoucherForm />,
+  },
+  {
+    path: "/dividend-amount",
+    element: <DividendAmountForm />,
+  },
+  {
+    path: "/board-minutes",
+    element: <BoardMinutesForm />,
+  },
+  {
+    path: "/board-minutes-template",
+    element: <BoardMinutesTemplate />,
+  },
+  {
+    path: "/board-minutes-preview",
+    element: <BoardMinutesPreview />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+]);
