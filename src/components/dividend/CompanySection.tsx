@@ -50,10 +50,15 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
         </Dialog>
       </div>
       {company ? (
-        <div className="space-y-2">
-          <p><span className="font-medium">Name:</span> {company.name}</p>
-          <p><span className="font-medium">Registration Number:</span> {company.registration_number}</p>
-          <p><span className="font-medium">Registered Address:</span> {company.registered_address}</p>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
+          <div className="text-gray-500">Name:</div>
+          <div>{company.name}</div>
+          
+          <div className="text-gray-500">Registration Number:</div>
+          <div>{company.registration_number}</div>
+          
+          <div className="text-gray-500">Registered Address:</div>
+          <div>{company.registered_address}</div>
         </div>
       ) : (
         <p className="text-gray-500">No company information added yet.</p>

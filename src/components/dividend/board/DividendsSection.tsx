@@ -1,11 +1,17 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { BadgePoundSterling, Trash2, Edit } from "lucide-react";
+import { BadgePoundSterling, Trash2, Edit, FileText } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface DividendRecord {
   id: string;
@@ -85,7 +91,6 @@ export const DividendsSection: FC = () => {
   };
 
   const handleEdit = (record: DividendRecord) => {
-    // TODO: Implement edit functionality
     toast({
       title: "Coming Soon",
       description: "Edit functionality will be available soon",
@@ -134,32 +139,34 @@ export const DividendsSection: FC = () => {
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
-                    size="sm"
+                    size="icon"
                     onClick={() => handleEdit(record)}
                     className="text-[#9b87f5] border-[#9b87f5]"
                   >
-                    <Edit className="h-4 w-4 mr-2" />
-                    Edit
+                    <Edit className="h-4 w-4" />
                   </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="text-[#9b87f5] border-[#9b87f5]"
+                      >
+                        <FileText className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={() => handleDownload(record, 'pdf')}>
+                        Download PDF
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDownload(record, 'docx')}>
+                        Download Word
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <Button
                     variant="outline"
-                    size="sm"
-                    onClick={() => handleDownload(record, 'pdf')}
-                    className="text-[#9b87f5] border-[#9b87f5]"
-                  >
-                    Download PDF
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleDownload(record, 'docx')}
-                    className="text-[#9b87f5] border-[#9b87f5]"
-                  >
-                    Download Word
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                    size="icon"
                     onClick={() => handleDelete(record.id)}
                     className="text-red-500 border-red-500 hover:bg-red-50"
                   >
