@@ -178,7 +178,7 @@ export const Navigation = () => {
       <div className="container mx-auto max-w-[1400px]">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <div className="flex items-center px-4 lg:px-8">
+          <div className="flex items-center pl-2 lg:pl-3">
             <Link 
               to="/" 
               className="flex items-center hover:opacity-80 transition-opacity" 
