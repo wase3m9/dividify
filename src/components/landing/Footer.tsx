@@ -1,9 +1,9 @@
 export const Footer = () => {
   return (
-    <footer className="border-t py-12 -ml-8">
-      <div className="container mx-auto max-w-[1400px]">
+    <footer className="w-full border-t py-12">
+      <div className="mx-auto max-w-[1400px] px-4 lg:px-8">
         <div className="grid md:grid-cols-4 gap-8">
-          <div className="flex flex-col items-start px-0 lg:px-4">
+          <div className="flex flex-col items-start">
             <img 
               src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
               alt="Dividify Logo" 
