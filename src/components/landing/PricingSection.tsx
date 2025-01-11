@@ -12,7 +12,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-16">Simple, Transparent Pricing</h2>
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all">
+          <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all hover:animate-jiggle">
             <div className="flex items-center gap-2 mb-4">
               <Sparkles className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-bold">Starter</h3>
@@ -47,7 +47,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             </Button>
           </Card>
 
-          <Card className="p-8 hover-lift border-2 border-[#9b87f5] relative">
+          <Card className="p-8 hover-lift border-2 border-[#9b87f5] relative hover:animate-jiggle">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#9b87f5] text-white px-4 py-1 rounded-full text-sm">
               Most Popular
             </div>
@@ -89,7 +89,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             </Button>
           </Card>
 
-          <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all">
+          <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all hover:animate-jiggle">
             <div className="flex items-center gap-2 mb-4">
               <Building2 className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-bold">Enterprise</h3>
