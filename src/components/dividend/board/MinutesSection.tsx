@@ -1,13 +1,10 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { FileText, Trash2, Upload } from "lucide-react";
+import { FileText, Trash2 } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 
 interface MinuteRecord {
@@ -21,10 +18,6 @@ interface MinuteRecord {
 export const MinutesSection: FC = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [meetingDate, setMeetingDate] = useState("");
-  const [file, setFile] = useState<File | null>(null);
 
   const { data: minuteRecords, isLoading } = useQuery({
     queryKey: ['minute-records'],
@@ -63,61 +56,37 @@ export const MinutesSection: FC = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleDownload = async (filePath: string) => {
     try {
-      if (!title || !meetingDate || !file) {
-        throw new Error("Please fill in all fields");
-      }
-
-      // Get the current user
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError) throw userError;
-      if (!user) throw new Error("No authenticated user found");
-
-      const { data: companyData } = await supabase
-        .from('companies')
-        .select('id')
-        .limit(1)
-        .single();
-
-      if (!companyData) throw new Error("No company found");
-
-      const filePath = `minutes/${Date.now()}-${file.name}`;
-
-      const { error: uploadError } = await supabase
-        .storage
+      const { data, error } = await supabase.storage
         .from('minutes')
-        .upload(filePath, file);
+        .download(filePath);
 
-      if (uploadError) throw uploadError;
+      if (error) throw error;
 
-      const { error: insertError } = await supabase
-        .from('minutes')
-        .insert([{
-          title,
-          meeting_date: meetingDate,
-          file_path: filePath,
-          company_id: companyData.id,
-          user_id: user.id, // Add the user_id here
-        }]);
-
-      if (insertError) throw insertError;
-
-      queryClient.invalidateQueries({ queryKey: ['minute-records'] });
-      setIsDialogOpen(false);
-      setTitle("");
-      setMeetingDate("");
-      setFile(null);
+      // Create a URL for the downloaded file
+      const url = URL.createObjectURL(data);
+      
+      // Create a temporary link element
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filePath.split('/').pop() || 'minutes.pdf'; // Use the original filename or a default
+      document.body.appendChild(link);
+      link.click();
+      
+      // Clean up
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
 
       toast({
         title: "Success",
-        description: "Board minutes uploaded successfully",
+        description: "Document downloaded successfully",
       });
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message,
+        description: "Failed to download document. " + error.message,
       });
     }
   };
@@ -133,51 +102,6 @@ export const MinutesSection: FC = () => {
           <FileText className="h-5 w-5 text-[#9b87f5]" />
           <h2 className="text-xl font-semibold">Board Minutes</h2>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]">
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Minutes
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Upload Board Minutes</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Title</label>
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Enter title"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Meeting Date</label>
-                <Input
-                  type="date"
-                  value={meetingDate}
-                  onChange={(e) => setMeetingDate(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">File</label>
-                <Input
-                  type="file"
-                  onChange={(e) => setFile(e.target.files?.[0] || null)}
-                  accept=".pdf,.doc,.docx"
-                />
-              </div>
-              <Button 
-                className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-                onClick={handleSubmit}
-              >
-                Upload
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
       </div>
       {minuteRecords && minuteRecords.length > 0 ? (
         <div className="space-y-4">
@@ -193,9 +117,7 @@ export const MinutesSection: FC = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => {
-                      // TODO: Implement file download
-                    }}
+                    onClick={() => handleDownload(record.file_path)}
                     className="text-[#9b87f5] border-[#9b87f5]"
                   >
                     Download
