@@ -1,7 +1,7 @@
 import { FC, useState, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users } from "lucide-react";
+import { Users, Trash2, Edit } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { DirectorForm } from "./DirectorForm";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +14,10 @@ interface Director {
   address: string;
   date_of_appointment: string;
   company_id: string;
+  title: string;
+  forenames: string;
+  surname: string;
+  email: string;
 }
 
 interface DirectorsSectionProps {
@@ -24,6 +28,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [directors, setDirectors] = useState<Director[]>(initialDirectors);
+  const [editingDirector, setEditingDirector] = useState<Director | null>(null);
   const { toast } = useToast();
 
   const fetchDirectors = useCallback(async (companyId: string) => {
@@ -42,18 +47,46 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
     }
   }, []);
 
+  const handleDelete = async (directorId: string) => {
+    try {
+      const { error } = await supabase
+        .from('officers')
+        .delete()
+        .eq('id', directorId);
+
+      if (error) throw error;
+
+      setDirectors(directors.filter(director => director.id !== directorId));
+      
+      toast({
+        title: "Success",
+        description: "Officer deleted successfully",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
+  const handleEdit = (director: Director) => {
+    setEditingDirector(director);
+    setIsDialogOpen(true);
+  };
+
   const handleSubmit = async (data: any) => {
     setIsLoading(true);
     try {
-      // Get the current user
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
         throw new Error("No authenticated user found");
       }
 
-      // Check if we've reached the limit
-      if (directors.length >= 10) {
+      // Check if we've reached the limit (only for new officers)
+      if (!editingDirector && directors.length >= 10) {
         toast({
           variant: "destructive",
           title: "Error",
@@ -65,11 +98,10 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
       // Compute the full name
       const fullName = `${data.title} ${data.forenames} ${data.surname}`.trim();
 
-      // Get the company ID from the first director (assuming all directors belong to the same company)
+      // Get the company ID from the first director
       let companyId = directors[0]?.company_id;
       
       if (!companyId) {
-        // If no company ID is available from directors, try to get it from the companies table
         const { data: companyData, error: companyError } = await supabase
           .from('companies')
           .select('id')
@@ -82,23 +114,40 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
         companyId = companyData.id;
       }
 
-      const { error } = await supabase.from('officers').insert([{
-        ...data,
-        full_name: fullName,
-        user_id: user.id,
-        company_id: companyId
-      }]);
+      if (editingDirector) {
+        // Update existing officer
+        const { error } = await supabase
+          .from('officers')
+          .update({
+            ...data,
+            full_name: fullName,
+          })
+          .eq('id', editingDirector.id);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        // Insert new officer
+        const { error } = await supabase
+          .from('officers')
+          .insert([{
+            ...data,
+            full_name: fullName,
+            user_id: user.id,
+            company_id: companyId
+          }]);
+
+        if (error) throw error;
+      }
 
       // Fetch updated directors list
       await fetchDirectors(companyId);
 
       toast({
         title: "Success",
-        description: "Officer added successfully",
+        description: editingDirector ? "Officer updated successfully" : "Officer added successfully",
       });
       setIsDialogOpen(false);
+      setEditingDirector(null);
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -120,7 +169,10 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
         <Button 
           variant="outline"
           className="text-[#9b87f5] border-[#9b87f5]"
-          onClick={() => setIsDialogOpen(true)}
+          onClick={() => {
+            setEditingDirector(null);
+            setIsDialogOpen(true);
+          }}
           disabled={directors.length >= 10}
         >
           Add Officer
@@ -130,10 +182,32 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
         <div className="space-y-2">
           {directors.map((director) => (
             <div key={director.id} className="p-4 border rounded-lg">
-              <p><span className="font-medium">Name:</span> {director.computed_full_name}</p>
-              {director.position && <p><span className="font-medium">Position:</span> {director.position}</p>}
-              <p><span className="font-medium">Address:</span> {director.address}</p>
-              <p><span className="font-medium">Date of Appointment:</span> {new Date(director.date_of_appointment).toLocaleDateString()}</p>
+              <div className="flex justify-between items-start">
+                <div className="space-y-1">
+                  <p><span className="font-medium">Name:</span> {director.computed_full_name}</p>
+                  {director.position && <p><span className="font-medium">Position:</span> {director.position}</p>}
+                  <p><span className="font-medium">Address:</span> {director.address}</p>
+                  <p><span className="font-medium">Date of Appointment:</span> {new Date(director.date_of_appointment).toLocaleDateString()}</p>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleEdit(director)}
+                    className="h-8 w-8"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDelete(director.id)}
+                    className="h-8 w-8 text-red-500 hover:text-red-600"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -143,7 +217,11 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
-          <DirectorForm onSubmit={handleSubmit} isLoading={isLoading} />
+          <DirectorForm 
+            onSubmit={handleSubmit} 
+            isLoading={isLoading}
+            initialData={editingDirector}
+          />
         </DialogContent>
       </Dialog>
     </Card>

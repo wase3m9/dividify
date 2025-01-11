@@ -23,12 +23,21 @@ type DirectorFormValues = z.infer<typeof directorFormSchema>;
 interface DirectorFormProps {
   onSubmit: (data: DirectorFormValues) => void;
   isLoading?: boolean;
+  initialData?: {
+    title: string;
+    forenames: string;
+    surname: string;
+    email: string;
+    address: string;
+    position?: string;
+    date_of_appointment: string;
+  } | null;
 }
 
-export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => {
+export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading, initialData }) => {
   const form = useForm<DirectorFormValues>({
     resolver: zodResolver(directorFormSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       title: "",
       forenames: "",
       surname: "",
@@ -41,15 +50,17 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
 
   const handleSubmit = async (data: DirectorFormValues) => {
     await onSubmit(data);
-    form.reset();
+    if (!initialData) {
+      form.reset();
+    }
   };
 
   return (
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>Add New Officer</DialogTitle>
+        <DialogTitle>{initialData ? 'Edit Officer' : 'Add New Officer'}</DialogTitle>
         <DialogDescription>
-          Add a new officer to your company. Fill in all required fields.
+          {initialData ? 'Edit officer details.' : 'Add a new officer to your company. Fill in all required fields.'}
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -164,7 +175,7 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading }) => 
           />
 
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Adding..." : "Add Officer"}
+            {isLoading ? (initialData ? "Updating..." : "Adding...") : (initialData ? "Update Officer" : "Add Officer")}
           </Button>
         </form>
       </Form>
