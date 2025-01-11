@@ -2,22 +2,39 @@ import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/Navigation";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, FileText, Link2, Shield, CheckCircle } from "lucide-react";
+import { 
+  ArrowRight, 
+  FileText, 
+  Link2, 
+  Shield, 
+  CheckCircle,
+  Zap,
+  Users,
+  Clock,
+  FileCheck,
+  ChevronDown,
+  ChevronUp
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Index = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
 
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
@@ -72,70 +89,278 @@ const Index = () => {
         <section className="py-24 bg-gray-50">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-16">
-              Built for Director Success
+              Everything You Need for Dividend Management
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
-                  <FileText className="h-6 w-6 text-[#9b87f5]" />
-                  <h3 className="text-xl font-semibold">Customizable Templates</h3>
+                  <FileCheck className="h-6 w-6 text-[#9b87f5]" />
+                  <h3 className="text-xl font-semibold">Compliant Documentation</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  Simplify your compliance with pre-designed templates for dividend vouchers and board meeting minutes.
+                  Generate legally compliant dividend vouchers and board meeting minutes automatically.
                 </p>
               </Card>
 
               <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
-                  <Link2 className="h-6 w-6 text-[#9b87f5]" />
-                  <h3 className="text-xl font-semibold">Integrated Workflows</h3>
+                  <Clock className="h-6 w-6 text-[#9b87f5]" />
+                  <h3 className="text-xl font-semibold">Time-Saving</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  Automatically link dividend declarations with your financials and shareholder records.
+                  Save hours of administrative work with our automated document generation.
                 </p>
               </Card>
 
               <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
-                  <Shield className="h-6 w-6 text-[#9b87f5]" />
-                  <h3 className="text-xl font-semibold">Secure and Confidential</h3>
+                  <Users className="h-6 w-6 text-[#9b87f5]" />
+                  <h3 className="text-xl font-semibold">Multi-Shareholder</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  Your corporate data is protected with enterprise-grade security.
+                  Manage multiple shareholders and different share classes effortlessly.
                 </p>
               </Card>
             </div>
           </div>
         </section>
 
-        {/* Info Section */}
+        {/* Pricing Section */}
+        <section className="py-24">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-16">Simple, Transparent Pricing</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all">
+                <h3 className="text-xl font-bold mb-4">Starter</h3>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold">£9</span>
+                  <span className="text-gray-600">/month</span>
+                </div>
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Up to 2 companies</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Basic document templates</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Email support</span>
+                  </li>
+                </ul>
+                <Button 
+                  className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  onClick={handleStartFreeTrial}
+                >
+                  Start Free Trial
+                </Button>
+              </Card>
+
+              <Card className="p-8 hover-lift border-2 border-[#9b87f5] relative">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#9b87f5] text-white px-4 py-1 rounded-full text-sm">
+                  Most Popular
+                </div>
+                <h3 className="text-xl font-bold mb-4">Professional</h3>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold">£29</span>
+                  <span className="text-gray-600">/month</span>
+                </div>
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Up to 5 companies</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Premium templates</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Priority support</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Advanced features</span>
+                  </li>
+                </ul>
+                <Button 
+                  className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  onClick={handleStartFreeTrial}
+                >
+                  Start Free Trial
+                </Button>
+              </Card>
+
+              <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all">
+                <h3 className="text-xl font-bold mb-4">Enterprise</h3>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold">£99</span>
+                  <span className="text-gray-600">/month</span>
+                </div>
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Unlimited companies</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>Custom templates</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>24/7 support</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                    <span>API access</span>
+                  </li>
+                </ul>
+                <Button 
+                  className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  onClick={handleStartFreeTrial}
+                >
+                  Contact Sales
+                </Button>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Feedback Section */}
+        <section className="py-24 bg-gray-50">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              <Card className="p-8 bg-white">
+                <p className="text-gray-600 mb-6">
+                  "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures we're always compliant."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                    JD
+                  </div>
+                  <div>
+                    <p className="font-semibold">John Doe</p>
+                    <p className="text-sm text-gray-500">Director, Tech Solutions Ltd</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-8 bg-white">
+                <p className="text-gray-600 mb-6">
+                  "The automated document generation is fantastic. It's like having a company secretary at your fingertips."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                    JS
+                  </div>
+                  <div>
+                    <p className="font-semibold">Jane Smith</p>
+                    <p className="text-sm text-gray-500">CEO, Growth Ventures</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-8 bg-white">
+                <p className="text-gray-600 mb-6">
+                  "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                    RB
+                  </div>
+                  <div>
+                    <p className="font-semibold">Robert Brown</p>
+                    <p className="text-sm text-gray-500">Director, Innovative Solutions</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
         <section className="py-24">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">
-              Why Proper Dividend Documentation Matters
-            </h2>
-            <div className="prose prose-gray mx-auto">
-              <p className="text-gray-600 leading-relaxed">
-                Under UK company law, proper documentation is essential when declaring and paying dividends. 
-                This includes holding a directors' meeting to declare the dividend and issuing dividend vouchers 
-                to shareholders. Failure to maintain proper records can result in dividends being classified as 
-                unlawful, leading to potential tax implications and legal issues.
-              </p>
-              <p className="text-gray-600 leading-relaxed mt-4">
-                Our tool helps you generate all the necessary paperwork, ensuring you maintain proper records 
-                and comply with legal requirements. Whether you're a director, accountant, or company secretary, 
-                our simple process makes dividend documentation straightforward and professional.
-              </p>
-            </div>
+            <h2 className="text-3xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+            <Accordion type="single" collapsible className="space-y-4">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>How does the free trial work?</AccordionTrigger>
+                <AccordionContent>
+                  Our free trial gives you full access to all features for 14 days. No credit card required. 
+                  You can upgrade to a paid plan at any time during or after the trial.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Are the documents legally compliant?</AccordionTrigger>
+                <AccordionContent>
+                  Yes, all our templates are designed to meet UK legal requirements for dividend documentation 
+                  and board meeting minutes. They are regularly reviewed by legal professionals.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Can I cancel my subscription anytime?</AccordionTrigger>
+                <AccordionContent>
+                  Yes, you can cancel your subscription at any time. You'll continue to have access until 
+                  the end of your current billing period.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-4">
+                <AccordionTrigger>Do you offer customer support?</AccordionTrigger>
+                <AccordionContent>
+                  Yes, we provide email support for all plans. Professional and Enterprise plans include 
+                  priority support with faster response times.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t">
-          <div className="container mx-auto px-4 py-8">
-            <p className="text-center text-gray-600">
-              Dividify - Simplifying dividend documentation for UK companies
-            </p>
+        <footer className="border-t py-12">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-4 gap-8">
+              <div>
+                <h3 className="font-bold mb-4">Dividify</h3>
+                <p className="text-sm text-gray-600">
+                  Simplifying dividend documentation for UK companies.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-4">Product</h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>Features</li>
+                  <li>Pricing</li>
+                  <li>Documentation</li>
+                  <li>API</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-4">Company</h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>About</li>
+                  <li>Blog</li>
+                  <li>Careers</li>
+                  <li>Contact</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-4">Legal</h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>Privacy Policy</li>
+                  <li>Terms of Service</li>
+                  <li>Cookie Policy</li>
+                </ul>
+              </div>
+            </div>
+            <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
+              <p>&copy; {new Date().getFullYear()} Dividify. All rights reserved.</p>
+            </div>
           </div>
         </footer>
       </main>
