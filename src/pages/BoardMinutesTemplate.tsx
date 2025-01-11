@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Packer } from "docx";
 
 const BoardMinutesTemplate = () => {
   const navigate = useNavigate();
