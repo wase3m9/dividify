@@ -60,7 +60,7 @@ const BoardMinutesPreview = () => {
         return;
       }
 
-      const documentData = {
+      const documentData: BoardMinutesData = {
         companyName: company.name,
         registrationNumber: company.registration_number || "",
         registeredAddress: company.registered_address || "",

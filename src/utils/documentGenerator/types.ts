@@ -16,8 +16,23 @@ export interface DividendVoucherData {
   financialYearEnding: string;
 }
 
+export interface BoardMinutesData {
+  companyName: string;
+  registrationNumber: string;
+  registeredAddress: string;
+  meetingDate: string;
+  meetingAddress: string;
+  directors: { name: string }[];
+  paymentDate: string;
+  amount: string;
+  shareClassName: string;
+  dividendType: string;
+  nominalValue: string;
+  financialYearEnd: string;
+}
+
 export interface DocumentGenerator {
-  generate: (data: DividendVoucherData) => jsPDF | Document;
+  generate: (data: DividendVoucherData | BoardMinutesData) => jsPDF | Document;
 }
 
 export interface TemplateConfig {
