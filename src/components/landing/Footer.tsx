@@ -9,9 +9,10 @@ export const Footer = () => {
               alt="Dividify Logo" 
               className="h-10 w-auto mb-4"
             />
-            <p className="text-sm text-gray-600">
-              Simplifying dividend management for your business
-            </p>
+            <div className="flex flex-col items-start">
+              <p className="text-sm text-gray-600">Simplifying dividend management</p>
+              <p className="text-sm text-gray-600">for your business</p>
+            </div>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Product</h4>
