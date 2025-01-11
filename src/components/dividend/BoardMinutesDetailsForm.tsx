@@ -32,6 +32,7 @@ interface FormData {
   paymentDate: string;
   amount: number;
   shareClassName: string;
+  dividendType: string;
   nominalValue: number;
   financialYearEnd: string;
 }
@@ -67,7 +68,6 @@ export const BoardMinutesDetailsForm: FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    // Navigate to preview page with form data
     navigate("/board-minutes/preview", {
       state: {
         ...data,
@@ -179,6 +179,28 @@ export const BoardMinutesDetailsForm: FC = () => {
                   <SelectItem value="Ordinary">Ordinary share</SelectItem>
                   <SelectItem value="Preference">Preference share</SelectItem>
                   <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="dividendType"
+          render={({ field }) => (
+            <FormItem className="text-left">
+              <FormLabel className="text-left">Dividend Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select dividend type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Interim">Interim Dividend</SelectItem>
+                  <SelectItem value="Final">Final Dividend</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

@@ -57,6 +57,7 @@ const BoardMinutesPreview = () => {
         meetingDate: formData.meetingDate,
         meetingAddress: formData.meetingAddress,
         directors: formData.directors || [],
+        dividendType: formData.dividendType || "Final",
       };
 
       let filePath = '';
@@ -170,12 +171,12 @@ const BoardMinutesPreview = () => {
                     </div>
                   </div>
                   
-                  <div className="space-y-4 mt-8">
+                  <div className="space-y-4 mt-8 text-left">
                     <h3 className="font-semibold">1. NOTICE AND QUORUM</h3>
                     <p>The chairperson reported that sufficient notice of the meeting had been given to all the directors, and as a quorum was present declared the meeting open.</p>
                     
                     <h3 className="font-semibold">2. DIVIDEND PAYMENT</h3>
-                    <p>It was resolved, having considered the Company's statutory accounts for the year ended {formData.financialYearEnd} that the Company pay on {formData.paymentDate} a final dividend for the year of £{formData.amount} ({formData.shareClassName}) share of £{formData.nominalValue} each in respect of the year ended {formData.financialYearEnd} to those shareholders registered at the close of business {formData.paymentDate}.</p>
+                    <p>It was resolved, having considered the Company's statutory accounts for the year ended {formData.financialYearEnd} that the Company pay on {formData.paymentDate} a {formData.dividendType.toLowerCase()} dividend for the year of £{formData.amount} ({formData.shareClassName}) share of £{formData.nominalValue} each in respect of the year ended {formData.financialYearEnd} to those shareholders registered at the close of business {formData.paymentDate}.</p>
                     <p>It was resolved that dividend vouchers be distributed to shareholders and bank transfers made accordingly.</p>
                     
                     <h3 className="font-semibold">3. CLOSE</h3>
