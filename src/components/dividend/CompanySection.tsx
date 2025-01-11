@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Building2, Pencil } from "lucide-react";
 import { CompanyForm } from "./company/CompanyForm";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Company {
   id: string;
@@ -20,10 +22,31 @@ interface CompanySectionProps {
 export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const { data: profile } = useQuery({
+    queryKey: ['profile-subscription'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('subscription_plan')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!profile) throw new Error("Profile not found");
+
+      return profile;
+    }
+  });
+
   const handleSuccess = () => {
     onCompanyUpdate();
     setIsDialogOpen(false);
   };
+
+  const showEditButton = profile?.subscription_plan === 'enterprise';
 
   return (
     <Card className="p-6">
@@ -32,23 +55,25 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
           <Building2 className="h-5 w-5 text-[#9b87f5]" />
           <h2 className="text-xl font-semibold">Company</h2>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="h-8 w-8 text-[#9b87f5] hover:text-[#8b77e5] hover:bg-[#9b87f5]/10"
-            >
-              <Pencil className="h-4 w-4" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <CompanyForm 
-              existingCompany={company}
-              onSuccess={handleSuccess}
-            />
-          </DialogContent>
-        </Dialog>
+        {showEditButton && (
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-8 w-8 text-[#9b87f5] hover:text-[#8b77e5] hover:bg-[#9b87f5]/10"
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <CompanyForm 
+                existingCompany={company}
+                onSuccess={handleSuccess}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
       {company ? (
         <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
