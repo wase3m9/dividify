@@ -1,16 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
 import { BoardMinutesDetailsForm } from "@/components/dividend/BoardMinutesDetailsForm";
 
 const BoardMinutesForm = () => {
-  const navigate = useNavigate();
-
-  const handlePrevious = () => {
-    navigate("/dividend-board");
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -23,9 +16,7 @@ const BoardMinutesForm = () => {
           />
 
           <Card className="p-6">
-            <BoardMinutesDetailsForm 
-              onPrevious={handlePrevious}
-            />
+            <BoardMinutesDetailsForm />
           </Card>
         </div>
       </div>
