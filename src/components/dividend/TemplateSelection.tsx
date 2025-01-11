@@ -39,6 +39,8 @@ export const TemplateSelection = () => {
   const [recordId, setRecordId] = useState<string | null>(null);
   const formData = location.state || {};
 
+  console.log("Form Data in Template Selection:", formData); // Debug log
+
   useEffect(() => {
     const fetchCompanyDetails = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -122,23 +124,24 @@ export const TemplateSelection = () => {
         return;
       }
 
-      const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString() : new Date().toISOString();
-      const financialYearEnding = formData.financialYearEnding ? new Date(formData.financialYearEnding).toISOString() : new Date().toISOString();
+      console.log("Payment Date from form:", formData.paymentDate); // Debug log
 
       const documentData = {
         companyName: company.name,
         registrationNumber: company.registration_number || '',
         registeredAddress: company.registered_address || '',
         shareholderName: formData.shareholderName || '',
-        shareholderAddress: formData.shareholderAddress || '', // Make sure we pass the shareholder address
+        shareholderAddress: formData.shareholderAddress || '',
         shareClass: formData.shareClass || '',
-        paymentDate: paymentDate,
+        paymentDate: formData.paymentDate || new Date().toISOString(),
         amountPerShare: formData.amountPerShare?.toString() || '0',
         totalAmount: formData.totalAmount?.toString() || '0',
         voucherNumber: 1,
-        financialYearEnding: financialYearEnding,
+        financialYearEnding: formData.financialYearEnding || new Date().toISOString(),
         holdings: formData.shareholdings?.toString() || '',
       };
+
+      console.log("Document Data being sent:", documentData); // Debug log
 
       let filePath = '';
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
