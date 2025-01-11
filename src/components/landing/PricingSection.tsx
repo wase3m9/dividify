@@ -77,6 +77,10 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Up to 2 board meeting minutes</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
                 <span>Basic document templates</span>
               </li>
               <li className="flex items-center gap-2">
