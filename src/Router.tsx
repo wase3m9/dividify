@@ -32,6 +32,10 @@ export const router = createBrowserRouter([
     element: <DividendVoucherForm />,
   },
   {
+    path: "/dividend-voucher/create",
+    element: <DividendVoucherForm />,
+  },
+  {
     path: "/dividend-amount",
     element: <DividendAmountForm />,
   },
