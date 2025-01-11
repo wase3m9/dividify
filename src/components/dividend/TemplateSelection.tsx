@@ -124,16 +124,16 @@ export const TemplateSelection = () => {
         return;
       }
 
-      console.log("Payment Date from form:", formData.paymentDate); // Debug log
+      console.log("Form Data being processed:", formData); // Debug log
 
       const documentData = {
         companyName: company.name,
         registrationNumber: company.registration_number || '',
         registeredAddress: company.registered_address || '',
         shareholderName: formData.shareholderName || '',
-        shareholderAddress: formData.shareholderAddress || '',
+        shareholderAddress: formData.shareholderAddress || '', // Ensure shareholder address is included
         shareClass: formData.shareClass || '',
-        paymentDate: formData.paymentDate || new Date().toISOString(),
+        paymentDate: formData.paymentDate || new Date().toISOString(), // Use the payment date from the form
         amountPerShare: formData.amountPerShare?.toString() || '0',
         totalAmount: formData.totalAmount?.toString() || '0',
         voucherNumber: 1,

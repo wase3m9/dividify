@@ -16,8 +16,10 @@ import { formSchema, DividendAmountFormValues } from "@/components/dividend/amou
 const DividendAmountForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { shareholderName, shareClass, description, paymentDate, financialYearEnding } = location.state || {};
+  const { shareholderName, shareClass, shareholderAddress } = location.state || {};
   const { toast } = useToast();
+
+  console.log("Location state in DividendAmountForm:", location.state); // Debug log
 
   const form = useForm<DividendAmountFormValues>({
     resolver: zodResolver(formSchema),
@@ -53,12 +55,11 @@ const DividendAmountForm = () => {
       state: {
         shareholderName,
         shareClass,
-        description,
-        paymentDate,
-        financialYearEnding,
+        shareholderAddress, // Make sure we pass the shareholder address forward
         amountPerShare: data.amountPerShare,
         totalAmount: data.totalAmount,
         currency: data.currency,
+        paymentDate: data.paymentDate, // Pass the payment date
       }
     });
   };
