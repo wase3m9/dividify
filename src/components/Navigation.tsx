@@ -175,13 +175,13 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      <div className="container max-w-[1400px] mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="container mx-auto max-w-[1400px]">
+        <div className="flex items-center justify-between h-16 px-4 lg:px-8">
           {/* Left side - Brand */}
           <div className="flex-shrink-0">
             <Link 
               to="/" 
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity" 
+              className="flex items-center hover:opacity-80 transition-opacity" 
               onClick={handleHomeClick}
             >
               <img 
