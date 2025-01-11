@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { FileCheck, Clock, Users, Calculator, FileText, History } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -117,38 +116,31 @@ export const FeaturesSection = () => {
           </Card>
         </div>
 
-        <div className="mt-12 flex justify-center gap-4">
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <img src="/lovable-uploads/8ee4d861-36ee-4d61-b0e5-2c688acb6879.png" alt="QuickBooks" className="h-6 w-6" />
-              <h3 className="text-xl font-semibold">QuickBooks Integration</h3>
+        <div className="mt-24 text-center px-4">
+          <h2 className="text-4xl font-bold mb-4">
+            Connect Dividify with your accounting software
+          </h2>
+          <p className="text-gray-600 max-w-3xl mx-auto mb-12">
+            Dividify connects seamlessly with your accounting software to simplify your workflows. 
+            With integrations across leading platforms like QuickBooks, Xero, and others, 
+            Dividify allows you to manage dividends and board meeting compliance effortlessly. 
+            Keep your accounting streamlined and your documentation compliant without any hassle.
+          </p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+              <img src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" alt="Xero" className="h-12 w-12" />
             </div>
-            <p className="text-gray-600 leading-relaxed mb-6">
-              Sync your dividend records with QuickBooks for seamless accounting.
-            </p>
-            <Button 
-              onClick={initiateQuickBooksAuth}
-              className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-            >
-              Connect QuickBooks
-            </Button>
-          </Card>
-
-          <Card className="p-8 hover-lift bg-white border-0 shadow-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <img src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" alt="Xero" className="h-6 w-6" />
-              <h3 className="text-xl font-semibold">Xero Integration</h3>
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+              <img src="/lovable-uploads/8ee4d861-36ee-4d61-b0e5-2c688acb6879.png" alt="QuickBooks" className="h-12 w-12" />
             </div>
-            <p className="text-gray-600 leading-relaxed mb-6">
-              Sync your dividend records with Xero for seamless accounting.
-            </p>
-            <Button 
-              onClick={initiateXeroAuth}
-              className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-            >
-              Connect Xero
-            </Button>
-          </Card>
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+              <img src="/lovable-uploads/e2f79c33-ae65-4036-9ecc-558e39ccd26d.png" alt="Sage" className="h-12 w-12" />
+            </div>
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center">
+              <img src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" alt="FreeAgent" className="h-12 w-12" />
+            </div>
+          </div>
         </div>
       </div>
     </section>
