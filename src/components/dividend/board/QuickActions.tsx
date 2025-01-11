@@ -37,7 +37,10 @@ export const QuickActions: FC = () => {
           <p className="text-gray-600">
             Record and store board meeting minutes for dividend declarations.
           </p>
-          <Button className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]">
+          <Button 
+            className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+            onClick={() => navigate("/board-minutes/create")}
+          >
             <FileText className="h-4 w-4 mr-2" />
             Create Minutes
           </Button>
