@@ -26,29 +26,40 @@ export const generatePDF = (data: DividendVoucherData) => {
   // Shareholder details (left aligned)
   doc.text(data.shareholderName, 20, yStart);
   doc.setFontSize(10);
-  const addressLines = data.shareholderAddress.split(',');
-  addressLines.forEach((line, index) => {
-    doc.text(line.trim(), 20, yStart + 5 + (index * 5));
-  });
+  if (data.shareholderAddress) {
+    const addressLines = data.shareholderAddress.split(',');
+    addressLines.forEach((line, index) => {
+      doc.text(line.trim(), 20, yStart + 5 + (index * 5));
+    });
+  }
 
   // Add space before declaration
-  const declarationY = yStart + 30;
+  const declarationY = yStart + 40;
   
-  // Declaration text
+  // Declaration text (left aligned)
   doc.setFontSize(11);
-  doc.text(`${data.companyName} has declared the final dividend`, 105, declarationY, { align: "center" });
-  doc.text(`for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`, 105, declarationY + 6, { align: "center" });
+  doc.text(`${data.companyName} has declared the final dividend`, 20, declarationY);
+  doc.text(`for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`, 20, declarationY + 6);
 
-  // Add space before payment details
+  // Add more space before payment details
   const detailsStart = declarationY + 20;
 
-  // Payment details
+  // Format currency values
+  const formatCurrency = (value: string) => {
+    const num = parseFloat(value);
+    return `£${num.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+
+  // Payment details (left aligned with more spacing)
   doc.setFontSize(10);
   doc.text([
     `Payment Date:          ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
+    '',
     `Share class:          ${data.shareClass}`,
-    `Amount per Share:     £${data.amountPerShare}`,
-    `Total Amount:         £${data.totalAmount}`,
+    '',
+    `Amount per Share:     ${formatCurrency(data.amountPerShare)}`,
+    '',
+    `Total Amount:         ${formatCurrency(data.totalAmount)}`,
   ], 20, detailsStart);
 
   // Signature lines

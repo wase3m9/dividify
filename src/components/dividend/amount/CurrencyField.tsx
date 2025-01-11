@@ -25,8 +25,8 @@ export const CurrencyField = ({ form }: CurrencyFieldProps) => {
       control={form.control}
       name="currency"
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Currency of dividend</FormLabel>
+        <FormItem className="text-left">
+          <FormLabel className="text-left">Currency of dividend</FormLabel>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
               <SelectTrigger>
