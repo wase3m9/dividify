@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { User, Mail, Phone, Briefcase, History, CreditCard, Clock } from "lucide-react";
+import { User, Mail, Phone, Briefcase, History, CreditCard, Clock, Download } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -17,13 +17,30 @@ interface UserProfile {
   jobTitle: string | null;
 }
 
+interface Invoice {
+  id: string;
+  date: Date;
+  amount: number;
+  planName: string;
+  downloadUrl: string;
+}
+
 const Profile = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [subscriptionPlan, setSubscriptionPlan] = useState<string>("loading...");
   const [isEditing, setIsEditing] = useState(false);
   const [loginHistory] = useState([
     { date: new Date(), ip: "192.168.1.1" },
-    { date: new Date(Date.now() - 86400000), ip: "192.168.1.1" }, // Yesterday
+    { date: new Date(Date.now() - 86400000), ip: "192.168.1.1" },
+  ]);
+  const [invoices] = useState<Invoice[]>([
+    {
+      id: "INV-001",
+      date: new Date(Date.now() - 2592000000), // 30 days ago
+      amount: 12,
+      planName: "Professional Plan",
+      downloadUrl: "#"
+    }
   ]);
   const { toast } = useToast();
 
@@ -78,9 +95,45 @@ const Profile = () => {
     });
   };
 
+  const handleUpgrade = async (plan: 'professional' | 'enterprise') => {
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { plan }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+      });
+    }
+  };
+
   if (!profile) {
     return <div>Loading...</div>;
   }
+
+  const getNextTier = (currentPlan: string) => {
+    switch (currentPlan) {
+      case 'trial':
+        return { name: 'Starter', price: '£3' };
+      case 'starter':
+        return { name: 'Professional', price: '£12' };
+      case 'professional':
+        return { name: 'Enterprise', price: '£29' };
+      default:
+        return null;
+    }
+  };
+
+  const nextTier = getNextTier(subscriptionPlan);
 
   return (
     <div className="min-h-screen bg-white">
@@ -164,34 +217,60 @@ const Profile = () => {
               </h2>
               
               <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Current Plan</h3>
-                  <p className="text-gray-600 capitalize">{subscriptionPlan}</p>
-                </div>
-
-                <Separator />
-
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Available Plans</h3>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <Button 
-                      variant="outline" 
-                      className="h-auto py-4"
-                      onClick={() => window.location.href = "/#pricing"}
-                    >
-                      <div className="text-left">
-                        <div className="font-semibold">Upgrade Plan</div>
-                        <div className="text-sm text-gray-500">View available plans</div>
-                      </div>
-                    </Button>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Current Plan */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">Current Plan</h3>
+                    <p className="text-gray-600 capitalize mb-1">{subscriptionPlan}</p>
+                    {subscriptionPlan === 'trial' && (
+                      <p className="text-sm text-gray-500">7 days free trial</p>
+                    )}
                   </div>
+
+                  {/* Available Plans */}
+                  {nextTier && (
+                    <div>
+                      <h3 className="text-lg font-semibold mb-4">Available Plans</h3>
+                      <Button 
+                        variant="outline"
+                        className="w-full mb-4 h-auto py-4 border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white"
+                        onClick={() => handleUpgrade(nextTier.name.toLowerCase() as 'professional' | 'enterprise')}
+                      >
+                        <div className="text-left">
+                          <div className="font-semibold">Upgrade to {nextTier.name}</div>
+                          <div className="text-sm">
+                            {nextTier.price}/month - Unlock more features
+                          </div>
+                        </div>
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 <Separator />
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Billing History</h3>
-                  <p className="text-gray-600">No invoices available</p>
+                  <h3 className="text-lg font-semibold mb-4">Billing History</h3>
+                  {invoices.length > 0 ? (
+                    <div className="space-y-4">
+                      {invoices.map((invoice) => (
+                        <div key={invoice.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                          <div>
+                            <p className="font-medium">{invoice.planName}</p>
+                            <p className="text-sm text-gray-500">
+                              {format(invoice.date, 'dd MMM yyyy')} - £{invoice.amount}
+                            </p>
+                          </div>
+                          <Button variant="ghost" size="sm" className="gap-2">
+                            <Download className="h-4 w-4" />
+                            Download PDF
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-600">No invoices available</p>
+                  )}
                 </div>
               </div>
             </Card>
