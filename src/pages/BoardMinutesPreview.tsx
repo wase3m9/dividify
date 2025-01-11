@@ -28,7 +28,7 @@ const BoardMinutesPreview = () => {
 
       const { data: companyData } = await supabase
         .from('companies')
-        .select('id')
+        .select('*')
         .limit(1)
         .single();
 
@@ -42,9 +42,9 @@ const BoardMinutesPreview = () => {
       }
 
       const documentData = {
-        companyName: "Company Name Limited", // You can fetch this from company data if needed
-        registrationNumber: "12345678",
-        registeredAddress: "123 Business Street",
+        companyName: companyData.name,
+        registrationNumber: companyData.registration_number || "",
+        registeredAddress: companyData.registered_address || "",
         shareholderName: "",
         shareholderAddress: "",
         voucherNumber: 1,
@@ -52,8 +52,11 @@ const BoardMinutesPreview = () => {
         shareClass: formData.shareClassName || "",
         amountPerShare: "0",
         totalAmount: formData.amount?.toString() || "0",
-        directorName: "",
+        directorName: formData.directors?.[0]?.name || "",
         financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
+        meetingDate: formData.meetingDate,
+        meetingAddress: formData.meetingAddress,
+        directors: formData.directors || [],
       };
 
       let filePath = '';
@@ -86,7 +89,6 @@ const BoardMinutesPreview = () => {
         filePath = uploadData.path;
       }
 
-      // Save the record to the database
       const { error: saveError } = await supabase
         .from('minutes')
         .insert({
@@ -120,7 +122,7 @@ const BoardMinutesPreview = () => {
       <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="text-xl font-semibold text-center">Preview Board Minutes</h2>
+          <h2 className="text-xl font-semibold">Preview Board Minutes</h2>
           
           <Card className="p-6">
             <div className="space-y-6">
@@ -150,14 +152,22 @@ const BoardMinutesPreview = () => {
                   <h2 className="text-center font-bold mt-8">MINUTES OF MEETING OF THE DIRECTORS</h2>
                   
                   <div className="space-y-2 mt-8">
-                    <p><span className="font-semibold">Date held:</span> {formData.meetingDate}</p>
-                    <p><span className="font-semibold">Held at:</span> {formData.meetingAddress}</p>
-                    <p><span className="font-semibold">Present:</span></p>
-                    <ul className="list-disc pl-8">
-                      {formData.directors?.map((director: any, index: number) => (
-                        <li key={index}>{director.name} (Director)</li>
-                      ))}
-                    </ul>
+                    <div className="flex">
+                      <span className="font-semibold w-32">Date held:</span>
+                      <span>{formData.meetingDate}</span>
+                    </div>
+                    <div className="flex">
+                      <span className="font-semibold w-32">Held at:</span>
+                      <span>{formData.meetingAddress}</span>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="font-semibold w-32">Present:</span>
+                      <div>
+                        {formData.directors?.map((director: any, index: number) => (
+                          <div key={index}>{director.name} (Director)</div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                   
                   <div className="space-y-4 mt-8">
