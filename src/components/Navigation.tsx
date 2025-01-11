@@ -177,7 +177,7 @@ export const Navigation = () => {
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Left side - Brand */}
           <button 
             onClick={scrollToTop}
@@ -186,7 +186,7 @@ export const Navigation = () => {
             <img 
               src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
               alt="Dividify" 
-              className="h-8"
+              className="h-16"
             />
           </button>
 

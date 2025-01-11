@@ -7,7 +7,7 @@ export const Footer = () => {
             <img 
               src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
               alt="Dividify" 
-              className="h-8 mb-3"
+              className="h-16 mb-3"
             />
             <p className="text-sm text-gray-600">
               Simplifying dividend management<br />
