@@ -113,8 +113,8 @@ export const DividendsSection: FC = () => {
         <div className="space-y-4">
           {dividendRecords.map((record) => (
             <div key={record.id} className="p-4 border rounded-lg">
-              <div className="flex justify-between items-start mb-2">
-                <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm">
+              <div className="flex justify-between items-start">
+                <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
                   <div className="text-gray-500">Shareholder:</div>
                   <div>{record.shareholder_name}</div>
                   
@@ -138,19 +138,19 @@ export const DividendsSection: FC = () => {
                 </div>
                 <div className="flex gap-2">
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
                     onClick={() => handleEdit(record)}
-                    className="text-[#9b87f5] border-[#9b87f5]"
+                    className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
-                        variant="outline"
+                        variant="ghost"
                         size="icon"
-                        className="text-[#9b87f5] border-[#9b87f5]"
+                        className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
                       >
                         <FileText className="h-4 w-4" />
                       </Button>
@@ -165,10 +165,10 @@ export const DividendsSection: FC = () => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
                     onClick={() => handleDelete(record.id)}
-                    className="text-red-500 border-red-500 hover:bg-red-50"
+                    className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

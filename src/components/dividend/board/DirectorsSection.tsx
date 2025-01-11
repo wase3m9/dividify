@@ -183,11 +183,22 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
           {directors.map((director) => (
             <div key={director.id} className="p-4 border rounded-lg">
               <div className="flex justify-between items-start">
-                <div className="space-y-1">
-                  <p><span className="font-medium">Name:</span> {director.computed_full_name}</p>
-                  {director.position && <p><span className="font-medium">Position:</span> {director.position}</p>}
-                  <p><span className="font-medium">Address:</span> {director.address}</p>
-                  <p><span className="font-medium">Date of Appointment:</span> {new Date(director.date_of_appointment).toLocaleDateString()}</p>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                  <div className="text-gray-500">Name:</div>
+                  <div>{director.computed_full_name}</div>
+                  
+                  {director.position && (
+                    <>
+                      <div className="text-gray-500">Position:</div>
+                      <div>{director.position}</div>
+                    </>
+                  )}
+                  
+                  <div className="text-gray-500">Address:</div>
+                  <div>{director.address}</div>
+                  
+                  <div className="text-gray-500">Date of Appointment:</div>
+                  <div>{new Date(director.date_of_appointment).toLocaleDateString()}</div>
                 </div>
                 <div className="flex gap-2">
                   <Button
