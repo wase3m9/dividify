@@ -1,7 +1,0 @@
-project_id = "shvuppkxddimjsitnabo"
-
-[quickbooks-oauth]
-verify_jwt = true
-
-[xero-oauth]
-verify_jwt = true

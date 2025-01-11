@@ -1,18 +1,13 @@
 export const Footer = () => {
   return (
-    <footer className="w-full border-t py-12">
-      <div className="mx-auto max-w-[1400px] px-4 lg:px-8">
+    <footer className="border-t py-12">
+      <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
-          <div className="flex flex-col items-start">
-            <img 
-              src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
-              alt="Dividify Logo" 
-              className="h-10 w-auto mb-4"
-            />
-            <div className="flex flex-col items-start">
-              <p className="text-sm text-gray-600">Simplifying dividend management</p>
-              <p className="text-sm text-gray-600">for your business</p>
-            </div>
+          <div className="text-left">
+            <h3 className="font-bold mb-4">Dividify</h3>
+            <p className="text-sm text-gray-600">
+              Simplifying dividend documentation for UK companies.
+            </p>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Product</h4>

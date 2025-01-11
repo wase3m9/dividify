@@ -78,28 +78,15 @@ export const Navigation = () => {
   };
 
   const scrollToSection = (sectionId: string) => {
-    if (location.pathname !== '/') {
-      navigate('/', { state: { scrollTo: sectionId } });
-    } else {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-  const handleHomeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      navigate('/');
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const NavLinks = () => (
     <>
-      <Button variant="ghost" asChild className="flex items-center gap-2" onClick={handleHomeClick}>
+      <Button variant="ghost" asChild className="flex items-center gap-2">
         <Link to="/">
           <Home className="h-4 w-4" />
           Home
@@ -139,7 +126,7 @@ export const Navigation = () => {
   );
 
   const AuthButtons = () => (
-    <div className="flex items-center gap-2 shrink-0 pr-1">
+    <div className="flex items-center gap-2 shrink-0">
       {user ? (
         <>
           <Button variant="ghost" asChild className="flex items-center gap-2">
@@ -175,38 +162,29 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-      <div className="container mx-auto max-w-[1400px]">
+      <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <div className="flex items-center -ml-4">
-            <Link 
-              to="/" 
-              className="flex items-center hover:opacity-80 transition-opacity" 
-              onClick={handleHomeClick}
-              aria-label="Go to homepage"
-            >
-              <img 
-                src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
-                alt="Dividify Logo" 
-                className="h-10 w-auto"
-              />
-            </Link>
-          </div>
+          <Link to="/" className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0">
+            <span className="bg-gradient-to-r from-[#9b87f5] to-[#7c67d5] bg-clip-text text-transparent">
+              Dividify
+            </span>
+          </Link>
 
           {/* Center - Navigation Links (Hidden on mobile) */}
-          <div className="hidden md:flex items-center justify-center flex-1">
+          <div className="hidden md:flex items-center justify-center flex-1 px-4 overflow-x-auto">
             <div className="flex items-center gap-4">
               <NavLinks />
             </div>
           </div>
 
           {/* Right side - Auth buttons (Hidden on mobile) */}
-          <div className="hidden md:flex items-center gap-2 px-4 lg:px-8">
+          <div className="hidden md:block">
             <AuthButtons />
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden px-4 lg:px-8">
+          <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
