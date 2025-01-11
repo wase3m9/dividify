@@ -269,7 +269,7 @@ export const TemplateSelection = () => {
           className="bg-green-500 hover:bg-green-600"
           onClick={() => navigate('/dividend-board')}
         >
-          Continue
+          Done
         </Button>
       </div>
     </div>

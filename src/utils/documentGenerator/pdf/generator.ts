@@ -14,27 +14,38 @@ export const generatePDF = (data: DividendVoucherData | BoardMinutesData) => {
     doc.text(`Company number: ${data.registrationNumber}`, 105, 30, { align: 'center' });
     doc.text(data.registeredAddress, 105, 40, { align: 'center' });
     
-    doc.line(20, 50, 190, 50);
-    doc.text('DIVIDEND VOUCHER', 105, 60, { align: 'center' });
-    doc.line(20, 70, 190, 70);
+    // Add shareholder details on the left
+    doc.setFontSize(11);
+    doc.text('Shareholder Name:', 20, 60);
+    doc.text(data.shareholderName, 20, 70);
     
-    let yPos = 90;
-    doc.text(`Shareholder: ${data.shareholderName}`, 20, yPos);
-    yPos += 10;
-    doc.text(`Address: ${data.shareholderAddress}`, 20, yPos);
-    yPos += 10;
-    doc.text(`Voucher Number: ${data.voucherNumber}`, 20, yPos);
-    yPos += 10;
-    doc.text(`Payment Date: ${data.paymentDate}`, 20, yPos);
-    yPos += 10;
-    doc.text(`Amount per Share: £${data.amountPerShare}`, 20, yPos);
-    yPos += 10;
-    doc.text(`Total Amount: £${data.totalAmount}`, 20, yPos);
+    doc.text('Shareholder Address:', 20, 85);
+    const addressLines = data.shareholderAddress.split(',');
+    addressLines.forEach((line, index) => {
+      doc.text(line.trim(), 20, 95 + (index * 10));
+    });
     
-    yPos += 20;
-    doc.text('Signed: _________________________', 20, yPos);
-    yPos += 20;
-    doc.text('Dated: _________________________', 20, yPos);
+    // Add voucher number on the right
+    doc.text(`Dividend Voucher No: ${data.voucherNumber}`, 190, 60, { align: 'right' });
+    
+    // Add declaration
+    const yPos = 140; // After 3 line breaks from the address section
+    doc.text(`${data.companyName} has declared the final dividend`, 20, yPos);
+    doc.text(`for the year ending ${new Date(data.financialYearEnding).toLocaleDateString()} on the shares as follows:`, 20, yPos + 10);
+    
+    // Add payment details
+    doc.text(`Payment Date: ${new Date(data.paymentDate).toLocaleDateString()}`, 20, yPos + 30);
+    doc.text(`Share Class: ${data.shareClass}`, 20, yPos + 40);
+    doc.text(`Amount per Share: £${data.amountPerShare}`, 20, yPos + 50);
+    doc.text(`Total Amount: £${data.totalAmount}`, 20, yPos + 60);
+    
+    // Add signature lines at the bottom
+    const signatureY = yPos + 100;
+    doc.line(20, signatureY, 80, signatureY);
+    doc.text('Signature of Director/Secretary', 20, signatureY + 10);
+    
+    doc.line(120, signatureY, 180, signatureY);
+    doc.text('Name of Director/Secretary', 120, signatureY + 10);
   } else {
     // Handle board minutes generation with adjusted font sizes
     doc.setFontSize(14); // Reduced from 16

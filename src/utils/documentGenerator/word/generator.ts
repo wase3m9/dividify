@@ -8,6 +8,7 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
       sections: [{
         properties: {},
         children: [
+          // Company header
           new Paragraph({
             alignment: AlignmentType.CENTER,
             children: [
@@ -36,49 +37,90 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
               }),
             ],
           }),
-          new Paragraph({
-            text: '',
-            spacing: { before: 400, after: 400 },
-          }),
-          new Paragraph({
-            alignment: AlignmentType.CENTER,
-            heading: HeadingLevel.HEADING_1,
-            children: [
-              new TextRun({
-                text: 'DIVIDEND VOUCHER',
-                bold: true,
-              }),
-            ],
-          }),
-          new Paragraph({
-            text: '',
-            spacing: { before: 400, after: 400 },
-          }),
+          new Paragraph({ text: '' }),
+          
+          // Two-column layout for shareholder details and voucher number
           new Paragraph({
             children: [
               new TextRun({
-                text: `Shareholder: ${data.shareholderName}`,
+                text: 'Shareholder Name:',
+                size: 24,
               }),
             ],
           }),
           new Paragraph({
             children: [
               new TextRun({
-                text: `Address: ${data.shareholderAddress}`,
+                text: data.shareholderName,
+                size: 24,
+              }),
+            ],
+          }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: 'Shareholder Address:',
+                size: 24,
+              }),
+            ],
+          }),
+          ...data.shareholderAddress.split(',').map(line => 
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: line.trim(),
+                  size: 24,
+                }),
+              ],
+            })
+          ),
+          new Paragraph({
+            alignment: AlignmentType.RIGHT,
+            children: [
+              new TextRun({
+                text: `Dividend Voucher No: ${data.voucherNumber}`,
+                size: 24,
+              }),
+            ],
+          }),
+          
+          // Declaration
+          new Paragraph({ text: '' }),
+          new Paragraph({ text: '' }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `${data.companyName} has declared the final dividend`,
+                size: 24,
               }),
             ],
           }),
           new Paragraph({
             children: [
               new TextRun({
-                text: `Voucher Number: ${data.voucherNumber}`,
+                text: `for the year ending ${new Date(data.financialYearEnding).toLocaleDateString()} on the shares as follows:`,
+                size: 24,
+              }),
+            ],
+          }),
+          
+          // Payment details
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: `Payment Date: ${new Date(data.paymentDate).toLocaleDateString()}`,
+                size: 24,
               }),
             ],
           }),
           new Paragraph({
             children: [
               new TextRun({
-                text: `Payment Date: ${data.paymentDate}`,
+                text: `Share Class: ${data.shareClass}`,
+                size: 24,
               }),
             ],
           }),
@@ -86,6 +128,7 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
             children: [
               new TextRun({
                 text: `Amount per Share: £${data.amountPerShare}`,
+                size: 24,
               }),
             ],
           }),
@@ -93,6 +136,34 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
             children: [
               new TextRun({
                 text: `Total Amount: £${data.totalAmount}`,
+                size: 24,
+              }),
+            ],
+          }),
+          
+          // Signature section
+          new Paragraph({ text: '' }),
+          new Paragraph({ text: '' }),
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "Signature of Director/Secretary",
+                size: 24,
+                border: {
+                  style: 'single',
+                  size: 6,
+                  space: 1,
+                },
+              }),
+              new TextRun({ text: "     ", size: 24 }),
+              new TextRun({
+                text: "Name of Director/Secretary",
+                size: 24,
+                border: {
+                  style: 'single',
+                  size: 6,
+                  space: 1,
+                },
               }),
             ],
           }),
