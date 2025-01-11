@@ -5,32 +5,97 @@ import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const BoardMinutesTemplate = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
   const formData = location.state || {};
 
   const handleDownload = async (format: 'pdf' | 'word') => {
-    const documentData = {
-      companyName: "Company Name Limited",
-      registrationNumber: "12345678",
-      registeredAddress: "123 Business Street",
-      shareholderName: "",
-      shareholderAddress: "",
-      voucherNumber: 1,
-      paymentDate: formData.paymentDate || new Date().toISOString(),
-      shareClass: formData.shareClassName || "",
-      amountPerShare: "0",
-      totalAmount: formData.amount?.toString() || "0",
-      directorName: "",
-      financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
-    };
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "User not authenticated",
+        });
+        return;
+      }
 
-    if (format === 'pdf') {
-      await downloadPDF(documentData);
-    } else {
-      await downloadWord(documentData);
+      const documentData = {
+        companyName: formData.companyName || "Company Name Limited",
+        registrationNumber: formData.registrationNumber || "12345678",
+        registeredAddress: formData.registeredAddress || "123 Business Street",
+        shareholderName: "",
+        shareholderAddress: "",
+        voucherNumber: 1,
+        paymentDate: formData.paymentDate || new Date().toISOString(),
+        shareClass: formData.shareClassName || "",
+        amountPerShare: "0",
+        totalAmount: formData.amount?.toString() || "0",
+        directorName: "",
+        financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
+      };
+
+      let filePath = '';
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const fileName = `board_minutes_${timestamp}.${format}`;
+
+      if (format === 'pdf') {
+        const doc = await downloadPDF(documentData);
+        const pdfBlob = doc.output('blob');
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('dividend_vouchers')
+          .upload(fileName, pdfBlob, {
+            contentType: 'application/pdf',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+        filePath = uploadData.path;
+      } else {
+        const doc = await downloadWord(documentData);
+        const blob = await Packer.toBlob(doc);
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('dividend_vouchers')
+          .upload(fileName, blob, {
+            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+        filePath = uploadData.path;
+      }
+
+      // Save the record to the database
+      const { error: saveError } = await supabase
+        .from('minutes')
+        .insert({
+          company_id: formData.companyId,
+          user_id: user.id,
+          title: formData.title || 'Board Minutes',
+          meeting_date: formData.meetingDate || new Date().toISOString(),
+          file_path: filePath
+        });
+
+      if (saveError) throw saveError;
+
+      toast({
+        title: "Success",
+        description: `Board minutes downloaded and saved successfully as ${format.toUpperCase()}`,
+      });
+
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: `Failed to generate ${format.toUpperCase()} document`,
+      });
     }
   };
 
