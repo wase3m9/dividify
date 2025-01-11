@@ -8,7 +8,7 @@ export const Footer = () => {
               <img 
                 src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
                 alt="Dividify Logo" 
-                className="h-8 w-auto"
+                className="h-10 w-auto" // Increased from h-8 to h-10
               />
             </div>
             <p className="text-sm text-gray-600">
