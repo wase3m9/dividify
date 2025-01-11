@@ -15,16 +15,31 @@ interface AmountFieldsProps {
 
 export const AmountFields = ({ form }: AmountFieldsProps) => {
   const formatCurrency = (value: string) => {
-    // Remove any existing commas first
+    // Remove any existing commas and handle empty or invalid input
     const cleanValue = value.replace(/,/g, '');
+    if (!cleanValue) return "";
+    
     const num = parseFloat(cleanValue);
     if (isNaN(num)) return "";
     
     // Format with commas and always 2 decimal places
-    return new Intl.NumberFormat('en-GB', {
+    return num.toLocaleString('en-GB', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(num);
+    });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
+    // Only allow numbers and decimal point
+    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
+    
+    // Ensure we only have one decimal point
+    const parts = rawValue.split('.');
+    const sanitizedValue = parts.length > 2 
+      ? `${parts[0]}.${parts.slice(1).join('')}`
+      : rawValue;
+    
+    onChange(sanitizedValue);
   };
 
   return (
@@ -43,12 +58,8 @@ export const AmountFields = ({ form }: AmountFieldsProps) => {
                   className="pl-7"
                   placeholder="0.00"
                   {...field}
-                  value={field.value ? formatCurrency(field.value.toString()) : ""}
-                  onChange={(e) => {
-                    // Only allow numbers and decimal point
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    field.onChange(value);
-                  }}
+                  value={field.value ? formatCurrency(field.value) : ""}
+                  onChange={(e) => handleInputChange(e, field.onChange)}
                 />
               </FormControl>
             </div>
@@ -71,12 +82,8 @@ export const AmountFields = ({ form }: AmountFieldsProps) => {
                   className="pl-7"
                   placeholder="0.00"
                   {...field}
-                  value={field.value ? formatCurrency(field.value.toString()) : ""}
-                  onChange={(e) => {
-                    // Only allow numbers and decimal point
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    field.onChange(value);
-                  }}
+                  value={field.value ? formatCurrency(field.value) : ""}
+                  onChange={(e) => handleInputChange(e, field.onChange)}
                 />
               </FormControl>
             </div>
