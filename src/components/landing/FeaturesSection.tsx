@@ -130,7 +130,7 @@ export const FeaturesSection = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
-              <div className="w-20 h-20 flex items-center justify-center">
+              <div className="w-40 h-40 flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/ca8672b8-c17e-45da-bde8-a3bca3983961.png" 
                   alt="Xero" 
@@ -139,7 +139,7 @@ export const FeaturesSection = () => {
               </div>
             </div>
             <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
-              <div className="w-20 h-20 flex items-center justify-center">
+              <div className="w-40 h-40 flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/98c2fea2-f8b9-49cb-b30d-fba3e0066bf3.png" 
                   alt="QuickBooks" 
@@ -148,7 +148,7 @@ export const FeaturesSection = () => {
               </div>
             </div>
             <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
-              <div className="w-20 h-20 flex items-center justify-center">
+              <div className="w-40 h-40 flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/0862c29f-36a7-41b3-8463-6912b7f27f89.png" 
                   alt="Sage" 
@@ -157,7 +157,7 @@ export const FeaturesSection = () => {
               </div>
             </div>
             <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
-              <div className="w-20 h-20 flex items-center justify-center">
+              <div className="w-40 h-40 flex items-center justify-center">
                 <img 
                   src="/lovable-uploads/3596b091-6557-46f2-b0ba-d871c36cacce.png" 
                   alt="FreeAgent" 
