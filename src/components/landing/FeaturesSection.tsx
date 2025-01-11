@@ -128,17 +128,41 @@ export const FeaturesSection = () => {
           </p>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
-              <img src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" alt="Xero" className="h-12 w-12" />
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/83613bb7-f6fc-4552-8152-ff8d7da1f655.png" 
+                  alt="Xero" 
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
-              <img src="/lovable-uploads/8ee4d861-36ee-4d61-b0e5-2c688acb6879.png" alt="QuickBooks" className="h-12 w-12" />
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/8ee4d861-36ee-4d61-b0e5-2c688acb6879.png" 
+                  alt="QuickBooks" 
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
-              <img src="/lovable-uploads/e2f79c33-ae65-4036-9ecc-558e39ccd26d.png" alt="Sage" className="h-12 w-12" />
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/e2f79c33-ae65-4036-9ecc-558e39ccd26d.png" 
+                  alt="Sage" 
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
             </div>
-            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100">
-              <img src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" alt="FreeAgent" className="h-12 w-12" />
+            <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
+                  alt="FreeAgent" 
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
