@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
-import { BadgePoundSterling, Trash2 } from "lucide-react";
+import { BadgePoundSterling, Trash2, Edit } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
@@ -84,6 +84,14 @@ export const DividendsSection: FC = () => {
     }
   };
 
+  const handleEdit = (record: DividendRecord) => {
+    // TODO: Implement edit functionality
+    toast({
+      title: "Coming Soon",
+      description: "Edit functionality will be available soon",
+    });
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -101,16 +109,38 @@ export const DividendsSection: FC = () => {
           {dividendRecords.map((record) => (
             <div key={record.id} className="p-4 border rounded-lg">
               <div className="flex justify-between items-start mb-2">
-                <div>
-                  <p><span className="font-medium">Shareholder:</span> {record.shareholder_name}</p>
-                  <p><span className="font-medium">Share Class:</span> {record.share_class}</p>
-                  <p><span className="font-medium">Payment Date:</span> {new Date(record.payment_date).toLocaleDateString()}</p>
-                  <p><span className="font-medium">Financial Year Ending:</span> {new Date(record.financial_year_ending).toLocaleDateString()}</p>
-                  <p><span className="font-medium">Amount per Share:</span> £{record.amount_per_share}</p>
-                  <p><span className="font-medium">Total Amount:</span> £{record.total_amount}</p>
-                  <p><span className="font-medium">Director:</span> {record.director_name}</p>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm">
+                  <div className="text-gray-500">Shareholder:</div>
+                  <div>{record.shareholder_name}</div>
+                  
+                  <div className="text-gray-500">Share Class:</div>
+                  <div>{record.share_class}</div>
+                  
+                  <div className="text-gray-500">Payment Date:</div>
+                  <div>{new Date(record.payment_date).toLocaleDateString()}</div>
+                  
+                  <div className="text-gray-500">Financial Year Ending:</div>
+                  <div>{new Date(record.financial_year_ending).toLocaleDateString()}</div>
+                  
+                  <div className="text-gray-500">Amount per Share:</div>
+                  <div>£{record.amount_per_share}</div>
+                  
+                  <div className="text-gray-500">Total Amount:</div>
+                  <div>£{record.total_amount}</div>
+                  
+                  <div className="text-gray-500">Director:</div>
+                  <div>{record.director_name}</div>
                 </div>
                 <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEdit(record)}
+                    className="text-[#9b87f5] border-[#9b87f5]"
+                  >
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit
+                  </Button>
                   <Button
                     variant="outline"
                     size="sm"
