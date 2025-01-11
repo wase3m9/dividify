@@ -176,9 +176,9 @@ export const Navigation = () => {
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto max-w-[1400px]">
-        <div className="flex items-center justify-between h-16 px-4 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 px-4 lg:px-8">
             <Link 
               to="/" 
               className="flex items-center hover:opacity-80 transition-opacity" 
@@ -193,19 +193,19 @@ export const Navigation = () => {
           </div>
 
           {/* Center - Navigation Links (Hidden on mobile) */}
-          <div className="hidden md:flex items-center justify-center flex-1 px-4 overflow-x-auto">
+          <div className="hidden md:flex items-center justify-center flex-1">
             <div className="flex items-center gap-4">
               <NavLinks />
             </div>
           </div>
 
           {/* Right side - Auth buttons (Hidden on mobile) */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2 px-4 lg:px-8">
             <AuthButtons />
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden px-4 lg:px-8">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
