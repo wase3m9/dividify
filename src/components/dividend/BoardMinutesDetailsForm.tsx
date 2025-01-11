@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { X } from "lucide-react";
 import {
   Form,
@@ -68,44 +67,13 @@ export const BoardMinutesDetailsForm: FC = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    try {
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      if (userError) throw userError;
-      if (!user) throw new Error("No authenticated user found");
-
-      const { data: companyData } = await supabase
-        .from('companies')
-        .select('id')
-        .limit(1)
-        .single();
-
-      if (!companyData) throw new Error("No company found");
-
-      const { error: insertError } = await supabase
-        .from('minutes')
-        .insert({
-          title: `Board Minutes - ${new Date(data.meetingDate).toLocaleDateString()}`,
-          meeting_date: data.meetingDate,
-          company_id: companyData.id,
-          user_id: user.id,
-          file_path: '' // Adding empty string as default since file upload was removed
-        });
-
-      if (insertError) throw insertError;
-
-      toast({
-        title: "Success",
-        description: "Board minutes created successfully",
-      });
-
-      navigate("/dividend-board");
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message,
-      });
-    }
+    // Navigate to preview page with form data
+    navigate("/board-minutes/preview", {
+      state: {
+        ...data,
+        directors,
+      }
+    });
   };
 
   return (
