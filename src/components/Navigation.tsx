@@ -29,9 +29,7 @@ export const Navigation = () => {
         setUser(session?.user ?? null);
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
-        // Clear any local storage items related to auth
         localStorage.removeItem('supabase.auth.token');
-        // Redirect to home page
         navigate('/');
       } else if (event === 'SIGNED_IN') {
         setUser(session?.user ?? null);
@@ -48,7 +46,6 @@ export const Navigation = () => {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       
-      // Clear any remaining auth state
       setUser(null);
       navigate("/");
       
@@ -93,22 +90,24 @@ export const Navigation = () => {
             </span>
           </Link>
           
-          {user ? (
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" asChild className="flex items-center gap-2">
-                <Link to="/">
-                  <Home className="h-4 w-4" />
-                  Home
-                </Link>
-              </Button>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" asChild className="flex items-center gap-2">
+              <Link to="/">
+                <Home className="h-4 w-4" />
+                Website
+              </Link>
+            </Button>
+            {user && (
               <Button variant="ghost" asChild className="flex items-center gap-2">
                 <Link to="/dividend-board">
                   <Grid className="h-4 w-4" />
                   Dashboard
                 </Link>
               </Button>
-            </div>
-          ) : isLandingPage && (
+            )}
+          </div>
+
+          {!user && isLandingPage && (
             <div className="hidden md:flex items-center gap-4">
               <Button 
                 variant="ghost" 
