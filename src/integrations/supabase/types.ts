@@ -9,6 +9,142 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      accounting_integrations: {
+        Row: {
+          company_id: string
+          created_at: string | null
+          id: string
+          is_connected: boolean | null
+          oauth_access_token: string | null
+          oauth_expires_at: string | null
+          oauth_refresh_token: string | null
+          platform: Database["public"]["Enums"]["accounting_platform"]
+          tenant_id: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string | null
+          id?: string
+          is_connected?: boolean | null
+          oauth_access_token?: string | null
+          oauth_expires_at?: string | null
+          oauth_refresh_token?: string | null
+          platform: Database["public"]["Enums"]["accounting_platform"]
+          tenant_id?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string | null
+          id?: string
+          is_connected?: boolean | null
+          oauth_access_token?: string | null
+          oauth_expires_at?: string | null
+          oauth_refresh_token?: string | null
+          platform?: Database["public"]["Enums"]["accounting_platform"]
+          tenant_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounting_integrations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      accounting_mappings: {
+        Row: {
+          created_at: string | null
+          id: string
+          integration_id: string
+          lovable_account_type: string
+          platform_account_id: string
+          platform_account_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          integration_id: string
+          lovable_account_type: string
+          platform_account_id: string
+          platform_account_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          integration_id?: string
+          lovable_account_type?: string
+          platform_account_id?: string
+          platform_account_name?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounting_mappings_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "accounting_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      accounting_sync_logs: {
+        Row: {
+          created_at: string | null
+          dividend_record_id: string
+          error_message: string | null
+          id: string
+          integration_id: string
+          platform_journal_id: string | null
+          sync_status: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          dividend_record_id: string
+          error_message?: string | null
+          id?: string
+          integration_id: string
+          platform_journal_id?: string | null
+          sync_status: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          dividend_record_id?: string
+          error_message?: string | null
+          id?: string
+          integration_id?: string
+          platform_journal_id?: string | null
+          sync_status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounting_sync_logs_dividend_record_id_fkey"
+            columns: ["dividend_record_id"]
+            isOneToOne: false
+            referencedRelation: "dividend_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "accounting_sync_logs_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "accounting_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           accounting_category: string | null
@@ -304,7 +440,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      accounting_platform: "quickbooks" | "xero"
     }
     CompositeTypes: {
       [_ in never]: never
