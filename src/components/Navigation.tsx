@@ -124,12 +124,6 @@ export const Navigation = () => {
               </Button>
               <Button 
                 variant="ghost" 
-                onClick={() => scrollToSection('testimonials')}
-              >
-                Testimonials
-              </Button>
-              <Button 
-                variant="ghost" 
                 onClick={() => scrollToSection('faq')}
               >
                 FAQ
