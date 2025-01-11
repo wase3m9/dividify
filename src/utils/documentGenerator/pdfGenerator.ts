@@ -5,35 +5,38 @@ import { DividendVoucherData } from './types';
 export const generatePDF = (data: DividendVoucherData) => {
   const doc = new jsPDF();
   
-  // Set font
+  // Set font and default settings
   doc.setFont("helvetica");
   
-  // Company header (centered)
-  doc.setFontSize(16);
-  doc.text(data.companyName, 105, 20, { align: "center" });
+  // Company header section (centered, top of page)
+  doc.setFontSize(18);
+  doc.text(data.companyName, 105, 25, { align: "center" });
   
-  doc.setFontSize(10);
-  doc.text(data.registeredAddress, 105, 30, { align: "center" });
-  doc.text(`Company Registration No: ${data.registrationNumber}`, 105, 35, { align: "center" });
+  doc.setFontSize(11);
+  doc.text(data.registeredAddress, 105, 35, { align: "center" });
+  doc.text(`Company Registration No: ${data.registrationNumber}`, 105, 42, { align: "center" });
 
-  // Add space
-  const yStart = 50;
+  // Add space before next section
+  const yStart = 60;
 
-  // Dividend voucher number (right aligned)
+  // Voucher number (right aligned)
   doc.setFontSize(11);
   doc.text(`Dividend Voucher No: ${data.voucherNumber}`, 190, yStart, { align: "right" });
 
-  // Shareholder details (left aligned)
+  // Shareholder details (left aligned with proper spacing)
   doc.text("To:", 20, yStart);
-  doc.text(data.shareholderName, 20, yStart + 7);
+  doc.setFontSize(11);
+  doc.text(data.shareholderName, 20, yStart + 8);
+  
+  // Handle shareholder address with proper line breaks
   if (data.shareholderAddress) {
     const addressLines = data.shareholderAddress.split(',');
     addressLines.forEach((line, index) => {
-      doc.text(line.trim(), 20, yStart + 14 + (index * 7));
+      doc.text(line.trim(), 20, yStart + 16 + (index * 7));
     });
   }
 
-  // Declaration text (left aligned)
+  // Declaration section (left aligned)
   const declarationY = yStart + 45;
   doc.setFontSize(11);
   doc.text([
@@ -42,18 +45,24 @@ export const generatePDF = (data: DividendVoucherData) => {
     'as follows:'
   ], 20, declarationY);
 
-  // Payment details (left aligned with proper spacing)
+  // Payment details section (left aligned with increased spacing)
   const detailsStart = declarationY + 25;
   doc.setFontSize(11);
-  doc.text([
+  
+  // Create payment details with proper spacing and alignment
+  const details = [
     `Payment Date:          ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
     `Share Class:          ${data.shareClass}`,
     `Number of Shares:     ${data.holdings || '0'}`,
     `Amount per Share:     £${data.amountPerShare}`,
     `Total Amount:         £${data.totalAmount}`
-  ], 20, detailsStart);
+  ];
+  
+  details.forEach((detail, index) => {
+    doc.text(detail, 20, detailsStart + (index * 8));
+  });
 
-  // Signature section (left aligned)
+  // Signature section (bottom of page)
   const signatureY = detailsStart + 50;
   doc.line(20, signatureY, 80, signatureY);
   doc.text('Director Signature', 20, signatureY + 5);

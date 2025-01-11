@@ -1,4 +1,4 @@
-import { Document, Paragraph, TextRun, AlignmentType } from 'docx';
+import { Document, Paragraph, TextRun, AlignmentType, convertInchesToTwip, spacing } from 'docx';
 import { format } from 'date-fns';
 import { DividendVoucherData } from './types';
 
@@ -7,19 +7,25 @@ export const generateWord = async (data: DividendVoucherData) => {
     sections: [{
       properties: {},
       children: [
-        // Company header (centered)
+        // Company header (centered with proper spacing)
         new Paragraph({
           alignment: AlignmentType.CENTER,
+          spacing: {
+            after: convertInchesToTwip(0.2),
+          },
           children: [
             new TextRun({
               text: data.companyName,
               bold: true,
-              size: 32,
+              size: 36,
             }),
           ],
         }),
         new Paragraph({
           alignment: AlignmentType.CENTER,
+          spacing: {
+            after: convertInchesToTwip(0.1),
+          },
           children: [
             new TextRun({
               text: data.registeredAddress,
@@ -29,6 +35,9 @@ export const generateWord = async (data: DividendVoucherData) => {
         }),
         new Paragraph({
           alignment: AlignmentType.CENTER,
+          spacing: {
+            after: convertInchesToTwip(0.3),
+          },
           children: [
             new TextRun({
               text: `Company Registration No: ${data.registrationNumber}`,
@@ -36,11 +45,13 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
-        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
         
         // Voucher number (right aligned)
         new Paragraph({
           alignment: AlignmentType.RIGHT,
+          spacing: {
+            after: convertInchesToTwip(0.2),
+          },
           children: [
             new TextRun({
               text: `Dividend Voucher No: ${data.voucherNumber}`,
@@ -52,12 +63,22 @@ export const generateWord = async (data: DividendVoucherData) => {
         // Shareholder details (left aligned)
         new Paragraph({
           alignment: AlignmentType.LEFT,
+          spacing: {
+            after: convertInchesToTwip(0.1),
+          },
           children: [
-            new TextRun({ text: "To:", size: 24 }),
+            new TextRun({ 
+              text: "To:",
+              size: 24,
+              bold: true
+            }),
           ],
         }),
         new Paragraph({
           alignment: AlignmentType.LEFT,
+          spacing: {
+            after: convertInchesToTwip(0.1),
+          },
           children: [
             new TextRun({
               text: data.shareholderName,
@@ -65,20 +86,34 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
-        new Paragraph({
-          alignment: AlignmentType.LEFT,
-          children: [
-            new TextRun({
-              text: data.shareholderAddress,
-              size: 24,
-            }),
-          ],
-        }),
-        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
+        // Shareholder address
+        ...data.shareholderAddress.split(',').map(line => 
+          new Paragraph({
+            alignment: AlignmentType.LEFT,
+            spacing: {
+              after: convertInchesToTwip(0.1),
+            },
+            children: [
+              new TextRun({
+                text: line.trim(),
+                size: 24,
+              }),
+            ],
+          })
+        ),
         
-        // Declaration (left aligned)
+        // Add spacing before declaration
+        new Paragraph({ 
+          spacing: { after: convertInchesToTwip(0.3) },
+          children: [new TextRun({ text: "" })]
+        }),
+        
+        // Declaration
         new Paragraph({
           alignment: AlignmentType.LEFT,
+          spacing: {
+            after: convertInchesToTwip(0.1),
+          },
           children: [
             new TextRun({
               text: `A dividend has been declared by ${data.companyName}`,
@@ -88,6 +123,9 @@ export const generateWord = async (data: DividendVoucherData) => {
         }),
         new Paragraph({
           alignment: AlignmentType.LEFT,
+          spacing: {
+            after: convertInchesToTwip(0.2),
+          },
           children: [
             new TextRun({
               text: `for the financial year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
@@ -95,11 +133,10 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
-        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
         
-        // Payment details (left aligned)
+        // Payment details with proper spacing
         new Paragraph({
-          alignment: AlignmentType.LEFT,
+          spacing: { after: convertInchesToTwip(0.2) },
           children: [
             new TextRun({
               text: `Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
@@ -108,7 +145,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
-          alignment: AlignmentType.LEFT,
+          spacing: { after: convertInchesToTwip(0.2) },
           children: [
             new TextRun({
               text: `Share Class: ${data.shareClass}`,
@@ -117,7 +154,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
-          alignment: AlignmentType.LEFT,
+          spacing: { after: convertInchesToTwip(0.2) },
           children: [
             new TextRun({
               text: `Number of Shares: ${data.holdings || '0'}`,
@@ -126,7 +163,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
-          alignment: AlignmentType.LEFT,
+          spacing: { after: convertInchesToTwip(0.2) },
           children: [
             new TextRun({
               text: `Amount per Share: £${data.amountPerShare}`,
@@ -135,7 +172,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
-          alignment: AlignmentType.LEFT,
+          spacing: { after: convertInchesToTwip(0.4) },
           children: [
             new TextRun({
               text: `Total Amount: £${data.totalAmount}`,
@@ -143,11 +180,10 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
-        new Paragraph({ children: [new TextRun({ text: "\n\n" })] }),
         
-        // Signature section (left aligned)
+        // Signature section with proper spacing
         new Paragraph({
-          alignment: AlignmentType.LEFT,
+          spacing: { after: convertInchesToTwip(0.2) },
           children: [
             new TextRun({
               text: "Director Signature",
