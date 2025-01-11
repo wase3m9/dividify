@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Layers, Pencil, Trash2 } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ShareClassForm } from "@/components/dividend/board/ShareClassForm";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { useToast } from "@/hooks/use-toast";
@@ -30,16 +30,6 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
   const [selectedShareClass, setSelectedShareClass] = useState<ShareClass | null>(null);
   const { toast } = useToast();
   const MAX_SHAREHOLDERS = 10;
-
-  const handleEdit = (shareClass: ShareClass) => {
-    setSelectedShareClass(shareClass);
-    onDialogOpenChange(true);
-  };
-
-  const handleDialogClose = () => {
-    setSelectedShareClass(null);
-    onDialogOpenChange(false);
-  };
 
   const handleDelete = async (shareClassId: string) => {
     try {
@@ -79,6 +69,16 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
     setSelectedShareClass(null);
   };
 
+  const handleEdit = (shareClass: ShareClass) => {
+    setSelectedShareClass(shareClass);
+    onDialogOpenChange(true);
+  };
+
+  const handleDialogClose = () => {
+    setSelectedShareClass(null);
+    onDialogOpenChange(false);
+  };
+
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -102,10 +102,11 @@ export const ShareClassesSection: FC<ShareClassesSectionProps> = ({
           </DialogTitle>
           <ShareClassForm 
             onSubmit={handleSubmit}
-            onPrevious={handleDialogClose}
+            onCancel={handleDialogClose}
             initialData={selectedShareClass ? {
               shareClass: selectedShareClass.share_class,
-              numberOfShares: selectedShareClass.number_of_shares.toString()
+              numberOfShares: selectedShareClass.number_of_shares.toString(),
+              numberOfHolders: "1" // Add default value for numberOfHolders
             } : undefined}
           />
         </DialogContent>

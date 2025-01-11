@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client"
 import { useEffect, useState } from "react"
 import { DocumentPreview } from "@/utils/previewRenderer"
 import { templates } from "@/utils/documentGenerator/templates"
+import { Packer } from "docx"
 import {
   Dialog,
   DialogContent,
