@@ -114,10 +114,10 @@ export const TemplateSelection = () => {
         filePath = uploadData.path;
       } else {
         const doc = await downloadWord(documentData);
-        const wordBlob = await doc.save('blob');
+        const blob = await Packer.toBlob(doc);
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('dividend_vouchers')
-          .upload(fileName, wordBlob, {
+          .upload(fileName, blob, {
             contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             upsert: false
           });
@@ -158,8 +158,6 @@ export const TemplateSelection = () => {
       });
     }
   };
-
-  // ... keep existing code (template selection UI rendering)
 
   return (
     <div className="space-y-6">
