@@ -22,11 +22,8 @@ export const AmountFields = ({ form }: AmountFieldsProps) => {
     const num = parseFloat(cleanValue);
     if (isNaN(num)) return "";
     
-    // Format with commas and always 2 decimal places
-    return num.toLocaleString('en-GB', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+    // Format with 2 decimal places
+    return num.toFixed(2);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
