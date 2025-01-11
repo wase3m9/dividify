@@ -7,6 +7,7 @@ export const generateWord = async (data: DividendVoucherData) => {
     sections: [{
       properties: {},
       children: [
+        // Company header (centered)
         new Paragraph({
           alignment: AlignmentType.CENTER,
           children: [
@@ -30,13 +31,33 @@ export const generateWord = async (data: DividendVoucherData) => {
           alignment: AlignmentType.CENTER,
           children: [
             new TextRun({
-              text: `Registered number: ${data.registrationNumber}`,
+              text: `Company Registration No: ${data.registrationNumber}`,
               size: 24,
             }),
           ],
         }),
         new Paragraph({ children: [new TextRun({ text: "\n" })] }),
+        
+        // Voucher number (right aligned)
         new Paragraph({
+          alignment: AlignmentType.RIGHT,
+          children: [
+            new TextRun({
+              text: `Dividend Voucher No: ${data.voucherNumber}`,
+              size: 24,
+            }),
+          ],
+        }),
+        
+        // Shareholder details (left aligned)
+        new Paragraph({
+          alignment: AlignmentType.LEFT,
+          children: [
+            new TextRun({ text: "To:", size: 24 }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
               text: data.shareholderName,
@@ -45,6 +66,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
               text: data.shareholderAddress,
@@ -52,35 +74,32 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
           ],
         }),
+        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
+        
+        // Declaration (left aligned)
         new Paragraph({
-          alignment: AlignmentType.RIGHT,
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
-              text: `Dividend voucher number: ${data.voucherNumber}`,
+              text: `A dividend has been declared by ${data.companyName}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.LEFT,
+          children: [
+            new TextRun({
+              text: `for the financial year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
               size: 24,
             }),
           ],
         }),
         new Paragraph({ children: [new TextRun({ text: "\n" })] }),
-        // Declaration text (left aligned)
+        
+        // Payment details (left aligned)
         new Paragraph({
-          children: [
-            new TextRun({
-              text: `${data.companyName} has declared the final dividend`,
-              size: 24,
-            }),
-          ],
-        }),
-        new Paragraph({
-          children: [
-            new TextRun({
-              text: `for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} as follows:`,
-              size: 24,
-            }),
-          ],
-        }),
-        new Paragraph({ children: [new TextRun({ text: "\n" })] }),
-        new Paragraph({
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
               text: `Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`,
@@ -89,14 +108,25 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
-              text: `Share class: ${data.shareClass}`,
+              text: `Share Class: ${data.shareClass}`,
               size: 24,
             }),
           ],
         }),
         new Paragraph({
+          alignment: AlignmentType.LEFT,
+          children: [
+            new TextRun({
+              text: `Number of Shares: ${data.holdings || '0'}`,
+              size: 24,
+            }),
+          ],
+        }),
+        new Paragraph({
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
               text: `Amount per Share: £${data.amountPerShare}`,
@@ -105,6 +135,7 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
               text: `Total Amount: £${data.totalAmount}`,
@@ -113,10 +144,13 @@ export const generateWord = async (data: DividendVoucherData) => {
           ],
         }),
         new Paragraph({ children: [new TextRun({ text: "\n\n" })] }),
+        
+        // Signature section (left aligned)
         new Paragraph({
+          alignment: AlignmentType.LEFT,
           children: [
             new TextRun({
-              text: "Signature of Director/Secretary",
+              text: "Director Signature",
               size: 24,
               border: {
                 style: 'single',
@@ -126,7 +160,7 @@ export const generateWord = async (data: DividendVoucherData) => {
             }),
             new TextRun({ text: "     ", size: 24 }),
             new TextRun({
-              text: "Name of Director/Secretary",
+              text: "Director Name",
               size: 24,
               border: {
                 style: 'single',
