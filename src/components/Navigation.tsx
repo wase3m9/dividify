@@ -178,11 +178,12 @@ export const Navigation = () => {
       <div className="container mx-auto max-w-[1400px]">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Brand */}
-          <div className="flex-shrink-0 px-4 lg:px-8">
+          <div className="flex items-center px-4 lg:px-8">
             <Link 
               to="/" 
               className="flex items-center hover:opacity-80 transition-opacity" 
               onClick={handleHomeClick}
+              aria-label="Go to homepage"
             >
               <img 
                 src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
