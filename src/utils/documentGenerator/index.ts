@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver';
 import { Packer } from 'docx';
-import { generatePDF } from './pdfGenerator';
-import { generateWord } from './wordGenerator';
+import { generatePDF } from './pdf/generator';
+import { generateWord } from './word/generator';
 import type { DividendVoucherData } from './types';
 
 export const downloadPDF = (data: DividendVoucherData) => {

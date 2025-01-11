@@ -1,3 +1,6 @@
+import { jsPDF } from 'jspdf';
+import { Document } from 'docx';
+
 export interface DividendVoucherData {
   companyName: string;
   registrationNumber: string;
@@ -11,6 +14,10 @@ export interface DividendVoucherData {
   voucherNumber: number;
   holdings?: string;
   financialYearEnding: string;
+}
+
+export interface DocumentGenerator {
+  generate: (data: DividendVoucherData) => jsPDF | Document;
 }
 
 export interface TemplateConfig {
