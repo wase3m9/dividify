@@ -139,7 +139,7 @@ export const Navigation = () => {
   );
 
   const AuthButtons = () => (
-    <div className="flex items-center gap-2 shrink-0">
+    <div className="flex items-center gap-2 shrink-0 pr-2">
       {user ? (
         <>
           <Button variant="ghost" asChild className="flex items-center gap-2">
@@ -186,7 +186,7 @@ export const Navigation = () => {
             <img 
               src="/lovable-uploads/d93c9ad7-1aa0-41ed-beea-9691a39c15e6.png" 
               alt="Dividify Logo" 
-              className="h-10 w-auto" // Increased from h-8 to h-10
+              className="h-10 w-auto"
             />
           </Link>
 
