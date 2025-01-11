@@ -49,7 +49,7 @@ const routes = [
     element: <BoardMinutesTemplate />,
   },
   {
-    path: "board-minutes-preview",
+    path: "board-minutes/preview",
     element: <BoardMinutesPreview />,
   },
   {
