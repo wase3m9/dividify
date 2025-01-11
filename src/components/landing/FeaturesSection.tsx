@@ -85,14 +85,14 @@ export const FeaturesSection = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
-          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm grayscale hover:grayscale-0 transition-all p-6">
+          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-6">
             <img src="/lovable-uploads/85437c5f-1448-47f2-9458-354df3c32a42.png" alt="Xero" className="max-w-full max-h-full object-contain" />
           </div>
           <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-6">
             <img src="/lovable-uploads/1d659773-5097-4adf-b8f9-8240de1fb071.png" alt="QuickBooks" className="max-w-full max-h-full object-contain" />
           </div>
-          <div className="w-32 h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
-            <img src="/placeholder.svg" alt="Logo 3" className="max-w-full max-h-full object-contain" />
+          <div className="w-40 h-40 flex items-center justify-center bg-white rounded-lg shadow-sm p-6">
+            <img src="/lovable-uploads/5564abe5-0f0a-4c8e-b2ee-a15dca652dee.png" alt="Sage" className="max-w-full max-h-full object-contain" />
           </div>
           <div className="w-32 h-16 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
             <img src="/placeholder.svg" alt="Logo 4" className="max-w-full max-h-full object-contain" />
