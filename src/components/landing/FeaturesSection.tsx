@@ -84,17 +84,17 @@ export const FeaturesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-center justify-items-center max-w-4xl mx-auto">
-          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 items-center justify-items-center max-w-3xl mx-auto">
+          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
             <img src="/lovable-uploads/6cb830b0-4fd4-4cb9-8dc0-d265559b8a01.png" alt="Xero" className="w-full h-full object-contain" />
           </div>
-          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
+          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
             <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks" className="w-full h-full object-contain" />
           </div>
-          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
+          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
             <img src="/lovable-uploads/05d42872-d6b8-49fd-8d69-f6ba2d20e8c8.png" alt="Sage" className="w-full h-full object-contain" />
           </div>
-          <div className="w-36 h-36 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-6">
+          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
             <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent" className="w-full h-full object-contain" />
           </div>
         </div>
