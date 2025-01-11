@@ -86,7 +86,9 @@ export const MinutesSection: FC = () => {
       // Create a temporary link element
       const link = document.createElement('a');
       link.href = url;
-      link.download = filePath.split('/').pop() || `minutes.${format}`; 
+      // Set the correct file extension based on the format
+      const fileName = filePath.split('/').pop() || `minutes.${format === 'word' ? 'docx' : 'pdf'}`; 
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       

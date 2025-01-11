@@ -171,7 +171,7 @@ const DividendBoard = () => {
         <div className="max-w-5xl mx-auto space-y-8">
           <Header companyName={company?.name} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
               <Tabs defaultValue="company" className="w-full">
                 <TabsList className="w-full justify-start bg-white border-b rounded-none h-12 p-0">
@@ -249,7 +249,7 @@ const DividendBoard = () => {
               </Tabs>
             </div>
 
-            <div className="space-y-8 lg:pl-4">
+            <div className="space-y-8">
               <RecentActivity />
             </div>
           </div>
