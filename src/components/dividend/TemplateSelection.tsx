@@ -145,7 +145,17 @@ export const TemplateSelection = () => {
 
       let filePath = '';
       const now = new Date();
-      const timestamp = now.toISOString().replace(/[:.]/g, '-');
+      // Format: DD-MM-YYYY_HH-mm-ss
+      const timestamp = now.toLocaleString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      }).replace(/[/:]/g, '-').replace(',', '').replace(/ /g, '_');
+      
       const fileName = `dividend_voucher_${timestamp}.${format}`;
 
       if (format === 'pdf') {

@@ -114,7 +114,17 @@ const BoardMinutesPreview = () => {
         financialYearEnd: formData.financialYearEnd
       };
 
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      // Format: DD-MM-YYYY_HH-mm-ss
+      const timestamp = new Date().toLocaleString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      }).replace(/[/:]/g, '-').replace(',', '').replace(/ /g, '_');
+      
       const fileName = `board_minutes_${timestamp}.${format}`;
 
       let filePath = '';
