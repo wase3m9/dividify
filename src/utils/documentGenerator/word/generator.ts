@@ -39,26 +39,21 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
           }),
           new Paragraph({ text: '' }),
           
-          // Voucher number (right-aligned)
-          new Paragraph({
-            alignment: AlignmentType.RIGHT,
-            children: [
-              new TextRun({
-                text: `Voucher No: ${data.voucherNumber}`,
-                size: 24,
-              }),
-            ],
-          }),
-          
-          // Shareholder details (left-aligned, no labels)
+          // Shareholder name and voucher number on the same line
           new Paragraph({
             children: [
               new TextRun({
                 text: data.shareholderName,
                 size: 24,
               }),
+              new TextRun({
+                text: `${" ".repeat(100)}Voucher No: ${data.voucherNumber}`,
+                size: 24,
+              }),
             ],
           }),
+          
+          // Shareholder address
           ...data.shareholderAddress.split(',').map(line => 
             new Paragraph({
               children: [
@@ -72,10 +67,8 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
           
           // Spacing
           new Paragraph({ text: '' }),
-          new Paragraph({ text: '' }),
-          new Paragraph({ text: '' }),
           
-          // Declaration (full width)
+          // Declaration
           new Paragraph({
             children: [
               new TextRun({
@@ -152,7 +145,6 @@ export const generateWord = async (data: DividendVoucherData | BoardMinutesData)
 
     return doc;
   } else {
-    // Handle board minutes generation
     const doc = new Document({
       sections: [{
         properties: {},

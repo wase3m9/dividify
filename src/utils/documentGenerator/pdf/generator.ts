@@ -15,27 +15,36 @@ export const generatePDF = (data: DividendVoucherData | BoardMinutesData) => {
     doc.text(`Company number: ${data.registrationNumber}`, 105, 30, { align: 'center' });
     doc.text(data.registeredAddress, 105, 40, { align: 'center' });
     
-    // Add shareholder details and voucher number
+    // Add shareholder details and voucher number on the same line
     doc.setFontSize(11);
-    doc.text(`Voucher No: ${data.voucherNumber}`, 190, 60, { align: 'right' });
-    doc.text(data.shareholderName, 20, 70);
     
-    const addressLines = data.shareholderAddress.split(',');
-    addressLines.forEach((line, index) => {
-      doc.text(line.trim(), 20, 80 + (index * 10));
-    });
+    // Add shareholder name (left-aligned) and voucher number (right-aligned) on the same line
+    const yPos = 70;
+    doc.text(data.shareholderName, 20, yPos);
+    doc.text(`Voucher No: ${data.voucherNumber}`, 190, yPos, { align: 'right' });
     
-    // Add declaration with proper text wrapping
-    const yPos = 120;
+    // Add shareholder address below the name
+    if (data.shareholderAddress) {
+      const addressLines = data.shareholderAddress.split(',');
+      addressLines.forEach((line, index) => {
+        doc.text(line.trim(), 20, yPos + 10 + (index * 7));
+      });
+    }
+    
+    // Calculate new Y position after address
+    const addressLines = data.shareholderAddress ? data.shareholderAddress.split(',').length : 0;
+    const declarationYPos = yPos + 20 + (addressLines * 7);
+    
+    // Add declaration
     const declarationText = `${data.companyName} has declared the final dividend for the year ending ${format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} on the shares as follows:`;
     const maxWidth = 170;
     const lines = doc.splitTextToSize(declarationText, maxWidth);
     lines.forEach((line: string, index: number) => {
-      doc.text(line, 20, yPos + (index * 7));
+      doc.text(line, 20, declarationYPos + (index * 7));
     });
     
     // Add payment details
-    const detailsYPos = yPos + (lines.length * 7) + 10;
+    const detailsYPos = declarationYPos + (lines.length * 7) + 10;
     doc.text(`Payment Date: ${format(new Date(data.paymentDate), 'dd/MM/yyyy')}`, 20, detailsYPos);
     doc.text(`Share Class: ${data.shareClass}`, 20, detailsYPos + 10);
     doc.text(`Amount per Share: £${data.amountPerShare}`, 20, detailsYPos + 20);
