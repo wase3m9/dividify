@@ -140,7 +140,7 @@ export const FeaturesSection = () => {
             <div className="bg-white rounded-2xl p-8 hover:shadow-lg transition-shadow duration-300 flex items-center justify-center border border-gray-100 aspect-square">
               <div className="w-20 h-20 flex items-center justify-center">
                 <img 
-                  src="/lovable-uploads/8ee4d861-36ee-4d61-b0e5-2c688acb6879.png" 
+                  src="/lovable-uploads/98c2fea2-f8b9-49cb-b30d-fba3e0066bf3.png" 
                   alt="QuickBooks" 
                   className="max-w-full max-h-full object-contain"
                 />
