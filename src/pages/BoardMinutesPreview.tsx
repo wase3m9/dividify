@@ -7,12 +7,37 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Packer } from "docx";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
+import { useEffect, useState } from "react";
 
 const BoardMinutesPreview = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
   const formData = location.state || {};
+  const [company, setCompany] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchCompanyData = async () => {
+      const { data, error } = await supabase
+        .from('companies')
+        .select('*')
+        .limit(1)
+        .single();
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to fetch company data",
+        });
+        return;
+      }
+
+      setCompany(data);
+    };
+
+    fetchCompanyData();
+  }, [toast]);
 
   const handleDownload = async (format: 'pdf' | 'word') => {
     try {
@@ -26,25 +51,19 @@ const BoardMinutesPreview = () => {
         return;
       }
 
-      const { data: companyData } = await supabase
-        .from('companies')
-        .select('*')
-        .limit(1)
-        .single();
-
-      if (!companyData) {
+      if (!company) {
         toast({
           variant: "destructive",
           title: "Error",
-          description: "Company not found",
+          description: "Company data not found",
         });
         return;
       }
 
       const documentData = {
-        companyName: companyData.name,
-        registrationNumber: companyData.registration_number || "",
-        registeredAddress: companyData.registered_address || "",
+        companyName: company.name,
+        registrationNumber: company.registration_number || "",
+        registeredAddress: company.registered_address || "",
         shareholderName: "",
         shareholderAddress: "",
         voucherNumber: 1,
@@ -93,7 +112,7 @@ const BoardMinutesPreview = () => {
       const { error: saveError } = await supabase
         .from('minutes')
         .insert({
-          company_id: companyData.id,
+          company_id: company.id,
           user_id: user.id,
           title: `Board Minutes - ${new Date(formData.meetingDate).toLocaleDateString()}`,
           meeting_date: formData.meetingDate,
@@ -117,6 +136,10 @@ const BoardMinutesPreview = () => {
       });
     }
   };
+
+  if (!company) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -146,13 +169,17 @@ const BoardMinutesPreview = () => {
               
               <div className="mt-8 p-6 border rounded-lg">
                 <div className="space-y-4">
-                  <h1 className="text-center font-bold text-xl">COMPANY NAME LIMITED</h1>
-                  <p className="text-center">Company number: Company registration number</p>
-                  <p className="text-center">Registered office address: Address line 1, Address line 2, Town, County, Postcode</p>
+                  <div className="text-center">
+                    <h1 className="font-bold text-xl">{company.name}</h1>
+                    <p className="text-sm">Company number: {company.registration_number}</p>
+                    <p className="text-sm">{company.registered_address}</p>
+                  </div>
                   
-                  <h2 className="text-center font-bold mt-8">MINUTES OF MEETING OF THE DIRECTORS</h2>
+                  <div className="my-8 border-t border-gray-300" />
+                  <h2 className="text-center font-bold">MINUTES OF MEETING OF THE DIRECTORS</h2>
+                  <div className="border-t border-gray-300 mb-8" />
                   
-                  <div className="space-y-2 mt-8">
+                  <div className="space-y-2 mt-8 text-left">
                     <div className="flex">
                       <span className="font-semibold w-32">Date held:</span>
                       <span>{formData.meetingDate}</span>
@@ -171,7 +198,7 @@ const BoardMinutesPreview = () => {
                     </div>
                   </div>
                   
-                  <div className="space-y-4 mt-8 text-left">
+                  <div className="space-y-4 mt-12 text-left">
                     <h3 className="font-semibold">1. NOTICE AND QUORUM</h3>
                     <p>The chairperson reported that sufficient notice of the meeting had been given to all the directors, and as a quorum was present declared the meeting open.</p>
                     
@@ -182,7 +209,7 @@ const BoardMinutesPreview = () => {
                     <h3 className="font-semibold">3. CLOSE</h3>
                     <p>There being no further business the meeting was closed.</p>
                     
-                    <div className="mt-8 space-y-4">
+                    <div className="mt-16 space-y-4">
                       <p>Signed: _________________________</p>
                       <p>Dated: _________________________</p>
                     </div>
