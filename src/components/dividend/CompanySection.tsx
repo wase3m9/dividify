@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building2 } from "lucide-react";
+import { Building2, Pencil } from "lucide-react";
 import { CompanyForm } from "./company/CompanyForm";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
@@ -35,10 +35,11 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button 
-              variant="outline"
-              className="text-[#9b87f5] border-[#9b87f5]"
+              variant="ghost" 
+              size="icon"
+              className="h-8 w-8 text-[#9b87f5] hover:text-[#8b77e5] hover:bg-[#9b87f5]/10"
             >
-              {company ? "Edit Company" : "Add Company"}
+              <Pencil className="h-4 w-4" />
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
