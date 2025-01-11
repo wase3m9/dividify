@@ -1,5 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "./App";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import Signup from "@/pages/Signup";
@@ -12,55 +11,55 @@ import BoardMinutesTemplate from "@/pages/BoardMinutesTemplate";
 import BoardMinutesPreview from "@/pages/BoardMinutesPreview";
 import Profile from "@/pages/Profile";
 
-export const router = createBrowserRouter([
+const routes = [
   {
     path: "/",
-    element: <App />,
-    children: [
-      {
-        index: true,
-        element: <Index />,
-      },
-      {
-        path: "auth",
-        element: <Auth />,
-      },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
-      {
-        path: "dividend-board",
-        element: <DividendBoard />,
-      },
-      {
-        path: "dividend-voucher",
-        element: <DividendVoucherForm />,
-      },
-      {
-        path: "dividend-amount",
-        element: <DividendAmountForm />,
-      },
-      {
-        path: "dividend-waivers",
-        element: <DividendWaivers />,
-      },
-      {
-        path: "board-minutes",
-        element: <BoardMinutesForm />,
-      },
-      {
-        path: "board-minutes-template",
-        element: <BoardMinutesTemplate />,
-      },
-      {
-        path: "board-minutes-preview",
-        element: <BoardMinutesPreview />,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
-      },
-    ],
+    element: <Index />,
   },
-]);
+  {
+    path: "auth",
+    element: <Auth />,
+  },
+  {
+    path: "signup",
+    element: <Signup />,
+  },
+  {
+    path: "dividend-board",
+    element: <DividendBoard />,
+  },
+  {
+    path: "dividend-voucher",
+    element: <DividendVoucherForm />,
+  },
+  {
+    path: "dividend-amount",
+    element: <DividendAmountForm />,
+  },
+  {
+    path: "dividend-waivers",
+    element: <DividendWaivers />,
+  },
+  {
+    path: "board-minutes",
+    element: <BoardMinutesForm />,
+  },
+  {
+    path: "board-minutes-template",
+    element: <BoardMinutesTemplate />,
+  },
+  {
+    path: "board-minutes-preview",
+    element: <BoardMinutesPreview />,
+  },
+  {
+    path: "profile",
+    element: <Profile />,
+  },
+];
+
+export const router = createBrowserRouter(routes);
+
+export function Router() {
+  return <RouterProvider router={router} />;
+}
