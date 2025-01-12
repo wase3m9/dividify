@@ -15,6 +15,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
 import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 
 const routes = [
   {
@@ -80,6 +81,10 @@ const routes = [
   {
     path: "blog",
     element: <Blog />,
+  },
+  {
+    path: "blog/:slug",
+    element: <BlogPost />,
   },
 ];
 
