@@ -10,6 +10,10 @@ import BoardMinutesForm from "@/pages/BoardMinutesForm";
 import BoardMinutesTemplate from "@/pages/BoardMinutesTemplate";
 import BoardMinutesPreview from "@/pages/BoardMinutesPreview";
 import Profile from "@/pages/Profile";
+import Contact from "@/pages/Contact";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
+import CookiePolicy from "@/pages/CookiePolicy";
 
 const routes = [
   {
@@ -55,6 +59,22 @@ const routes = [
   {
     path: "profile",
     element: <Profile />,
+  },
+  {
+    path: "contact",
+    element: <Contact />,
+  },
+  {
+    path: "privacy-policy",
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: "terms-of-service",
+    element: <TermsOfService />,
+  },
+  {
+    path: "cookie-policy",
+    element: <CookiePolicy />,
   },
 ];
 

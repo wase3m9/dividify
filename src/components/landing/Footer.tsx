@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const Footer = () => {
   return (
     <footer className="border-t py-12">
@@ -17,27 +19,23 @@ export const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Product</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li>Features</li>
-              <li>Pricing</li>
-              <li>Documentation</li>
-              <li>API</li>
+              <li><Link to="/#features" className="hover:text-gray-900">Features</Link></li>
+              <li><Link to="/#pricing" className="hover:text-gray-900">Pricing</Link></li>
+              <li><Link to="/contact" className="hover:text-gray-900">Contact</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li>About</li>
-              <li>Blog</li>
-              <li>Careers</li>
-              <li>Contact</li>
+              <li><Link to="/contact" className="hover:text-gray-900">Contact</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li>Privacy Policy</li>
-              <li>Terms of Service</li>
-              <li>Cookie Policy</li>
+              <li><Link to="/privacy-policy" className="hover:text-gray-900">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="hover:text-gray-900">Terms of Service</Link></li>
+              <li><Link to="/cookie-policy" className="hover:text-gray-900">Cookie Policy</Link></li>
             </ul>
           </div>
         </div>
