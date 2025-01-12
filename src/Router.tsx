@@ -14,6 +14,7 @@ import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
+import Blog from "@/pages/Blog";
 
 const routes = [
   {
@@ -75,6 +76,10 @@ const routes = [
   {
     path: "cookie-policy",
     element: <CookiePolicy />,
+  },
+  {
+    path: "blog",
+    element: <Blog />,
   },
 ];
 

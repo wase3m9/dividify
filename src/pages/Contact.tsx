@@ -51,10 +51,12 @@ const Contact = () => {
       <Navigation />
       <main className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
-          <p className="text-gray-600 mb-8">
-            Have a question or want to get in touch? Fill out the form below and we'll get back to you as soon as possible.
-          </p>
+          <div className="text-left">
+            <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
+            <p className="text-gray-600 mb-8">
+              Have a question or want to get in touch? Fill out the form below and we'll get back to you as soon as possible.
+            </p>
+          </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>

@@ -21,12 +21,14 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link to="/#features" className="hover:text-gray-900">Features</Link></li>
               <li><Link to="/#pricing" className="hover:text-gray-900">Pricing</Link></li>
-              <li><Link to="/contact" className="hover:text-gray-900">Contact</Link></li>
+              <li><Link to="/api" className="hover:text-gray-900">API</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm text-gray-600">
+              <li><Link to="/blog" className="hover:text-gray-900">Blog</Link></li>
+              <li><Link to="/documentation" className="hover:text-gray-900">Documentation</Link></li>
               <li><Link to="/contact" className="hover:text-gray-900">Contact</Link></li>
             </ul>
           </div>
