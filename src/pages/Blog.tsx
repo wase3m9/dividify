@@ -25,7 +25,7 @@ const Blog = () => {
       <Navigation />
       <main className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-blue-600">Blog</h1>
+          <h1 className="text-4xl font-bold mb-8 text-blue-600 text-left">Latest Articles</h1>
           
           {isLoading ? (
             <div className="text-center py-8">Loading posts...</div>
@@ -36,35 +36,46 @@ const Blog = () => {
           ) : (
             <div className="grid gap-8">
               {posts?.map((post) => (
-                <Card key={post.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle>
-                      <Link 
-                        to={`/blog/${post.slug}`}
-                        className="text-2xl font-semibold hover:text-blue-600 transition-colors"
-                      >
-                        {post.title}
-                      </Link>
-                    </CardTitle>
-                    <div className="text-sm text-gray-600">
-                      {new Date(post.published_at).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
+                <Card key={post.id} className="hover:shadow-lg transition-shadow overflow-hidden">
+                  <div className="flex flex-col md:flex-row">
+                    <div className="md:w-1/3 p-4">
+                      <img
+                        src="/lovable-uploads/f6751797-fe39-4802-bf9e-9ffae757f702.png"
+                        alt="Blog post illustration"
+                        className="w-full h-48 object-cover rounded-lg"
+                      />
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-700">
-                      {post.content.substring(0, 200)}...
-                    </p>
-                    <Link 
-                      to={`/blog/${post.slug}`}
-                      className="inline-block mt-4 text-blue-600 hover:text-blue-800 transition-colors"
-                    >
-                      Read more →
-                    </Link>
-                  </CardContent>
+                    <div className="md:w-2/3 p-6">
+                      <CardHeader className="p-0">
+                        <CardTitle>
+                          <Link 
+                            to={`/blog/${post.slug}`}
+                            className="text-2xl font-semibold hover:text-blue-600 transition-colors"
+                          >
+                            {post.title}
+                          </Link>
+                        </CardTitle>
+                        <div className="text-sm text-gray-600 mt-2">
+                          {new Date(post.published_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-0 mt-4">
+                        <p className="text-gray-700 line-clamp-3">
+                          {post.content.substring(0, 200)}...
+                        </p>
+                        <Link 
+                          to={`/blog/${post.slug}`}
+                          className="inline-block mt-4 text-blue-600 hover:text-blue-800 transition-colors font-medium"
+                        >
+                          Read more →
+                        </Link>
+                      </CardContent>
+                    </div>
+                  </div>
                 </Card>
               ))}
             </div>
