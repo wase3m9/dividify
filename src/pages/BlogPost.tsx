@@ -45,18 +45,18 @@ const BlogPost = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 pt-24 pb-16">
-        <article className="max-w-4xl mx-auto prose lg:prose-xl text-left">
-          <h1 className="text-4xl font-bold text-blue-600 mb-6">{post.title}</h1>
+        <article className="max-w-4xl mx-auto prose lg:prose-xl">
+          <h1 className="text-4xl font-bold text-[#9b87f5] mb-6 text-left">{post.title}</h1>
           
           <div className="mb-8">
             <img
               src="/lovable-uploads/f6751797-fe39-4802-bf9e-9ffae757f702.png"
-              alt="Stacks of coins showing dividend growth"
-              className="w-1/3 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
+              alt="Blog post illustration"
+              className="w-1/4 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
             />
           </div>
 
-          <div className="text-sm text-gray-600 mb-8">
+          <div className="text-sm text-gray-600 mb-8 text-left">
             Published on {new Date(post.published_at).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -64,20 +64,29 @@ const BlogPost = () => {
             })}
           </div>
 
-          <div className="prose max-w-none">
+          <div className="prose max-w-none text-left">
             {post.content.split('________________________________________').map((section, index) => (
               <div key={index} className="mb-8">
                 {section.split('\n').map((paragraph, pIndex) => {
-                  if (paragraph.trim().startsWith('Step')) {
+                  if (paragraph.trim().startsWith('What Are Dividends?') ||
+                      paragraph.trim().startsWith('Common mistakes to Avoid') ||
+                      paragraph.trim().startsWith('Why are dividends tax-efficient') ||
+                      paragraph.trim().startsWith('Can you pay dividends') ||
+                      paragraph.trim().startsWith('Conclusion?') ||
+                      paragraph.trim().startsWith('Dividend Allowance') ||
+                      paragraph.trim().startsWith('Dividend Tax Rates') ||
+                      paragraph.trim().startsWith('How to Calculate') ||
+                      paragraph.trim().startsWith('Tax Planning Tips') ||
+                      paragraph.trim().startsWith('Final Thoughts')) {
                     return (
-                      <h2 key={pIndex} className="text-2xl font-bold text-blue-700 mt-8 mb-4">
+                      <h2 key={pIndex} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4">
                         {paragraph}
                       </h2>
                     );
                   }
                   if (paragraph.endsWith('?') || paragraph.endsWith(':')) {
                     return (
-                      <h3 key={pIndex} className="text-xl font-semibold text-gray-800 mt-6 mb-3">
+                      <h3 key={pIndex} className="text-xl font-semibold text-[#8b77e5] mt-6 mb-3">
                         {paragraph}
                       </h3>
                     );
