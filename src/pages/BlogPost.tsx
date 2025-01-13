@@ -6,6 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Share2, Clock, MessageSquare, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   Table,
   TableBody,
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/table";
 
 const BlogPost = () => {
+  const { toast } = useToast();
   const { slug } = useParams();
   
   const { data: post, isLoading } = useQuery({
