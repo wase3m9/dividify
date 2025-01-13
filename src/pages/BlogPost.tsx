@@ -67,6 +67,28 @@ const BlogPost = () => {
     },
   });
 
+  const handleShare = async () => {
+    const shareData = {
+      title: post?.title,
+      text: post?.content.substring(0, 100) + '...',
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: "Link copied to clipboard!",
+          description: "You can now share this article with others.",
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
   if (isLoading) {
     return <div className="text-center py-8">Loading post...</div>;
   }
@@ -178,17 +200,22 @@ const BlogPost = () => {
               <Clock className="w-4 h-4" />
               {readingTime} min read
             </div>
-            <div className="flex items-center gap-2">
+            <button 
+              onClick={handleShare}
+              className="flex items-center gap-2 hover:text-[#9b87f5] transition-colors"
+            >
               <Share2 className="w-4 h-4" />
               Share
-            </div>
+            </button>
           </div>
 
           <h1 className="text-4xl font-bold text-[#9b87f5] mb-6 text-left">{post.title}</h1>
           
           <div className="mb-8">
             <img
-              src="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png"
+              src={slug === "understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025" 
+                ? "/lovable-uploads/a996a27b-1d94-44a4-84ff-1355b4543771.png"
+                : "/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png"}
               alt="Blog post illustration"
               className="w-1/4 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
             />
@@ -209,12 +236,14 @@ const BlogPost = () => {
           {/* Author Profile */}
           <div className="mt-12 p-6 bg-gray-50 rounded-lg">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-[#9b87f5] rounded-full flex items-center justify-center text-white text-2xl">
-                A
-              </div>
+              <img
+                src="/lovable-uploads/f04dbba5-81fd-4304-b099-d3af776bc83f.png"
+                alt="James Wilson"
+                className="w-16 h-16 rounded-full object-cover"
+              />
               <div>
-                <h3 className="font-semibold text-lg">Anonymous</h3>
-                <p className="text-gray-600">Financial Expert</p>
+                <h3 className="font-semibold text-lg">James Wilson</h3>
+                <p className="text-gray-600">Financial Expert & Tax Advisor</p>
               </div>
             </div>
           </div>
