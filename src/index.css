@@ -48,3 +48,16 @@
 .hover-lift:hover {
   transform: translateY(-2px);
 }
+
+/* CTA Button Styles */
+.cta-primary {
+  @apply bg-cta-primary text-white hover:bg-opacity-90 transition-colors;
+}
+
+.cta-secondary {
+  @apply bg-cta-secondary text-white hover:bg-opacity-90 transition-colors;
+}
+
+.cta-accent {
+  @apply bg-cta-accent text-white hover:bg-opacity-90 transition-colors;
+}

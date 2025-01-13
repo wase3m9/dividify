@@ -52,6 +52,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        cta: {
+          primary: "#F97316", // Bright Orange for primary CTAs
+          secondary: "#0EA5E9", // Ocean Blue for secondary CTAs
+          accent: "#D946EF", // Magenta Pink for accent CTAs
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
