@@ -37,14 +37,18 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      console.log("Attempting to sign in with:", { email: email.trim() });
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
       });
 
       if (error) throw error;
+
+      console.log("Sign in successful:", data);
       navigate("/dividend-board");
     } catch (error) {
+      console.error("Sign in error:", error);
       if (error instanceof AuthError) {
         setError(getErrorMessage(error));
       } else {
