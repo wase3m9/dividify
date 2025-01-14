@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
+import { Footer } from "@/components/landing/Footer";
 
 const DividendBoard = () => {
   const navigate = useNavigate();
@@ -288,6 +289,7 @@ const DividendBoard = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -101,7 +101,7 @@ export const Navigation = () => {
             <img 
               src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
               alt="Dividify" 
-              className="h-16"
+              className="h-8" // Changed from h-16 to h-8
             />
           </button>
 
