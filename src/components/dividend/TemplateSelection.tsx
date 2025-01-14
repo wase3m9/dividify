@@ -55,7 +55,6 @@ export const TemplateSelection = () => {
           return;
         }
 
-        // Get the companyId from the form data
         const companyId = formData.companyId;
         if (!companyId) {
           setError("Please select a company before proceeding");
@@ -101,7 +100,7 @@ export const TemplateSelection = () => {
       if (!company) throw new Error("Company data not found");
 
       const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString() : new Date().toISOString();
-      const financialYearEnding = formData.financialYearEnding ? new Date(formData.financialYearEnding).toISOString() : new Date().toISOString();
+      const financialYearEnding = formData.financialYearEnd ? new Date(formData.financialYearEnd).toISOString() : new Date().toISOString();
 
       if (recordId) {
         const { error: updateError } = await supabase
@@ -164,13 +163,13 @@ export const TemplateSelection = () => {
         registrationNumber: company.registration_number || '',
         registeredAddress: company.registered_address || '',
         shareholderName: formData.shareholderName || '',
-        shareholderAddress: formData.shareholderAddress || '', // Ensure shareholder address is included
+        shareholderAddress: formData.shareholderAddress || '',
         shareClass: formData.shareClass || '',
-        paymentDate: formData.paymentDate || new Date().toISOString(), // Use the payment date from the form
+        paymentDate: formData.paymentDate || new Date().toISOString(),
         amountPerShare: formData.amountPerShare?.toString() || '0',
         totalAmount: formData.totalAmount?.toString() || '0',
         voucherNumber: 1,
-        financialYearEnding: formData.financialYearEnding || new Date().toISOString(),
+        financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
         holdings: formData.shareholdings?.toString() || '',
       };
 
@@ -178,7 +177,6 @@ export const TemplateSelection = () => {
 
       let filePath = '';
       const now = new Date();
-      // Format: DD-MM-YYYY_HH-mm-ss
       const timestamp = now.toLocaleString('en-GB', {
         day: '2-digit',
         month: '2-digit',
@@ -268,7 +266,7 @@ export const TemplateSelection = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-blue-600 bg-blue-500/10 p-4 rounded-md">
-        Choose a template to use
+        Choose a template for your dividend voucher
       </h2>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
