@@ -1,28 +1,29 @@
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Eye, Download, FileText } from "lucide-react"
-import { useLocation, useNavigate } from "react-router-dom"
-import { downloadPDF, downloadWord } from "@/utils/documentGenerator"
-import { useToast } from "@/hooks/use-toast"
-import { supabase } from "@/integrations/supabase/client"
-import { useEffect, useState } from "react"
-import { DocumentPreview } from "@/utils/previewRenderer"
-import { templates } from "@/utils/documentGenerator/templates"
-import { Packer } from "docx"
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Eye, Download, FileText } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { DocumentPreview } from "@/utils/previewRenderer";
+import { templates } from "@/utils/documentGenerator/templates";
+import { Packer } from "docx";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+} from "@/components/ui/dropdown-menu";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Company {
   id: string;
@@ -39,6 +40,7 @@ export const TemplateSelection = () => {
   const [selectedTemplate, setSelectedTemplate] = useState('basic');
   const [recordId, setRecordId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const formData = location.state || {};
 
   console.log("Form Data in Template Selection:", formData);
@@ -46,16 +48,17 @@ export const TemplateSelection = () => {
   useEffect(() => {
     const fetchCompanyDetails = async () => {
       try {
+        setIsLoading(true);
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
-          setError("User not authenticated");
+          setError("Please sign in to continue");
           return;
         }
 
         // Get the companyId from the form data
         const companyId = formData.companyId;
         if (!companyId) {
-          setError("Company ID not found in form data");
+          setError("Please select a company before proceeding");
           return;
         }
 
@@ -68,12 +71,12 @@ export const TemplateSelection = () => {
 
         if (companyError) {
           console.error('Error fetching company:', companyError);
-          setError("Failed to fetch company details");
+          setError("Unable to fetch company details. Please try again.");
           return;
         }
 
         if (!companyData) {
-          setError("Company not found");
+          setError("Company not found. Please make sure you have selected a valid company.");
           return;
         }
 
@@ -81,7 +84,9 @@ export const TemplateSelection = () => {
         setError(null);
       } catch (error) {
         console.error('Error fetching company details:', error);
-        setError("An unexpected error occurred");
+        setError("An unexpected error occurred. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -228,6 +233,19 @@ export const TemplateSelection = () => {
       });
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-8 w-full" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-[400px]" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
