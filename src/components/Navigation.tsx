@@ -1,11 +1,12 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
 import { NavLinks } from "./navigation/NavLinks";
 import { AuthButtons } from "./navigation/AuthButtons";
 import { MobileMenu } from "./navigation/MobileMenu";
+import { Logo } from "./navigation/Logo";
 
 export const Navigation = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -94,16 +95,7 @@ export const Navigation = () => {
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <button 
-            onClick={scrollToTop}
-            className="text-xl font-bold hover:opacity-80 transition-opacity flex items-center gap-2 shrink-0"
-          >
-            <img 
-              src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
-              alt="Dividify" 
-              className="h-16" // Changed back to h-16 from h-8
-            />
-          </button>
+          <Logo scrollToTop={scrollToTop} />
 
           <div className="hidden md:flex items-center justify-center flex-1 px-4 overflow-x-auto">
             <div className="flex items-center gap-4">
