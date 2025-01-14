@@ -16,6 +16,7 @@ import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
+import DividendTemplate from "@/pages/DividendTemplate";
 
 const routes = [
   {
@@ -85,6 +86,10 @@ const routes = [
   {
     path: "blog/:slug",
     element: <BlogPost />,
+  },
+  {
+    path: "dividend-template",
+    element: <DividendTemplate />,
   },
 ];
 

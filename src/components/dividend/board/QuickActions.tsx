@@ -13,7 +13,7 @@ import {
 
 export const QuickActions = () => {
   const navigate = useNavigate();
-
+  
   const { data: profile } = useQuery({
     queryKey: ['profile-usage'],
     queryFn: async () => {
