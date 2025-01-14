@@ -102,7 +102,7 @@ const BlogPost = () => {
           <AuthorProfile
             name="James Wilson"
             title="Financial Expert & Tax Advisor"
-            avatarUrl="/lovable-uploads/f04dbba5-81fd-4304-b099-d3af776bc83f.png"
+            avatarUrl="/lovable-uploads/f6ba4012-2fdd-471e-9091-efae38d6d06a.png"
           />
 
           <BlogPostNavigation prev={navigation?.prev} next={navigation?.next} />
