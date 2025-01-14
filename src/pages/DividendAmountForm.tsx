@@ -16,7 +16,7 @@ import { formSchema, DividendAmountFormValues } from "@/components/dividend/amou
 const DividendAmountForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { shareholderName, shareClass, shareholderAddress } = location.state || {};
+  const { companyId, shareholderName, shareClass, shareholderAddress } = location.state || {};
   const { toast } = useToast();
 
   console.log("Location state in DividendAmountForm:", location.state);
@@ -53,6 +53,7 @@ const DividendAmountForm = () => {
     
     navigate("/dividend-waivers", {
       state: {
+        companyId, // Pass along the companyId
         shareholderName,
         shareClass,
         shareholderAddress,
