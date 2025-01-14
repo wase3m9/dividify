@@ -84,7 +84,7 @@ export const QuickActions = () => {
       <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
       <div className="space-y-2">
         {renderButton(
-          () => navigate("/board-minutes-template"),
+          () => navigate("/dividend-voucher"),
           <Plus className="mr-2 h-4 w-4" />,
           "Create Dividend Voucher",
           isDividendsDisabled,
