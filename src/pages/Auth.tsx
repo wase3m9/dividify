@@ -5,6 +5,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Home } from "lucide-react";
+import { AuthError, AuthApiError } from "@supabase/supabase-js";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -12,6 +13,23 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const getErrorMessage = (error: AuthError) => {
+    if (error instanceof AuthApiError) {
+      switch (error.status) {
+        case 400:
+          if (error.message.includes("Invalid login credentials")) {
+            return "Invalid email or password. Please check your credentials and try again.";
+          }
+          break;
+        case 422:
+          return "Invalid email format. Please enter a valid email address.";
+        case 429:
+          return "Too many login attempts. Please try again later.";
+      }
+    }
+    return error.message || "An unexpected error occurred. Please try again.";
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +45,11 @@ const Auth = () => {
       if (error) throw error;
       navigate("/dividend-board");
     } catch (error) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      if (error instanceof AuthError) {
+        setError(getErrorMessage(error));
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +124,7 @@ const Auth = () => {
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
               disabled={isLoading}
             >
-              Sign in
+              {isLoading ? "Signing in..." : "Sign in"}
             </Button>
 
             <div className="text-center text-sm">
