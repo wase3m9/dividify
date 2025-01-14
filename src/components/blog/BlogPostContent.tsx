@@ -96,10 +96,8 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
     <div className="prose max-w-none text-left">
       <div className="mb-8">
         <img
-          src={slug === "understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025" 
-            ? "/lovable-uploads/a996a27b-1d94-44a4-84ff-1355b4543771.png"
-            : "/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png"}
-          alt="Blog post illustration"
+          src="/lovable-uploads/95ceddf4-1eca-4c03-a525-31107e6bd67e.png"
+          alt="Blog post illustration showing stacks of coins representing dividend growth"
           className="w-1/4 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
         />
       </div>

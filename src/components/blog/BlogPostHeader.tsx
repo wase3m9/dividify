@@ -20,16 +20,26 @@ export const BlogPostHeader = ({ title, readingTime, publishedAt, content }: Blo
 
     try {
       if (navigator.share) {
+        // Use native share if available (mobile devices)
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(window.location.href);
+        // Fallback to email share for desktop
+        const emailSubject = encodeURIComponent(title);
+        const emailBody = encodeURIComponent(`Check out this article: ${window.location.href}\n\n${content.substring(0, 100)}...`);
+        window.location.href = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+        
         toast({
-          title: "Link copied to clipboard!",
-          description: "You can now share this article with others.",
+          title: "Share options opened",
+          description: "You can now share this article via email.",
         });
       }
     } catch (error) {
       console.error('Error sharing:', error);
+      toast({
+        title: "Sharing failed",
+        description: "Unable to share the article. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -42,7 +52,7 @@ export const BlogPostHeader = ({ title, readingTime, publishedAt, content }: Blo
         </div>
         <button 
           onClick={handleShare}
-          className="flex items-center gap-2 hover:text-[#9b87f5] transition-colors"
+          className="flex items-center gap-2 hover:text-[#9b87f5] transition-colors cursor-pointer"
         >
           <Share2 className="w-4 h-4" />
           Share
