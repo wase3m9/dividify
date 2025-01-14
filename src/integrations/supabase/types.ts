@@ -419,6 +419,7 @@ export type Database = {
           current_month_dividends: number | null
           current_month_minutes: number | null
           id: string
+          role: Database["public"]["Enums"]["app_role"] | null
           subscription_plan: string | null
           trial_expired: boolean | null
           trial_start_date: string | null
@@ -432,6 +433,7 @@ export type Database = {
           current_month_dividends?: number | null
           current_month_minutes?: number | null
           id: string
+          role?: Database["public"]["Enums"]["app_role"] | null
           subscription_plan?: string | null
           trial_expired?: boolean | null
           trial_start_date?: string | null
@@ -445,6 +447,7 @@ export type Database = {
           current_month_dividends?: number | null
           current_month_minutes?: number | null
           id?: string
+          role?: Database["public"]["Enums"]["app_role"] | null
           subscription_plan?: string | null
           trial_expired?: boolean | null
           trial_start_date?: string | null
@@ -507,6 +510,7 @@ export type Database = {
     }
     Enums: {
       accounting_platform: "quickbooks" | "xero"
+      app_role: "user" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
