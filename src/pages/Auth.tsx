@@ -38,8 +38,8 @@ const Auth = () => {
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: email.trim(),
+        password: password.trim(),
       });
 
       if (error) throw error;
