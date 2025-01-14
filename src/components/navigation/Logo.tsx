@@ -13,7 +13,7 @@ export const Logo = ({ scrollToTop }: LogoProps) => {
       <img 
         src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
         alt="Dividify" 
-        className="h-8" // Reduced from h-16 to h-8
+        className="h-12" // Changed from h-8 to h-12 (between h-8 and h-16)
       />
     </button>
   );
