@@ -113,7 +113,7 @@ const Accountants = () => {
             </div>
 
             {/* Testimonials Section */}
-            <div className="mt-24">
+            <div className="mt-24 mb-24">
               <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
               <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 <Card className="p-8 bg-white relative hover:animate-jiggle">
