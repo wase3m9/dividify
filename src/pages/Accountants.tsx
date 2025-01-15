@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckCircle, Building2, MessageSquareQuote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Accountants = () => {
   const navigate = useNavigate();
@@ -17,6 +18,17 @@ const Accountants = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Dividify for Accountants | Streamline Dividend Documentation</title>
+        <meta name="description" content="Simplify dividend voucher preparation and board meeting documentation for your clients. Dividify offers automated solutions tailored for accounting professionals." />
+        <meta name="keywords" content="dividend vouchers, board minutes, accounting software, dividend documentation, accountant tools" />
+        <meta property="og:title" content="Dividify for Accountants | Streamline Dividend Documentation" />
+        <meta property="og:description" content="Simplify dividend voucher preparation and board meeting documentation for your clients. Dividify offers automated solutions tailored for accounting professionals." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png" />
+        <link rel="canonical" href={window.location.href} />
+      </Helmet>
+
       <Navigation />
       <main className="container mx-auto px-4 pt-24">
         <div className="max-w-6xl mx-auto">

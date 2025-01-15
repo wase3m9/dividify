@@ -3,6 +3,7 @@ import { Footer } from "@/components/landing/Footer";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { BlogList } from "@/components/blog/BlogList";
+import { Helmet } from "react-helmet";
 
 const Blog = () => {
   const { data: posts, isLoading } = useQuery({
@@ -27,6 +28,17 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Dividify Blog | Expert Insights on Dividend Management</title>
+        <meta name="description" content="Stay informed about dividend management, tax efficiency, and corporate compliance with expert insights from Dividify's knowledge base." />
+        <meta name="keywords" content="dividend management, tax efficiency, corporate compliance, UK taxation, dividend vouchers" />
+        <meta property="og:title" content="Dividify Blog | Expert Insights on Dividend Management" />
+        <meta property="og:description" content="Stay informed about dividend management, tax efficiency, and corporate compliance with expert insights from Dividify's knowledge base." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png" />
+        <link rel="canonical" href={window.location.href} />
+      </Helmet>
+
       <Navigation />
       <main className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-4xl mx-auto">

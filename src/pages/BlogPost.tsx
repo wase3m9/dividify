@@ -75,15 +75,21 @@ const BlogPost = () => {
   const wordCount = post.content.split(/\s+/).length;
   const readingTime = Math.ceil(wordCount / 200);
 
+  // Get the first few sentences for the meta description
+  const metaDescription = post.content.split('.').slice(0, 2).join('.') + '.';
+
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>{post.title} | Lovable Dividends</title>
-        <meta name="description" content={post.content.substring(0, 155)} />
+        <title>{post.title} | Dividify Blog</title>
+        <meta name="description" content={metaDescription} />
+        <meta name="keywords" content="dividends, tax efficiency, UK taxation, dividend vouchers, board minutes" />
         <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.content.substring(0, 155)} />
-        <meta property="og:image" content="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png" />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="article" />
+        <meta property="og:image" content="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png" />
+        <meta property="article:published_time" content={post.published_at} />
+        <link rel="canonical" href={window.location.href} />
       </Helmet>
 
       <Navigation />
