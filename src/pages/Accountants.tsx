@@ -92,16 +92,16 @@ const Accountants = () => {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto px-4">
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/2a16f2ad-b2f2-4b36-8a02-5b34579dae0e.png" alt="Xero" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/5ffca2d9-09a0-475f-afda-b85ebb91bd7f.png" alt="Xero" className="h-16 w-auto mx-auto object-contain" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/ab2af4be-e72c-45ee-81d7-cb7b3672d6a7.png" alt="QuickBooks" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/d8e5ad39-7eae-4b22-bde1-df6a305c250d.png" alt="QuickBooks" className="h-16 w-auto mx-auto object-contain" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/fb115e99-5814-4d15-9f9f-8735f98ceed5.png" alt="Sage" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/e25ce830-f9e6-4996-8e0c-434dfe8083d9.png" alt="Sage" className="h-16 w-auto mx-auto object-contain" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/52c658e3-93db-4d16-95b0-a2bd865db69d.png" alt="FreeAgent" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" alt="FreeAgent" className="h-16 w-auto mx-auto object-contain" />
               </div>
             </div>
           </div>
