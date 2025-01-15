@@ -95,7 +95,7 @@ const Accountants = () => {
                 <img src="/lovable-uploads/2a16f2ad-b2f2-4b36-8a02-5b34579dae0e.png" alt="Xero" className="h-16 w-auto mx-auto" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/1d659773-5097-4adf-b8f9-8240de1fb071.png" alt="QuickBooks" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/83f38d36-fbfb-49c6-a098-c2a051492bb1.png" alt="QuickBooks" className="h-16 w-auto mx-auto" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                 <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="Sage" className="h-16 w-auto mx-auto" />
