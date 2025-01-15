@@ -8,6 +8,13 @@ import { useNavigate } from "react-router-dom";
 const Accountants = () => {
   const navigate = useNavigate();
 
+  const scrollToPricing = () => {
+    const pricingElement = document.querySelector('#accountant-pricing');
+    if (pricingElement) {
+      pricingElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -36,7 +43,7 @@ const Accountants = () => {
             </div>
           </div>
 
-          <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all hover:animate-jiggle max-w-md mx-auto mb-24">
+          <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all hover:animate-jiggle max-w-md mx-auto mb-24" id="accountant-pricing">
             <div className="flex items-center gap-2 mb-4">
               <Building2 className="h-6 w-6 text-[#9b87f5]" />
               <h3 className="text-xl font-bold">Accountants</h3>
@@ -102,6 +109,29 @@ const Accountants = () => {
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                 <img src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" alt="FreeAgent" className="h-16 w-auto mx-auto object-contain" />
+              </div>
+            </div>
+
+            {/* New Try Dividify Section */}
+            <div className="text-center mt-16 max-w-3xl mx-auto px-4">
+              <h3 className="text-2xl font-bold mb-4">Try <span className="text-[#9b87f5]">Dividify</span> today with our 14-day free trial</h3>
+              <p className="text-gray-600 mb-8">
+                Thousands of directors and businesses rely on <span className="text-[#9b87f5]">Dividify</span> to streamline their dividend vouchers and board meeting records, saving time for what matters most. Click below to learn more.
+              </p>
+              <div className="flex gap-4 justify-center">
+                <Button 
+                  className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8"
+                  onClick={() => navigate('/signup')}
+                >
+                  Start a free trial
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8"
+                  onClick={scrollToPricing}
+                >
+                  View pricing
+                </Button>
               </div>
             </div>
           </div>
