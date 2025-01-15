@@ -48,10 +48,12 @@ export const NavLinks = ({ user, isLandingPage, scrollToSection, scrollToTop, cl
           </Button>
           <Button 
             variant="ghost" 
-            onClick={() => scrollToSection('accountants')}
+            asChild
             className="w-full"
           >
-            For Accountants
+            <Link to="/accountants">
+              For Accountants
+            </Link>
           </Button>
           <Button 
             variant="ghost" 

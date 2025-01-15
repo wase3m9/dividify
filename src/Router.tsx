@@ -17,6 +17,7 @@ import CookiePolicy from "@/pages/CookiePolicy";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import DividendTemplate from "@/pages/DividendTemplate";
+import Accountants from "@/pages/Accountants";
 
 const routes = [
   {
@@ -90,6 +91,10 @@ const routes = [
   {
     path: "dividend-template",
     element: <DividendTemplate />,
+  },
+  {
+    path: "accountants",
+    element: <Accountants />,
   },
 ];
 
