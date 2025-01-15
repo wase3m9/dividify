@@ -6,7 +6,6 @@ import type { User } from "@supabase/supabase-js";
 import { HeroBanner } from "@/components/landing/HeroBanner";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { PricingSection } from "@/components/landing/PricingSection";
-import { AccountantsSection } from "@/components/landing/AccountantsSection";
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { FAQSection } from "@/components/landing/FAQSection";
 import { Footer } from "@/components/landing/Footer";
@@ -57,9 +56,6 @@ const Index = () => {
         </div>
         <div id="pricing">
           <PricingSection onStartFreeTrial={handleStartFreeTrial} />
-        </div>
-        <div id="accountants">
-          <AccountantsSection />
         </div>
         <TestimonialsSection />
         <div id="faq">
