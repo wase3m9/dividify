@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Home } from "lucide-react";
+import { Home, LogIn } from "lucide-react";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
 
 const Auth = () => {
@@ -73,22 +73,10 @@ const Auth = () => {
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <div className="flex justify-center mb-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#9b87f5"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transform -rotate-90"
-              >
-                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                <polyline points="10 17 15 12 10 7" />
-                <line x1="15" y1="12" x2="3" y2="12" />
-              </svg>
+              <LogIn
+                className="h-12 w-12 text-[#9b87f5]"
+                strokeWidth={1.5}
+              />
             </div>
             <h2 className="text-2xl font-bold text-gray-900">
               Sign in to your account
