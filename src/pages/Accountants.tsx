@@ -114,8 +114,8 @@ const Accountants = () => {
 
             {/* New Try Dividify Section */}
             <div className="text-center mt-16 max-w-3xl mx-auto px-4">
-              <h3 className="text-2xl font-bold mb-4">Try <span className="text-[#9b87f5]">Dividify</span> today with our 14-day free trial</h3>
-              <p className="text-gray-600 mb-8">
+              <h3 className="text-4xl font-bold mb-6">Try <span className="text-[#9b87f5]">Dividify</span> today with our 14-day free trial</h3>
+              <p className="text-xl text-gray-600 mb-8">
                 Thousands of directors and businesses rely on <span className="text-[#9b87f5]">Dividify</span> to streamline their dividend vouchers and board meeting records, saving time for what matters most. Click below to learn more.
               </p>
               <div className="flex gap-4 justify-center">
