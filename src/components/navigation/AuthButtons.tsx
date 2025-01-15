@@ -32,11 +32,11 @@ export const AuthButtons = ({ user, handleSignOut, handleStartFreeTrial, classNa
         </>
       ) : (
         <>
-          <Button variant="ghost" asChild className="w-full">
+          <Button variant="ghost" asChild className="w-full md:w-auto">
             <Link to="/auth">Login</Link>
           </Button>
           <Button 
-            className="bg-[#9b87f5] hover:bg-[#8b77e5] whitespace-nowrap min-w-[120px] w-full" 
+            className="bg-[#9b87f5] hover:bg-[#8b77e5] whitespace-nowrap w-full md:w-auto px-3 md:px-4" 
             onClick={handleStartFreeTrial}
           >
             Get Started

@@ -28,7 +28,7 @@ export const MobileMenu = ({
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-[80vw] sm:w-[385px] pt-16">
+      <SheetContent side="right" className="w-[85vw] sm:w-[385px] pt-16">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <NavLinks
@@ -39,7 +39,7 @@ export const MobileMenu = ({
               className="flex flex-col items-start gap-4"
             />
           </div>
-          <div className="flex flex-col gap-2 pt-4 border-t">
+          <div className="flex flex-col gap-3 pt-4 border-t">
             <AuthButtons
               user={user}
               handleSignOut={handleSignOut}
