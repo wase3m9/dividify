@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, Download, FileText } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
 import { useToast } from "@/hooks/use-toast";
@@ -9,13 +9,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { DocumentPreview } from "@/utils/previewRenderer";
 import { templates } from "@/utils/documentGenerator/templates";
 import { Packer } from "docx";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -236,9 +229,9 @@ export const TemplateSelection = () => {
     return (
       <div className="space-y-6">
         <Skeleton className="h-8 w-full" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-[400px]" />
+            <Skeleton key={i} className="h-[600px]" />
           ))}
         </div>
       </div>
@@ -269,20 +262,20 @@ export const TemplateSelection = () => {
         Choose a template for your dividend voucher
       </h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {templates.map((template) => (
           <Card 
             key={template.id} 
-            className={`p-4 cursor-pointer transition-all hover:shadow-lg ${
+            className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
               selectedTemplate === template.id ? 'ring-2 ring-blue-500' : ''
             }`}
             onClick={() => setSelectedTemplate(template.id)}
           >
-            <div className="aspect-[3/4] bg-gray-100 mb-4 rounded flex items-center justify-center overflow-hidden">
+            <div className="aspect-[3/4] bg-gray-100 mb-6 rounded flex items-center justify-center overflow-hidden">
               <DocumentPreview template={template.id} />
             </div>
-            <div className="space-y-2">
-              <h3 className="font-medium text-center">{template.name}</h3>
+            <div className="space-y-4">
+              <h3 className="font-medium text-center text-lg">{template.name}</h3>
               <p className="text-sm text-gray-500 text-center">{template.description}</p>
               <div className="flex justify-center">
                 <DropdownMenu>
@@ -308,24 +301,6 @@ export const TemplateSelection = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </div>
-              <div className="flex justify-center">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <Eye className="w-4 h-4 mr-1" />
-                      Preview
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                      <DialogTitle>{template.name} Template Preview</DialogTitle>
-                    </DialogHeader>
-                    <div className="aspect-[1/1.414] bg-white rounded-lg shadow-inner p-4">
-                      <DocumentPreview template={template.id} />
-                    </div>
-                  </DialogContent>
-                </Dialog>
               </div>
             </div>
           </Card>
