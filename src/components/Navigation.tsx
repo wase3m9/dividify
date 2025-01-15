@@ -94,10 +94,10 @@ export const Navigation = () => {
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 md:h-20">
           <Logo scrollToTop={scrollToTop} />
 
-          <div className="hidden md:flex items-center justify-center flex-1 px-4 overflow-x-auto">
+          <div className="hidden md:flex items-center justify-center flex-1 px-4">
             <div className="flex items-center gap-4">
               <NavLinks
                 user={user}

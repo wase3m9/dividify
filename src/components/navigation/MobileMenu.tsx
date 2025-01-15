@@ -24,23 +24,27 @@ export const MobileMenu = ({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="relative -mr-2">
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent>
-        <div className="flex flex-col gap-4 pt-10">
-          <NavLinks
-            user={user}
-            isLandingPage={isLandingPage}
-            scrollToSection={scrollToSection}
-            scrollToTop={scrollToTop}
-          />
+      <SheetContent side="right" className="w-[80vw] sm:w-[385px] pt-16">
+        <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
+            <NavLinks
+              user={user}
+              isLandingPage={isLandingPage}
+              scrollToSection={scrollToSection}
+              scrollToTop={scrollToTop}
+              className="flex flex-col items-start gap-4"
+            />
+          </div>
+          <div className="flex flex-col gap-2 pt-4 border-t">
             <AuthButtons
               user={user}
               handleSignOut={handleSignOut}
               handleStartFreeTrial={handleStartFreeTrial}
+              className="flex flex-col w-full"
             />
           </div>
         </div>
