@@ -92,7 +92,7 @@ const Accountants = () => {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto px-4">
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/05d42872-d6b8-49fd-8d69-f6ba2d20e8c8.png" alt="Xero" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/2a16f2ad-b2f2-4b36-8a02-5b34579dae0e.png" alt="Xero" className="h-16 w-auto mx-auto" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                 <img src="/lovable-uploads/1d659773-5097-4adf-b8f9-8240de1fb071.png" alt="QuickBooks" className="h-16 w-auto mx-auto" />
