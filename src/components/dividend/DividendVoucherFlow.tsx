@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShareholderDetails } from "./ShareholderDetailsForm";
+import { ShareholderDetails, ShareholderDetailsForm } from "./ShareholderDetailsForm";
 import { DividendAmountFormValues } from "./amount/types";
+import { CompanySelector } from "./company/CompanySelector";
+import { AmountForm } from "./amount/AmountForm";
 
 type Step = "company" | "shareholder" | "amount" | "template";
 
