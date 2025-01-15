@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Home, Grid } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,9 @@ interface NavLinksProps {
 }
 
 export const NavLinks = ({ user, isLandingPage, scrollToSection, scrollToTop, className }: NavLinksProps) => {
+  const location = useLocation();
+  const isAccountantsPage = location.pathname === '/accountants';
+
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Button 
@@ -30,7 +33,7 @@ export const NavLinks = ({ user, isLandingPage, scrollToSection, scrollToTop, cl
           </Link>
         </Button>
       )}
-      {!user && isLandingPage && (
+      {!user && (isLandingPage || isAccountantsPage) && (
         <>
           <Button 
             variant="ghost" 
@@ -46,15 +49,17 @@ export const NavLinks = ({ user, isLandingPage, scrollToSection, scrollToTop, cl
           >
             Pricing
           </Button>
-          <Button 
-            variant="ghost" 
-            asChild
-            className="w-full"
-          >
-            <Link to="/accountants">
-              For Accountants
-            </Link>
-          </Button>
+          {!isAccountantsPage && (
+            <Button 
+              variant="ghost" 
+              asChild
+              className="w-full"
+            >
+              <Link to="/accountants">
+                For Accountants
+              </Link>
+            </Button>
+          )}
           <Button 
             variant="ghost" 
             onClick={() => scrollToSection('faq')}
