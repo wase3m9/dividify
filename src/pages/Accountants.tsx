@@ -79,7 +79,7 @@ const Accountants = () => {
             </Button>
           </Card>
 
-          {/* New Integrations Section */}
+          {/* Integrations Section */}
           <div className="py-16 bg-gray-50 rounded-lg mb-24">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6">Connect <span className="text-[#9b87f5]">Dividify</span> with your accounting software</h2>
@@ -98,7 +98,7 @@ const Accountants = () => {
                 <img src="/lovable-uploads/83f38d36-fbfb-49c6-a098-c2a051492bb1.png" alt="QuickBooks" className="h-16 w-auto mx-auto" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="Sage" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/fb115e99-5814-4d15-9f9f-8735f98ceed5.png" alt="Sage" className="h-16 w-auto mx-auto" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                 <img src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="FreeAgent" className="h-16 w-auto mx-auto" />
