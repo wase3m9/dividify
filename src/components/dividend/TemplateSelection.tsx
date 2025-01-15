@@ -1,229 +1,21 @@
-import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download, FileText } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { DocumentPreview } from "@/utils/previewRenderer";
 import { templates } from "@/utils/documentGenerator/templates";
-import { Packer } from "docx";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
-
-interface Company {
-  id: string;
-  name: string;
-  registration_number: string;
-  registered_address: string;
-}
+import { TemplateCard } from "./template/TemplateCard";
+import { useCompanyData } from "./template/useCompanyData";
+import { useTemplateActions } from "./template/useTemplateActions";
 
 export const TemplateSelection = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const [company, setCompany] = useState<Company | null>(null);
-  const [selectedTemplate, setSelectedTemplate] = useState('basic');
-  const [recordId, setRecordId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const formData = location.state || {};
-
-  console.log("Form Data in Template Selection:", formData);
-
-  useEffect(() => {
-    const fetchCompanyDetails = async () => {
-      try {
-        setIsLoading(true);
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          setError("Please sign in to continue");
-          return;
-        }
-
-        const companyId = formData.companyId;
-        if (!companyId) {
-          setError("Please select a company before proceeding");
-          return;
-        }
-
-        const { data: companyData, error: companyError } = await supabase
-          .from('companies')
-          .select('*')
-          .eq('id', companyId)
-          .eq('user_id', user.id)
-          .maybeSingle();
-
-        if (companyError) {
-          console.error('Error fetching company:', companyError);
-          setError("Unable to fetch company details. Please try again.");
-          return;
-        }
-
-        if (!companyData) {
-          setError("Company not found. Please make sure you have selected a valid company.");
-          return;
-        }
-
-        setCompany(companyData);
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching company details:', error);
-        setError("An unexpected error occurred. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchCompanyDetails();
-  }, [formData.companyId, toast]);
-
-  const createOrUpdateRecord = async (filePath: string) => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
-
-      if (!company) throw new Error("Company data not found");
-
-      const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString() : new Date().toISOString();
-      const financialYearEnding = formData.financialYearEnd ? new Date(formData.financialYearEnd).toISOString() : new Date().toISOString();
-
-      if (recordId) {
-        const { error: updateError } = await supabase
-          .from('dividend_records')
-          .update({ file_path: filePath })
-          .eq('id', recordId);
-
-        if (updateError) throw updateError;
-      } else {
-        const { data: newRecord, error: saveError } = await supabase
-          .from('dividend_records')
-          .insert({
-            company_id: company.id,
-            user_id: user.id,
-            shareholder_name: formData.shareholderName || '',
-            share_class: formData.shareClass || '',
-            payment_date: paymentDate,
-            financial_year_ending: financialYearEnding,
-            amount_per_share: parseFloat(formData.amountPerShare || '0'),
-            total_amount: parseFloat(formData.totalAmount || '0'),
-            director_name: formData.directorName || '',
-            file_path: filePath
-          })
-          .select()
-          .single();
-
-        if (saveError) throw saveError;
-        setRecordId(newRecord.id);
-      }
-    } catch (error: any) {
-      throw error;
-    }
-  };
-
-  const handleDownload = async (templateId: string, format: 'pdf' | 'word') => {
-    if (!company) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Company details not found",
-      });
-      return;
-    }
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "User not authenticated",
-        });
-        return;
-      }
-
-      console.log("Form Data being processed:", formData);
-
-      const documentData = {
-        companyName: company.name,
-        registrationNumber: company.registration_number || '',
-        registeredAddress: company.registered_address || '',
-        shareholderName: formData.shareholderName || '',
-        shareholderAddress: formData.shareholderAddress || '',
-        shareClass: formData.shareClass || '',
-        paymentDate: formData.paymentDate || new Date().toISOString(),
-        amountPerShare: formData.amountPerShare?.toString() || '0',
-        totalAmount: formData.totalAmount?.toString() || '0',
-        voucherNumber: 1,
-        financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
-        holdings: formData.shareholdings?.toString() || '',
-      };
-
-      console.log("Document Data being sent:", documentData);
-
-      let filePath = '';
-      const now = new Date();
-      const timestamp = now.toLocaleString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-      }).replace(/[/:]/g, '-').replace(',', '').replace(/ /g, '_');
-      
-      const fileName = `dividend_voucher_${timestamp}.${format}`;
-
-      if (format === 'pdf') {
-        const doc = await downloadPDF(documentData);
-        const pdfBlob = doc.output('blob');
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('dividend_vouchers')
-          .upload(fileName, pdfBlob, {
-            contentType: 'application/pdf',
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-        filePath = uploadData.path;
-      } else {
-        const doc = await downloadWord(documentData);
-        const blob = await Packer.toBlob(doc);
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('dividend_vouchers')
-          .upload(fileName, blob, {
-            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-        filePath = uploadData.path;
-      }
-
-      await createOrUpdateRecord(filePath);
-
-      toast({
-        title: "Success",
-        description: `Dividend voucher downloaded successfully as ${format.toUpperCase()}`,
-      });
-
-    } catch (error) {
-      console.error('Download error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: `Failed to generate ${format.toUpperCase()} document. Please ensure all required fields are filled.`,
-      });
-    }
-  };
+  const [selectedTemplate, setSelectedTemplate] = useState('basic');
+  
+  const { company, error, isLoading } = useCompanyData(formData.companyId);
+  const { handleDownload } = useTemplateActions(company, formData);
 
   if (isLoading) {
     return (
@@ -264,46 +56,13 @@ export const TemplateSelection = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {templates.map((template) => (
-          <Card 
-            key={template.id} 
-            className={`p-6 cursor-pointer transition-all hover:shadow-lg ${
-              selectedTemplate === template.id ? 'ring-2 ring-blue-500' : ''
-            }`}
-            onClick={() => setSelectedTemplate(template.id)}
-          >
-            <div className="aspect-[3/4] bg-gray-100 mb-6 rounded flex items-center justify-center overflow-hidden">
-              <DocumentPreview template={template.id} />
-            </div>
-            <div className="space-y-4">
-              <h3 className="font-medium text-center text-lg">{template.name}</h3>
-              <p className="text-sm text-gray-500 text-center">{template.description}</p>
-              <div className="flex justify-center">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      className={`text-blue-600 font-medium flex items-center gap-2 ${
-                        selectedTemplate !== template.id ? 'opacity-50' : ''
-                      }`}
-                      disabled={selectedTemplate !== template.id}
-                    >
-                      <Download className="w-4 h-4" />
-                      Download
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => handleDownload(template.id, 'pdf')}>
-                      <FileText className="w-4 h-4 mr-2" />
-                      Download as PDF
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleDownload(template.id, 'word')}>
-                      <FileText className="w-4 h-4 mr-2" />
-                      Download as Word
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </Card>
+          <TemplateCard
+            key={template.id}
+            template={template}
+            isSelected={selectedTemplate === template.id}
+            onSelect={setSelectedTemplate}
+            onDownload={handleDownload}
+          />
         ))}
       </div>
 
