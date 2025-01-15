@@ -101,7 +101,7 @@ const Accountants = () => {
                 <img src="/lovable-uploads/fb115e99-5814-4d15-9f9f-8735f98ceed5.png" alt="Sage" className="h-16 w-auto mx-auto" />
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="FreeAgent" className="h-16 w-auto mx-auto" />
+                <img src="/lovable-uploads/52c658e3-93db-4d16-95b0-a2bd865db69d.png" alt="FreeAgent" className="h-16 w-auto mx-auto" />
               </div>
             </div>
           </div>
