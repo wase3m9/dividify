@@ -2,7 +2,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CheckCircle, Building2 } from "lucide-react";
+import { CheckCircle, Building2, MessageSquareQuote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Accountants = () => {
@@ -87,7 +87,7 @@ const Accountants = () => {
           </Card>
 
           {/* Integrations Section */}
-          <div className="py-16 bg-gray-50 rounded-lg mb-24">
+          <div className="py-16 bg-gray-50 rounded-lg mb-16">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6">Connect <span className="text-[#9b87f5]">Dividify</span> with your accounting software</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -109,6 +109,60 @@ const Accountants = () => {
               </div>
               <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
                 <img src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" alt="FreeAgent" className="h-16 w-auto mx-auto object-contain" />
+              </div>
+            </div>
+
+            {/* Testimonials Section */}
+            <div className="mt-24">
+              <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
+              <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <Card className="p-8 bg-white relative hover:animate-jiggle">
+                  <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+                  <p className="text-gray-600 mb-6">
+                    "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures we're always compliant."
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                      JD
+                    </div>
+                    <div>
+                      <p className="font-semibold">John Doe</p>
+                      <p className="text-sm text-gray-500">Director, Tech Solutions Ltd</p>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className="p-8 bg-white relative hover:animate-jiggle">
+                  <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+                  <p className="text-gray-600 mb-6">
+                    "The automated document generation is fantastic. It's like having a company secretary at your fingertips."
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                      JS
+                    </div>
+                    <div>
+                      <p className="font-semibold">Jane Smith</p>
+                      <p className="text-sm text-gray-500">CEO, Growth Ventures</p>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className="p-8 bg-white relative hover:animate-jiggle">
+                  <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+                  <p className="text-gray-600 mb-6">
+                    "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration."
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                      RB
+                    </div>
+                    <div>
+                      <p className="font-semibold">Robert Brown</p>
+                      <p className="text-sm text-gray-500">Director, Innovative Solutions</p>
+                    </div>
+                  </div>
+                </Card>
               </div>
             </div>
 
