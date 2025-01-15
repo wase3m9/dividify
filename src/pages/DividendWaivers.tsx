@@ -15,11 +15,12 @@ const DividendWaivers = () => {
     amountPerShare,
     totalAmount,
     currency,
-    paymentDate 
+    paymentDate,
+    numberOfShares 
   } = location.state || {};
 
   const handleNext = () => {
-    navigate("/board-minutes-template", {
+    navigate("/dividend-template", {
       state: {
         companyId,
         shareholderName,
@@ -28,7 +29,8 @@ const DividendWaivers = () => {
         amountPerShare,
         totalAmount,
         currency,
-        paymentDate
+        paymentDate,
+        numberOfShares
       }
     });
   };
