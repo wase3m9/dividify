@@ -2,16 +2,17 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { DocumentPreview } from "@/utils/previewRenderer";
+import { TemplateId } from "@/utils/documentGenerator/templates";
 
 interface TemplateCardProps {
   template: {
-    id: string;
+    id: TemplateId;
     name: string;
     description: string;
   };
   isSelected: boolean;
-  onSelect: (id: string) => void;
-  onDownload: (templateId: string, format: 'pdf' | 'word') => Promise<void>;
+  onSelect: (id: TemplateId) => void;
+  onDownload: (templateId: TemplateId, format: 'pdf') => Promise<void>;
 }
 
 export const TemplateCard = ({
