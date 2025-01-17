@@ -108,6 +108,13 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
           className="w-1/4 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
         />
       </div>
+      <div className="mb-8">
+        <img
+          src="/lovable-uploads/bda6c9ee-0f6f-495c-abca-817d5287b0ba.png"
+          alt="Financial growth chart with dollar symbols"
+          className="w-1/5 h-auto rounded-lg shadow-lg float-left mr-6 mb-6"
+        />
+      </div>
       {renderContent(content)}
     </div>
   );
