@@ -25,6 +25,8 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
               <img
                 src={post.slug === "understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025" 
                   ? "/lovable-uploads/4e9e29c6-c58c-43da-86ba-368fc5f6dee7.png"
+                  : post.slug === "how-to-legally-take-dividends-from-your-limited-company"
+                  ? "/lovable-uploads/d7b2765a-596a-46af-83a0-73cc1406247b.png"
                   : "/lovable-uploads/fc2a21ca-69f6-4b6f-9407-0cf69a983c0f.png"}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"
