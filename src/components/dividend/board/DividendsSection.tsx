@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { BadgePoundSterling, Trash2, Edit, FileText } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -84,7 +83,7 @@ export const DividendsSection: FC = () => {
     }
   };
 
-  const handleDownload = async (record: DividendRecord, format: 'pdf' | 'docx') => {
+  const handleDownload = async (record: DividendRecord) => {
     try {
       if (!record.file_path) {
         toast({
@@ -107,7 +106,7 @@ export const DividendsSection: FC = () => {
       const url = URL.createObjectURL(data);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `dividend_voucher_${record.id}.${format}`;
+      link.download = `dividend_voucher_${record.id}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -180,25 +179,14 @@ export const DividendsSection: FC = () => {
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
-                      >
-                        <FileText className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem onClick={() => handleDownload(record, 'pdf')}>
-                        Download PDF
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDownload(record, 'docx')}>
-                        Download Word
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleDownload(record)}
+                    className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
+                  >
+                    <FileText className="h-4 w-4" />
+                  </Button>
                   {canDelete && (
                     <Button
                       variant="ghost"
