@@ -10,7 +10,8 @@ const corsHeaders = {
 const PRICE_IDS = {
   starter: 'price_1Qfx73DQxPzFmGY0f82y3uac',
   professional: 'price_1Qfx7JDQxPzFmGY0FoazQTnv',
-  enterprise: 'price_1Qfx7ZDQxPzFmGY0zwne7VoC'
+  enterprise: 'price_1Qfx7ZDQxPzFmGY0zwne7VoC',
+  accountant: 'price_1QiOntDQxPzFmGY0u6RQ4C0f'
 };
 
 serve(async (req) => {

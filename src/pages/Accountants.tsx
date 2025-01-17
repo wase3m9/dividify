@@ -5,9 +5,41 @@ import { Card } from "@/components/ui/card";
 import { CheckCircle, Building2, MessageSquareQuote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Accountants = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSubscribe = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        navigate("/auth");
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { plan: 'accountant' }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        duration: 5000,
+      });
+    }
+  };
 
   const scrollToPricing = () => {
     const pricingElement = document.querySelector('#accountant-pricing');
@@ -92,7 +124,7 @@ const Accountants = () => {
             </ul>
             <Button 
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-              onClick={() => navigate('/signup')}
+              onClick={handleSubscribe}
             >
               Subscribe Now
             </Button>
