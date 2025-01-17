@@ -38,6 +38,24 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
             );
           }
 
+          // Add the new image after Step 3
+          if (paragraph.trim().startsWith('Step 3:') && slug === 'how-to-legally-take-dividends-from-your-limited-company') {
+            return (
+              <>
+                <h2 key={`${pIndex}-header`} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4">
+                  {paragraph}
+                </h2>
+                <div key={`${pIndex}-image`} className="my-8">
+                  <img
+                    src="/lovable-uploads/8a6a36c3-2cd1-4d16-9874-d000294e732f.png"
+                    alt="Financial growth chart showing increasing profits and dividends"
+                    className="w-2/3 mx-auto rounded-lg shadow-lg"
+                  />
+                </div>
+              </>
+            );
+          }
+
           // Darker purple for specific sections
           if (paragraph.trim().startsWith('A dividend voucher acts as proof') ||
               paragraph.trim().startsWith('As a shareholder, you must report') ||
