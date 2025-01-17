@@ -52,32 +52,39 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
           // Render tax rates table
           if (paragraph.trim().startsWith('Basic Rate')) {
             return (
-              <Table key={pIndex} className="my-6">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Tax Band</TableHead>
-                    <TableHead>Income Range</TableHead>
-                    <TableHead>Rate</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Basic Rate</TableCell>
-                    <TableCell>Up to £50,270</TableCell>
-                    <TableCell>8.75%</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Higher Rate</TableCell>
-                    <TableCell>£50,271 to £125,140</TableCell>
-                    <TableCell>33.75%</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Additional Rate</TableCell>
-                    <TableCell>Over £125,140</TableCell>
-                    <TableCell>39.35%</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+              <div key={pIndex}>
+                <img
+                  src="/lovable-uploads/c9ba7957-4d38-4fa7-8a80-1afe25c01b25.png"
+                  alt="Financial growth chart showing dividend performance"
+                  className="w-2/3 h-auto mx-auto my-8 rounded-lg shadow-lg"
+                />
+                <Table className="my-6">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Tax Band</TableHead>
+                      <TableHead>Income Range</TableHead>
+                      <TableHead>Rate</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>Basic Rate</TableCell>
+                      <TableCell>Up to £50,270</TableCell>
+                      <TableCell>8.75%</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Higher Rate</TableCell>
+                      <TableCell>£50,271 to £125,140</TableCell>
+                      <TableCell>33.75%</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Additional Rate</TableCell>
+                      <TableCell>Over £125,140</TableCell>
+                      <TableCell>39.35%</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
             );
           }
 
@@ -96,8 +103,8 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
     <div className="prose max-w-none text-left">
       <div className="mb-8">
         <img
-          src="/lovable-uploads/95ceddf4-1eca-4c03-a525-31107e6bd67e.png"
-          alt="Blog post illustration showing stacks of coins representing dividend growth"
+          src="/lovable-uploads/57b19283-3d8c-4363-bb49-924bb4c8c7cb.png"
+          alt="Plant growing from stack of coins representing dividend growth"
           className="w-1/4 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
         />
       </div>
