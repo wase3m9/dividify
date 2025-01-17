@@ -54,9 +54,9 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
             return (
               <div key={pIndex}>
                 <img
-                  src="/lovable-uploads/c9ba7957-4d38-4fa7-8a80-1afe25c01b25.png"
-                  alt="Financial growth chart showing dividend performance"
-                  className="w-2/3 h-auto mx-auto my-8 rounded-lg shadow-lg"
+                  src="/lovable-uploads/bda6c9ee-0f6f-495c-abca-817d5287b0ba.png"
+                  alt="Financial growth chart with dollar symbols"
+                  className="w-1/3 h-auto mx-auto my-8 rounded-lg shadow-lg"
                 />
                 <Table className="my-6">
                   <TableHeader>
@@ -106,13 +106,6 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
           src="/lovable-uploads/57b19283-3d8c-4363-bb49-924bb4c8c7cb.png"
           alt="Plant growing from stack of coins representing dividend growth"
           className="w-1/4 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
-        />
-      </div>
-      <div className="mb-8">
-        <img
-          src="/lovable-uploads/bda6c9ee-0f6f-495c-abca-817d5287b0ba.png"
-          alt="Financial growth chart with dollar symbols"
-          className="w-1/5 h-auto rounded-lg shadow-lg float-left mr-6 mb-6"
         />
       </div>
       {renderContent(content)}
