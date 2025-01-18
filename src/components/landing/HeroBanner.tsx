@@ -1,14 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { useTypewriter } from "@/hooks/use-typewriter";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 interface HeroBannerProps {
   onStartFreeTrial: () => void;
 }
 
 export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
+  const location = useLocation();
   const titleText = "Dividend Voucher and Board Meeting Solutions for Savvy Directors";
-  const animatedText = useTypewriter(titleText, 50);
+  const [animatedText, resetAnimation] = useTypewriter(titleText, 50);
+
+  // Reset animation when location changes or component mounts
+  useEffect(() => {
+    resetAnimation();
+  }, [location, resetAnimation]);
 
   return (
     <section className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6">

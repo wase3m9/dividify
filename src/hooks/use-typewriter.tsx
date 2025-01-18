@@ -1,8 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export const useTypewriter = (text: string, speed: number = 50) => {
+export const useTypewriter = (text: string, speed: number = 50): [string, () => void] => {
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const resetAnimation = useCallback(() => {
+    setDisplayText('');
+    setCurrentIndex(0);
+  }, []);
 
   useEffect(() => {
     if (currentIndex < text.length) {
@@ -15,5 +20,5 @@ export const useTypewriter = (text: string, speed: number = 50) => {
     }
   }, [currentIndex, text, speed]);
 
-  return displayText;
+  return [displayText, resetAnimation];
 };
