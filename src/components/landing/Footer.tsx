@@ -9,7 +9,7 @@ export const Footer = () => {
             <img 
               src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
               alt="Dividify" 
-              className="h-8" // Changed from h-16 to h-8
+              className="h-8"
             />
             <p className="text-sm text-gray-600">
               Simplifying dividend management<br />
@@ -28,7 +28,6 @@ export const Footer = () => {
             <h4 className="font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link to="/blog" className="hover:text-gray-900">Blog</Link></li>
-              <li><Link to="/documentation" className="hover:text-gray-900">Documentation</Link></li>
               <li><Link to="/contact" className="hover:text-gray-900">Contact</Link></li>
             </ul>
           </div>
