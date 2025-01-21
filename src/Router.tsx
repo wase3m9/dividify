@@ -18,6 +18,7 @@ import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import DividendTemplate from "@/pages/DividendTemplate";
 import Accountants from "@/pages/Accountants";
+import Api from "@/pages/Api";
 
 const routes = [
   {
@@ -95,6 +96,10 @@ const routes = [
   {
     path: "accountants",
     element: <Accountants />,
+  },
+  {
+    path: "api",
+    element: <Api />,
   },
 ];
 
