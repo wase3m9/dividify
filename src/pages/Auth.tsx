@@ -50,17 +50,16 @@ const Auth = () => {
           if (error.message.includes("Email not confirmed")) {
             return "Please confirm your email address before signing in.";
           }
-          if (error.message.includes("Invalid login credentials")) {
-            return "Invalid email or password. Please check your credentials and try again.";
-          }
-          break;
+          return "Invalid email or password. Please check your credentials and try again.";
         case 422:
           return "Invalid email format. Please enter a valid email address.";
         case 429:
           return "Too many login attempts. Please try again later.";
+        default:
+          return error.message;
       }
     }
-    return error.message || "An unexpected error occurred. Please try again.";
+    return "An unexpected error occurred. Please try again.";
   };
 
   const handleSignIn = async (e: React.FormEvent) => {
