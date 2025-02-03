@@ -4,23 +4,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export const FAQSection = () => {
   return (
     <section className="py-24" id="faq">
       <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-16">
-          <h2 className="text-3xl font-bold">Frequently Asked Questions</h2>
-          <Button variant="outline" asChild>
-            <Link to="/accountant-dashboard" className="flex items-center gap-2">
-              <Home className="h-4 w-4" />
-              Accountant Dashboard
-            </Link>
-          </Button>
-        </div>
+        <h2 className="text-3xl font-bold mb-16">Frequently Asked Questions</h2>
         <Accordion type="single" collapsible className="space-y-4">
           <AccordionItem value="item-1">
             <AccordionTrigger>How does the free trial work?</AccordionTrigger>
