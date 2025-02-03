@@ -6,6 +6,9 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { BasicInfoFields } from "./BasicInfoFields";
 import { formSchema, CompanyFormData } from "./types";
+import { DialogTitle } from "@/components/ui/dialog";
+import { Loader2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 interface CompanyFormProps {
   existingCompany?: any;
@@ -14,6 +17,15 @@ interface CompanyFormProps {
 
 export const CompanyForm = ({ existingCompany, onSuccess }: CompanyFormProps) => {
   const { toast } = useToast();
+
+  const { data: user, isLoading: isLoadingUser } = useQuery({
+    queryKey: ['user'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      return user;
+    },
+  });
 
   const form = useForm<CompanyFormData>({
     resolver: zodResolver(formSchema),
@@ -26,8 +38,14 @@ export const CompanyForm = ({ existingCompany, onSuccess }: CompanyFormProps) =>
 
   const onSubmit = async (data: CompanyFormData) => {
     try {
-      const user = (await supabase.auth.getUser()).data.user;
-      if (!user) throw new Error("No user found");
+      if (!user) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "You must be logged in to create a company",
+        });
+        return;
+      }
 
       const submissionData = {
         ...data,
@@ -60,19 +78,39 @@ export const CompanyForm = ({ existingCompany, onSuccess }: CompanyFormProps) =>
     }
   };
 
+  if (isLoadingUser) {
+    return (
+      <div className="flex items-center justify-center p-6">
+        <Loader2 className="h-6 w-6 animate-spin text-[#9b87f5]" />
+      </div>
+    );
+  }
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="space-y-4">
-          <BasicInfoFields form={form} />
-        </div>
-        
-        <div className="flex justify-end space-x-4 pt-4">
-          <Button type="submit" className="bg-[#9b87f5] hover:bg-[#8b77e5]">
-            {existingCompany ? "Update" : "Create"} Company
-          </Button>
-        </div>
-      </form>
-    </Form>
+    <>
+      <DialogTitle className="text-xl font-semibold mb-4">
+        {existingCompany ? "Update" : "Create"} Company
+      </DialogTitle>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-4">
+            <BasicInfoFields form={form} />
+          </div>
+          
+          <div className="flex justify-end space-x-4 pt-4">
+            <Button 
+              type="submit" 
+              className="bg-[#9b87f5] hover:bg-[#8b77e5]"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {existingCompany ? "Update" : "Create"} Company
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </>
   );
 };
