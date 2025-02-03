@@ -6,6 +6,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Home, LogIn } from "lucide-react";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -13,6 +21,9 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
+  const { toast } = useToast();
 
   const getErrorMessage = (error: AuthError) => {
     if (error instanceof AuthApiError) {
@@ -58,6 +69,41 @@ const Auth = () => {
         setError(error.message);
       } else {
         setError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail.trim(), {
+        redirectTo: `${window.location.origin}/auth`,
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Password reset email sent",
+        description: "Please check your email for the password reset link.",
+      });
+      setIsResetDialogOpen(false);
+    } catch (error) {
+      console.error("Password reset error:", error);
+      if (error instanceof AuthError) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: getErrorMessage(error),
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An unexpected error occurred. Please try again.",
+        });
       }
     } finally {
       setIsLoading(false);
@@ -116,6 +162,41 @@ const Auth = () => {
                 className="bg-white border-gray-200"
                 disabled={isLoading}
               />
+            </div>
+
+            <div className="flex items-center justify-end">
+              <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="link"
+                    className="text-[#9b87f5] hover:text-[#8b77e5]"
+                  >
+                    Forgot your password?
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Reset Password</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleResetPassword} className="space-y-4">
+                    <Input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      required
+                    />
+                    <Button 
+                      type="submit"
+                      className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Sending..." : "Send Reset Link"}
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <Button 
