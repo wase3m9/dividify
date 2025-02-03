@@ -42,9 +42,14 @@ const Auth = () => {
   };
 
   const getErrorMessage = (error: AuthError) => {
+    console.error("Authentication error details:", error);
+    
     if (error instanceof AuthApiError) {
       switch (error.status) {
         case 400:
+          if (error.message.includes("Email not confirmed")) {
+            return "Please confirm your email address before signing in.";
+          }
           if (error.message.includes("Invalid login credentials")) {
             return "Invalid email or password. Please check your credentials and try again.";
           }
@@ -62,7 +67,6 @@ const Auth = () => {
     e.preventDefault();
     setError("");
     
-    // Validate inputs before attempting sign in
     if (!validateInputs()) {
       return;
     }
