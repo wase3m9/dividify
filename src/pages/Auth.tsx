@@ -25,6 +25,22 @@ const Auth = () => {
   const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
   const { toast } = useToast();
 
+  const validateInputs = () => {
+    if (!email.trim() || !password.trim()) {
+      setError("Email and password are required");
+      return false;
+    }
+    if (!email.includes("@")) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return false;
+    }
+    return true;
+  };
+
   const getErrorMessage = (error: AuthError) => {
     if (error instanceof AuthApiError) {
       switch (error.status) {
@@ -45,13 +61,16 @@ const Auth = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    
+    // Validate inputs before attempting sign in
+    if (!validateInputs()) {
+      return;
+    }
+
     setIsLoading(true);
+    console.log("Attempting sign in with email:", email);
 
     try {
-      if (!email.trim() || !password.trim()) {
-        throw new Error("Email and password are required");
-      }
-
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
