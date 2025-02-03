@@ -281,7 +281,7 @@ const DividendBoard = () => {
                 <div className="lg:col-start-3">
                   <div className="sticky top-24 space-y-6">
                     <PlanLimits />
-                    <RecentActivity companyId={company.id} />
+                    {company && <RecentActivity companyId={company.id} />}
                   </div>
                 </div>
               </div>
