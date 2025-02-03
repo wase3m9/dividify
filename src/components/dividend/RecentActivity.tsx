@@ -1,80 +1,74 @@
-import { Card } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Activity } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDistanceToNow } from "date-fns";
+import { FileText, ScrollText } from "lucide-react";
 
-interface ActivityItem {
-  id: string;
-  description: string;
-  timestamp: string;
+interface RecentActivityProps {
+  companyId: string;
 }
 
-export const RecentActivity = () => {
+export const RecentActivity = ({ companyId }: RecentActivityProps) => {
   const { data: activities, isLoading } = useQuery({
-    queryKey: ['recent-activities'],
+    queryKey: ['recent-activity', companyId],
     queryFn: async () => {
-      // Fetch dividend records
-      const { data: dividendRecords } = await supabase
-        .from('dividend_records')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(5);
+      // Fetch both dividend records and minutes
+      const [dividendResponse, minutesResponse] = await Promise.all([
+        supabase
+          .from('dividend_records')
+          .select('*')
+          .eq('company_id', companyId)
+          .order('created_at', { ascending: false })
+          .limit(5),
+        supabase
+          .from('minutes')
+          .select('*')
+          .eq('company_id', companyId)
+          .order('created_at', { ascending: false })
+          .limit(5)
+      ]);
 
-      // Fetch company updates
-      const { data: companies } = await supabase
-        .from('companies')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(5);
+      const dividends = dividendResponse.data || [];
+      const minutes = minutesResponse.data || [];
 
-      // Combine and sort activities
-      const allActivities: ActivityItem[] = [
-        ...(dividendRecords?.map(record => ({
-          id: `dividend-${record.id}`,
-          description: `Created dividend voucher for ${record.shareholder_name}`,
-          timestamp: record.created_at
-        })) || []),
-        ...(companies?.map(company => ({
-          id: `company-${company.id}`,
-          description: `Updated company details for ${company.name}`,
-          timestamp: company.created_at
-        })) || [])
-      ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-      .slice(0, 10);
+      // Combine and sort by date
+      const combined = [...dividends, ...minutes]
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        .slice(0, 5);
 
-      return allActivities;
-    }
+      return combined;
+    },
+    enabled: !!companyId,
   });
 
+  if (isLoading) {
+    return <div>Loading activity...</div>;
+  }
+
+  if (!activities?.length) {
+    return <div className="text-gray-500">No recent activity</div>;
+  }
+
   return (
-    <Card className="p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <Activity className="h-5 w-5 text-[#9b87f5]" />
-        <h2 className="text-xl font-semibold">Recent Activity</h2>
-      </div>
-      <ScrollArea className="h-[300px] w-full rounded-md">
-        <div className="space-y-4 pr-4">
-          {isLoading ? (
-            <p className="text-sm text-gray-500">Loading activities...</p>
-          ) : activities && activities.length > 0 ? (
-            activities.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0"
-              >
-                <p className="text-sm text-gray-600">{activity.description}</p>
-                <span className="text-xs text-gray-400">
-                  {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
-                </span>
-              </div>
-            ))
+    <div className="space-y-4">
+      {activities.map((activity) => (
+        <div
+          key={activity.id}
+          className="flex items-center space-x-3 text-sm"
+        >
+          {('shareholder_name' in activity) ? (
+            <FileText className="w-4 h-4 text-[#9b87f5]" />
           ) : (
-            <p className="text-sm text-gray-500">No recent activity</p>
+            <ScrollText className="w-4 h-4 text-[#9b87f5]" />
           )}
+          <div className="flex-1">
+            <p className="font-medium">
+              {'shareholder_name' in activity ? 'Dividend Voucher' : 'Board Minutes'}
+            </p>
+            <p className="text-gray-500">
+              {new Date(activity.created_at).toLocaleDateString()}
+            </p>
+          </div>
         </div>
-      </ScrollArea>
-    </Card>
+      ))}
+    </div>
   );
 };
