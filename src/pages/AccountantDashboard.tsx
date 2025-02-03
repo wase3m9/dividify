@@ -8,6 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { PlusCircle, FileText, ScrollText } from "lucide-react";
 import { CompanySelector } from "@/components/dividend/company/CompanySelector";
 import { RecentActivity } from "@/components/dividend/RecentActivity";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 
 interface Company {
   id: string;
@@ -17,6 +19,7 @@ interface Company {
 const AccountantDashboard = () => {
   const navigate = useNavigate();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { data: user } = useQuery({
     queryKey: ['user'],
@@ -26,7 +29,7 @@ const AccountantDashboard = () => {
     },
   });
 
-  const { data: companies } = useQuery({
+  const { data: companies, refetch: refetchCompanies } = useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
       if (!user) return [];
@@ -45,16 +48,17 @@ const AccountantDashboard = () => {
     setSelectedCompanyId(companyId);
   };
 
+  const handleCompanyCreated = () => {
+    setIsDialogOpen(false);
+    refetchCompanies();
+  };
+
   const handleCreateVoucher = () => {
     navigate("/dividend-voucher");
   };
 
   const handleCreateMinutes = () => {
     navigate("/board-minutes");
-  };
-
-  const handleNewCompany = () => {
-    navigate("/dividend-board");
   };
 
   return (
@@ -74,13 +78,17 @@ const AccountantDashboard = () => {
                 })}
               </p>
             </div>
-            <Button 
-              onClick={handleNewCompany}
-              className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-            >
-              <PlusCircle className="w-4 h-4 mr-2" />
-              New Company
-            </Button>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]">
+                  <PlusCircle className="w-4 h-4 mr-2" />
+                  New Company
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <CompanyForm onSuccess={handleCompanyCreated} />
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Company Selector */}
@@ -117,7 +125,7 @@ const AccountantDashboard = () => {
 
               <Card className="p-6">
                 <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
-                <RecentActivity companyId={selectedCompanyId} />
+                {selectedCompanyId && <RecentActivity companyId={selectedCompanyId} />}
               </Card>
             </div>
           )}
