@@ -37,7 +37,10 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      console.log("Attempting to sign in with:", { email: email.trim() });
+      if (!email.trim() || !password.trim()) {
+        throw new Error("Email and password are required");
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
@@ -51,6 +54,8 @@ const Auth = () => {
       console.error("Sign in error:", error);
       if (error instanceof AuthError) {
         setError(getErrorMessage(error));
+      } else if (error instanceof Error) {
+        setError(error.message);
       } else {
         setError("An unexpected error occurred. Please try again.");
       }
@@ -99,6 +104,7 @@ const Auth = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="bg-white border-gray-200"
+                disabled={isLoading}
               />
               <Input
                 id="password"
@@ -108,6 +114,7 @@ const Auth = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="bg-white border-gray-200"
+                disabled={isLoading}
               />
             </div>
 
