@@ -12,10 +12,13 @@ import { RecentActivity } from "@/components/dividend/RecentActivity";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { useToast } from "@/hooks/use-toast";
+import { CompanySection } from "@/components/dividend/CompanySection";
 
 interface Company {
   id: string;
   name: string;
+  registration_number: string | null;
+  registered_address: string | null;
 }
 
 const AccountantDashboard = () => {
@@ -74,6 +77,22 @@ const AccountantDashboard = () => {
     enabled: !!user?.id,
   });
 
+  const { data: selectedCompany } = useQuery({
+    queryKey: ['company', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return null;
+      const { data, error } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('id', selectedCompanyId)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!selectedCompanyId,
+  });
+
   const { data: companies, refetch: refetchCompanies } = useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
@@ -96,6 +115,11 @@ const AccountantDashboard = () => {
   const handleCompanyCreated = () => {
     setIsDialogOpen(false);
     refetchCompanies();
+  };
+
+  const handleCompanyUpdate = () => {
+    const queryClient = useQueryClient();
+    queryClient.invalidateQueries({ queryKey: ['company', selectedCompanyId] });
   };
 
   const handleCreateVoucher = () => {
@@ -147,9 +171,14 @@ const AccountantDashboard = () => {
             />
           </Card>
 
-          {/* Actions Section */}
+          {/* Company Information and Actions Section */}
           {selectedCompanyId && (
             <div className="grid md:grid-cols-2 gap-4">
+              <CompanySection 
+                company={selectedCompany} 
+                onCompanyUpdate={handleCompanyUpdate}
+              />
+
               <Card className="p-6">
                 <h3 className="text-lg font-medium mb-4">Quick Actions</h3>
                 <div className="space-y-4">
