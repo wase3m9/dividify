@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
+import { XCircle } from "lucide-react";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -94,55 +95,69 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin} className="space-y-4">
-      {error && (
-        <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-      <div className="space-y-2">
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          disabled={isLoading}
-          className="bg-white"
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          disabled={isLoading}
-          className="bg-white"
-        />
+    <div className="w-full max-w-md">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">Login to your account</h2>
+        <button onClick={() => navigate('/')} className="text-gray-500 hover:text-gray-700">
+          <XCircle className="h-5 w-5" />
+        </button>
       </div>
-      <div className="flex flex-col space-y-4">
+
+      <form onSubmit={handleLogin} className="space-y-4">
+        {error && (
+          <Alert variant="destructive" className="bg-red-50 border-red-200">
+            <AlertDescription className="text-red-500">
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
+
+        <div className="space-y-4">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={isLoading}
+            className="bg-white border-gray-200 rounded-lg px-4 py-3"
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            disabled={isLoading}
+            className="bg-white border-gray-200 rounded-lg px-4 py-3"
+          />
+        </div>
+
         <Button
           type="submit"
-          className="bg-[#9b87f5] hover:bg-[#8b77e5] w-full"
+          className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white py-3 rounded-lg font-medium"
           disabled={isLoading}
         >
           {isLoading ? "Logging in..." : "Login"}
         </Button>
-        <div className="text-center text-sm">
-          <span className="text-gray-500">Don't have an account? </span>
-          <Link to="/signup" className="text-[#9b87f5] hover:underline">
-            Sign up
-          </Link>
+
+        <div className="space-y-3 text-center text-sm">
+          <div className="text-gray-600">
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-[#7C3AED] hover:text-[#6D28D9] font-medium">
+              Sign up
+            </Link>
+          </div>
+          <Button
+            type="button"
+            variant="link"
+            className="text-[#7C3AED] hover:text-[#6D28D9] font-medium text-sm"
+            onClick={() => navigate('/auth?reset=true')}
+          >
+            Forgot password?
+          </Button>
         </div>
-        <Button
-          type="button"
-          variant="link"
-          className="text-[#9b87f5] hover:text-[#8b77e5]"
-          onClick={() => navigate('/auth?reset=true')}
-        >
-          Forgot password?
-        </Button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
