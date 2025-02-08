@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
@@ -16,6 +15,8 @@ import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
+import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface Company {
   id: string;
@@ -29,6 +30,8 @@ const AccountantDashboard = () => {
   const queryClient = useQueryClient();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
+  const { toast } = useToast();
 
   const { data: user } = useQuery({
     queryKey: ['user'],
@@ -122,6 +125,38 @@ const AccountantDashboard = () => {
     queryClient.invalidateQueries({ queryKey: ['company', selectedCompanyId] });
   };
 
+  const handleShareClassSubmit = async (data: ShareholderDetails) => {
+    if (!selectedCompanyId) return;
+    
+    try {
+      const { error } = await supabase
+        .from('share_classes')
+        .insert({
+          company_id: selectedCompanyId,
+          user_id: user?.id,
+          share_class_name: data.shareClass,
+          shares_issued: parseInt(data.numberOfShares),
+          nominal_value: 1.00, // Default nominal value
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Share class added successfully",
+      });
+
+      queryClient.invalidateQueries({ queryKey: ['share_classes', selectedCompanyId] });
+      setIsShareClassDialogOpen(false);
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
   const displayName = profile?.full_name || user?.email?.split('@')[0] || '';
 
   return (
@@ -177,7 +212,12 @@ const AccountantDashboard = () => {
                   </TabsContent>
 
                   <TabsContent value="share-classes">
-                    <ShareClassesSection shareClasses={[]} />
+                    <ShareClassesSection 
+                      shareClasses={[]}
+                      isDialogOpen={isShareClassDialogOpen}
+                      onDialogOpenChange={setIsShareClassDialogOpen}
+                      onSubmit={handleShareClassSubmit}
+                    />
                   </TabsContent>
 
                   <TabsContent value="dividends">
