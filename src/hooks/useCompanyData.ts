@@ -86,6 +86,22 @@ export const useCompanyData = (selectedCompanyId?: string) => {
     enabled: !!selectedCompanyId,
   });
 
+  const { data: shareholders, refetch: refetchShareholders } = useQuery({
+    queryKey: ['shareholders', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return [];
+      const { data, error } = await supabase
+        .from('shareholders')
+        .select('*')
+        .eq('company_id', selectedCompanyId)
+        .eq('is_share_class', false);
+      
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!selectedCompanyId,
+  });
+
   const handleCompanyUpdate = () => {
     queryClient.invalidateQueries({ queryKey: ['company', selectedCompanyId] });
   };
@@ -96,7 +112,9 @@ export const useCompanyData = (selectedCompanyId?: string) => {
     selectedCompany,
     companies,
     directors,
+    shareholders,
     refetchCompanies,
+    refetchShareholders,
     handleCompanyUpdate,
     displayName: profile?.full_name || user?.email?.split('@')[0] || '',
   };

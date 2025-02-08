@@ -5,8 +5,12 @@ import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
 import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
-import { Card } from "@/components/ui/card";
+import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
+import { useState } from "react";
+import { useCompanyData } from "@/hooks/useCompanyData";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CompanyTabsProps {
   selectedCompany: any;
@@ -25,6 +29,43 @@ export const CompanyTabs = ({
   onShareClassSubmit,
   onCompanyUpdate,
 }: CompanyTabsProps) => {
+  const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
+  const { shareholders, refetchShareholders } = useCompanyData(selectedCompany?.id);
+  const { toast } = useToast();
+
+  const handleShareholderSubmit = async (data: ShareholderDetails) => {
+    if (!selectedCompany?.id) return;
+    
+    try {
+      const { error } = await supabase
+        .from('shareholders')
+        .insert({
+          company_id: selectedCompany.id,
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+          shareholder_name: data.shareholderName,
+          share_class: data.shareClass,
+          number_of_shares: parseInt(data.numberOfShares),
+          is_share_class: false
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Shareholder added successfully",
+      });
+
+      setIsShareholderDialogOpen(false);
+      refetchShareholders();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4">
       <Tabs defaultValue="company" className="w-full">
@@ -49,10 +90,12 @@ export const CompanyTabs = ({
         </TabsContent>
 
         <TabsContent value="shareholders">
-          <Card className="p-6">
-            <h3 className="text-lg font-medium mb-4">Shareholders</h3>
-            <p className="text-gray-500">No shareholders added yet.</p>
-          </Card>
+          <ShareholdingsSection 
+            shareholdings={shareholders || []}
+            isDialogOpen={isShareholderDialogOpen}
+            onDialogOpenChange={setIsShareholderDialogOpen}
+            onSubmit={handleShareholderSubmit}
+          />
         </TabsContent>
 
         <TabsContent value="share-classes">
