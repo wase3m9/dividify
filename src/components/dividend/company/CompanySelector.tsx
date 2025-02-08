@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Select,
@@ -9,7 +10,20 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
-import { Building2 } from "lucide-react";
+import { Building2, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 interface CompanySelectorProps {
   onSelect: (companyId: string) => void;
@@ -18,6 +32,8 @@ interface CompanySelectorProps {
 
 export const CompanySelector = ({ onSelect, selectedCompanyId }: CompanySelectorProps) => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { data: profile } = useQuery({
     queryKey: ['profile-subscription'],
@@ -62,6 +78,39 @@ export const CompanySelector = ({ onSelect, selectedCompanyId }: CompanySelector
     },
   });
 
+  const handleDeleteCompany = async (companyId: string) => {
+    try {
+      setIsDeleting(true);
+      const { error } = await supabase
+        .from('companies')
+        .delete()
+        .eq('id', companyId);
+
+      if (error) throw error;
+
+      // If the deleted company was selected, clear the selection
+      if (selectedCompanyId === companyId) {
+        onSelect('');
+      }
+
+      // Invalidate companies query to refresh the list
+      queryClient.invalidateQueries({ queryKey: ['companies'] });
+
+      toast({
+        title: "Success",
+        description: "Company deleted successfully",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   if (isLoading) {
     return <div>Loading companies...</div>;
   }
@@ -75,26 +124,84 @@ export const CompanySelector = ({ onSelect, selectedCompanyId }: CompanySelector
     }
     return (
       <Card className="p-4">
-        <div className="flex items-center gap-2">
-          <Building2 className="h-5 w-5 text-[#9b87f5]" />
-          <span className="font-medium">{company.name}</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Building2 className="h-5 w-5 text-[#9b87f5]" />
+            <span className="font-medium">{company.name}</span>
+          </div>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-100">
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the company and all associated data.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => handleDeleteCompany(company.id)}
+                  className="bg-red-500 hover:bg-red-600"
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? "Deleting..." : "Delete"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </Card>
     );
   }
 
   return (
-    <Select onValueChange={onSelect} defaultValue={selectedCompanyId}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder="Select a company" />
-      </SelectTrigger>
-      <SelectContent>
-        {companies?.map((company) => (
-          <SelectItem key={company.id} value={company.id}>
-            {company.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="flex gap-4 items-start">
+      <div className="flex-1">
+        <Select onValueChange={onSelect} defaultValue={selectedCompanyId}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a company" />
+          </SelectTrigger>
+          <SelectContent>
+            {companies?.map((company) => (
+              <SelectItem key={company.id} value={company.id}>
+                {company.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      {selectedCompanyId && (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-10 w-10 text-red-500 hover:text-red-600 hover:bg-red-100">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the company and all associated data.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => handleDeleteCompany(selectedCompanyId)}
+                className="bg-red-500 hover:bg-red-600"
+                disabled={isDeleting}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+    </div>
   );
 };
