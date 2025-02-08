@@ -1,7 +1,7 @@
 
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, ScrollText } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Plus, FileText } from "lucide-react";
 
 interface QuickActionsProps {
   onCreateVoucher: () => void;
@@ -11,20 +11,22 @@ interface QuickActionsProps {
 export const QuickActions = ({ onCreateVoucher, onCreateMinutes }: QuickActionsProps) => {
   return (
     <Card className="p-6">
-      <h3 className="text-lg font-medium mb-4">Quick Actions</h3>
-      <div className="space-y-4">
+      <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+      <div className="space-y-2">
         <Button
+          variant="outline"
+          className="w-full justify-start"
           onClick={onCreateVoucher}
-          className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
         >
-          <FileText className="w-4 h-4 mr-2" />
+          <Plus className="mr-2 h-4 w-4" />
           Create Dividend Voucher
         </Button>
         <Button
+          variant="outline"
+          className="w-full justify-start"
           onClick={onCreateMinutes}
-          className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
         >
-          <ScrollText className="w-4 h-4 mr-2" />
+          <FileText className="mr-2 h-4 w-4" />
           Create Board Minutes
         </Button>
       </div>

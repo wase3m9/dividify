@@ -466,6 +466,44 @@ export type Database = {
         }
         Relationships: []
       }
+      share_classes: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          nominal_value: number
+          share_class_name: string
+          shares_issued: number
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          nominal_value?: number
+          share_class_name: string
+          shares_issued?: number
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          nominal_value?: number
+          share_class_name?: string
+          shares_issued?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "share_classes_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shareholders: {
         Row: {
           company_id: string

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +12,10 @@ import { CompanySection } from "@/components/dividend/CompanySection";
 import { AuthCheck } from "@/components/dashboard/AuthCheck";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { QuickActions } from "@/components/dashboard/QuickActions";
+import { DividendsSection } from "@/components/dividend/board/DividendsSection";
+import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
+import { MinutesSection } from "@/components/dividend/board/MinutesSection";
+import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
 
 interface Company {
   id: string;
@@ -89,6 +94,21 @@ const AccountantDashboard = () => {
     enabled: !!user,
   });
 
+  const { data: directors } = useQuery({
+    queryKey: ['directors', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return [];
+      const { data, error } = await supabase
+        .from('officers')
+        .select('*')
+        .eq('company_id', selectedCompanyId);
+      
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!selectedCompanyId,
+  });
+
   const handleCompanySelect = (companyId: string) => {
     setSelectedCompanyId(companyId);
   };
@@ -100,14 +120,6 @@ const AccountantDashboard = () => {
 
   const handleCompanyUpdate = () => {
     queryClient.invalidateQueries({ queryKey: ['company', selectedCompanyId] });
-  };
-
-  const handleCreateVoucher = () => {
-    navigate("/dividend-voucher");
-  };
-
-  const handleCreateMinutes = () => {
-    navigate("/board-minutes");
   };
 
   const displayName = profile?.full_name || user?.email?.split('@')[0] || '';
@@ -134,22 +146,62 @@ const AccountantDashboard = () => {
           </Card>
 
           {selectedCompanyId && (
-            <div className="grid md:grid-cols-2 gap-4">
-              <CompanySection 
-                company={selectedCompany} 
-                onCompanyUpdate={handleCompanyUpdate}
-              />
+            <>
+              <div className="grid grid-cols-1 gap-4">
+                <Tabs defaultValue="company" className="w-full">
+                  <TabsList className="grid grid-cols-6 gap-4">
+                    <TabsTrigger value="company">Company</TabsTrigger>
+                    <TabsTrigger value="officers">Officers</TabsTrigger>
+                    <TabsTrigger value="shareholders">Shareholders</TabsTrigger>
+                    <TabsTrigger value="share-classes">Share Classes</TabsTrigger>
+                    <TabsTrigger value="dividends">Dividends</TabsTrigger>
+                    <TabsTrigger value="meetings">Meetings</TabsTrigger>
+                  </TabsList>
 
-              <QuickActions
-                onCreateVoucher={handleCreateVoucher}
-                onCreateMinutes={handleCreateMinutes}
-              />
+                  <TabsContent value="company">
+                    <CompanySection 
+                      company={selectedCompany} 
+                      onCompanyUpdate={handleCompanyUpdate}
+                    />
+                  </TabsContent>
 
-              <Card className="p-6">
-                <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
-                {selectedCompanyId && <RecentActivity companyId={selectedCompanyId} />}
-              </Card>
-            </div>
+                  <TabsContent value="officers">
+                    <DirectorsSection directors={directors || []} />
+                  </TabsContent>
+
+                  <TabsContent value="shareholders">
+                    <Card className="p-6">
+                      <h3 className="text-lg font-medium mb-4">Shareholders</h3>
+                      <p className="text-gray-500">No shareholders added yet.</p>
+                    </Card>
+                  </TabsContent>
+
+                  <TabsContent value="share-classes">
+                    <ShareClassesSection shareClasses={[]} />
+                  </TabsContent>
+
+                  <TabsContent value="dividends">
+                    <DividendsSection />
+                  </TabsContent>
+
+                  <TabsContent value="meetings">
+                    <MinutesSection />
+                  </TabsContent>
+                </Tabs>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <QuickActions
+                  onCreateVoucher={() => navigate("/dividend-voucher")}
+                  onCreateMinutes={() => navigate("/board-minutes")}
+                />
+
+                <Card className="p-6">
+                  <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
+                  {selectedCompanyId && <RecentActivity companyId={selectedCompanyId} />}
+                </Card>
+              </div>
+            </>
           )}
         </div>
       </main>
