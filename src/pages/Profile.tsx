@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,11 @@ export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
+  const [formData, setFormData] = useState({
+    full_name: '',
+    telephone: '',
+    job_title: ''
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -27,6 +33,12 @@ export default function Profile() {
             .eq('id', session.user.id)
             .single();
           setProfile(profileData);
+          // Set form data with existing profile data
+          setFormData({
+            full_name: profileData?.full_name || '',
+            telephone: profileData?.telephone || '',
+            job_title: profileData?.job_title || ''
+          });
         }
       } catch (error) {
         console.error('Error loading profile:', error);
@@ -37,6 +49,51 @@ export default function Profile() {
 
     getProfile();
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          full_name: formData.full_name,
+          telephone: formData.telephone,
+          job_title: formData.job_title
+        })
+        .eq('id', user.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Your profile has been updated successfully.",
+        duration: 3000,
+      });
+
+      // Update local profile state
+      setProfile(prev => ({
+        ...prev,
+        ...formData
+      }));
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        duration: 5000,
+      });
+    }
+  };
 
   const handleSubscribe = async (plan: 'starter' | 'professional' | 'enterprise') => {
     try {
@@ -79,18 +136,38 @@ export default function Profile() {
                   <Input id="email" value={user?.email || ''} disabled />
                 </div>
                 <div>
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="Your name" />
+                  <Label htmlFor="full_name">Name</Label>
+                  <Input 
+                    id="full_name" 
+                    placeholder="Your name" 
+                    value={formData.full_name}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div>
-                  <Label htmlFor="phone">Telephone Number</Label>
-                  <Input id="phone" placeholder="Your phone number" />
+                  <Label htmlFor="telephone">Telephone Number</Label>
+                  <Input 
+                    id="telephone" 
+                    placeholder="Your phone number" 
+                    value={formData.telephone}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div>
-                  <Label htmlFor="jobTitle">Job Title</Label>
-                  <Input id="jobTitle" placeholder="Your job title" />
+                  <Label htmlFor="job_title">Job Title</Label>
+                  <Input 
+                    id="job_title" 
+                    placeholder="Your job title" 
+                    value={formData.job_title}
+                    onChange={handleInputChange}
+                  />
                 </div>
-                <Button className="w-full">Save Changes</Button>
+                <Button 
+                  className="w-full"
+                  onClick={handleSaveChanges}
+                >
+                  Save Changes
+                </Button>
               </div>
             </Card>
 

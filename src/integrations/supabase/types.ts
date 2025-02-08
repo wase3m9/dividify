@@ -418,9 +418,12 @@ export type Database = {
           companies_count: number | null
           current_month_dividends: number | null
           current_month_minutes: number | null
+          full_name: string | null
           id: string
+          job_title: string | null
           role: Database["public"]["Enums"]["app_role"] | null
           subscription_plan: string | null
+          telephone: string | null
           trial_expired: boolean | null
           trial_start_date: string | null
           updated_at: string | null
@@ -432,9 +435,12 @@ export type Database = {
           companies_count?: number | null
           current_month_dividends?: number | null
           current_month_minutes?: number | null
+          full_name?: string | null
           id: string
+          job_title?: string | null
           role?: Database["public"]["Enums"]["app_role"] | null
           subscription_plan?: string | null
+          telephone?: string | null
           trial_expired?: boolean | null
           trial_start_date?: string | null
           updated_at?: string | null
@@ -446,9 +452,12 @@ export type Database = {
           companies_count?: number | null
           current_month_dividends?: number | null
           current_month_minutes?: number | null
+          full_name?: string | null
           id?: string
+          job_title?: string | null
           role?: Database["public"]["Enums"]["app_role"] | null
           subscription_plan?: string | null
+          telephone?: string | null
           trial_expired?: boolean | null
           trial_start_date?: string | null
           updated_at?: string | null
