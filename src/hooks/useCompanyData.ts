@@ -30,7 +30,7 @@ export const useCompanyData = (selectedCompanyId?: string) => {
       if (!user?.id) return null;
       const { data, error } = await supabase
         .from('profiles')
-        .select('full_name')
+        .select('id, full_name')
         .eq('id', user.id)
         .single();
       
