@@ -1,3 +1,4 @@
+
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
@@ -34,7 +35,15 @@ Deno.serve(async (req) => {
       // Update profile to admin role
       const { error: updateError } = await supabaseAdmin
         .from('profiles')
-        .update({ role: 'admin' })
+        .update({ 
+          role: 'admin',
+          subscription_plan: 'enterprise',
+          trial_start_date: new Date().toISOString(),
+          companies_count: 0,
+          current_month_dividends: 0,
+          current_month_minutes: 0,
+          trial_expired: false
+        })
         .eq('id', authUser.user.id)
 
       if (updateError) throw updateError
