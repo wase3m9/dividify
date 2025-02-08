@@ -1,18 +1,16 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { PlusCircle, FileText, ScrollText } from "lucide-react";
 import { CompanySelector } from "@/components/dividend/company/CompanySelector";
 import { RecentActivity } from "@/components/dividend/RecentActivity";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { CompanyForm } from "@/components/dividend/company/CompanyForm";
-import { useToast } from "@/hooks/use-toast";
 import { CompanySection } from "@/components/dividend/CompanySection";
+import { AuthCheck } from "@/components/dashboard/AuthCheck";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { QuickActions } from "@/components/dashboard/QuickActions";
 
 interface Company {
   id: string;
@@ -23,26 +21,9 @@ interface Company {
 
 const AccountantDashboard = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { toast } = useToast();
-
-  // Check authentication status
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast({
-          variant: "destructive",
-          title: "Authentication required",
-          description: "Please log in to access the accountant dashboard",
-        });
-        navigate('/auth');
-      }
-    };
-
-    checkAuth();
-  }, [navigate, toast]);
 
   const { data: user } = useQuery({
     queryKey: ['user'],
@@ -118,7 +99,6 @@ const AccountantDashboard = () => {
   };
 
   const handleCompanyUpdate = () => {
-    const queryClient = useQueryClient();
     queryClient.invalidateQueries({ queryKey: ['company', selectedCompanyId] });
   };
 
@@ -134,35 +114,17 @@ const AccountantDashboard = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <AuthCheck />
       <Navigation />
       <main className="container mx-auto px-4 pt-20">
         <div className="flex flex-col space-y-8">
-          {/* Header Section */}
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold">Welcome back, {displayName}</h1>
-              <p className="text-gray-500 mt-1">
-                {new Date().toLocaleDateString('en-GB', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </p>
-            </div>
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]">
-                  <PlusCircle className="w-4 h-4 mr-2" />
-                  New Company
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <CompanyForm onSuccess={handleCompanyCreated} />
-              </DialogContent>
-            </Dialog>
-          </div>
+          <DashboardHeader
+            displayName={displayName}
+            isDialogOpen={isDialogOpen}
+            setIsDialogOpen={setIsDialogOpen}
+            onCompanyCreated={handleCompanyCreated}
+          />
 
-          {/* Company Selector */}
           <Card className="p-6">
             <h2 className="text-xl font-semibold mb-4">Select Company</h2>
             <CompanySelector
@@ -171,7 +133,6 @@ const AccountantDashboard = () => {
             />
           </Card>
 
-          {/* Company Information and Actions Section */}
           {selectedCompanyId && (
             <div className="grid md:grid-cols-2 gap-4">
               <CompanySection 
@@ -179,25 +140,10 @@ const AccountantDashboard = () => {
                 onCompanyUpdate={handleCompanyUpdate}
               />
 
-              <Card className="p-6">
-                <h3 className="text-lg font-medium mb-4">Quick Actions</h3>
-                <div className="space-y-4">
-                  <Button
-                    onClick={handleCreateVoucher}
-                    className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-                  >
-                    <FileText className="w-4 h-4 mr-2" />
-                    Create Dividend Voucher
-                  </Button>
-                  <Button
-                    onClick={handleCreateMinutes}
-                    className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-                  >
-                    <ScrollText className="w-4 h-4 mr-2" />
-                    Create Board Minutes
-                  </Button>
-                </div>
-              </Card>
+              <QuickActions
+                onCreateVoucher={handleCreateVoucher}
+                onCreateMinutes={handleCreateMinutes}
+              />
 
               <Card className="p-6">
                 <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
