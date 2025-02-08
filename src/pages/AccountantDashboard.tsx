@@ -51,8 +51,10 @@ const AccountantDashboard = () => {
       return user;
     },
     retry: false,
-    onError: () => {
-      navigate('/auth');
+    meta: {
+      errorHandler: () => {
+        navigate('/auth');
+      }
     }
   });
 
