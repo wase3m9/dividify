@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { AuthError } from "@supabase/supabase-js";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -14,12 +15,27 @@ export const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const getErrorMessage = (error: AuthError) => {
+    console.error("Authentication error details:", error);
+    
+    switch (error.message) {
+      case "Invalid login credentials":
+        return "Invalid email or password. Please check your credentials and try again.";
+      case "Email not confirmed":
+        return "Please confirm your email address before signing in.";
+      default:
+        return error.message || "An unexpected error occurred. Please try again.";
+    }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
     
     try {
+      console.log("Attempting login with email:", email);
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
@@ -28,11 +44,12 @@ export const LoginForm = () => {
       if (error) throw error;
 
       if (data.user) {
+        console.log("Login successful:", data.user);
         navigate("/dividend-board");
       }
     } catch (error: any) {
       console.error("Login error:", error);
-      setError(error.message || "An error occurred during login");
+      setError(getErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
@@ -52,6 +69,7 @@ export const LoginForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          disabled={isLoading}
         />
         <Input
           type="password"
@@ -59,6 +77,7 @@ export const LoginForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          disabled={isLoading}
         />
       </div>
       <div className="flex justify-between items-center">
@@ -79,4 +98,3 @@ export const LoginForm = () => {
     </form>
   );
 };
-
