@@ -1,3 +1,4 @@
+
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
 import { BadgePoundSterling, Trash2, Edit, FileText } from "lucide-react";
