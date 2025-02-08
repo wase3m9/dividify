@@ -41,7 +41,7 @@ const AccountantDashboard = () => {
     checkAuth();
   }, [navigate, toast]);
 
-  const { data: user, isLoading: isLoadingUser } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ['user'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -56,6 +56,22 @@ const AccountantDashboard = () => {
         navigate('/auth');
       }
     }
+  });
+
+  const { data: profile } = useQuery({
+    queryKey: ['profile', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return null;
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user?.id,
   });
 
   const { data: companies, refetch: refetchCompanies } = useQuery({
@@ -90,18 +106,7 @@ const AccountantDashboard = () => {
     navigate("/board-minutes");
   };
 
-  if (isLoadingUser) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <main className="container mx-auto px-4 pt-20">
-          <div className="flex justify-center items-center h-[60vh]">
-            <p className="text-gray-500">Loading...</p>
-          </div>
-        </main>
-      </div>
-    );
-  }
+  const displayName = profile?.full_name || user?.email?.split('@')[0] || '';
 
   return (
     <div className="min-h-screen bg-white">
@@ -111,7 +116,7 @@ const AccountantDashboard = () => {
           {/* Header Section */}
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold">Welcome back, {user?.email?.split('@')[0]}</h1>
+              <h1 className="text-3xl font-bold">Welcome back, {displayName}</h1>
               <p className="text-gray-500 mt-1">
                 {new Date().toLocaleDateString('en-GB', {
                   year: 'numeric',
