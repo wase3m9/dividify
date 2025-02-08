@@ -1,5 +1,6 @@
+
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LogOut, User as UserIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,12 @@ interface AuthButtonsProps {
 }
 
 export const AuthButtons = ({ user, handleSignOut, handleStartFreeTrial, className }: AuthButtonsProps) => {
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    navigate('/auth');
+  };
+
   return (
     <div className={cn("flex items-center gap-2 shrink-0", className)}>
       {user ? (
@@ -37,7 +44,7 @@ export const AuthButtons = ({ user, handleSignOut, handleStartFreeTrial, classNa
           </Button>
           <Button 
             className="bg-[#9b87f5] hover:bg-[#8b77e5] whitespace-nowrap w-full md:w-auto px-3 md:px-4" 
-            onClick={handleStartFreeTrial}
+            onClick={handleGetStarted}
           >
             Get Started
           </Button>
