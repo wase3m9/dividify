@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { CompanySelector } from "@/components/dividend/company/CompanySelector";
 import { RecentActivity } from "@/components/dividend/RecentActivity";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface Company {
   id: string;
@@ -20,14 +22,38 @@ const AccountantDashboard = () => {
   const navigate = useNavigate();
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
+
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({
+          variant: "destructive",
+          title: "Authentication required",
+          description: "Please log in to access the accountant dashboard",
+        });
+        navigate('/auth');
+      }
+    };
+
+    checkAuth();
+  }, [navigate, toast]);
 
   const { data: user, isLoading: isLoadingUser } = useQuery({
     queryKey: ['user'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      if (!user) {
+        throw new Error("Not authenticated");
+      }
       return user;
     },
+    retry: false,
+    onError: () => {
+      navigate('/auth');
+    }
   });
 
   const { data: companies, refetch: refetchCompanies } = useQuery({
@@ -61,6 +87,19 @@ const AccountantDashboard = () => {
   const handleCreateMinutes = () => {
     navigate("/board-minutes");
   };
+
+  if (isLoadingUser) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navigation />
+        <main className="container mx-auto px-4 pt-20">
+          <div className="flex justify-center items-center h-[60vh]">
+            <p className="text-gray-500">Loading...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
