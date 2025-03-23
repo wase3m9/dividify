@@ -51,6 +51,44 @@ const Blog = () => {
     return Math.ceil(wordCount / wordsPerMinute);
   };
 
+  // Create BlogPosting structured data
+  const generateBlogListSchema = () => {
+    return {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "headline": "Dividify Blog | Expert Insights on Dividend Management",
+      "description": "Stay informed about dividend management, tax efficiency, and corporate compliance with expert insights from Dividify's knowledge base.",
+      "url": window.location.href,
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dividify",
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`
+        }
+      },
+      "blogPost": posts.map(post => ({
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "description": post.content.split('.').slice(0, 2).join('.') + '.',
+        "datePublished": post.published_at,
+        "url": `${window.location.origin}/blog/${post.slug}`,
+        "author": {
+          "@type": "Person",
+          "name": "James Wilson"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Dividify",
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`
+          }
+        }
+      }))
+    };
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
@@ -62,6 +100,9 @@ const Blog = () => {
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png" />
         <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify(generateBlogListSchema())}
+        </script>
       </Helmet>
 
       <Navigation />

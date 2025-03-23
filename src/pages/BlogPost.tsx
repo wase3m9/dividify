@@ -139,24 +139,60 @@ const BlogPost = () => {
   }
 
   // Estimate reading time (assuming 200 words per minute)
-  const wordCount = post.content.split(/\s+/).length;
+  const wordCount = post?.content?.split(/\s+/).length || 0;
   const readingTime = Math.ceil(wordCount / 200);
 
   // Get the first few sentences for the meta description
-  const metaDescription = post.content.split('.').slice(0, 2).join('.') + '.';
+  const metaDescription = post?.content?.split('.').slice(0, 2).join('.') + '.';
+
+  // Generate structured data for the article
+  const generateArticleSchema = () => {
+    if (!post) return null;
+    
+    return {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": metaDescription,
+      "image": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
+      "datePublished": post.published_at,
+      "dateModified": post.published_at,
+      "author": {
+        "@type": "Person",
+        "name": "James Wilson",
+        "jobTitle": "Financial Expert & Tax Advisor"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dividify",
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": window.location.href
+      },
+      "articleBody": post.content
+    };
+  };
 
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>{post.title} | Dividify Blog</title>
+        <title>{post?.title} | Dividify Blog</title>
         <meta name="description" content={metaDescription} />
         <meta name="keywords" content="dividends, tax efficiency, UK taxation, dividend vouchers, board minutes" />
-        <meta property="og:title" content={post.title} />
+        <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png" />
-        <meta property="article:published_time" content={post.published_at} />
+        <meta property="article:published_time" content={post?.published_at} />
         <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify(generateArticleSchema())}
+        </script>
       </Helmet>
 
       <Navigation />
@@ -174,13 +210,13 @@ const BlogPost = () => {
         
         <article className="max-w-4xl mx-auto prose lg:prose-xl">
           <BlogPostHeader
-            title={post.title}
+            title={post?.title}
             readingTime={readingTime}
-            publishedAt={post.published_at}
-            content={post.content}
+            publishedAt={post?.published_at}
+            content={post?.content}
           />
           
-          <BlogPostContent content={post.content} slug={slug || ''} />
+          <BlogPostContent content={post?.content} slug={slug || ''} />
 
           <AuthorProfile
             name="James Wilson"
