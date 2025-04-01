@@ -1,5 +1,7 @@
+
 import { Card } from "@/components/ui/card";
-import { FileCheck, Clock, Users, FileText, History, Link } from "lucide-react";
+import { FileCheck, Clock, Users, FileText, History, Link, Timer } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export const FeaturesSection = () => {
   return (
@@ -72,29 +74,36 @@ export const FeaturesSection = () => {
           </Card>
         </div>
 
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-6">
-            Connect <span className="text-[#9b87f5]">Dividify</span> with your accounting software
-          </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            Dividify connects seamlessly with your accounting software to simplify your workflows. With integrations
-            across leading platforms like QuickBooks, Xero, and others, Dividify allows you to manage dividends and
-            board meeting compliance effortlessly. Keep your accounting streamlined and your documentation
-            compliant without any hassle.
+        <div className="text-center mb-16 bg-gray-100 py-10 px-6 rounded-lg border border-gray-200">
+          <div className="flex justify-center items-center gap-2 mb-3">
+            <h2 className="text-4xl font-bold text-gray-500">
+              Connect <span className="text-gray-400">Dividify</span> with your accounting software
+            </h2>
+            <Badge className="bg-gray-300 hover:bg-gray-300 text-gray-600">Coming Soon</Badge>
+          </div>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Timer className="h-5 w-5 text-gray-500" />
+            <p className="text-gray-500 font-medium">Integration Launching Q1 2025</p>
+          </div>
+          <p className="text-gray-500 max-w-3xl mx-auto">
+            We're working on seamless connections with your accounting software to simplify your workflows. 
+            Soon Dividify will connect with leading platforms like QuickBooks, Xero, and others, 
+            allowing you to manage dividends and board meeting compliance effortlessly. 
+            Keep your accounting streamlined and your documentation compliant without any hassle.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 items-center justify-items-center max-w-3xl mx-auto">
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 items-center justify-items-center max-w-3xl mx-auto opacity-50">
+          <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
             <img src="/lovable-uploads/58de35bd-d003-4898-8f07-85bf2be09dcc.png" alt="Xero" className="w-full h-full object-contain" />
           </div>
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+          <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
             <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks" className="w-full h-full object-contain" />
           </div>
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+          <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
             <img src="/lovable-uploads/3e1037ec-3005-442d-bf0a-1e05d952c398.png" alt="Sage" className="w-full h-full object-contain" />
           </div>
-          <div className="w-44 h-44 flex items-center justify-center bg-white rounded-[20px] shadow-sm p-8">
+          <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
             <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent" className="w-full h-full object-contain" />
           </div>
         </div>
