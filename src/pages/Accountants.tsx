@@ -1,12 +1,14 @@
+
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { CheckCircle, Building2, MessageSquareQuote } from "lucide-react";
+import { CheckCircle, Building2, MessageSquareQuote, Timer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 
 const Accountants = () => {
   const navigate = useNavigate();
@@ -132,26 +134,36 @@ const Accountants = () => {
 
           {/* Integrations Section */}
           <div className="py-16 bg-gray-50 rounded-lg mb-16">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6">Connect <span className="text-[#9b87f5]">Dividify</span> with your accounting software</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Dividify connects seamlessly with your accounting software to simplify your workflows. With integrations
-                across leading platforms like QuickBooks, Xero, and others, Dividify allows you to manage dividends and
-                board meeting compliance effortlessly. Keep your accounting streamlined and your documentation
-                compliant without any hassle.
+            <div className="text-center mb-16 bg-gray-100 py-10 px-6 rounded-lg border border-gray-200">
+              <div className="flex justify-center items-center gap-2 mb-3">
+                <h2 className="text-4xl font-bold text-gray-500">
+                  Connect <span className="text-gray-400">Dividify</span> with your accounting software
+                </h2>
+                <Badge className="bg-gray-300 hover:bg-gray-300 text-gray-600">Coming Soon</Badge>
+              </div>
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Timer className="h-5 w-5 text-gray-500" />
+                <p className="text-gray-500 font-medium">Integration Launching Q3 2025</p>
+              </div>
+              <p className="text-gray-500 max-w-3xl mx-auto">
+                We're working on seamless connections with your accounting software to simplify your workflows. 
+                Soon Dividify will connect with leading platforms like QuickBooks, Xero, and others, 
+                allowing you to manage dividends and board meeting compliance effortlessly. 
+                Keep your accounting streamlined and your documentation compliant without any hassle.
               </p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto px-4">
-              <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto px-4 opacity-50">
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
                 <img src="/lovable-uploads/5ffca2d9-09a0-475f-afda-b85ebb91bd7f.png" alt="Xero" className="h-16 w-auto mx-auto object-contain" />
               </div>
-              <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
                 <img src="/lovable-uploads/d8e5ad39-7eae-4b22-bde1-df6a305c250d.png" alt="QuickBooks" className="h-16 w-auto mx-auto object-contain" />
               </div>
-              <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
                 <img src="/lovable-uploads/e25ce830-f9e6-4996-8e0c-434dfe8083d9.png" alt="Sage" className="h-16 w-auto mx-auto object-contain" />
               </div>
-              <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
                 <img src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" alt="FreeAgent" className="h-16 w-auto mx-auto object-contain" />
               </div>
             </div>
