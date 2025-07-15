@@ -24,6 +24,8 @@ const Signup = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  console.log("Signup - isFromAccountants:", isFromAccountants);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -46,6 +48,9 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
+      const userType = isFromAccountants ? 'accountant' : 'individual';
+      console.log("Signup - Setting user type to:", userType);
+
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -53,6 +58,7 @@ const Signup = () => {
           data: {
             full_name: formData.fullName,
             company_name: isFromAccountants ? formData.companyName : undefined,
+            user_type: userType,
           },
           emailRedirectTo: `${window.location.origin}/auth-callback${isFromAccountants ? '?upgrade=accountant' : ''}`
         }
@@ -61,17 +67,21 @@ const Signup = () => {
       if (signUpError) throw signUpError;
 
       if (signUpData.user) {
+        console.log("Signup - Updating profile with user type:", userType);
+        
         const { error: profileError } = await supabase
           .from('profiles')
           .update({
             full_name: formData.fullName,
             subscription_plan: 'trial',
-            user_type: isFromAccountants ? 'accountant' : 'individual'
+            user_type: userType
           })
           .eq('id', signUpData.user.id);
 
         if (profileError) {
           console.error('Profile update error:', profileError);
+        } else {
+          console.log('Profile updated successfully with user type:', userType);
         }
       }
 
@@ -91,6 +101,7 @@ const Signup = () => {
 
       navigate('/auth');
     } catch (error: any) {
+      console.error('Signup error:', error);
       toast({
         variant: "destructive",
         title: "Error",

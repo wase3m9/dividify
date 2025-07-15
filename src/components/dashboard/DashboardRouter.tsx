@@ -10,12 +10,21 @@ export const DashboardRouter = () => {
 
   useEffect(() => {
     if (!isLoading) {
+      console.log("DashboardRouter - Profile data:", profile);
+      
       if (!profile) {
+        console.log("DashboardRouter - No profile found, redirecting to auth");
         navigate('/auth');
-      } else if (profile.user_type === 'accountant') {
-        navigate('/accountant-dashboard');
       } else {
-        navigate('/company-dashboard');
+        console.log("DashboardRouter - User type:", profile.user_type);
+        
+        if (profile.user_type === 'accountant') {
+          console.log("DashboardRouter - Redirecting to accountant dashboard");
+          navigate('/accountant-dashboard');
+        } else {
+          console.log("DashboardRouter - Redirecting to company dashboard");
+          navigate('/company-dashboard');
+        }
       }
     }
   }, [isLoading, profile, navigate]);

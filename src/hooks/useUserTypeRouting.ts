@@ -7,11 +7,19 @@ import { supabase } from "@/integrations/supabase/client";
 export const useUserTypeRouting = () => {
   const navigate = useNavigate();
 
-  const { data: profile, isLoading } = useQuery({
+  const { data: profile, isLoading, error } = useQuery({
     queryKey: ['profile-routing'],
     queryFn: async () => {
+      console.log("useUserTypeRouting - Fetching user and profile data");
+      
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return null;
+      
+      if (!user) {
+        console.log("useUserTypeRouting - No user found");
+        return null;
+      }
+      
+      console.log("useUserTypeRouting - User found:", user.id);
       
       const { data, error } = await supabase
         .from('profiles')
@@ -19,10 +27,19 @@ export const useUserTypeRouting = () => {
         .eq('id', user.id)
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error("useUserTypeRouting - Profile fetch error:", error);
+        throw error;
+      }
+      
+      console.log("useUserTypeRouting - Profile data:", data);
       return data;
     },
   });
+
+  if (error) {
+    console.error("useUserTypeRouting - Query error:", error);
+  }
 
   const routeToCorrectDashboard = () => {
     if (profile?.user_type === 'accountant') {
