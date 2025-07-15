@@ -12,7 +12,7 @@ export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
   const [displayedText] = useTypewriter("Dividend Voucher and Board Meeting Solutions for Savvy Directors", 50);
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50 to-indigo-100">
+    <section className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <div className="mb-6">
@@ -22,7 +22,7 @@ export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 min-h-[120px] md:min-h-[180px]">
+          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-6 min-h-[120px] md:min-h-[180px]">
             {displayedText}
             <span className="animate-pulse">|</span>
           </h1>
@@ -35,7 +35,7 @@ export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
             <Button 
               size="lg" 
               onClick={onStartFreeTrial}
-              className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700"
+              className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white"
             >
               Start Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
