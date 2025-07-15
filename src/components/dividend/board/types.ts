@@ -1,20 +1,29 @@
+
 export interface DividendRecord {
   id: string;
+  user_id: string;
+  company_id: string;
   shareholder_name: string;
   share_class: string;
   payment_date: string;
-  financial_year_ending: string;
-  amount_per_share: number;
-  total_amount: number;
-  director_name: string;
+  tax_year: string;
+  dividend_per_share: number;
+  total_dividend: number;
+  number_of_shares: number;
+  file_path: string | null;
   created_at: string;
-  file_path: string;
+  updated_at: string;
 }
 
 export interface MinuteRecord {
   id: string;
-  title: string;
+  user_id: string;
+  company_id: string;
   meeting_date: string;
+  meeting_type: string;
+  attendees: string[];
+  resolutions: string[];
+  file_path: string | null;
   created_at: string;
-  file_path: string;
+  updated_at: string;
 }

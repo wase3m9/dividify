@@ -20,11 +20,17 @@ export const MinuteRecordItem = ({ record, onDelete, onDownload }: MinuteRecordP
     <div key={record.id} className="p-4 border rounded-lg">
       <div className="flex justify-between items-start">
         <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
-          <div className="text-gray-500">Title:</div>
-          <div>{record.title}</div>
+          <div className="text-gray-500">Meeting Type:</div>
+          <div>{record.meeting_type}</div>
           
           <div className="text-gray-500">Meeting Date:</div>
           <div>{new Date(record.meeting_date).toLocaleDateString()}</div>
+          
+          <div className="text-gray-500">Attendees:</div>
+          <div>{record.attendees.join(', ')}</div>
+          
+          <div className="text-gray-500">Resolutions:</div>
+          <div>{record.resolutions.length} resolution(s)</div>
           
           <div className="text-gray-500">Created:</div>
           <div>{new Date(record.created_at).toLocaleDateString()}</div>

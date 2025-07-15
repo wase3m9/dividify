@@ -39,17 +39,17 @@ export const DividendRecordItem = ({
           <div className="text-gray-500">Payment Date:</div>
           <div>{new Date(record.payment_date).toLocaleDateString()}</div>
           
-          <div className="text-gray-500">Financial Year Ending:</div>
-          <div>{new Date(record.financial_year_ending).toLocaleDateString()}</div>
+          <div className="text-gray-500">Tax Year:</div>
+          <div>{record.tax_year}</div>
           
-          <div className="text-gray-500">Amount per Share:</div>
-          <div>£{record.amount_per_share}</div>
+          <div className="text-gray-500">Dividend per Share:</div>
+          <div>£{record.dividend_per_share}</div>
           
-          <div className="text-gray-500">Total Amount:</div>
-          <div>£{record.total_amount}</div>
+          <div className="text-gray-500">Total Dividend:</div>
+          <div>£{record.total_dividend}</div>
           
-          <div className="text-gray-500">Director:</div>
-          <div>{record.director_name}</div>
+          <div className="text-gray-500">Number of Shares:</div>
+          <div>{record.number_of_shares}</div>
         </div>
         <div className="flex gap-2">
           <Button

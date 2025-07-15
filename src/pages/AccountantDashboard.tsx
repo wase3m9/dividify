@@ -8,7 +8,6 @@ import { CompanyTabs } from "@/components/dividend/dashboard/CompanyTabs";
 import { DashboardContent } from "@/components/dividend/dashboard/DashboardContent";
 import { useCompanyData } from "@/hooks/useCompanyData";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 
 const AccountantDashboard = () => {
@@ -40,21 +39,10 @@ const AccountantDashboard = () => {
     if (!selectedCompanyId) return;
     
     try {
-      const { error } = await supabase
-        .from('share_classes')
-        .insert({
-          company_id: selectedCompanyId,
-          user_id: profile?.id,
-          share_class_name: data.shareClass,
-          shares_issued: parseInt(data.numberOfShares),
-          nominal_value: 1.00,
-        });
-
-      if (error) throw error;
-
+      // For now, just show a success message since we don't have share_classes table
       toast({
         title: "Success",
-        description: "Share class added successfully",
+        description: "Share class functionality coming soon",
       });
 
       setIsShareClassDialogOpen(false);

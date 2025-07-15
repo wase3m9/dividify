@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,8 +22,9 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
       if (!user) throw new Error("User not authenticated");
       if (!company) throw new Error("Company data not found");
 
-      const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString() : new Date().toISOString();
-      const financialYearEnding = formData.financialYearEnd ? new Date(formData.financialYearEnd).toISOString() : new Date().toISOString();
+      const paymentDate = formData.paymentDate ? new Date(formData.paymentDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+      const currentYear = new Date().getFullYear();
+      const taxYear = `${currentYear}-${currentYear + 1}`;
 
       if (recordId) {
         const { error: updateError } = await supabase
@@ -40,10 +42,10 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
             shareholder_name: formData.shareholderName || '',
             share_class: formData.shareClass || '',
             payment_date: paymentDate,
-            financial_year_ending: financialYearEnding,
-            amount_per_share: parseFloat(formData.amountPerShare || '0'),
-            total_amount: parseFloat(formData.totalAmount || '0'),
-            director_name: formData.directorName || '',
+            tax_year: taxYear,
+            dividend_per_share: parseFloat(formData.amountPerShare || '0'),
+            total_dividend: parseFloat(formData.totalAmount || '0'),
+            number_of_shares: parseInt(formData.numberOfShares || '0'),
             file_path: filePath
           })
           .select()
