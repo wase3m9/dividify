@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Star, Rocket, Building } from "lucide-react";
+import { Star, Rocket, Building } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface PricingSectionProps {
@@ -90,10 +90,8 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                   </div>
                 )}
                 <CardHeader className="text-center pb-4">
-                  <div className="flex items-center justify-center mb-4">
-                    <IconComponent className="w-8 h-8 text-[#9b87f5]" />
-                  </div>
                   <CardTitle className="text-2xl text-gray-900 flex items-center justify-center gap-2">
+                    <IconComponent className="w-6 h-6 text-[#9b87f5]" />
                     {plan.name}
                   </CardTitle>
                   <CardDescription className="text-gray-600">{plan.description}</CardDescription>
@@ -106,7 +104,11 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                   <ul className="space-y-4 mb-8">
                     {plan.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-center">
-                        <Check className="h-5 w-5 text-[#9b87f5] mr-3 flex-shrink-0" />
+                        <img 
+                          src="/lovable-uploads/2d0efb10-c4d2-42d4-afb2-27ea4f2ae5ca.png" 
+                          alt="Check" 
+                          className="h-5 w-5 mr-3 flex-shrink-0" 
+                        />
                         <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}
