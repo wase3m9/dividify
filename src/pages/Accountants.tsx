@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
+import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 
 const Accountants = () => {
   const { toast } = useToast();
@@ -71,27 +72,6 @@ const Accountants = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      text: "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures we're always compliant.",
-      author: "John Doe",
-      role: "Director, Tech Solutions Ltd",
-      initials: "JD"
-    },
-    {
-      text: "The automated document generation is fantastic. It's like having a company secretary at your fingertips.",
-      author: "Jane Smith",
-      role: "CEO, Growth Ventures",
-      initials: "JS"
-    },
-    {
-      text: "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration.",
-      author: "Robert Brown",
-      role: "Director, Innovative Solutions",
-      initials: "RB"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -112,19 +92,19 @@ const Accountants = () => {
               <h2 className="text-2xl font-semibold mb-6">Perfect for:</h2>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-500 mr-3 mt-0.5" />
+                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
                   <span>Chartered Accountants managing multiple clients</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-500 mr-3 mt-0.5" />
+                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
                   <span>Bookkeeping services</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-500 mr-3 mt-0.5" />
+                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
                   <span>Company formation agents</span>
                 </li>
                 <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-500 mr-3 mt-0.5" />
+                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
                   <span>Corporate service providers</span>
                 </li>
               </ul>
@@ -164,17 +144,17 @@ const Accountants = () => {
             ))}
           </div>
 
-          {/* Integration Section */}
-          <section className="py-16 bg-gray-50 rounded-lg mb-12">
-            <div className="max-w-4xl mx-auto px-4 text-center">
-              <div className="mb-8">
+          {/* Integration Section - exact copy from Index page */}
+          <section className="py-20 bg-gray-50 rounded-lg mb-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm mb-4">
                   Coming Soon
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                <h2 className="text-4xl font-bold text-gray-900 mb-4">
                   Connect Dividify with your accounting software
                 </h2>
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                   We're working on seamless connections with your accounting software to simplify your workflows. Soon 
                   Dividify will connect with leading platforms like QuickBooks, Xero, and others, allowing you to manage 
                   dividends and board meeting compliance effortlessly. Keep your accounting streamlined and your 
@@ -183,53 +163,34 @@ const Accountants = () => {
               </div>
               
               <div className="flex items-center justify-center gap-8 opacity-60">
-                <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">
-                  XERO
-                </div>
-                <div className="w-24 h-12 bg-gray-300 rounded flex items-center justify-center text-white text-sm">
-                  QuickBooks
-                </div>
-                <div className="w-20 h-16 bg-gray-300 rounded flex items-center justify-center text-white font-bold">
-                  Sage
-                </div>
-                <div className="w-24 h-12 bg-gray-300 rounded flex items-center justify-center text-white text-sm">
-                  FreeAgent
-                </div>
+                <img 
+                  src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" 
+                  alt="Xero" 
+                  className="h-16 object-contain"
+                />
+                <img 
+                  src="/lovable-uploads/83f38d36-fbfb-49c6-a098-c2a051492bb1.png" 
+                  alt="QuickBooks" 
+                  className="h-12 object-contain"
+                />
+                <img 
+                  src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" 
+                  alt="Sage" 
+                  className="h-16 object-contain"
+                />
+                <img 
+                  src="/lovable-uploads/95ceddf4-1eca-4c03-a525-31107e6bd67e.png" 
+                  alt="FreeAgent" 
+                  className="h-12 object-contain"
+                />
               </div>
             </div>
           </section>
 
-          {/* Testimonials Section */}
-          <section className="py-16">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                What Our Customers Say
-              </h2>
-            </div>
+          {/* Use the exact TestimonialsSection component from the Index page */}
+          <TestimonialsSection />
 
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              {testimonials.map((testimonial, index) => (
-                <Card key={index} className="p-6">
-                  <CardContent className="p-0">
-                    <div className="mb-4">
-                      <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold text-sm mx-auto mb-4">
-                        {testimonial.initials}
-                      </div>
-                    </div>
-                    <blockquote className="text-gray-600 mb-4 text-center">
-                      "{testimonial.text}"
-                    </blockquote>
-                    <div className="text-center">
-                      <div className="font-semibold text-gray-900">{testimonial.author}</div>
-                      <div className="text-sm text-gray-600">{testimonial.role}</div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          <Card className="bg-gray-50">
+          <Card className="bg-gray-50 mt-12">
             <CardHeader>
               <CardTitle className="text-center">Ready to streamline your workflow?</CardTitle>
             </CardHeader>
