@@ -36,7 +36,7 @@ Deno.serve(async (req) => {
     // Create user with admin role
     const { data: authUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email: 'wase3m@hotmail.com',
-      password: 'temporary_password123',
+      password: 'password',
       email_confirm: true,
       user_metadata: { full_name: 'Admin User' }
     })

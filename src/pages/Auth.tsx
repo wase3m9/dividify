@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/authCleanup";
-import { CreateAdminButton } from "@/components/admin/CreateAdminButton";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -168,10 +166,6 @@ const Auth = () => {
             <h2 className="text-2xl font-bold text-gray-900">
               Sign in to your account
             </h2>
-          </div>
-
-          <div className="flex justify-center">
-            <CreateAdminButton />
           </div>
 
           {error && (
