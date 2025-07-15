@@ -93,8 +93,20 @@ const Auth = () => {
       if (error) throw error;
 
       console.log("Sign in successful:", data);
-      // Force a full page refresh to ensure clean state and redirect to dashboard
-      window.location.href = "/dashboard";
+      
+      // Check user type and redirect accordingly
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_type')
+        .eq('id', data.user.id)
+        .single();
+
+      // Redirect based on user type
+      if (profile?.user_type === 'accountant') {
+        window.location.href = "/accountant-dashboard";
+      } else {
+        window.location.href = "/company-dashboard";
+      }
     } catch (error) {
       console.error("Sign in error:", error);
       if (error instanceof AuthError) {

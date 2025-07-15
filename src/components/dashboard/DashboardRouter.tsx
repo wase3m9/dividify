@@ -6,15 +6,19 @@ import { Loader2 } from "lucide-react";
 
 export const DashboardRouter = () => {
   const navigate = useNavigate();
-  const { profile, isLoading, routeToCorrectDashboard } = useUserTypeRouting();
+  const { profile, isLoading } = useUserTypeRouting();
 
   useEffect(() => {
-    if (!isLoading && profile) {
-      routeToCorrectDashboard();
-    } else if (!isLoading && !profile) {
-      navigate('/auth');
+    if (!isLoading) {
+      if (!profile) {
+        navigate('/auth');
+      } else if (profile.user_type === 'accountant') {
+        navigate('/accountant-dashboard');
+      } else {
+        navigate('/company-dashboard');
+      }
     }
-  }, [isLoading, profile, routeToCorrectDashboard, navigate]);
+  }, [isLoading, profile, navigate]);
 
   if (isLoading) {
     return (
