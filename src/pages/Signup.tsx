@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -90,12 +91,12 @@ const Signup = () => {
       <main className="container mx-auto px-4 pt-24 pb-16">
         <div className="flex justify-center items-center h-full">
           <Card className="w-full max-w-md">
-            <CardHeader>
+            <CardHeader className="text-center">
               <CardTitle>Create an account</CardTitle>
               <CardDescription>Enter your details below to create your account</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <div className="grid gap-2">
+              <div className="grid gap-2 text-left">
                 <Label htmlFor="fullName">Full Name</Label>
                 <Input
                   type="text"
@@ -106,7 +107,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 text-left">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   type="email"
@@ -117,7 +118,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 text-left">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   type="password"
@@ -128,7 +129,7 @@ const Signup = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 text-left">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <Input
                   type="password"
