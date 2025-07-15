@@ -144,7 +144,7 @@ const Accountants = () => {
             ))}
           </div>
 
-          {/* Integration Section - exact copy from Index page */}
+          {/* Integration Section - exact copy from Index page with greyed out styling */}
           <section className="py-20 bg-gray-50 rounded-lg mb-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-16">
@@ -164,24 +164,24 @@ const Accountants = () => {
               
               <div className="flex items-center justify-center gap-8 opacity-60">
                 <img 
-                  src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" 
+                  src="/lovable-uploads/8a0c16ac-6c78-46b6-9188-7485f4dafec7.png" 
                   alt="Xero" 
-                  className="h-16 object-contain"
+                  className="h-16 object-contain grayscale"
                 />
                 <img 
-                  src="/lovable-uploads/83f38d36-fbfb-49c6-a098-c2a051492bb1.png" 
+                  src="/lovable-uploads/81d4efca-d219-452a-9d1d-94040a84119d.png" 
                   alt="QuickBooks" 
-                  className="h-12 object-contain"
+                  className="h-12 object-contain grayscale"
                 />
                 <img 
-                  src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" 
+                  src="/lovable-uploads/bbce86a0-dde1-4c68-b1d0-74cd14b9af6c.png" 
                   alt="Sage" 
-                  className="h-16 object-contain"
+                  className="h-16 object-contain grayscale"
                 />
                 <img 
-                  src="/lovable-uploads/95ceddf4-1eca-4c03-a525-31107e6bd67e.png" 
+                  src="/lovable-uploads/1de316a5-53a6-4527-b5ef-01ced10ba2fe.png" 
                   alt="FreeAgent" 
-                  className="h-12 object-contain"
+                  className="h-12 object-contain grayscale"
                 />
               </div>
             </div>
