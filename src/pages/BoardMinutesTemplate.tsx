@@ -1,173 +1,180 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
-import { Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
-import { useLocation } from "react-router-dom";
-import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
-import { supabase } from "@/integrations/supabase/client";
+import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Packer } from "docx";
+import { supabase } from "@/integrations/supabase/client";
 
 const BoardMinutesTemplate = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { toast } = useToast();
-  const formData = location.state || {};
+  const [formData, setFormData] = useState({
+    companyId: '',
+    meetingDate: '',
+    meetingType: '',
+    attendees: [''],
+    resolutions: [''],
+  });
 
-  const handleDownload = async (format: 'pdf' | 'word') => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }));
+  };
+
+  const handleAttendeesChange = (index: number, value: string) => {
+    const updatedAttendees = [...formData.attendees];
+    updatedAttendees[index] = value;
+    setFormData(prev => ({ ...prev, attendees: updatedAttendees }));
+  };
+
+  const handleAddAttendee = () => {
+    setFormData(prev => ({ ...prev, attendees: [...prev.attendees, ''] }));
+  };
+
+  const handleRemoveAttendee = (index: number) => {
+    const updatedAttendees = [...formData.attendees];
+    updatedAttendees.splice(index, 1);
+    setFormData(prev => ({ ...prev, attendees: updatedAttendees }));
+  };
+
+  const handleResolutionsChange = (index: number, value: string) => {
+    const updatedResolutions = [...formData.resolutions];
+    updatedResolutions[index] = value;
+    setFormData(prev => ({ ...prev, resolutions: updatedResolutions }));
+  };
+
+  const handleAddResolution = () => {
+    setFormData(prev => ({ ...prev, resolutions: [...prev.resolutions, ''] }));
+  };
+
+  const handleRemoveResolution = (index: number) => {
+    const updatedResolutions = [...formData.resolutions];
+    updatedResolutions.splice(index, 1);
+    setFormData(prev => ({ ...prev, resolutions: updatedResolutions }));
+  };
+
+  const handleSave = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "User not authenticated",
-        });
+        navigate('/auth');
         return;
       }
 
-      const documentData = {
-        companyName: formData.companyName || "Company Name Limited",
-        registrationNumber: formData.registrationNumber || "12345678",
-        registeredAddress: formData.registeredAddress || "123 Business Street",
-        shareholderName: "",
-        shareholderAddress: "",
-        voucherNumber: 1,
-        paymentDate: formData.paymentDate || new Date().toISOString(),
-        shareClass: formData.shareClassName || "",
-        amountPerShare: "0",
-        totalAmount: formData.amount?.toString() || "0",
-        directorName: "",
-        financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
-      };
-
-      let filePath = '';
-      const now = new Date();
-      const timestamp = now.toISOString().replace(/[:.]/g, '-');
-      const fileName = `board_minutes_${timestamp}.${format}`;
-
-      if (format === 'pdf') {
-        const doc = await downloadPDF(documentData);
-        const pdfBlob = doc.output('blob');
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('dividend_vouchers')
-          .upload(fileName, pdfBlob, {
-            contentType: 'application/pdf',
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-        filePath = uploadData.path;
-      } else {
-        const doc = await downloadWord(documentData);
-        const blob = await Packer.toBlob(doc);
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('dividend_vouchers')
-          .upload(fileName, blob, {
-            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            upsert: false
-          });
-
-        if (uploadError) throw uploadError;
-        filePath = uploadData.path;
-      }
-
-      // Save the record to the database
-      const { error: saveError } = await supabase
+      const { data, error } = await supabase
         .from('minutes')
         .insert({
           company_id: formData.companyId,
           user_id: user.id,
-          title: formData.title || 'Board Minutes',
-          meeting_date: formData.meetingDate || new Date().toISOString(),
-          file_path: filePath
-        });
+          meeting_date: formData.meetingDate,
+          meeting_type: formData.meetingType,
+          attendees: formData.attendees,
+          resolutions: formData.resolutions,
+          file_path: null
+        })
+        .select()
+        .single();
 
-      if (saveError) throw saveError;
+      if (error) throw error;
 
       toast({
         title: "Success",
-        description: `Board minutes downloaded and saved successfully as ${format.toUpperCase()}`,
+        description: "Board minutes saved successfully",
       });
 
-    } catch (error) {
-      console.error('Download error:', error);
+      navigate('/board-minutes');
+    } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: `Failed to generate ${format.toUpperCase()} document`,
+        description: error.message,
       });
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navigation />
-      <div className="container mx-auto px-4 py-24">
-        <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="text-xl font-semibold text-center">Board Minutes Document</h2>
-          
+      <main className="container mx-auto px-4 pt-24 pb-16">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8">Create Board Minutes</h1>
           <Card className="p-6">
-            <div className="space-y-6">
-              <div className="flex justify-center space-x-4">
-                <Button
-                  onClick={() => handleDownload('pdf')}
-                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  Download PDF
-                </Button>
-                <Button
-                  onClick={() => handleDownload('word')}
-                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
-                >
-                  <FileText className="w-4 h-4 mr-2" />
-                  Download Word
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="companyId">Company ID</Label>
+                <Input
+                  type="text"
+                  id="companyId"
+                  value={formData.companyId}
+                  onChange={(e) => handleInputChange(e, 'companyId')}
+                  placeholder="Enter company ID"
+                />
+              </div>
+              <div>
+                <Label htmlFor="meetingDate">Meeting Date</Label>
+                <Input
+                  type="date"
+                  id="meetingDate"
+                  value={formData.meetingDate}
+                  onChange={(e) => handleInputChange(e, 'meetingDate')}
+                />
+              </div>
+              <div>
+                <Label htmlFor="meetingType">Meeting Type</Label>
+                <Input
+                  type="text"
+                  id="meetingType"
+                  value={formData.meetingType}
+                  onChange={(e) => handleInputChange(e, 'meetingType')}
+                  placeholder="Enter meeting type"
+                />
+              </div>
+              <div>
+                <Label>Attendees</Label>
+                {formData.attendees.map((attendee, index) => (
+                  <div key={index} className="flex items-center space-x-2 mb-2">
+                    <Input
+                      type="text"
+                      value={attendee}
+                      onChange={(e) => handleAttendeesChange(index, e.target.value)}
+                      placeholder="Enter attendee name"
+                    />
+                    <Button type="button" variant="ghost" size="sm" onClick={() => handleRemoveAttendee(index)}>
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button type="button" size="sm" onClick={handleAddAttendee}>
+                  Add Attendee
                 </Button>
               </div>
-              
-              <div className="mt-8 p-6 border rounded-lg">
-                <div className="space-y-4">
-                  <h1 className="text-center font-bold text-xl">COMPANY NAME LIMITED</h1>
-                  <p className="text-center">Company number: Company registration number</p>
-                  <p className="text-center">Registered office address: Address line 1, Address line 2, Town, County, Postcode</p>
-                  
-                  <h2 className="text-center font-bold mt-8">MINUTES OF MEETING OF THE DIRECTORS</h2>
-                  
-                  <div className="space-y-2 mt-8">
-                    <p><span className="font-semibold">Date held:</span> {formData.meetingDate}</p>
-                    <p><span className="font-semibold">Held at:</span> {formData.meetingAddress}</p>
-                    <p><span className="font-semibold">Present:</span></p>
-                    <ul className="list-disc pl-8">
-                      {formData.directors?.map((director: any, index: number) => (
-                        <li key={index}>{director.name} (Director)</li>
-                      ))}
-                    </ul>
+              <div>
+                <Label>Resolutions</Label>
+                {formData.resolutions.map((resolution, index) => (
+                  <div key={index} className="flex flex-col space-y-2 mb-2">
+                    <Textarea
+                      value={resolution}
+                      onChange={(e) => handleResolutionsChange(index, e.target.value)}
+                      placeholder="Enter resolution"
+                      className="min-h-[80px]"
+                    />
+                    <Button type="button" variant="ghost" size="sm" onClick={() => handleRemoveResolution(index)}>
+                      Remove
+                    </Button>
                   </div>
-                  
-                  <div className="space-y-4 mt-8">
-                    <h3 className="font-semibold">1. NOTICE AND QUORUM</h3>
-                    <p>The chairperson reported that sufficient notice of the meeting had been given to all the directors, and as a quorum was present declared the meeting open.</p>
-                    
-                    <h3 className="font-semibold">2. DIVIDEND PAYMENT</h3>
-                    <p>It was resolved, having considered the Company's statutory accounts for the year ended {formData.financialYearEnd} that the Company pay on {formData.paymentDate} a final dividend for the year of £{formData.amount} ({formData.shareClassName}) share of £{formData.nominalValue} each in respect of the year ended {formData.financialYearEnd} to those shareholders registered at the close of business {formData.paymentDate}.</p>
-                    <p>It was resolved that dividend vouchers be distributed to shareholders and bank transfers made accordingly.</p>
-                    
-                    <h3 className="font-semibold">3. CLOSE</h3>
-                    <p>There being no further business the meeting was closed.</p>
-                    
-                    <div className="mt-8 space-y-4">
-                      <p>Signed: _________________________</p>
-                      <p>Dated: _________________________</p>
-                    </div>
-                  </div>
-                </div>
+                ))}
+                <Button type="button" size="sm" onClick={handleAddResolution}>
+                  Add Resolution
+                </Button>
               </div>
+              <Button onClick={handleSave}>Save Board Minutes</Button>
             </div>
           </Card>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

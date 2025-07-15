@@ -1,63 +1,84 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Home } from "lucide-react";
+import { Navigation } from "@/components/Navigation";
 
 const Signup = () => {
-  const navigate = useNavigate();
-  const [fullName, setFullName] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Passwords do not match",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
         options: {
           data: {
-            full_name: fullName,
-          },
-        },
+            full_name: formData.fullName,
+          }
+        }
       });
 
       if (signUpError) throw signUpError;
 
-      if (authData.user) {
-        // Create company record
-        const { error: companyError } = await supabase
-          .from('companies')
-          .insert([
-            {
-              name: companyName,
-              user_id: authData.user.id,
-            }
-          ]);
-
-        if (companyError) throw companyError;
-
-        // Update profile
+      if (signUpData.user) {
         const { error: profileError } = await supabase
           .from('profiles')
-          .update({ username: fullName })
-          .eq('id', authData.user.id);
+          .update({
+            full_name: formData.fullName,
+            subscription_plan: 'trial'
+          })
+          .eq('id', signUpData.user.id);
 
-        if (profileError) throw profileError;
-
-        navigate("/");
+        if (profileError) {
+          console.error('Profile update error:', profileError);
+        }
       }
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "An error occurred during signup");
+
+      toast({
+        title: "Success",
+        description: "Account created successfully! Please check your email to verify your account.",
+      });
+
+      navigate('/auth');
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -65,92 +86,66 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="absolute top-4 left-4">
-        <Button variant="ghost" asChild className="flex items-center gap-2">
-          <Link to="/">
-            <Home className="h-4 w-4" />
-            Home
-          </Link>
-        </Button>
-      </div>
-      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md p-8 space-y-6">
-          <div className="text-center space-y-2">
-            <h1 className="text-2xl font-bold text-gray-900">Create your account</h1>
-          </div>
-
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          <form onSubmit={handleSignup} className="space-y-4">
-            <div className="space-y-2">
-              <Input
-                id="fullName"
-                type="text"
-                placeholder="Full Name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                className="bg-gray-50 border-gray-200"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Input
-                id="companyName"
-                type="text"
-                placeholder="Company Name Ltd"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                required
-                className="bg-gray-50 border-gray-200"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Input
-                id="email"
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-gray-50 border-gray-200"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Input
-                id="password"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="bg-gray-50 border-gray-200"
-              />
-            </div>
-
-            <Button 
-              type="submit" 
-              className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-              disabled={isLoading}
-            >
-              Create Account
-            </Button>
-
-            <div className="text-center text-sm">
-              <span className="text-gray-600">Already have an account? </span>
-              <Link to="/auth" className="text-[#9b87f5] hover:underline">
-                Sign in
-              </Link>
-            </div>
-          </form>
+      <Navigation />
+      <main className="container mx-auto px-4 pt-24 pb-16">
+        <div className="flex justify-center items-center h-full">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle>Create an account</CardTitle>
+              <CardDescription>Enter your details below to create your account</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Enter your full name"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                />
+              </div>
+              <Button onClick={handleSubmit} disabled={isLoading}>
+                {isLoading ? "Creating account..." : "Create account"}
+              </Button>
+            </CardContent>
+          </Card>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

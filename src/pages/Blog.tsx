@@ -1,51 +1,11 @@
 
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { BlogList } from "@/components/blog/BlogList";
 import { Helmet } from "react-helmet";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
-import { useEffect, useState } from "react";
 
 const Blog = () => {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        setIsLoading(true);
-        const { data, error } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .eq('status', 'published')
-          .order('published_at', { ascending: false });
-        
-        if (error) throw error;
-        
-        // Use sample data if no posts are returned or there's a service error
-        if (!data || data.length === 0) {
-          setPosts(sampleBlogPosts);
-        } else {
-          setPosts(data);
-        }
-      } catch (err) {
-        console.error('Error fetching blog posts:', err);
-        setError(err);
-        // Fall back to sample data on error
-        setPosts(sampleBlogPosts);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
-  const calculateReadingTime = (content) => {
+  const calculateReadingTime = (content: string) => {
     const wordsPerMinute = 200;
     const wordCount = content.split(/\s+/).length;
     return Math.ceil(wordCount / wordsPerMinute);
@@ -67,7 +27,7 @@ const Blog = () => {
           "url": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`
         }
       },
-      "blogPost": posts.map(post => ({
+      "blogPost": sampleBlogPosts.map(post => ({
         "@type": "BlogPosting",
         "headline": post.title,
         "description": post.content.split('.').slice(0, 2).join('.') + '.',
@@ -110,25 +70,7 @@ const Blog = () => {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-[#9b87f5] text-left">Latest Articles</h1>
           
-          {error && (
-            <Alert variant="destructive" className="mb-8">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>
-                There was an issue loading blog posts. Showing sample content instead.
-              </AlertDescription>
-            </Alert>
-          )}
-          
-          {isLoading ? (
-            <div className="text-center py-8">Loading posts...</div>
-          ) : posts?.length === 0 ? (
-            <div className="text-center py-8 text-gray-600">
-              No blog posts available yet.
-            </div>
-          ) : (
-            <BlogList posts={posts} calculateReadingTime={calculateReadingTime} />
-          )}
+          <BlogList posts={sampleBlogPosts} calculateReadingTime={calculateReadingTime} />
         </div>
       </main>
       <Footer />

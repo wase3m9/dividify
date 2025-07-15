@@ -1,8 +1,6 @@
 
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { BlogPostHeader } from "@/components/blog/BlogPostHeader";
@@ -12,119 +10,36 @@ import { BlogPostNavigation } from "@/components/blog/BlogPostNavigation";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { CommentsSection } from "@/components/blog/CommentsSection";
 import { useEffect, useState } from "react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
 
 const BlogPost = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [post, setPost] = useState(null);
-  const [relatedPosts, setRelatedPosts] = useState([]);
-  const [navigation, setNavigation] = useState({ prev: null, next: null });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [post, setPost] = useState<any>(null);
+  const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
+  const [navigation, setNavigation] = useState<any>({ prev: null, next: null });
 
   useEffect(() => {
     const fetchPostData = async () => {
-      try {
-        setIsLoading(true);
+      // Find sample post
+      const samplePost = sampleBlogPosts.find(post => post.slug === slug);
+      
+      if (samplePost) {
+        setPost(samplePost);
+        setRelatedPosts(sampleBlogPosts.filter(p => p.slug !== slug));
         
-        // Find sample post if exists
-        const samplePost = sampleBlogPosts.find(post => post.slug === slug);
-        
-        // Try to fetch from database first
-        const { data, error } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .eq('slug', slug)
-          .eq('status', 'published')
-          .maybeSingle();
-        
-        if (error) throw error;
-        
-        // If no post found in database but it exists in samples, use that
-        if (!data && samplePost) {
-          setPost(samplePost);
-          setRelatedPosts(sampleBlogPosts.filter(p => p.slug !== slug));
-          
-          // Create simple navigation between sample posts
-          const currentIndex = sampleBlogPosts.findIndex(p => p.slug === slug);
-          setNavigation({
-            prev: currentIndex > 0 ? sampleBlogPosts[currentIndex - 1] : null,
-            next: currentIndex < sampleBlogPosts.length - 1 ? sampleBlogPosts[currentIndex + 1] : null
-          });
-        } 
-        // If found in database, use database data
-        else if (data) {
-          setPost(data);
-          
-          // Try to fetch related posts
-          const { data: relatedData } = await supabase
-            .from('blog_posts')
-            .select('*')
-            .eq('status', 'published')
-            .neq('slug', slug)
-            .limit(3);
-          
-          setRelatedPosts(relatedData || []);
-          
-          // Try to fetch navigation
-          const { data: postsData } = await supabase
-            .from('blog_posts')
-            .select('slug, title')
-            .eq('status', 'published')
-            .order('published_at', { ascending: true });
-          
-          if (postsData) {
-            const currentIndex = postsData.findIndex(p => p.slug === slug);
-            setNavigation({
-              prev: currentIndex > 0 ? postsData[currentIndex - 1] : null,
-              next: currentIndex < postsData.length - 1 ? postsData[currentIndex + 1] : null
-            });
-          }
-        }
-        // If not found anywhere, redirect to blog list
-        else {
-          navigate('/blog');
-        }
-      } catch (err) {
-        console.error('Error fetching blog post:', err);
-        setError(err);
-        
-        // If we have a sample post matching the slug, use that as fallback
-        const fallbackPost = sampleBlogPosts.find(post => post.slug === slug);
-        if (fallbackPost) {
-          setPost(fallbackPost);
-          setRelatedPosts(sampleBlogPosts.filter(p => p.slug !== slug));
-          
-          // Create simple navigation between sample posts
-          const currentIndex = sampleBlogPosts.findIndex(p => p.slug === slug);
-          setNavigation({
-            prev: currentIndex > 0 ? sampleBlogPosts[currentIndex - 1] : null,
-            next: currentIndex < sampleBlogPosts.length - 1 ? sampleBlogPosts[currentIndex + 1] : null
-          });
-        } else {
-          navigate('/blog');
-        }
-      } finally {
-        setIsLoading(false);
+        // Create simple navigation between sample posts
+        const currentIndex = sampleBlogPosts.findIndex(p => p.slug === slug);
+        setNavigation({
+          prev: currentIndex > 0 ? sampleBlogPosts[currentIndex - 1] : null,
+          next: currentIndex < sampleBlogPosts.length - 1 ? sampleBlogPosts[currentIndex + 1] : null
+        });
+      } else {
+        navigate('/blog');
       }
     };
 
     fetchPostData();
   }, [slug, navigate]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <main className="container mx-auto px-4 pt-24 pb-16">
-          <div className="text-center py-8">Loading post...</div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
 
   if (!post) {
     return (
@@ -198,16 +113,6 @@ const BlogPost = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 pt-24 pb-16">
-        {error && (
-          <Alert variant="destructive" className="mb-8 max-w-4xl mx-auto">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Database Connection Error</AlertTitle>
-            <AlertDescription>
-              Using local content as we couldn't connect to the database.
-            </AlertDescription>
-          </Alert>
-        )}
-        
         <article className="max-w-4xl mx-auto prose lg:prose-xl">
           <BlogPostHeader
             title={post?.title}
@@ -237,7 +142,7 @@ const BlogPost = () => {
   );
 };
 
-// Sample blog posts data used when database is unavailable
+// Sample blog posts data
 const sampleBlogPosts = [
   {
     id: '1',
