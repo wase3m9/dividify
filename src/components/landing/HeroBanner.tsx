@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, FileText, Zap, PoundSterling } from "lucide-react";
 import { useTypewriter } from "@/hooks/use-typewriter";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 interface HeroBannerProps {
@@ -13,6 +13,7 @@ export const HeroBanner = ({
   onStartFreeTrial
 }: HeroBannerProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const titleText = "Dividend Voucher and Board Meeting Solutions for Savvy Directors";
   const [animatedText, resetAnimation] = useTypewriter(titleText, 50);
 
@@ -20,6 +21,10 @@ export const HeroBanner = ({
   useEffect(() => {
     resetAnimation();
   }, [location, resetAnimation]);
+
+  const handleStartFreeTrial = () => {
+    navigate("/signup");
+  };
 
   return (
     <section className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6">
@@ -41,7 +46,7 @@ export const HeroBanner = ({
           Turn compliance into simplicity. Tailored for directors who need to manage dividends and board meetings effortlessly.
         </p>
 
-        <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm text-white px-8 py-6 text-lg animate-fade-in" onClick={onStartFreeTrial}>
+        <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm text-white px-8 py-6 text-lg animate-fade-in" onClick={handleStartFreeTrial}>
           Start Free Trial
           <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
@@ -57,7 +62,7 @@ export const HeroBanner = ({
           </span>
           <span className="flex items-center gap-2">
             <PoundSterling className="h-4 w-4" />
-            From £3/month
+            From £4/month
           </span>
         </div>
       </div>
