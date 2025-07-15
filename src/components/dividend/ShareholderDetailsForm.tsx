@@ -37,18 +37,20 @@ interface ShareholderDetailsFormProps {
   onSubmit: (data: ShareholderDetails) => void;
   onPrevious?: () => void;
   selectedCompanyId?: string;
+  initialData?: ShareholderDetails;
 }
 
 export const ShareholderDetailsForm = ({ 
   onSubmit, 
   onPrevious, 
-  selectedCompanyId 
+  selectedCompanyId,
+  initialData
 }: ShareholderDetailsFormProps) => {
   const { shareholders, selectedCompany } = useCompanyData(selectedCompanyId);
   
   const form = useForm<ShareholderDetails>({
     resolver: zodResolver(shareholderSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       shareholderName: "",
       shareClass: "",
       numberOfShares: "",
@@ -61,11 +63,18 @@ export const ShareholderDetailsForm = ({
     if (shareholders && shareholders.length > 0) {
       // Auto-select the first available share class if none is selected
       const firstShareClass = shareholders[0].share_class;
-      if (!form.getValues("shareClass") && firstShareClass) {
+      if (!form.getValues("shareClass") && firstShareClass && !initialData?.shareClass) {
         form.setValue("shareClass", firstShareClass);
       }
     }
-  }, [shareholders, form]);
+  }, [shareholders, form, initialData]);
+
+  // Reset form when initialData changes
+  useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form]);
 
   const handleSubmit = (data: ShareholderDetails) => {
     onSubmit(data);
