@@ -1,4 +1,3 @@
-
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +6,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
-import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 
 const Accountants = () => {
   const { toast } = useToast();
@@ -19,7 +17,7 @@ const Accountants = () => {
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
-        navigate('/auth');
+        navigate('/signup');
         return;
       }
 
@@ -37,6 +35,10 @@ const Accountants = () => {
         description: error.message,
       });
     }
+  };
+
+  const handleViewDirectorsPlan = () => {
+    navigate('/');
   };
 
   const features = [
@@ -123,6 +125,13 @@ const Accountants = () => {
                   <p className="text-sm text-purple-600">
                     14-day free trial • Cancel anytime
                   </p>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleViewDirectorsPlan}
+                    className="w-full mt-2 text-[#9b87f5] border-[#9b87f5] hover:bg-[#9b87f5] hover:text-white"
+                  >
+                    View Directors Plan
+                  </Button>
                 </CardContent>
               </Card>
             </div>
@@ -199,15 +208,79 @@ const Accountants = () => {
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <TestimonialsSection />
+        {/* Testimonials and Call to Action Section - combined into one section */}
+        <section className="py-24 bg-gray-50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
+            <div className="grid md:grid-cols-3 gap-8 mb-16">
+              <Card className="p-8 bg-white relative hover:animate-jiggle">
+                <div className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]">
+                  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M7 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2H8v3"/>
+                    <path d="M17 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2h-1v3"/>
+                  </svg>
+                </div>
+                <p className="text-gray-600 mb-6">
+                  "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures compliance."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                    JD
+                  </div>
+                  <div>
+                    <p className="font-semibold">John Doe</p>
+                    <p className="text-sm text-gray-500">Director, Tech Solutions Ltd</p>
+                  </div>
+                </div>
+              </Card>
 
-        {/* Call to Action Section - moved outside the max-w-4xl container */}
-        <div className="container mx-auto px-4 mb-12">
-          <div className="max-w-6xl mx-auto">
-            <Card className="bg-gray-50">
+              <Card className="p-8 bg-white relative hover:animate-jiggle">
+                <div className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]">
+                  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M7 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2H8v3"/>
+                    <path d="M17 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2h-1v3"/>
+                  </svg>
+                </div>
+                <p className="text-gray-600 mb-6">
+                  "The automated document generation is fantastic. It's like having a company secretary at your fingertips."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                    JS
+                  </div>
+                  <div>
+                    <p className="font-semibold">Jane Smith</p>
+                    <p className="text-sm text-gray-500">CEO, Growth Ventures</p>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-8 bg-white relative hover:animate-jiggle">
+                <div className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]">
+                  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M7 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2H8v3"/>
+                    <path d="M17 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2h-1v3"/>
+                  </svg>
+                </div>
+                <p className="text-gray-600 mb-6">
+                  "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration."
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                    RB
+                  </div>
+                  <div>
+                    <p className="font-semibold">Robert Brown</p>
+                    <p className="text-sm text-gray-500">Director, Innovative Solutions</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            {/* Call to Action within the same section */}
+            <Card className="bg-white border-2 border-[#9b87f5]">
               <CardHeader>
-                <CardTitle className="text-center">Ready to streamline your workflow?</CardTitle>
+                <CardTitle className="text-center text-2xl">Ready to streamline your workflow?</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <Button onClick={handleSubscribe} size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5]">
@@ -216,7 +289,7 @@ const Accountants = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );
