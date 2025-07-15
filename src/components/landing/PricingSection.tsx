@@ -14,7 +14,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
   const plans = [
     {
       name: "Starter",
-      price: "£3",
+      price: "£4",
       description: "Perfect for small businesses",
       icon: Star,
       features: [
