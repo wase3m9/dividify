@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
@@ -64,6 +63,39 @@ const Auth = () => {
     return "An unexpected error occurred. Please try again.";
   };
 
+  const redirectToCorrectDashboard = async (userId: string) => {
+    try {
+      console.log("Auth - Fetching user profile for:", userId);
+      
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('user_type')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error("Auth - Profile fetch error:", error);
+        // Default to company dashboard if profile fetch fails
+        window.location.href = "/company-dashboard";
+        return;
+      }
+
+      console.log("Auth - User profile:", profile);
+
+      if (profile?.user_type === 'accountant') {
+        console.log("Auth - Redirecting to accountant dashboard");
+        window.location.href = "/accountant-dashboard";
+      } else {
+        console.log("Auth - Redirecting to company dashboard");
+        window.location.href = "/company-dashboard";
+      }
+    } catch (error) {
+      console.error("Auth - Error during redirect:", error);
+      // Default to company dashboard on error
+      window.location.href = "/company-dashboard";
+    }
+  };
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -95,8 +127,10 @@ const Auth = () => {
 
       console.log("Sign in successful:", data);
       
-      // Redirect to the main dashboard route which will handle user type routing
-      window.location.href = "/dashboard";
+      // Redirect to the correct dashboard based on user type
+      if (data.user) {
+        await redirectToCorrectDashboard(data.user.id);
+      }
     } catch (error) {
       console.error("Sign in error:", error);
       if (error instanceof AuthError) {

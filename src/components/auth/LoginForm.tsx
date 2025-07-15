@@ -50,6 +50,39 @@ export const LoginForm = () => {
     return true;
   };
 
+  const redirectToCorrectDashboard = async (userId: string) => {
+    try {
+      console.log("LoginForm - Fetching user profile for:", userId);
+      
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('user_type')
+        .eq('id', userId)
+        .single();
+
+      if (error) {
+        console.error("LoginForm - Profile fetch error:", error);
+        // Default to company dashboard if profile fetch fails
+        window.location.href = "/company-dashboard";
+        return;
+      }
+
+      console.log("LoginForm - User profile:", profile);
+
+      if (profile?.user_type === 'accountant') {
+        console.log("LoginForm - Redirecting to accountant dashboard");
+        window.location.href = "/accountant-dashboard";
+      } else {
+        console.log("LoginForm - Redirecting to company dashboard");
+        window.location.href = "/company-dashboard";
+      }
+    } catch (error) {
+      console.error("LoginForm - Error during redirect:", error);
+      // Default to company dashboard on error
+      window.location.href = "/company-dashboard";
+    }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -90,8 +123,8 @@ export const LoginForm = () => {
           description: "Successfully logged in",
         });
 
-        // Redirect to the main dashboard route which will handle user type routing
-        window.location.href = "/dashboard";
+        // Redirect to the correct dashboard based on user type
+        await redirectToCorrectDashboard(data.user.id);
       } else {
         throw new Error("No user data returned");
       }
