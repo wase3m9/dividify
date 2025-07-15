@@ -28,7 +28,7 @@ export const useUserTypeRouting = () => {
     if (profile?.user_type === 'accountant') {
       navigate('/accountant-dashboard');
     } else {
-      navigate('/dividend-board');
+      navigate('/company-dashboard');
     }
   };
 

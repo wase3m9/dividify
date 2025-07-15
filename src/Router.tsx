@@ -4,7 +4,7 @@ import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import AuthCallback from "@/pages/AuthCallback";
 import Signup from "@/pages/Signup";
-import DividendBoard from "@/pages/DividendBoard";
+import CompanyDashboard from "@/pages/CompanyDashboard";
 import Profile from "@/pages/Profile";
 import Accountants from "@/pages/Accountants";
 import AccountantDashboard from "@/pages/AccountantDashboard";
@@ -47,8 +47,8 @@ export const router = createBrowserRouter([
     element: <DashboardRouter />,
   },
   {
-    path: "/dividend-board",
-    element: <DividendBoard />,
+    path: "/company-dashboard",
+    element: <CompanyDashboard />,
   },
   {
     path: "/profile",
@@ -124,6 +124,5 @@ export const router = createBrowserRouter([
   },
 ]);
 
-// Default export for backwards compatibility
 const Router = () => <RouterProvider router={router} />;
 export default Router;
