@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
 import { XCircle } from "lucide-react";
+import { cleanupAuthState } from "@/utils/authCleanup";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -60,6 +61,16 @@ export const LoginForm = () => {
     setIsLoading(true);
     
     try {
+      console.log("Cleaning up auth state...");
+      cleanupAuthState();
+      
+      // Attempt to sign out any existing session
+      try {
+        await supabase.auth.signOut({ scope: 'global' });
+      } catch (signOutError) {
+        console.log("No existing session to sign out or error:", signOutError);
+      }
+      
       console.log("Attempting login with email:", email);
       
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -71,13 +82,14 @@ export const LoginForm = () => {
 
       if (error) throw error;
 
-      if (data.user) {
+      if (data.user && data.session) {
         console.log("Login successful:", data.user);
         toast({
           title: "Success",
           description: "Successfully logged in",
         });
-        navigate("/dividend-board");
+        // Force a full page refresh to ensure clean state
+        window.location.href = "/dividend-board";
       } else {
         throw new Error("No user data returned");
       }

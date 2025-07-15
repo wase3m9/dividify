@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { cleanupAuthState } from "@/utils/authCleanup";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -74,6 +76,16 @@ const Auth = () => {
     console.log("Attempting sign in with email:", email);
 
     try {
+      // Clean up auth state before signing in
+      cleanupAuthState();
+      
+      // Attempt to sign out any existing session
+      try {
+        await supabase.auth.signOut({ scope: 'global' });
+      } catch (signOutError) {
+        console.log("No existing session to sign out or error:", signOutError);
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
@@ -82,7 +94,8 @@ const Auth = () => {
       if (error) throw error;
 
       console.log("Sign in successful:", data);
-      navigate("/dividend-board");
+      // Force a full page refresh to ensure clean state
+      window.location.href = "/dividend-board";
     } catch (error) {
       console.error("Sign in error:", error);
       if (error instanceof AuthError) {

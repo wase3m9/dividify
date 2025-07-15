@@ -21,6 +21,18 @@ Deno.serve(async (req) => {
 
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey)
 
+    // First, try to delete the existing user if it exists
+    try {
+      const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers()
+      const existingUser = existingUsers.users.find(user => user.email === 'wase3m@hotmail.com')
+      if (existingUser) {
+        await supabaseAdmin.auth.admin.deleteUser(existingUser.id)
+        console.log('Deleted existing user')
+      }
+    } catch (err) {
+      console.log('No existing user to delete or error deleting:', err)
+    }
+
     // Create user with admin role
     const { data: authUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email: 'wase3m@hotmail.com',
@@ -29,30 +41,45 @@ Deno.serve(async (req) => {
       user_metadata: { full_name: 'Admin User' }
     })
 
-    if (createError) throw createError
+    if (createError) {
+      console.error('Create user error:', createError)
+      throw createError
+    }
+
+    console.log('User created successfully:', authUser.user?.id)
 
     if (authUser.user) {
-      // Update profile to match current schema
-      const { error: updateError } = await supabaseAdmin
+      // Insert or update profile to match current schema
+      const { error: upsertError } = await supabaseAdmin
         .from('profiles')
-        .update({ 
+        .upsert({ 
+          id: authUser.user.id,
           full_name: 'Admin User',
           subscription_plan: 'enterprise',
           current_month_dividends: 0,
           current_month_minutes: 0
-        })
-        .eq('id', authUser.user.id)
+        }, { onConflict: 'id' })
 
-      if (updateError) throw updateError
+      if (upsertError) {
+        console.error('Profile upsert error:', upsertError)
+        throw upsertError
+      }
+
+      console.log('Profile updated successfully')
 
       return new Response(
-        JSON.stringify({ message: 'Admin user created successfully' }),
+        JSON.stringify({ 
+          message: 'Admin user created successfully',
+          userId: authUser.user.id,
+          email: authUser.user.email
+        }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
     throw new Error('Failed to create user')
   } catch (error) {
+    console.error('Function error:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
