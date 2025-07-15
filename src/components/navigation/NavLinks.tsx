@@ -1,7 +1,7 @@
+
 import { cn } from "@/lib/utils";
 import { MainNavLinks } from "./MainNavLinks";
 import { LandingNavLinks } from "./LandingNavLinks";
-import { AccountantLink } from "./AccountantLink";
 import { useLocation } from "react-router-dom";
 
 interface NavLinksProps {
@@ -25,7 +25,6 @@ export const NavLinks = ({
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <MainNavLinks user={user} scrollToTop={scrollToTop} />
-      <AccountantLink />
       {!user && (isLandingPage || isAccountantsPage) && (
         <LandingNavLinks 
           scrollToSection={scrollToSection} 

@@ -35,9 +35,6 @@ export const AuthButtons = ({
       <Button variant="ghost" asChild>
         <Link to="/auth">Log In</Link>
       </Button>
-      <Button asChild>
-        <Link to="/get-started">Get Started</Link>
-      </Button>
     </div>
   );
 };

@@ -75,10 +75,11 @@ const Accountants = () => {
               Save time and ensure compliance with automation that provides accurate, real-time documents tailored to your business needs.
             </p>
             <div className="flex gap-4 justify-center">
-              <Button className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8" onClick={() => window.location.href = 'https://calendly.com/your-booking-link'}>
-                Book a demo
-              </Button>
-              <Button variant="outline" className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8" onClick={() => navigate('/signup')}>
+              <Button 
+                variant="outline" 
+                className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8"
+                onClick={() => navigate('/signup')}
+              >
                 Start a free trial
               </Button>
             </div>
