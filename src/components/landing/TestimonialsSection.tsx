@@ -1,10 +1,11 @@
+
 import { Card } from "@/components/ui/card";
 import { MessageSquareQuote } from "lucide-react";
 
 export const TestimonialsSection = () => {
   return (
     <section className="py-24 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
         <div className="grid md:grid-cols-3 gap-8">
           <Card className="p-8 bg-white relative hover:animate-jiggle">
