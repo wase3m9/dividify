@@ -1,115 +1,125 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from "@/pages/Index";
-import Auth from "@/pages/Auth";
-import Signup from "@/pages/Signup";
 import DividendBoard from "@/pages/DividendBoard";
+import AccountantDashboard from "@/pages/AccountantDashboard";
 import DividendVoucherForm from "@/pages/DividendVoucherForm";
 import DividendAmountForm from "@/pages/DividendAmountForm";
-import DividendWaivers from "@/pages/DividendWaivers";
 import BoardMinutesForm from "@/pages/BoardMinutesForm";
+import Auth from "@/pages/Auth";
+import Signup from "@/pages/Signup";
+import Profile from "@/pages/Profile";
+import DividendTemplate from "@/pages/DividendTemplate";
 import BoardMinutesTemplate from "@/pages/BoardMinutesTemplate";
 import BoardMinutesPreview from "@/pages/BoardMinutesPreview";
-import Profile from "@/pages/Profile";
 import Contact from "@/pages/Contact";
+import Accountants from "@/pages/Accountants";
+import GetStarted from "@/pages/GetStarted";
+import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
+import Api from "@/pages/Api";
+import DividendWaivers from "@/pages/DividendWaivers";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
-import Blog from "@/pages/Blog";
-import BlogPost from "@/pages/BlogPost";
-import DividendTemplate from "@/pages/DividendTemplate";
-import Accountants from "@/pages/Accountants";
-import Api from "@/pages/Api";
-import AccountantDashboard from "@/pages/AccountantDashboard";
 
-const routes = [
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
   },
   {
-    path: "auth",
-    element: <Auth />,
+    path: "/get-started",
+    element: <GetStarted />,
   },
   {
-    path: "signup",
-    element: <Signup />,
+    path: "/dashboard",
+    element: <DashboardRouter />,
   },
   {
-    path: "dividend-board",
+    path: "/dividend-board",
     element: <DividendBoard />,
   },
   {
-    path: "dividend-voucher",
+    path: "/accountant-dashboard",
+    element: <AccountantDashboard />,
+  },
+  {
+    path: "/dividend-voucher",
     element: <DividendVoucherForm />,
   },
   {
-    path: "dividend-amount",
+    path: "/dividend-amount",
     element: <DividendAmountForm />,
   },
   {
-    path: "dividend-waivers",
-    element: <DividendWaivers />,
-  },
-  {
-    path: "board-minutes",
+    path: "/board-minutes",
     element: <BoardMinutesForm />,
   },
   {
-    path: "board-minutes-template",
-    element: <BoardMinutesTemplate />,
+    path: "/auth",
+    element: <Auth />,
   },
   {
-    path: "board-minutes/preview",
-    element: <BoardMinutesPreview />,
+    path: "/signup",
+    element: <Signup />,
   },
   {
-    path: "profile",
+    path: "/profile",
     element: <Profile />,
   },
   {
-    path: "contact",
-    element: <Contact />,
-  },
-  {
-    path: "privacy-policy",
-    element: <PrivacyPolicy />,
-  },
-  {
-    path: "terms-of-service",
-    element: <TermsOfService />,
-  },
-  {
-    path: "cookie-policy",
-    element: <CookiePolicy />,
-  },
-  {
-    path: "blog",
-    element: <Blog />,
-  },
-  {
-    path: "blog/:slug",
-    element: <BlogPost />,
-  },
-  {
-    path: "dividend-template",
+    path: "/dividend-template",
     element: <DividendTemplate />,
   },
   {
-    path: "accountants",
+    path: "/board-minutes-template",
+    element: <BoardMinutesTemplate />,
+  },
+  {
+    path: "/board-minutes-preview",
+    element: <BoardMinutesPreview />,
+  },
+  {
+    path: "/contact",
+    element: <Contact />,
+  },
+  {
+    path: "/accountants",
     element: <Accountants />,
   },
   {
-    path: "api",
+    path: "/blog",
+    element: <Blog />,
+  },
+  {
+    path: "/blog/:slug",
+    element: <BlogPost />,
+  },
+  {
+    path: "/api",
     element: <Api />,
   },
   {
-    path: "accountant-dashboard",
-    element: <AccountantDashboard />,
+    path: "/dividend-waivers",
+    element: <DividendWaivers />,
   },
-];
+  {
+    path: "/privacy-policy",
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: "/terms-of-service",
+    element: <TermsOfService />,
+  },
+  {
+    path: "/cookie-policy",
+    element: <CookiePolicy />,
+  },
+]);
 
-export const router = createBrowserRouter(routes);
-
-export function Router() {
+const Router = () => {
   return <RouterProvider router={router} />;
-}
+};
+
+export default Router;

@@ -11,11 +11,13 @@ import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { FAQSection } from "@/components/landing/FAQSection";
 import { Footer } from "@/components/landing/Footer";
 import { Helmet } from "react-helmet";
+import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
 
 const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState<User | null>(null);
+  const { routeToCorrectDashboard } = useUserTypeRouting();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -41,15 +43,14 @@ const Index = () => {
 
   const handleStartFreeTrial = () => {
     if (user) {
-      navigate("/dividend-board");
+      routeToCorrectDashboard();
     } else {
-      navigate("/auth");
+      navigate("/get-started");
     }
   };
 
   // Generate structured data for the home page
   const generateHomeSchema = () => {
-    // Organization schema
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "Organization",
@@ -63,7 +64,6 @@ const Index = () => {
       ]
     };
 
-    // Website schema
     const websiteSchema = {
       "@context": "https://schema.org",
       "@type": "WebSite",

@@ -1,106 +1,131 @@
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import Stripe from 'https://esm.sh/stripe@14.21.0';
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
+import Stripe from "https://esm.sh/stripe@14.21.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const PRICE_IDS = {
-  starter: 'price_1Qfx73DQxPzFmGY0f82y3uac',
-  professional: 'price_1Qfx7JDQxPzFmGY0FoazQTnv',
-  enterprise: 'price_1Qfx7ZDQxPzFmGY0zwne7VoC',
-  accountant: 'price_1QiOntDQxPzFmGY0u6RQ4C0f'
+const logStep = (step: string, details?: any) => {
+  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
+  console.log(`[CREATE-CHECKOUT] ${step}${detailsStr}`);
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const supabaseClient = createClient(
-    Deno.env.get('SUPABASE_URL') ?? '',
-    Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-  );
-
   try {
-    // Get the plan from the request
-    const { plan } = await req.json();
-    const priceId = PRICE_IDS[plan];
+    logStep("Function started");
 
-    if (!priceId) {
-      throw new Error('Invalid plan selected');
-    }
+    const supabaseClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } }
+    );
 
-    // Get the session or user object
-    const authHeader = req.headers.get('Authorization')!;
-    const token = authHeader.replace('Bearer ', '');
+    const authHeader = req.headers.get("Authorization")!;
+    const token = authHeader.replace("Bearer ", "");
     const { data } = await supabaseClient.auth.getUser(token);
     const user = data.user;
-    const email = user?.email;
-
-    if (!email) {
-      throw new Error('No email found');
+    
+    if (!user?.email) {
+      throw new Error("User not authenticated or email not available");
     }
 
-    const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
-      apiVersion: '2023-10-16',
+    logStep("User authenticated", { userId: user.id, email: user.email });
+
+    const { priceId } = await req.json();
+    
+    if (!priceId) {
+      throw new Error("Price ID is required");
+    }
+
+    logStep("Price ID received", { priceId });
+
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+      apiVersion: "2023-10-16",
     });
 
+    // Check if customer exists
     const customers = await stripe.customers.list({
-      email: email,
-      limit: 1
+      email: user.email,
+      limit: 1,
     });
 
-    let customer_id = undefined;
+    let customerId;
     if (customers.data.length > 0) {
-      customer_id = customers.data[0].id;
-      // check if already subscribed to this price
-      const subscriptions = await stripe.subscriptions.list({
-        customer: customers.data[0].id,
-        status: 'active',
-        price: priceId,
-        limit: 1
-      });
-
-      if (subscriptions.data.length > 0) {
-        throw new Error("You are already subscribed to this plan");
-      }
+      customerId = customers.data[0].id;
+      logStep("Existing customer found", { customerId });
     }
 
-    console.log('Creating payment session...');
+    // Determine user type and subscription plan based on price ID
+    let userType = 'individual';
+    let subscriptionPlan = 'starter';
+    
+    // Map price IDs to plans and user types
+    const priceMapping: { [key: string]: { plan: string; userType: string } } = {
+      'price_1QTr2mP5i3F4Z8xZyNQJBjhD': { plan: 'starter', userType: 'individual' },
+      'price_1QTr3QP5i3F4Z8xZuDHGNLzS': { plan: 'professional', userType: 'individual' },
+      'price_1QTr4AP5i3F4Z8xZK8b2tLmX': { plan: 'enterprise', userType: 'individual' },
+      'price_1QTr4sP5i3F4Z8xZvBpQMbRz': { plan: 'accountant', userType: 'accountant' },
+    };
+
+    const mapping = priceMapping[priceId];
+    if (mapping) {
+      userType = mapping.userType;
+      subscriptionPlan = mapping.plan;
+    }
+
+    logStep("Determined user type and plan", { userType, subscriptionPlan });
+
+    // Create checkout session
     const session = await stripe.checkout.sessions.create({
-      customer: customer_id,
-      customer_email: customer_id ? undefined : email,
+      customer: customerId,
+      customer_email: customerId ? undefined : user.email,
       line_items: [
         {
           price: priceId,
           quantity: 1,
         },
       ],
-      mode: 'subscription',
-      success_url: `${req.headers.get('origin')}/dividend-board`,
-      cancel_url: `${req.headers.get('origin')}/`,
+      mode: "subscription",
+      success_url: `${req.headers.get("origin")}/profile?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.get("origin")}/pricing`,
+      metadata: {
+        user_id: user.id,
+        user_type: userType,
+        subscription_plan: subscriptionPlan,
+      },
     });
 
-    console.log('Payment session created:', session.id);
-    return new Response(
-      JSON.stringify({ url: session.url }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      }
-    );
+    logStep("Checkout session created", { sessionId: session.id });
+
+    // Update user profile with user type and subscription plan
+    await supabaseClient
+      .from('profiles')
+      .update({
+        user_type: userType,
+        subscription_plan: subscriptionPlan,
+      })
+      .eq('id', user.id);
+
+    logStep("User profile updated", { userType, subscriptionPlan });
+
+    return new Response(JSON.stringify({ url: session.url }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
+
   } catch (error) {
-    console.error('Error creating payment session:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
-      }
-    );
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logStep("ERROR", { message: errorMessage });
+    return new Response(JSON.stringify({ error: errorMessage }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+    });
   }
 });
