@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
@@ -97,7 +98,7 @@ const Profile = () => {
           <Card className="p-6">
             <div className="space-y-6">
               <div>
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="fullName" className="text-left">Full Name</Label>
                 <Input
                   id="fullName"
                   value={formData.fullName}
@@ -107,18 +108,18 @@ const Profile = () => {
               </div>
 
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-left">Email</Label>
                 <Input
                   id="email"
                   value={user?.email || ''}
                   disabled
                   className="bg-gray-50"
                 />
-                <p className="text-sm text-gray-500 mt-1">Email cannot be changed</p>
+                <p className="text-sm text-gray-500 mt-1 text-left">Email cannot be changed</p>
               </div>
 
               <div>
-                <Label htmlFor="plan">Subscription Plan</Label>
+                <Label htmlFor="plan" className="text-left">Subscription Plan</Label>
                 <Input
                   id="plan"
                   value={profile?.subscription_plan || 'trial'}
