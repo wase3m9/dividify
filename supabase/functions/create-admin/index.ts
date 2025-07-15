@@ -32,17 +32,14 @@ Deno.serve(async (req) => {
     if (createError) throw createError
 
     if (authUser.user) {
-      // Update profile to admin role
+      // Update profile to match current schema
       const { error: updateError } = await supabaseAdmin
         .from('profiles')
         .update({ 
-          role: 'admin',
+          full_name: 'Admin User',
           subscription_plan: 'enterprise',
-          trial_start_date: new Date().toISOString(),
-          companies_count: 0,
           current_month_dividends: 0,
-          current_month_minutes: 0,
-          trial_expired: false
+          current_month_minutes: 0
         })
         .eq('id', authUser.user.id)
 
