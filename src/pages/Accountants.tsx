@@ -1,298 +1,239 @@
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Users, Building2, FileText, Clock, Zap, Shield } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { Card } from "@/components/ui/card";
+import { CheckCircle, Building2, MessageSquareQuote, Timer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
-
+import { Helmet } from "react-helmet";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
 const Accountants = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
-  const { routeToCorrectDashboard } = useUserTypeRouting();
-
+  const {
+    toast
+  } = useToast();
   const handleSubscribe = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        navigate('/signup');
+      const {
+        data: {
+          session
+        }
+      } = await supabase.auth.getSession();
+      if (!session) {
+        navigate("/auth");
         return;
       }
-
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId: 'price_1QTr4sP5i3F4Z8xZvBpQMbRz' }
+      const {
+        data,
+        error
+      } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          plan: 'accountant'
+        }
       });
-
       if (error) throw error;
-
-      window.location.href = data.url;
-    } catch (error: any) {
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: error.message,
+        description: "Something went wrong. Please try again.",
+        duration: 5000
       });
     }
   };
-
-  const handleViewDirectorsPlan = () => {
-    navigate('/');
-  };
-
-  const features = [
-    {
-      icon: <Building2 className="h-6 w-6" />,
-      title: "Unlimited Companies",
-      description: "Manage dividend vouchers and board minutes for unlimited companies under one account"
-    },
-    {
-      icon: <FileText className="h-6 w-6" />,
-      title: "Unlimited Documents",
-      description: "Generate unlimited dividend vouchers and board minutes without monthly limits"
-    },
-    {
-      icon: <Zap className="h-6 w-6" />,
-      title: "API Access",
-      description: "Integrate with your existing workflow using our comprehensive API"
-    },
-    {
-      icon: <Users className="h-6 w-6" />,
-      title: "Client Management",
-      description: "Easy company switching and client management dashboard"
-    },
-    {
-      icon: <Clock className="h-6 w-6" />,
-      title: "Priority Support",
-      description: "Get fast, dedicated support for all your technical questions"
-    },
-    {
-      icon: <Shield className="h-6 w-6" />,
-      title: "Advanced Features",
-      description: "Custom templates, white-label options, and advanced compliance features"
+  const scrollToPricing = () => {
+    const pricingElement = document.querySelector('#accountant-pricing');
+    if (pricingElement) {
+      pricingElement.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
-  ];
+  };
+  return <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Dividify for Accountants | Streamline Dividend Documentation</title>
+        <meta name="description" content="Simplify dividend voucher preparation and board meeting documentation for your clients. Dividify offers automated solutions tailored for accounting professionals." />
+        <meta name="keywords" content="dividend vouchers, board minutes, accounting software, dividend documentation, accountant tools" />
+        <meta property="og:title" content="Dividify for Accountants | Streamline Dividend Documentation" />
+        <meta property="og:description" content="Simplify dividend voucher preparation and board meeting documentation for your clients. Dividify offers automated solutions tailored for accounting professionals." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png" />
+        <link rel="canonical" href={window.location.href} />
+      </Helmet>
 
-  return (
-    <div className="min-h-screen bg-white">
       <Navigation />
-      
-      <main className="pt-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Accountants & Agents Plan
-              </h1>
-              <p className="text-xl text-gray-600">
-                Everything you need to manage multiple companies efficiently
+      <main className="container mx-auto px-4 pt-24">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h1 className="text-4xl font-bold mb-6">Dividend compliance. Simplified.</h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+              Where & when you need it. Eliminate the hassle of preparing dividend vouchers and recording board meetings. 
+              Save time and ensure compliance with automation that provides accurate, real-time documents tailored to your business needs.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Button className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8" onClick={() => window.location.href = 'https://calendly.com/your-booking-link'}>
+                Book a demo
+              </Button>
+              <Button variant="outline" className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8" onClick={() => navigate('/signup')}>
+                Start a free trial
+              </Button>
+            </div>
+          </div>
+
+          <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all hover:animate-jiggle max-w-md mx-auto mb-24" id="accountant-pricing">
+            <div className="flex items-center gap-2 mb-4">
+              <Building2 className="h-6 w-6 text-[#9b87f5]" />
+              <h3 className="text-xl font-bold">Accountants</h3>
+            </div>
+            <div className="mb-6">
+              <span className="text-4xl font-bold">£20</span>
+              <span className="text-gray-600">Accountants managing multiple clients</span>
+            </div>
+            <ul className="space-y-4 mb-8">
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Unlimited companies</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Unlimited Dividend Vouchers</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Unlimited Board Minutes</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Custom templates</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>24/7 support</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>API access</span>
+              </li>
+            </ul>
+            <Button className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]" onClick={handleSubscribe}>
+              Subscribe Now
+            </Button>
+          </Card>
+
+          {/* Integrations Section */}
+          <div className="py-16 bg-gray-50 rounded-lg mb-16">
+            <div className="text-center mb-16 bg-gray-100 py-10 px-6 rounded-lg border border-gray-200">
+              <div className="flex justify-center items-center gap-2 mb-3">
+                <h2 className="text-4xl font-bold text-gray-500">
+                  Connect <span className="text-gray-400">Dividify</span> with your accounting software
+                </h2>
+                <Badge className="bg-gray-300 hover:bg-gray-300 text-gray-600">Coming Soon</Badge>
+              </div>
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Timer className="h-5 w-5 text-gray-500" />
+                <p className="text-gray-500 font-medium">Integration Launching Q3 2025</p>
+              </div>
+              <p className="text-gray-500 max-w-3xl mx-auto">
+                We're working on seamless connections with your accounting software to simplify your workflows. 
+                Soon Dividify will connect with leading platforms like QuickBooks, Xero, and others, 
+                allowing you to manage dividends and board meeting compliance effortlessly. 
+                Keep your accounting streamlined and your documentation compliant without any hassle.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <div>
-                <h2 className="text-2xl font-semibold mb-6">Perfect for:</h2>
-                <ul className="space-y-4">
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                    <span>Chartered Accountants managing multiple clients</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                    <span>Bookkeeping services</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                    <span>Company formation agents</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                    <span>Corporate service providers</span>
-                  </li>
-                </ul>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto px-4 opacity-50">
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
+                <img src="/lovable-uploads/5ffca2d9-09a0-475f-afda-b85ebb91bd7f.png" alt="Xero" className="h-16 w-auto mx-auto object-contain" />
               </div>
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
+                <img src="/lovable-uploads/d8e5ad39-7eae-4b22-bde1-df6a305c250d.png" alt="QuickBooks" className="h-16 w-auto mx-auto object-contain" />
+              </div>
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
+                <img src="/lovable-uploads/e25ce830-f9e6-4996-8e0c-434dfe8083d9.png" alt="Sage" className="h-16 w-auto mx-auto object-contain" />
+              </div>
+              <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
+                <img src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" alt="FreeAgent" className="h-16 w-auto mx-auto object-contain" />
+              </div>
+            </div>
 
-              <Card className="border-2 border-[#9b87f5] bg-purple-50">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-3xl text-[#9b87f5]">£20</CardTitle>
-                  <CardDescription className="text-purple-700">per month</CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <Button onClick={handleSubscribe} className="w-full mb-4 bg-[#9b87f5] hover:bg-[#8b77e5]">
-                    Start Your Account
-                  </Button>
-                  <p className="text-sm text-purple-600">
-                    14-day free trial • Cancel anytime
+            {/* Testimonials Section */}
+            <div className="mt-24 mb-24">
+              <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
+              <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <Card className="p-8 bg-white relative hover:animate-jiggle">
+                  <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+                  <p className="text-gray-600 mb-6">
+                    "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures we're always compliant."
                   </p>
-                  <Button 
-                    variant="outline" 
-                    onClick={handleViewDirectorsPlan}
-                    className="w-full mt-2 text-[#9b87f5] border-[#9b87f5] hover:bg-[#9b87f5] hover:text-white"
-                  >
-                    View Directors Plan
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-
-        {/* Features Section - moved outside the max-w-4xl container */}
-        <div className="container mx-auto px-4 mb-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <Card key={index} className="text-center p-8 hover:shadow-lg transition-shadow">
-                  <CardHeader className="pb-6">
-                    <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <div className="text-[#9b87f5]">
-                        {feature.icon}
-                      </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                      JD
                     </div>
-                    <CardTitle className="text-xl mb-4">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <CardDescription className="text-base leading-relaxed">{feature.description}</CardDescription>
-                  </CardContent>
+                    <div>
+                      <p className="font-semibold">John Doe</p>
+                      <p className="text-sm text-gray-500">Director, Tech Solutions Ltd</p>
+                    </div>
+                  </div>
                 </Card>
-              ))}
+
+                <Card className="p-8 bg-white relative hover:animate-jiggle">
+                  <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+                  <p className="text-gray-600 mb-6">
+                    "The automated document generation is fantastic. It's like having a company secretary at your fingertips."
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                      JS
+                    </div>
+                    <div>
+                      <p className="font-semibold">Jane Smith</p>
+                      <p className="text-sm text-gray-500">CEO, Growth Ventures</p>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className="p-8 bg-white relative hover:animate-jiggle">
+                  <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+                  <p className="text-gray-600 mb-6">
+                    "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration."
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+                      RB
+                    </div>
+                    <div>
+                      <p className="font-semibold">Robert Brown</p>
+                      <p className="text-sm text-gray-500">Director, Innovative Solutions</p>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
+
+            {/* New Try Dividify Section */}
+            <div className="text-center mt-16 max-w-3xl mx-auto px-4">
+              <h3 className="text-4xl font-bold mb-6">Try <span className="text-[#9b87f5]">Dividify</span> today with our 14-day free trial</h3>
+              <p className="text-xl text-gray-600 mb-8">
+                Thousands of directors and businesses rely on <span className="text-[#9b87f5]">Dividify</span> to streamline their dividend vouchers and board meeting records, saving time for what matters most. Click below to learn more.
+              </p>
+              <div className="flex gap-4 justify-center">
+                <Button className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8" onClick={() => navigate('/signup')}>
+                  Start a free trial
+                </Button>
+                <Button variant="outline" className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8" onClick={scrollToPricing}>
+                  View pricing
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Integration Section */}
-        <section className="py-20 bg-gray-50 mb-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 text-gray-500 text-sm mb-4">
-                Coming Soon
-              </div>
-              <h2 className="text-4xl font-bold text-gray-500 mb-4">
-                Connect Dividify with your accounting software
-              </h2>
-              <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-6">
-                <Clock className="h-4 w-4" />
-                <span>Integration Launching Q4 2025</span>
-              </div>
-              <p className="text-sm text-gray-500 max-w-3xl mx-auto">
-                We're working on seamless connections with your accounting software to simplify your workflows. Soon 
-                Dividify will connect with leading platforms like QuickBooks, Xero, and others, allowing you to manage 
-                dividends and board meeting compliance effortlessly. Keep your accounting streamlined and your 
-                documentation compliant without any hassle.
-              </p>
-            </div>
-            
-            <div className="flex items-center justify-center gap-8 opacity-60">
-              <img 
-                src="/lovable-uploads/8a0c16ac-6c78-46b6-9188-7485f4dafec7.png" 
-                alt="Xero" 
-                className="h-16 object-contain grayscale"
-              />
-              <img 
-                src="/lovable-uploads/81d4efca-d219-452a-9d1d-94040a84119d.png" 
-                alt="QuickBooks" 
-                className="h-12 object-contain grayscale"
-              />
-              <img 
-                src="/lovable-uploads/bbce86a0-dde1-4c68-b1d0-74cd14b9af6c.png" 
-                alt="Sage" 
-                className="h-16 object-contain grayscale"
-              />
-              <img 
-                src="/lovable-uploads/1de316a5-53a6-4527-b5ef-01ced10ba2fe.png" 
-                alt="FreeAgent" 
-                className="h-12 object-contain grayscale"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials and Call to Action Section - combined into one section */}
-        <section className="py-24 bg-gray-50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
-            <div className="grid md:grid-cols-3 gap-8 mb-16">
-              <Card className="p-8 bg-white relative hover:animate-jiggle">
-                <div className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]">
-                  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M7 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2H8v3"/>
-                    <path d="M17 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2h-1v3"/>
-                  </svg>
-                </div>
-                <p className="text-gray-600 mb-6">
-                  "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures compliance."
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
-                    JD
-                  </div>
-                  <div>
-                    <p className="font-semibold">John Doe</p>
-                    <p className="text-sm text-gray-500">Director, Tech Solutions Ltd</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-8 bg-white relative hover:animate-jiggle">
-                <div className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]">
-                  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M7 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2H8v3"/>
-                    <path d="M17 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2h-1v3"/>
-                  </svg>
-                </div>
-                <p className="text-gray-600 mb-6">
-                  "The automated document generation is fantastic. It's like having a company secretary at your fingertips."
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
-                    JS
-                  </div>
-                  <div>
-                    <p className="font-semibold">Jane Smith</p>
-                    <p className="text-sm text-gray-500">CEO, Growth Ventures</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-8 bg-white relative hover:animate-jiggle">
-                <div className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]">
-                  <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M7 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2H8v3"/>
-                    <path d="M17 9a2 2 0 012-2v0a2 2 0 012 2v1a2 2 0 01-2 2h-1v3"/>
-                  </svg>
-                </div>
-                <p className="text-gray-600 mb-6">
-                  "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration."
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
-                    RB
-                  </div>
-                  <div>
-                    <p className="font-semibold">Robert Brown</p>
-                    <p className="text-sm text-gray-500">Director, Innovative Solutions</p>
-                  </div>
-                </div>
-              </Card>
-            </div>
-
-            {/* Call to Action within the same section */}
-            <Card className="bg-white border-2 border-[#9b87f5]">
-              <CardHeader>
-                <CardTitle className="text-center text-2xl">Ready to streamline your workflow?</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <Button onClick={handleSubscribe} size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5]">
-                  Get Started Today
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+        <Footer />
       </main>
-    </div>
-  );
+    </div>;
 };
-
 export default Accountants;
