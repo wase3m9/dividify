@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, Star, Rocket, Building } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface PricingSectionProps {
@@ -14,6 +14,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       name: "Starter",
       price: "£3",
       description: "Perfect for small businesses",
+      icon: Star,
       features: [
         "Up to 1 company",
         "Up to 2 Dividend Vouchers",
@@ -28,6 +29,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       name: "Professional",
       price: "£12",
       description: "Ideal for growing companies",
+      icon: Rocket,
       features: [
         "Up to 3 companies",
         "Up to 10 Dividend Vouchers",
@@ -42,6 +44,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       name: "Enterprise",
       price: "£29",
       description: "For established businesses",
+      icon: Building,
       features: [
         "Unlimited companies",
         "Unlimited Dividend Vouchers",
@@ -54,14 +57,6 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       isPopular: false,
     }
   ];
-
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    card.classList.add('animate-jiggle');
-    setTimeout(() => {
-      card.classList.remove('animate-jiggle');
-    }, 300);
-  };
 
   return (
     <section id="pricing" className="py-20 bg-gray-50">
@@ -76,62 +71,62 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {plans.map((plan, index) => (
-            <Card 
-              key={index} 
-              className={`relative cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                plan.isPopular 
-                  ? 'border-[#9b87f5] shadow-lg bg-white' 
-                  : 'border-gray-200 hover:border-[#9b87f5]/50'
-              }`}
-              onClick={handleCardClick}
-            >
-              {plan.isPopular && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <span className="bg-[#9b87f5] text-white px-4 py-1 rounded-full text-sm font-medium">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-              <CardHeader className="text-center pb-4">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-8 h-8 bg-[#9b87f5] rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">
-                      {plan.name.charAt(0)}
+          {plans.map((plan, index) => {
+            const IconComponent = plan.icon;
+            return (
+              <Card 
+                key={index} 
+                className={`relative transition-all duration-200 hover:shadow-lg hover:animate-jiggle ${
+                  plan.isPopular 
+                    ? 'border-[#9b87f5] shadow-lg bg-white' 
+                    : 'border-gray-200 hover:border-[#9b87f5]/50'
+                }`}
+              >
+                {plan.isPopular && (
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <span className="bg-[#9b87f5] text-white px-4 py-1 rounded-full text-sm font-medium">
+                      Most Popular
                     </span>
                   </div>
-                </div>
-                <CardTitle className="text-2xl text-gray-900">{plan.name}</CardTitle>
-                <CardDescription className="text-gray-600">{plan.description}</CardDescription>
-                <div className="mt-6">
-                  <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                  <span className="text-gray-600">/month</span>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <Check className="h-5 w-5 text-[#9b87f5] mr-3 flex-shrink-0" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button 
-                  className={`w-full transition-colors ${
-                    plan.isPopular 
-                      ? 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white' 
-                      : 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white'
-                  }`}
-                  asChild
-                >
-                  <Link to="/get-started">
-                    {plan.buttonText}
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+                )}
+                <CardHeader className="text-center pb-4">
+                  <div className="flex items-center justify-center mb-4">
+                    <IconComponent className="w-8 h-8 text-[#9b87f5]" />
+                  </div>
+                  <CardTitle className="text-2xl text-gray-900 flex items-center justify-center gap-2">
+                    {plan.name}
+                  </CardTitle>
+                  <CardDescription className="text-gray-600">{plan.description}</CardDescription>
+                  <div className="mt-6">
+                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
+                    <span className="text-gray-600">/month</span>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-4 mb-8">
+                    {plan.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center">
+                        <Check className="h-5 w-5 text-[#9b87f5] mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    className={`w-full transition-colors ${
+                      plan.isPopular 
+                        ? 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white' 
+                        : 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white'
+                    }`}
+                    asChild
+                  >
+                    <Link to="/get-started">
+                      {plan.buttonText}
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
         
         <div className="text-center">
