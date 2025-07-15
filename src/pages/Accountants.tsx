@@ -1,4 +1,3 @@
-
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -154,7 +153,11 @@ const Accountants = () => {
                 <h2 className="text-4xl font-bold text-gray-900 mb-4">
                   Connect Dividify with your accounting software
                 </h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-6">
+                  <Clock className="h-4 w-4" />
+                  <span>Integration Launching Q4 2025</span>
+                </div>
+                <p className="text-sm text-gray-500 max-w-3xl mx-auto">
                   We're working on seamless connections with your accounting software to simplify your workflows. Soon 
                   Dividify will connect with leading platforms like QuickBooks, Xero, and others, allowing you to manage 
                   dividends and board meeting compliance effortlessly. Keep your accounting streamlined and your 
@@ -187,7 +190,6 @@ const Accountants = () => {
             </div>
           </section>
 
-          {/* TestimonialsSection component from the Index page */}
           <TestimonialsSection />
 
           <Card className="bg-gray-50 mt-12">
