@@ -42,7 +42,7 @@ Deno.serve(async (req) => {
       email: 'wase3m@hotmail.com',
       password: 'password',
       email_confirm: true,
-      user_metadata: { full_name: 'Admin User' }
+      user_metadata: { full_name: 'Professional Accountant' }
     })
 
     if (createError) {
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
         .from('profiles')
         .upsert({ 
           id: authUser.user.id,
-          full_name: 'Admin User',
+          full_name: 'Professional Accountant',
           subscription_plan: 'enterprise',
           current_month_dividends: 0,
           current_month_minutes: 0
