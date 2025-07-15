@@ -11,7 +11,7 @@ export const TestimonialsSection = () => {
           <Card className="p-8 bg-white relative hover:animate-jiggle">
             <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
             <p className="text-gray-600 mb-6">
-              "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures we're always compliant."
+              "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures compliance."
             </p>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
