@@ -2,12 +2,15 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTypewriter } from "@/hooks/use-typewriter";
 
 interface HeroBannerProps {
   onStartFreeTrial: () => void;
 }
 
 export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
+  const [displayedText] = useTypewriter("Dividend Voucher and Board Meeting Solutions for Savvy Directors", 50);
+
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,9 +22,9 @@ export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Dividend Voucher and Board 
-            <span className="text-blue-600"> Meeting Solutions for Savvy Directors</span>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 min-h-[120px] md:min-h-[180px]">
+            {displayedText}
+            <span className="animate-pulse">|</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Turn compliance into simplicity. Tailored for directors who need to manage 
