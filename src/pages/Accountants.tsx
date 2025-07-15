@@ -1,3 +1,4 @@
+
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,31 +9,28 @@ import { Helmet } from "react-helmet";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+
 const Accountants = () => {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const handleSubscribe = async () => {
     try {
-      const {
-        data: {
-          session
-        }
-      } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
+      
       if (!session) {
-        navigate("/auth");
+        navigate("/signup");
         return;
       }
-      const {
-        data,
-        error
-      } = await supabase.functions.invoke('create-checkout', {
+
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
           plan: 'accountant'
         }
       });
+
       if (error) throw error;
+
       if (data?.url) {
         window.location.href = data.url;
       }
@@ -46,15 +44,16 @@ const Accountants = () => {
       });
     }
   };
+
   const scrollToPricing = () => {
     const pricingElement = document.querySelector('#accountant-pricing');
     if (pricingElement) {
-      pricingElement.scrollIntoView({
-        behavior: 'smooth'
-      });
+      pricingElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
-  return <div className="min-h-screen bg-white">
+
+  return (
+    <div className="min-h-screen bg-white">
       <Helmet>
         <title>Dividify for Accountants | Streamline Dividend Documentation</title>
         <meta name="description" content="Simplify dividend voucher preparation and board meeting documentation for your clients. Dividify offers automated solutions tailored for accounting professionals." />
@@ -161,7 +160,6 @@ const Accountants = () => {
               </div>
             </div>
 
-            {/* Testimonials Section */}
             <div className="mt-24 mb-24">
               <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
               <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -215,7 +213,6 @@ const Accountants = () => {
               </div>
             </div>
 
-            {/* New Try Dividify Section */}
             <div className="text-center mt-16 max-w-3xl mx-auto px-4">
               <h3 className="text-4xl font-bold mb-6">Try <span className="text-[#9b87f5]">Dividify</span> today with our 14-day free trial</h3>
               <p className="text-xl text-gray-600 mb-8">
@@ -234,6 +231,8 @@ const Accountants = () => {
         </div>
         <Footer />
       </main>
-    </div>;
+    </div>
+  );
 };
+
 export default Accountants;

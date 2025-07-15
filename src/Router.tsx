@@ -14,7 +14,6 @@ import BoardMinutesTemplate from "@/pages/BoardMinutesTemplate";
 import BoardMinutesPreview from "@/pages/BoardMinutesPreview";
 import Contact from "@/pages/Contact";
 import Accountants from "@/pages/Accountants";
-import GetStarted from "@/pages/GetStarted";
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
@@ -28,10 +27,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
-  },
-  {
-    path: "/get-started",
-    element: <GetStarted />,
   },
   {
     path: "/dashboard",

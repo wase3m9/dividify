@@ -1,13 +1,16 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Star, Rocket, Building } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface PricingSectionProps {
   onStartFreeTrial: () => void;
 }
 
 export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
+  const navigate = useNavigate();
+
   const plans = [
     {
       name: "Starter",
@@ -114,11 +117,9 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                         ? 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white' 
                         : 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white'
                     }`}
-                    asChild
+                    onClick={() => navigate('/signup')}
                   >
-                    <Link to="/get-started">
-                      {plan.buttonText}
-                    </Link>
+                    {plan.buttonText}
                   </Button>
                 </CardContent>
               </Card>
@@ -133,10 +134,8 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                 <h3 className="text-xl font-semibold text-green-900">Accountants & Agents</h3>
                 <p className="text-green-700">Manage unlimited companies for £20/month</p>
               </div>
-              <Button className="bg-green-600 hover:bg-green-700" asChild>
-                <Link to="/accountants">
-                  View Accountant Plan
-                </Link>
+              <Button className="bg-green-600 hover:bg-green-700" onClick={() => navigate('/accountants')}>
+                View Accountant Plan
               </Button>
             </div>
           </Card>
