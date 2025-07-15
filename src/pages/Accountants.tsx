@@ -1,3 +1,4 @@
+
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -147,10 +148,10 @@ const Accountants = () => {
           <section className="py-20 bg-gray-50 rounded-lg mb-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 text-gray-500 text-sm mb-4">
                   Coming Soon
                 </div>
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-4xl font-bold text-gray-500 mb-4">
                   Connect Dividify with your accounting software
                 </h2>
                 <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-6">
