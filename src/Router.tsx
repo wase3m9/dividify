@@ -1,5 +1,5 @@
 
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import AuthCallback from "@/pages/AuthCallback";
@@ -123,3 +123,7 @@ export const router = createBrowserRouter([
     element: <CookiePolicy />,
   },
 ]);
+
+// Default export for backwards compatibility
+const Router = () => <RouterProvider router={router} />;
+export default Router;

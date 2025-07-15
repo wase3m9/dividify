@@ -12,7 +12,7 @@ import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSec
 import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { QuickActions } from "@/components/dividend/board/QuickActions";
-import { PlanLimits } from "@/components/dividend/board/PlanLimits";
+import { PlanRestrictions } from "@/components/dividend/board/PlanRestrictions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Plus, CreditCard } from "lucide-react";
@@ -31,6 +31,7 @@ const DividendBoard = () => {
   const [loading, setLoading] = useState(true);
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
   const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
+  const [companiesCount, setCompaniesCount] = useState(0);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -40,6 +41,7 @@ const DividendBoard = () => {
       } else {
         await fetchData();
         await fetchUserProfile();
+        await fetchCompaniesCount();
       }
     };
 
@@ -61,6 +63,23 @@ const DividendBoard = () => {
       setUserProfile(profile);
     } catch (error: any) {
       console.error('Error fetching profile:', error);
+    }
+  };
+
+  const fetchCompaniesCount = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { count, error } = await supabase
+        .from('companies')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      setCompaniesCount(count || 0);
+    } catch (error: any) {
+      console.error('Error fetching companies count:', error);
     }
   };
 
@@ -340,7 +359,14 @@ const DividendBoard = () => {
 
                 <div className="lg:col-start-3">
                   <div className="sticky top-24 space-y-6">
-                    <PlanLimits />
+                    <PlanRestrictions 
+                      currentPlan={userProfile?.subscription_plan || 'trial'}
+                      currentUsage={{
+                        companies: companiesCount,
+                        dividends: userProfile?.current_month_dividends || 0,
+                        minutes: userProfile?.current_month_minutes || 0
+                      }}
+                    />
                     {company && <RecentActivity companyId={company.id} />}
                   </div>
                 </div>
