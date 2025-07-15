@@ -23,11 +23,11 @@ export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6 min-h-[120px] md:min-h-[180px]">
-            <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Dividend Voucher and Board Meeting Solutions for{" "}
+            <span className="bg-gradient-to-r from-purple-400 to-black bg-clip-text text-transparent">
+              Dividend Voucher and Board Meeting Solutions for Savvy{" "}
             </span>
-            <span className="text-gray-900">Savvy Directors</span>
-            <span className="animate-pulse text-gray-900">|</span>
+            <span className="text-black">Directors</span>
+            <span className="animate-pulse text-black">|</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Turn compliance into simplicity. Tailored for directors who need to manage 
