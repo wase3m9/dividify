@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 const GetStarted = () => {
   const navigate = useNavigate();
 
+  const handleDirectorPlansClick = () => {
+    navigate('/', { state: { scrollTo: 'pricing' } });
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -24,7 +28,7 @@ const GetStarted = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="p-8 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/pricing")}>
+            <Card className="p-8 hover:shadow-lg transition-shadow cursor-pointer" onClick={handleDirectorPlansClick}>
               <div className="text-center">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Building2 className="w-8 h-8 text-blue-600" />
