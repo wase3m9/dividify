@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
@@ -60,6 +61,7 @@ const DividendVoucherForm = () => {
             <ShareholderDetailsForm 
               onSubmit={handleSubmit} 
               onPrevious={handlePrevious}
+              selectedCompanyId={selectedCompanyId}
             />
           </Card>
         </div>

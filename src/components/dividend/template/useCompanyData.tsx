@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -8,8 +9,27 @@ interface Company {
   registered_address: string;
 }
 
+interface Officer {
+  id: string;
+  title: string;
+  forenames: string;
+  surname: string;
+  address: string;
+  email: string;
+  position: string;
+}
+
+interface Shareholder {
+  id: string;
+  shareholder_name: string;
+  share_class: string;
+  number_of_shares: number;
+}
+
 export const useCompanyData = (companyId: string | null) => {
   const [company, setCompany] = useState<Company | null>(null);
+  const [officers, setOfficers] = useState<Officer[]>([]);
+  const [shareholders, setShareholders] = useState<Shareholder[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,6 +48,7 @@ export const useCompanyData = (companyId: string | null) => {
           return;
         }
 
+        // Fetch company details
         const { data: companyData, error: companyError } = await supabase
           .from('companies')
           .select('*')
@@ -46,7 +67,32 @@ export const useCompanyData = (companyId: string | null) => {
           return;
         }
 
+        // Fetch officers
+        const { data: officersData, error: officersError } = await supabase
+          .from('officers')
+          .select('*')
+          .eq('company_id', companyId)
+          .eq('user_id', user.id);
+
+        if (officersError) {
+          console.error('Error fetching officers:', officersError);
+        }
+
+        // Fetch shareholders
+        const { data: shareholdersData, error: shareholdersError } = await supabase
+          .from('shareholders')
+          .select('*')
+          .eq('company_id', companyId)
+          .eq('user_id', user.id)
+          .eq('is_share_class', false);
+
+        if (shareholdersError) {
+          console.error('Error fetching shareholders:', shareholdersError);
+        }
+
         setCompany(companyData);
+        setOfficers(officersData || []);
+        setShareholders(shareholdersData || []);
         setError(null);
       } catch (error) {
         console.error('Error fetching company details:', error);
@@ -59,5 +105,5 @@ export const useCompanyData = (companyId: string | null) => {
     fetchCompanyDetails();
   }, [companyId]);
 
-  return { company, error, isLoading };
+  return { company, officers, shareholders, error, isLoading };
 };

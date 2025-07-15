@@ -1,10 +1,12 @@
-import { FC, useState } from "react";
+
+import { FC, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { X } from "lucide-react";
+import { useCompanyData } from "@/hooks/useCompanyData";
 import {
   Form,
   FormControl,
@@ -44,12 +46,31 @@ interface BoardMinutesDetailsFormProps {
 export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ selectedCompanyId }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [directors, setDirectors] = useState<Director[]>([{ name: "" }]);
+  const { selectedCompany, directors, shareholders } = useCompanyData(selectedCompanyId);
+  const [formDirectors, setFormDirectors] = useState<Director[]>([{ name: "" }]);
   const form = useForm<FormData>();
 
+  // Pre-populate form with company data
+  useEffect(() => {
+    if (selectedCompany) {
+      // Pre-populate meeting address with company registered address
+      form.setValue("meetingAddress", selectedCompany.registered_address || "");
+    }
+  }, [selectedCompany, form]);
+
+  // Pre-populate directors from existing company directors
+  useEffect(() => {
+    if (directors && directors.length > 0) {
+      const directorNames = directors.map(director => ({
+        name: `${director.title} ${director.forenames} ${director.surname}`.trim()
+      }));
+      setFormDirectors(directorNames);
+    }
+  }, [directors]);
+
   const addDirector = () => {
-    if (directors.length < 5) {
-      setDirectors([...directors, { name: "" }]);
+    if (formDirectors.length < 5) {
+      setFormDirectors([...formDirectors, { name: "" }]);
     } else {
       toast({
         variant: "destructive",
@@ -60,15 +81,15 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ sele
   };
 
   const removeDirector = (index: number) => {
-    const newDirectors = [...directors];
+    const newDirectors = [...formDirectors];
     newDirectors.splice(index, 1);
-    setDirectors(newDirectors);
+    setFormDirectors(newDirectors);
   };
 
   const updateDirector = (index: number, name: string) => {
-    const newDirectors = [...directors];
+    const newDirectors = [...formDirectors];
     newDirectors[index] = { name };
-    setDirectors(newDirectors);
+    setFormDirectors(newDirectors);
   };
 
   const onSubmit = async (data: FormData) => {
@@ -84,8 +105,11 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ sele
     navigate("/board-minutes/preview", {
       state: {
         ...data,
-        directors,
+        directors: formDirectors,
         companyId: selectedCompanyId,
+        companyName: selectedCompany?.name,
+        companyAddress: selectedCompany?.registered_address,
+        companyRegistrationNumber: selectedCompany?.registration_number,
       }
     });
   };
@@ -93,6 +117,10 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ sele
   const handleCancel = () => {
     navigate("/dividend-board");
   };
+
+  // Get available share classes from existing shareholders
+  const availableShareClasses = shareholders ? 
+    Array.from(new Set(shareholders.map(s => s.share_class))) : [];
 
   return (
     <Form {...form}>
@@ -127,14 +155,14 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ sele
 
         <div className="space-y-4">
           <label className="block text-sm font-medium text-left">Present Officers</label>
-          {directors.map((director, index) => (
+          {formDirectors.map((director, index) => (
             <div key={index} className="flex gap-2">
               <Input
                 placeholder={`Officer ${index + 1} name`}
                 value={director.name}
                 onChange={(e) => updateDirector(index, e.target.value)}
               />
-              {directors.length > 1 && (
+              {formDirectors.length > 1 && (
                 <Button
                   type="button"
                   variant="outline"
@@ -194,9 +222,18 @@ export const BoardMinutesDetailsForm: FC<BoardMinutesDetailsFormProps> = ({ sele
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Ordinary">Ordinary share</SelectItem>
-                  <SelectItem value="Preference">Preference share</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
+                  {availableShareClasses.map((shareClass) => (
+                    <SelectItem key={shareClass} value={shareClass}>
+                      {shareClass}
+                    </SelectItem>
+                  ))}
+                  {availableShareClasses.length === 0 && (
+                    <>
+                      <SelectItem value="Ordinary">Ordinary share</SelectItem>
+                      <SelectItem value="Preference">Preference share</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </>
+                  )}
                 </SelectContent>
               </Select>
               <FormMessage />
