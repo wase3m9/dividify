@@ -23,9 +23,6 @@ export const AuthButtons = ({
         <Button variant="ghost" onClick={handleSignOut}>
           Sign Out
         </Button>
-        <Button onClick={handleStartFreeTrial}>
-          Dashboard
-        </Button>
       </div>
     );
   }

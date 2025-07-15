@@ -15,6 +15,7 @@ const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [isUpgrading, setIsUpgrading] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -104,9 +105,35 @@ const Profile = () => {
     }
   };
 
-  const handleUpgradeSubscription = () => {
-    // Redirect to pricing page or Stripe checkout
-    navigate('/#pricing');
+  const handleUpgradeSubscription = async () => {
+    if (isUpgrading) return;
+    
+    setIsUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { 
+          priceId: 'price_1QTr2mP5i3F4Z8xZyNQJBjhD' // Default starter plan
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank');
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error: any) {
+      console.error('Upgrade error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to start upgrade process",
+      });
+    } finally {
+      setIsUpgrading(false);
+    }
   };
 
   if (isLoading) {
@@ -139,10 +166,11 @@ const Profile = () => {
                   </p>
                   <Button 
                     onClick={handleUpgradeSubscription}
+                    disabled={isUpgrading}
                     className="bg-orange-600 hover:bg-orange-700 text-white"
                   >
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Upgrade Now
+                    {isUpgrading ? 'Processing...' : 'Upgrade Now'}
                   </Button>
                 </div>
               ) : (
@@ -152,10 +180,11 @@ const Profile = () => {
                   </p>
                   <Button 
                     onClick={handleUpgradeSubscription}
+                    disabled={isUpgrading}
                     className="bg-red-600 hover:bg-red-700 text-white"
                   >
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Upgrade Required
+                    {isUpgrading ? 'Processing...' : 'Upgrade Required'}
                   </Button>
                 </div>
               )}
