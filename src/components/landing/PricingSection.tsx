@@ -15,13 +15,13 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       price: "£3",
       description: "Perfect for small businesses",
       features: [
-        "1 company",
-        "2 dividend vouchers per month",
-        "2 board minutes per month",
-        "Basic templates",
+        "Up to 1 company",
+        "Up to 2 Dividend Vouchers",
+        "Up to 2 Board Minutes",
+        "Basic document templates",
         "Email support"
       ],
-      buttonText: "Get Started",
+      buttonText: "Subscribe Now",
       isPopular: false,
     },
     {
@@ -30,13 +30,12 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       description: "Ideal for growing companies",
       features: [
         "Up to 3 companies",
-        "10 dividend vouchers per month",
-        "10 board minutes per month",
+        "Up to 10 Dividend Vouchers",
+        "Up to 10 Board Minutes",
         "Premium templates",
-        "Priority support",
-        "Custom branding"
+        "Priority support"
       ],
-      buttonText: "Get Started",
+      buttonText: "Subscribe Now",
       isPopular: true,
     },
     {
@@ -45,23 +44,31 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       description: "For established businesses",
       features: [
         "Unlimited companies",
-        "Unlimited vouchers & minutes",
-        "All template styles",
-        "API access",
+        "Unlimited Dividend Vouchers",
+        "Unlimited Board Minutes",
+        "Custom templates",
         "24/7 support",
-        "Custom integrations"
+        "API access"
       ],
-      buttonText: "Get Started",
+      buttonText: "Subscribe Now",
       isPopular: false,
     }
   ];
+
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    card.classList.add('animate-jiggle');
+    setTimeout(() => {
+      card.classList.remove('animate-jiggle');
+    }, 300);
+  };
 
   return (
     <section id="pricing" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Choose Your Plan
+            Simple, Transparent Pricing
           </h2>
           <p className="text-xl text-gray-600">
             Start with a free trial, then choose the plan that fits your needs
@@ -70,33 +77,52 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           {plans.map((plan, index) => (
-            <Card key={index} className={`relative ${plan.isPopular ? 'border-blue-500 shadow-lg' : ''}`}>
+            <Card 
+              key={index} 
+              className={`relative cursor-pointer transition-all duration-200 hover:shadow-lg ${
+                plan.isPopular 
+                  ? 'border-[#9b87f5] shadow-lg bg-white' 
+                  : 'border-gray-200 hover:border-[#9b87f5]/50'
+              }`}
+              onClick={handleCardClick}
+            >
               {plan.isPopular && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-[#9b87f5] text-white px-4 py-1 rounded-full text-sm font-medium">
                     Most Popular
                   </span>
                 </div>
               )}
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-                <div className="mt-4">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+              <CardHeader className="text-center pb-4">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-8 h-8 bg-[#9b87f5] rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">
+                      {plan.name.charAt(0)}
+                    </span>
+                  </div>
+                </div>
+                <CardTitle className="text-2xl text-gray-900">{plan.name}</CardTitle>
+                <CardDescription className="text-gray-600">{plan.description}</CardDescription>
+                <div className="mt-6">
+                  <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
                   <span className="text-gray-600">/month</span>
                 </div>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-4 mb-8">
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center">
-                      <Check className="h-5 w-5 text-green-500 mr-2" />
-                      <span>{feature}</span>
+                      <Check className="h-5 w-5 text-[#9b87f5] mr-3 flex-shrink-0" />
+                      <span className="text-gray-700">{feature}</span>
                     </li>
                   ))}
                 </ul>
                 <Button 
-                  className={`w-full ${plan.isPopular ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
+                  className={`w-full transition-colors ${
+                    plan.isPopular 
+                      ? 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white' 
+                      : 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white'
+                  }`}
                   asChild
                 >
                   <Link to="/get-started">
