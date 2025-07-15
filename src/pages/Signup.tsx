@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -10,8 +10,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 
 const Signup = () => {
+  const [searchParams] = useSearchParams();
+  const isFromAccountants = searchParams.get('from') === 'accountants';
+  
   const [formData, setFormData] = useState({
     fullName: '',
+    companyName: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -48,6 +52,7 @@ const Signup = () => {
         options: {
           data: {
             full_name: formData.fullName,
+            company_name: isFromAccountants ? formData.companyName : undefined,
           }
         }
       });
@@ -59,7 +64,8 @@ const Signup = () => {
           .from('profiles')
           .update({
             full_name: formData.fullName,
-            subscription_plan: 'trial'
+            subscription_plan: 'trial',
+            user_type: isFromAccountants ? 'accountant' : 'individual'
           })
           .eq('id', signUpData.user.id);
 
@@ -93,7 +99,12 @@ const Signup = () => {
           <Card className="w-full max-w-md">
             <CardHeader className="text-center">
               <CardTitle>Create an account</CardTitle>
-              <CardDescription>Enter your details below to create your account</CardDescription>
+              <CardDescription>
+                {isFromAccountants 
+                  ? "Enter your details below to create your accountant account"
+                  : "Enter your details below to create your account"
+                }
+              </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
               <div className="grid gap-2 text-left">
@@ -107,6 +118,19 @@ const Signup = () => {
                   onChange={handleChange}
                 />
               </div>
+              {isFromAccountants && (
+                <div className="grid gap-2 text-left">
+                  <Label htmlFor="companyName">Company Name</Label>
+                  <Input
+                    type="text"
+                    id="companyName"
+                    name="companyName"
+                    placeholder="Enter name of Company"
+                    value={formData.companyName}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
               <div className="grid gap-2 text-left">
                 <Label htmlFor="email">Email</Label>
                 <Input
