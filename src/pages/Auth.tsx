@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
@@ -94,19 +95,8 @@ const Auth = () => {
 
       console.log("Sign in successful:", data);
       
-      // Check user type and redirect accordingly
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('user_type')
-        .eq('id', data.user.id)
-        .single();
-
-      // Redirect based on user type
-      if (profile?.user_type === 'accountant') {
-        window.location.href = "/accountant-dashboard";
-      } else {
-        window.location.href = "/company-dashboard";
-      }
+      // Redirect to the main dashboard route which will handle user type routing
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error("Sign in error:", error);
       if (error instanceof AuthError) {

@@ -84,25 +84,14 @@ export const LoginForm = () => {
 
       if (data.user && data.session) {
         console.log("Login successful:", data.user);
-        
-        // Check user type and redirect accordingly
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('user_type')
-          .eq('id', data.user.id)
-          .single();
 
         toast({
           title: "Success",
           description: "Successfully logged in",
         });
 
-        // Redirect based on user type
-        if (profile?.user_type === 'accountant') {
-          window.location.href = "/accountant-dashboard";
-        } else {
-          window.location.href = "/company-dashboard";
-        }
+        // Redirect to the main dashboard route which will handle user type routing
+        window.location.href = "/dashboard";
       } else {
         throw new Error("No user data returned");
       }
