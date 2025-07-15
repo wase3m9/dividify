@@ -95,20 +95,20 @@ export const Navigation = () => {
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Logo scrollToTop={scrollToTop} />
-
-          <div className="hidden md:flex items-center justify-center flex-1 px-4">
-            <div className="flex items-center gap-4">
-              <NavLinks
-                user={user}
-                isLandingPage={isLandingPage}
-                scrollToSection={scrollToSection}
-                scrollToTop={scrollToTop}
-              />
-            </div>
+          <div className="flex items-center pl-4 md:pl-8">
+            <Logo scrollToTop={scrollToTop} />
           </div>
 
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center justify-center">
+            <NavLinks
+              user={user}
+              isLandingPage={isLandingPage}
+              scrollToSection={scrollToSection}
+              scrollToTop={scrollToTop}
+            />
+          </div>
+
+          <div className="hidden md:flex items-center pr-4 md:pr-8">
             <AuthButtons
               user={user}
               handleSignOut={handleSignOut}
@@ -116,7 +116,7 @@ export const Navigation = () => {
             />
           </div>
 
-          <div className="md:hidden">
+          <div className="md:hidden pr-4">
             <MobileMenu
               user={user}
               isLandingPage={isLandingPage}
