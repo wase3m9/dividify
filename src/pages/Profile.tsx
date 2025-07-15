@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Clock, CreditCard } from "lucide-react";
 
 const Profile = () => {
   const { toast } = useToast();
@@ -37,7 +38,7 @@ const Profile = () => {
       if (!user?.id) return null;
       const { data, error } = await supabase
         .from('profiles')
-        .select('full_name, subscription_plan')
+        .select('full_name, subscription_plan, created_at')
         .eq('id', user.id)
         .single();
       
@@ -55,7 +56,30 @@ const Profile = () => {
     }
   }, [profile]);
 
+  const calculateTrialDaysLeft = () => {
+    if (!profile?.created_at || profile.subscription_plan !== 'trial') return null;
+    
+    const createdAt = new Date(profile.created_at);
+    const now = new Date();
+    const daysSinceCreation = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    const daysLeft = 14 - daysSinceCreation;
+    
+    return Math.max(0, daysLeft);
+  };
+
+  const trialDaysLeft = calculateTrialDaysLeft();
+  const isTrialExpired = trialDaysLeft === 0 && profile?.subscription_plan === 'trial';
+
   const handleSave = async () => {
+    if (isTrialExpired) {
+      toast({
+        variant: "destructive",
+        title: "Trial Expired",
+        description: "Please upgrade your subscription to continue using the service",
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('profiles')
@@ -80,6 +104,11 @@ const Profile = () => {
     }
   };
 
+  const handleUpgradeSubscription = () => {
+    // Redirect to pricing page or Stripe checkout
+    navigate('/#pricing');
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -95,6 +124,44 @@ const Profile = () => {
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">Profile Settings</h1>
           
+          {/* Trial Status Card */}
+          {profile?.subscription_plan === 'trial' && (
+            <Card className="p-6 mb-6 border-orange-200 bg-orange-50">
+              <div className="flex items-center gap-3 mb-4">
+                <Clock className="h-5 w-5 text-orange-600" />
+                <h3 className="text-lg font-semibold text-orange-800">Trial Status</h3>
+              </div>
+              
+              {trialDaysLeft > 0 ? (
+                <div>
+                  <p className="text-orange-700 mb-4">
+                    You have <span className="font-bold">{trialDaysLeft} days</span> left in your free trial.
+                  </p>
+                  <Button 
+                    onClick={handleUpgradeSubscription}
+                    className="bg-orange-600 hover:bg-orange-700 text-white"
+                  >
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Upgrade Now
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-red-700 font-semibold mb-4">
+                    Your trial has expired. Please upgrade to continue using the service.
+                  </p>
+                  <Button 
+                    onClick={handleUpgradeSubscription}
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Upgrade Required
+                  </Button>
+                </div>
+              )}
+            </Card>
+          )}
+
           <Card className="p-6">
             <div className="space-y-6">
               <div>
@@ -104,6 +171,7 @@ const Profile = () => {
                   value={formData.fullName}
                   onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
                   placeholder="Enter your full name"
+                  disabled={isTrialExpired}
                 />
               </div>
 
@@ -128,8 +196,12 @@ const Profile = () => {
                 />
               </div>
 
-              <Button onClick={handleSave} className="w-full">
-                Save Changes
+              <Button 
+                onClick={handleSave} 
+                className="w-full"
+                disabled={isTrialExpired}
+              >
+                {isTrialExpired ? 'Trial Expired - Upgrade Required' : 'Save Changes'}
               </Button>
             </div>
           </Card>

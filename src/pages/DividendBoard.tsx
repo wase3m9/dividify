@@ -15,9 +15,10 @@ import { QuickActions } from "@/components/dividend/board/QuickActions";
 import { PlanLimits } from "@/components/dividend/board/PlanLimits";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, CreditCard } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
+import { Card } from "@/components/ui/card";
 
 const DividendBoard = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const DividendBoard = () => {
   const [directors, setDirectors] = useState([]);
   const [shareholdings, setShareholdings] = useState([]);
   const [shareClasses, setShareClasses] = useState([]);
+  const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
   const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
@@ -36,12 +38,45 @@ const DividendBoard = () => {
       if (!session) {
         navigate("/auth");
       } else {
-        fetchData();
+        await fetchData();
+        await fetchUserProfile();
       }
     };
 
     checkAuth();
   }, [navigate]);
+
+  const fetchUserProfile = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('subscription_plan, created_at')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      setUserProfile(profile);
+    } catch (error: any) {
+      console.error('Error fetching profile:', error);
+    }
+  };
+
+  const calculateTrialDaysLeft = () => {
+    if (!userProfile?.created_at || userProfile.subscription_plan !== 'trial') return null;
+    
+    const createdAt = new Date(userProfile.created_at);
+    const now = new Date();
+    const daysSinceCreation = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    const daysLeft = 14 - daysSinceCreation;
+    
+    return Math.max(0, daysLeft);
+  };
+
+  const trialDaysLeft = calculateTrialDaysLeft();
+  const isTrialExpired = trialDaysLeft === 0 && userProfile?.subscription_plan === 'trial';
 
   const fetchData = async () => {
     try {
@@ -169,6 +204,32 @@ const DividendBoard = () => {
 
   if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (isTrialExpired) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-24">
+          <div className="max-w-md mx-auto">
+            <Card className="p-8 text-center border-red-200 bg-red-50">
+              <CreditCard className="h-12 w-12 text-red-600 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-red-800 mb-4">Trial Expired</h2>
+              <p className="text-red-700 mb-6">
+                Your 14-day free trial has ended. Please upgrade your subscription to continue using Dividify.
+              </p>
+              <Button 
+                onClick={handleUpgradePlan}
+                className="w-full bg-red-600 hover:bg-red-700 text-white"
+              >
+                <CreditCard className="mr-2 h-4 w-4" />
+                Upgrade Now
+              </Button>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
