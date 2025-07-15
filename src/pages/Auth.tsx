@@ -93,8 +93,8 @@ const Auth = () => {
       if (error) throw error;
 
       console.log("Sign in successful:", data);
-      // Force a full page refresh to ensure clean state
-      window.location.href = "/dividend-board";
+      // Force a full page refresh to ensure clean state and redirect to dashboard
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error("Sign in error:", error);
       if (error instanceof AuthError) {

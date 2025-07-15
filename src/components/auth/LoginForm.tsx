@@ -88,8 +88,8 @@ export const LoginForm = () => {
           title: "Success",
           description: "Successfully logged in",
         });
-        // Force a full page refresh to ensure clean state
-        window.location.href = "/dividend-board";
+        // Force a full page refresh to ensure clean state and redirect to dashboard
+        window.location.href = "/dashboard";
       } else {
         throw new Error("No user data returned");
       }
