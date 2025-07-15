@@ -126,20 +126,25 @@ const Accountants = () => {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/* Features Section - moved outside the max-w-4xl container */}
+        <div className="container mx-auto px-4 mb-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
-                <Card key={index} className="text-center">
-                  <CardHeader>
-                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Card key={index} className="text-center p-8 hover:shadow-lg transition-shadow">
+                  <CardHeader className="pb-6">
+                    <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <div className="text-[#9b87f5]">
                         {feature.icon}
                       </div>
                     </div>
-                    <CardTitle className="text-lg">{feature.title}</CardTitle>
+                    <CardTitle className="text-xl mb-4">{feature.title}</CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <CardDescription>{feature.description}</CardDescription>
+                  <CardContent className="pt-0">
+                    <CardDescription className="text-base leading-relaxed">{feature.description}</CardDescription>
                   </CardContent>
                 </Card>
               ))}
@@ -147,7 +152,7 @@ const Accountants = () => {
           </div>
         </div>
 
-        {/* Integration Section - moved outside the max-w-4xl container */}
+        {/* Integration Section */}
         <section className="py-20 bg-gray-50 mb-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
@@ -194,7 +199,7 @@ const Accountants = () => {
           </div>
         </section>
 
-        {/* Testimonials Section - moved outside the max-w-4xl container */}
+        {/* Testimonials Section */}
         <TestimonialsSection />
 
         <div className="container mx-auto px-4">
