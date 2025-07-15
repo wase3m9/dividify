@@ -98,7 +98,7 @@ const Profile = () => {
           <Card className="p-6">
             <div className="space-y-6">
               <div>
-                <Label htmlFor="fullName" className="text-left">Full Name</Label>
+                <Label htmlFor="fullName" className="block text-left mb-2">Full Name</Label>
                 <Input
                   id="fullName"
                   value={formData.fullName}
@@ -108,7 +108,7 @@ const Profile = () => {
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-left">Email</Label>
+                <Label htmlFor="email" className="block text-left mb-2">Email</Label>
                 <Input
                   id="email"
                   value={user?.email || ''}
@@ -119,7 +119,7 @@ const Profile = () => {
               </div>
 
               <div>
-                <Label htmlFor="plan" className="text-left">Subscription Plan</Label>
+                <Label htmlFor="plan" className="block text-left mb-2">Subscription Plan</Label>
                 <Input
                   id="plan"
                   value={profile?.subscription_plan || 'trial'}
