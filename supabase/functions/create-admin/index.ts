@@ -21,17 +21,21 @@ Deno.serve(async (req) => {
 
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey)
 
-    // First, try to delete the existing user if it exists
+    // First, try to delete ALL existing users with this email
     try {
       const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers()
-      const existingUser = existingUsers.users.find(user => user.email === 'wase3m@hotmail.com')
-      if (existingUser) {
-        await supabaseAdmin.auth.admin.deleteUser(existingUser.id)
-        console.log('Deleted existing user')
+      const usersToDelete = existingUsers.users.filter(user => user.email === 'wase3m@hotmail.com')
+      
+      for (const user of usersToDelete) {
+        await supabaseAdmin.auth.admin.deleteUser(user.id)
+        console.log('Deleted existing user:', user.id)
       }
     } catch (err) {
-      console.log('No existing user to delete or error deleting:', err)
+      console.log('No existing users to delete or error deleting:', err)
     }
+
+    // Wait a moment to ensure deletion is processed
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
     // Create user with admin role
     const { data: authUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -71,7 +75,11 @@ Deno.serve(async (req) => {
         JSON.stringify({ 
           message: 'Admin user created successfully',
           userId: authUser.user.id,
-          email: authUser.user.email
+          email: authUser.user.email,
+          credentials: {
+            email: 'wase3m@hotmail.com',
+            password: 'password'
+          }
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
