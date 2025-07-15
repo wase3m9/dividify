@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { useTypewriter } from "@/hooks/use-typewriter";
@@ -41,6 +40,14 @@ export const HeroBanner = ({
           Start Free Trial
           <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-gray-500 mt-6">
+          <span>Professional templates</span>
+          <span className="hidden sm:inline">•</span>
+          <span>Generate in seconds</span>
+          <span className="hidden sm:inline">•</span>
+          <span>From £3/month</span>
+        </div>
       </div>
     </section>;
 };
