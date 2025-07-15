@@ -53,7 +53,8 @@ const Signup = () => {
           data: {
             full_name: formData.fullName,
             company_name: isFromAccountants ? formData.companyName : undefined,
-          }
+          },
+          emailRedirectTo: `${window.location.origin}/auth-callback${isFromAccountants ? '?upgrade=accountant' : ''}`
         }
       });
 
@@ -78,6 +79,15 @@ const Signup = () => {
         title: "Success",
         description: "Account created successfully! Please check your email to verify your account.",
       });
+
+      // For accountants, show message about direct upgrade after email verification
+      if (isFromAccountants) {
+        toast({
+          title: "Accountant Signup",
+          description: "After email verification, you'll be taken directly to upgrade to the Accountant plan.",
+          duration: 7000,
+        });
+      }
 
       navigate('/auth');
     } catch (error: any) {

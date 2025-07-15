@@ -70,7 +70,7 @@ const DividendBoard = () => {
     const createdAt = new Date(userProfile.created_at);
     const now = new Date();
     const daysSinceCreation = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
-    const daysLeft = 14 - daysSinceCreation;
+    const daysLeft = 7 - daysSinceCreation; // Changed from 14 to 7 days
     
     return Math.max(0, daysLeft);
   };
@@ -216,7 +216,7 @@ const DividendBoard = () => {
               <CreditCard className="h-12 w-12 text-red-600 mx-auto mb-4" />
               <h2 className="text-2xl font-bold text-red-800 mb-4">Trial Expired</h2>
               <p className="text-red-700 mb-6">
-                Your 14-day free trial has ended. Please upgrade your subscription to continue using Dividify.
+                Your 7-day free trial has ended. Please upgrade your subscription to continue using Dividify.
               </p>
               <Button 
                 onClick={handleUpgradePlan}

@@ -24,14 +24,14 @@ const Accountants = () => {
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
-          plan: 'accountant'
+          priceId: 'price_1QTr4sP5i3F4Z8xZvBpQMbRz' // Accountant plan price ID
         }
       });
 
       if (error) throw error;
 
       if (data?.url) {
-        window.location.href = data.url;
+        window.open(data.url, '_blank');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -214,7 +214,7 @@ const Accountants = () => {
             </div>
 
             <div className="text-center mt-16 max-w-3xl mx-auto px-4">
-              <h3 className="text-4xl font-bold mb-6">Try <span className="text-[#9b87f5]">Dividify</span> today with our 14-day free trial</h3>
+              <h3 className="text-4xl font-bold mb-6">Try <span className="text-[#9b87f5]">Dividify</span> today with our 7-day free trial</h3>
               <p className="text-xl text-gray-600 mb-8">
                 Thousands of directors and businesses rely on <span className="text-[#9b87f5]">Dividify</span> to streamline their dividend vouchers and board meeting records, saving time for what matters most. Click below to learn more.
               </p>

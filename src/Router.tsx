@@ -1,32 +1,46 @@
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Index from "@/pages/Index";
+import Auth from "@/pages/Auth";
+import AuthCallback from "@/pages/AuthCallback";
+import Signup from "@/pages/Signup";
 import DividendBoard from "@/pages/DividendBoard";
+import Profile from "@/pages/Profile";
+import Accountants from "@/pages/Accountants";
 import AccountantDashboard from "@/pages/AccountantDashboard";
+import GetStarted from "@/pages/GetStarted";
 import DividendVoucherForm from "@/pages/DividendVoucherForm";
 import DividendAmountForm from "@/pages/DividendAmountForm";
-import BoardMinutesForm from "@/pages/BoardMinutesForm";
-import Auth from "@/pages/Auth";
-import Signup from "@/pages/Signup";
-import Profile from "@/pages/Profile";
 import DividendTemplate from "@/pages/DividendTemplate";
+import BoardMinutesForm from "@/pages/BoardMinutesForm";
 import BoardMinutesTemplate from "@/pages/BoardMinutesTemplate";
 import BoardMinutesPreview from "@/pages/BoardMinutesPreview";
+import DividendWaivers from "@/pages/DividendWaivers";
 import Contact from "@/pages/Contact";
-import Accountants from "@/pages/Accountants";
-import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import Api from "@/pages/Api";
-import DividendWaivers from "@/pages/DividendWaivers";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
+import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
+  },
+  {
+    path: "/auth",
+    element: <Auth />,
+  },
+  {
+    path: "/auth-callback",
+    element: <AuthCallback />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
   },
   {
     path: "/dashboard",
@@ -37,36 +51,36 @@ const router = createBrowserRouter([
     element: <DividendBoard />,
   },
   {
-    path: "/accountant-dashboard",
-    element: <AccountantDashboard />,
-  },
-  {
-    path: "/dividend-voucher",
-    element: <DividendVoucherForm />,
-  },
-  {
-    path: "/dividend-amount",
-    element: <DividendAmountForm />,
-  },
-  {
-    path: "/board-minutes",
-    element: <BoardMinutesForm />,
-  },
-  {
-    path: "/auth",
-    element: <Auth />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
     path: "/profile",
     element: <Profile />,
   },
   {
+    path: "/accountants",
+    element: <Accountants />,
+  },
+  {
+    path: "/accountant-dashboard",
+    element: <AccountantDashboard />,
+  },
+  {
+    path: "/get-started",
+    element: <GetStarted />,
+  },
+  {
+    path: "/dividend-voucher-form",
+    element: <DividendVoucherForm />,
+  },
+  {
+    path: "/dividend-amount-form",
+    element: <DividendAmountForm />,
+  },
+  {
     path: "/dividend-template",
     element: <DividendTemplate />,
+  },
+  {
+    path: "/board-minutes-form",
+    element: <BoardMinutesForm />,
   },
   {
     path: "/board-minutes-template",
@@ -77,12 +91,12 @@ const router = createBrowserRouter([
     element: <BoardMinutesPreview />,
   },
   {
-    path: "/contact",
-    element: <Contact />,
+    path: "/dividend-waivers",
+    element: <DividendWaivers />,
   },
   {
-    path: "/accountants",
-    element: <Accountants />,
+    path: "/contact",
+    element: <Contact />,
   },
   {
     path: "/blog",
@@ -97,25 +111,15 @@ const router = createBrowserRouter([
     element: <Api />,
   },
   {
-    path: "/dividend-waivers",
-    element: <DividendWaivers />,
-  },
-  {
-    path: "/privacy-policy",
+    path: "/privacy",
     element: <PrivacyPolicy />,
   },
   {
-    path: "/terms-of-service",
+    path: "/terms",
     element: <TermsOfService />,
   },
   {
-    path: "/cookie-policy",
+    path: "/cookies",
     element: <CookiePolicy />,
   },
 ]);
-
-const Router = () => {
-  return <RouterProvider router={router} />;
-};
-
-export default Router;

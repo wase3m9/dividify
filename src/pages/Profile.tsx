@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
@@ -63,7 +62,7 @@ const Profile = () => {
     const createdAt = new Date(profile.created_at);
     const now = new Date();
     const daysSinceCreation = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
-    const daysLeft = 14 - daysSinceCreation;
+    const daysLeft = 7 - daysSinceCreation; // Changed from 14 to 7 days
     
     return Math.max(0, daysLeft);
   };
