@@ -187,7 +187,7 @@ const Accountants = () => {
             </div>
           </section>
 
-          {/* Use the exact TestimonialsSection component from the Index page */}
+          {/* TestimonialsSection component from the Index page */}
           <TestimonialsSection />
 
           <Card className="bg-gray-50 mt-12">
