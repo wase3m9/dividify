@@ -202,9 +202,10 @@ const Accountants = () => {
         {/* Testimonials Section */}
         <TestimonialsSection />
 
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <Card className="bg-gray-50 mt-12">
+        {/* Call to Action Section - moved outside the max-w-4xl container */}
+        <div className="container mx-auto px-4 mb-12">
+          <div className="max-w-6xl mx-auto">
+            <Card className="bg-gray-50">
               <CardHeader>
                 <CardTitle className="text-center">Ready to streamline your workflow?</CardTitle>
               </CardHeader>
