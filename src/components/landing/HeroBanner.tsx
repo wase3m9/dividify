@@ -22,28 +22,26 @@ export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-500 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-6 min-h-[120px] md:min-h-[180px]">
-            {displayedText}
-            <span className="animate-pulse">|</span>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 min-h-[120px] md:min-h-[180px]">
+            <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Dividend Voucher and Board Meeting Solutions for{" "}
+            </span>
+            <span className="text-gray-900">Savvy Directors</span>
+            <span className="animate-pulse text-gray-900">|</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Turn compliance into simplicity. Tailored for directors who need to manage 
             dividends and board meetings effortlessly.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex justify-center mb-12">
             <Button 
               size="lg" 
               onClick={onStartFreeTrial}
-              className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white"
+              className="text-lg px-8 py-4 bg-gradient-to-r from-purple-400 to-blue-400 hover:from-purple-500 hover:to-blue-500 text-white rounded-lg"
             >
               Start Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button variant="outline" size="lg" asChild className="text-lg px-8 py-4">
-              <Link to="#features">
-                Learn More
-              </Link>
             </Button>
           </div>
           
