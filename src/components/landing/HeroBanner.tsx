@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { useTypewriter } from "@/hooks/use-typewriter";
@@ -25,8 +26,9 @@ export const HeroBanner = ({
         </div>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] mb-6 min-h-[180px]">
-          <span className="bg-gradient-to-r from-[#9b87f5] to-gray-900 bg-clip-text text-transparent">
-            {animatedText}
+          <span className="bg-gradient-to-r from-[#9b87f5] to-black bg-clip-text text-transparent">
+            {animatedText.replace("Directors", "")}
+            <span className="text-black">Directors</span>
             <span className="animate-pulse">|</span>
           </span>
         </h1>
@@ -35,12 +37,10 @@ export const HeroBanner = ({
           Turn compliance into simplicity. Tailored for directors who need to manage dividends and board meetings effortlessly.
         </p>
 
-        <div className="pt-4 bg-purple-500 hover:bg-purple-400">
-          <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm text-white px-8 py-6 text-lg animate-fade-in" onClick={onStartFreeTrial}>
-            Start Free Trial
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-        </div>
+        <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm text-white px-8 py-6 text-lg animate-fade-in" onClick={onStartFreeTrial}>
+          Start Free Trial
+          <ArrowRight className="ml-2 h-5 w-5" />
+        </Button>
       </div>
     </section>;
 };
