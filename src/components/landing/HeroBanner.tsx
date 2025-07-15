@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -16,11 +15,9 @@ export const HeroBanner = ({ onStartFreeTrial }: HeroBannerProps) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <div className="mb-6">
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-400 to-black rounded-full text-sm font-medium mb-6">
-              <span className="mr-2 text-white">✓</span>
-              <span className="bg-gradient-to-r from-purple-400 to-black bg-clip-text text-transparent">
-                Built for Directors legal compliance
-              </span>
+            <div className="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium mb-6">
+              <span className="mr-2">✓</span>
+              Built for Directors legal compliance
             </div>
           </div>
           
