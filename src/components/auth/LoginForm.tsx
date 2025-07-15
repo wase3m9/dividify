@@ -54,15 +54,32 @@ export const LoginForm = () => {
     try {
       console.log("LoginForm - Fetching user profile for:", userId);
       
-      const { data: profile, error } = await supabase
+      // First, try to get the profile
+      let { data: profile, error } = await supabase
         .from('profiles')
         .select('user_type')
         .eq('id', userId)
         .single();
 
-      if (error) {
+      if (error || !profile) {
         console.error("LoginForm - Profile fetch error:", error);
-        // Default to company dashboard if profile fetch fails
+        
+        // Try to create a profile if it doesn't exist
+        console.log("LoginForm - Attempting to create profile");
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .insert({
+            id: userId,
+            user_type: 'individual',
+            subscription_plan: 'trial'
+          });
+
+        if (insertError) {
+          console.error("LoginForm - Profile creation error:", insertError);
+        }
+
+        // Default to company dashboard if profile operations fail
+        console.log("LoginForm - Defaulting to company dashboard");
         window.location.href = "/company-dashboard";
         return;
       }

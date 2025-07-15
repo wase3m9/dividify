@@ -1,91 +1,103 @@
 
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  const shouldUpgrade = searchParams.get('upgrade') === 'accountant';
 
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
+        console.log("AuthCallback - Processing authentication callback");
+        
+        // Get the current session
+        const { data: { session }, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('Auth callback error:', error);
+          console.error("AuthCallback - Session error:", error);
           toast({
             variant: "destructive",
             title: "Authentication Error",
-            description: error.message,
+            description: "There was an error processing your authentication. Please try logging in again.",
           });
-          navigate('/auth');
+          navigate("/auth");
           return;
         }
 
-        if (data.session?.user) {
-          toast({
-            title: "Email Verified",
-            description: "Your email has been successfully verified!",
-          });
-
-          // If this is an accountant signup, trigger the upgrade flow
-          if (shouldUpgrade) {
-            try {
-              const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke('create-checkout', {
-                body: { 
-                  priceId: 'price_1QTr4sP5i3F4Z8xZvBpQMbRz' // Accountant plan price ID
-                }
-              });
-
-              if (checkoutError) throw checkoutError;
-
-              if (checkoutData?.url) {
-                // Open Stripe checkout in a new tab
-                window.open(checkoutData.url, '_blank');
-                // Redirect to dashboard
-                navigate('/dashboard');
-              } else {
-                throw new Error('No checkout URL received');
-              }
-            } catch (upgradeError: any) {
-              console.error('Upgrade error:', upgradeError);
-              toast({
-                variant: "destructive",
-                title: "Upgrade Error",
-                description: "Failed to start upgrade process. You can upgrade later from your profile.",
-              });
-              navigate('/dashboard');
-            }
-          } else {
-            // Regular user, go to dashboard
-            navigate('/dashboard');
-          }
-        } else {
-          navigate('/auth');
+        if (!session || !session.user) {
+          console.log("AuthCallback - No session found, redirecting to auth");
+          navigate("/auth");
+          return;
         }
-      } catch (error: any) {
-        console.error('Callback handling error:', error);
+
+        console.log("AuthCallback - Session found for user:", session.user.id);
+
+        // Check if profile exists, create if needed
+        let { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('user_type')
+          .eq('id', session.user.id)
+          .single();
+
+        if (profileError || !profile) {
+          console.log("AuthCallback - Creating profile for user");
+          
+          // Extract user_type from user metadata
+          const userType = session.user.user_metadata?.user_type || 'individual';
+          const fullName = session.user.user_metadata?.full_name || session.user.email;
+          
+          const { error: insertError } = await supabase
+            .from('profiles')
+            .insert({
+              id: session.user.id,
+              full_name: fullName,
+              user_type: userType,
+              subscription_plan: 'trial'
+            });
+
+          if (insertError) {
+            console.error("AuthCallback - Profile creation error:", insertError);
+          } else {
+            profile = { user_type: userType };
+          }
+        }
+
+        toast({
+          title: "Welcome!",
+          description: "Your account has been confirmed successfully.",
+        });
+
+        // Redirect based on user type
+        if (profile?.user_type === 'accountant') {
+          console.log("AuthCallback - Redirecting to accountant dashboard");
+          window.location.href = "/accountant-dashboard";
+        } else {
+          console.log("AuthCallback - Redirecting to company dashboard");
+          window.location.href = "/company-dashboard";
+        }
+      } catch (error) {
+        console.error("AuthCallback - Unexpected error:", error);
         toast({
           variant: "destructive",
-          title: "Error",
-          description: "Something went wrong during authentication.",
+          title: "Authentication Error",
+          description: "An unexpected error occurred. Please try logging in again.",
         });
-        navigate('/auth');
+        navigate("/auth");
       }
     };
 
     handleAuthCallback();
-  }, [navigate, shouldUpgrade, toast]);
+  }, [navigate, toast]);
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center">
       <div className="text-center">
-        <h2 className="text-2xl font-semibold mb-4">Verifying your account...</h2>
-        <p className="text-gray-600">Please wait while we complete your registration.</p>
+        <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+        <p className="text-gray-600">Confirming your account...</p>
       </div>
     </div>
   );

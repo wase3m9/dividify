@@ -1,111 +1,141 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Navigation } from "@/components/Navigation";
+import { AuthError } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
+import { Home } from "lucide-react";
+import { cleanupAuthState } from "@/utils/authCleanup";
 
 const Signup = () => {
-  const [searchParams] = useSearchParams();
-  const isFromAccountants = searchParams.get('from') === 'accountants';
-  
-  const [formData, setFormData] = useState({
-    fullName: '',
-    companyName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const isAccountant = searchParams.get('type') === 'accountant';
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
 
-  console.log("Signup - isFromAccountants:", isFromAccountants);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const validateInputs = () => {
+    if (!email.trim() || !password.trim() || !fullName.trim()) {
+      setError("All fields are required");
+      return false;
+    }
+    if (!email.includes("@")) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return false;
+    }
+    return true;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const getErrorMessage = (error: AuthError) => {
+    console.error("Signup error details:", error);
     
-    if (formData.password !== formData.confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Passwords do not match",
-      });
+    switch (error.message) {
+      case "User already registered":
+        return "An account with this email already exists. Please sign in instead.";
+      case "Password should be at least 6 characters":
+        return "Password must be at least 6 characters long.";
+      case "Invalid email":
+        return "Please enter a valid email address.";
+      default:
+        return error.message || "An unexpected error occurred. Please try again.";
+    }
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    
+    if (!validateInputs()) {
       return;
     }
 
     setIsLoading(true);
-
+    
     try {
-      const userType = isFromAccountants ? 'accountant' : 'individual';
-      console.log("Signup - Setting user type to:", userType);
-
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
+      console.log("Cleaning up auth state before signup...");
+      cleanupAuthState();
+      
+      console.log("Attempting signup for:", email, "as", isAccountant ? 'accountant' : 'individual');
+      
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password: password.trim(),
         options: {
+          emailRedirectTo: `${window.location.origin}/auth-callback`,
           data: {
-            full_name: formData.fullName,
-            company_name: isFromAccountants ? formData.companyName : undefined,
-            user_type: userType,
-          },
-          emailRedirectTo: `${window.location.origin}/auth-callback${isFromAccountants ? '?upgrade=accountant' : ''}`
+            full_name: fullName.trim(),
+            user_type: isAccountant ? 'accountant' : 'individual'
+          }
         }
       });
 
-      if (signUpError) throw signUpError;
+      if (error) throw error;
 
-      if (signUpData.user) {
-        console.log("Signup - Updating profile with user type:", userType);
+      console.log("Signup response:", data);
+
+      if (data.user && !data.session) {
+        // Email confirmation required
+        toast({
+          title: "Check your email",
+          description: "We've sent you a confirmation link. Please check your email and click the link to activate your account.",
+        });
+        navigate("/auth");
+      } else if (data.user && data.session) {
+        // User is immediately signed in (email confirmation disabled)
+        console.log("User signed up and logged in immediately");
         
+        // Ensure profile is created with correct user_type
         const { error: profileError } = await supabase
           .from('profiles')
-          .update({
-            full_name: formData.fullName,
-            subscription_plan: 'trial',
-            user_type: userType
-          })
-          .eq('id', signUpData.user.id);
+          .upsert({
+            id: data.user.id,
+            full_name: fullName.trim(),
+            user_type: isAccountant ? 'accountant' : 'individual',
+            subscription_plan: 'trial'
+          });
 
         if (profileError) {
-          console.error('Profile update error:', profileError);
+          console.error("Profile creation error:", profileError);
         } else {
-          console.log('Profile updated successfully with user type:', userType);
+          console.log("Profile created successfully");
+        }
+
+        toast({
+          title: "Account created successfully",
+          description: "Welcome to Dividify!",
+        });
+
+        // Redirect to appropriate dashboard
+        if (isAccountant) {
+          window.location.href = "/accountant-dashboard";
+        } else {
+          window.location.href = "/company-dashboard";
         }
       }
-
-      toast({
-        title: "Success",
-        description: "Account created successfully! Please check your email to verify your account.",
-      });
-
-      // For accountants, show message about direct upgrade after email verification
-      if (isFromAccountants) {
-        toast({
-          title: "Accountant Signup",
-          description: "After email verification, you'll be taken directly to upgrade to the Accountant plan.",
-          duration: 7000,
-        });
-      }
-
-      navigate('/auth');
     } catch (error: any) {
-      console.error('Signup error:', error);
+      console.error("Signup error:", error);
+      if (error instanceof AuthError) {
+        setError(getErrorMessage(error));
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
       toast({
         variant: "destructive",
-        title: "Error",
-        description: error.message,
+        title: "Signup failed",
+        description: error instanceof AuthError ? getErrorMessage(error) : "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -114,84 +144,85 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
-      <main className="container mx-auto px-4 pt-24 pb-16">
-        <div className="flex justify-center items-center h-full">
-          <Card className="w-full max-w-md">
-            <CardHeader className="text-center">
-              <CardTitle>Create an account</CardTitle>
-              <CardDescription>
-                {isFromAccountants 
-                  ? "Enter your details below to create your accountant account"
-                  : "Enter your details below to create your account"
-                }
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              <div className="grid gap-2 text-left">
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  placeholder="Enter your full name"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                />
-              </div>
-              {isFromAccountants && (
-                <div className="grid gap-2 text-left">
-                  <Label htmlFor="companyName">Company Name</Label>
-                  <Input
-                    type="text"
-                    id="companyName"
-                    name="companyName"
-                    placeholder="Enter name of Company"
-                    value={formData.companyName}
-                    onChange={handleChange}
-                  />
-                </div>
-              )}
-              <div className="grid gap-2 text-left">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="grid gap-2 text-left">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="grid gap-2 text-left">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  placeholder="Confirm your password"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                />
-              </div>
-              <Button onClick={handleSubmit} disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Create account"}
-              </Button>
-            </CardContent>
-          </Card>
+      <div className="absolute top-4 left-4">
+        <Button variant="ghost" asChild className="flex items-center gap-2">
+          <Link to="/">
+            <Home className="h-4 w-4" />
+            Home
+          </Link>
+        </Button>
+      </div>
+      <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900">
+              Create your {isAccountant ? 'accountant' : 'company'} account
+            </h2>
+            <p className="mt-2 text-gray-600">
+              {isAccountant 
+                ? 'Join as an accountant to manage multiple clients' 
+                : 'Get started with dividend management for your company'
+              }
+            </p>
+          </div>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          <form onSubmit={handleSignUp} className="mt-8 space-y-6">
+            <div className="space-y-4">
+              <Input
+                id="fullName"
+                type="text"
+                placeholder="Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                className="bg-white border-gray-200"
+                disabled={isLoading}
+              />
+              <Input
+                id="email"
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="bg-white border-gray-200"
+                disabled={isLoading}
+              />
+              <Input
+                id="password"
+                type="password"
+                placeholder="Password (min. 6 characters)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="bg-white border-gray-200"
+                disabled={isLoading}
+              />
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating account..." : "Create Account"}
+            </Button>
+
+            <div className="text-center text-sm">
+              <span className="text-gray-500">Already have an account? </span>
+              <Link to="/auth" className="text-[#9b87f5] hover:underline">
+                Sign in
+              </Link>
+            </div>
+          </form>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
