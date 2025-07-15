@@ -71,6 +71,27 @@ const Accountants = () => {
     }
   ];
 
+  const testimonials = [
+    {
+      text: "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures we're always compliant.",
+      author: "John Doe",
+      role: "Director, Tech Solutions Ltd",
+      initials: "JD"
+    },
+    {
+      text: "The automated document generation is fantastic. It's like having a company secretary at your fingertips.",
+      author: "Jane Smith",
+      role: "CEO, Growth Ventures",
+      initials: "JS"
+    },
+    {
+      text: "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration.",
+      author: "Robert Brown",
+      role: "Director, Innovative Solutions",
+      initials: "RB"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -109,16 +130,16 @@ const Accountants = () => {
               </ul>
             </div>
 
-            <Card className="border-2 border-blue-200 bg-blue-50">
+            <Card className="border-2 border-[#9b87f5] bg-purple-50">
               <CardHeader className="text-center">
-                <CardTitle className="text-3xl text-blue-900">£20</CardTitle>
-                <CardDescription className="text-blue-700">per month</CardDescription>
+                <CardTitle className="text-3xl text-[#9b87f5]">£20</CardTitle>
+                <CardDescription className="text-purple-700">per month</CardDescription>
               </CardHeader>
               <CardContent className="text-center">
-                <Button onClick={handleSubscribe} className="w-full mb-4 bg-blue-600 hover:bg-blue-700">
+                <Button onClick={handleSubscribe} className="w-full mb-4 bg-[#9b87f5] hover:bg-[#8b77e5]">
                   Start Your Account
                 </Button>
-                <p className="text-sm text-blue-600">
+                <p className="text-sm text-purple-600">
                   14-day free trial • Cancel anytime
                 </p>
               </CardContent>
@@ -129,8 +150,8 @@ const Accountants = () => {
             {features.map((feature, index) => (
               <Card key={index} className="text-center">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <div className="text-blue-600">
+                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="text-[#9b87f5]">
                       {feature.icon}
                     </div>
                   </div>
@@ -143,12 +164,77 @@ const Accountants = () => {
             ))}
           </div>
 
+          {/* Integration Section */}
+          <section className="py-16 bg-gray-50 rounded-lg mb-12">
+            <div className="max-w-4xl mx-auto px-4 text-center">
+              <div className="mb-8">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm mb-4">
+                  Coming Soon
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  Connect Dividify with your accounting software
+                </h2>
+                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                  We're working on seamless connections with your accounting software to simplify your workflows. Soon 
+                  Dividify will connect with leading platforms like QuickBooks, Xero, and others, allowing you to manage 
+                  dividends and board meeting compliance effortlessly. Keep your accounting streamlined and your 
+                  documentation compliant without any hassle.
+                </p>
+              </div>
+              
+              <div className="flex items-center justify-center gap-8 opacity-60">
+                <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold">
+                  XERO
+                </div>
+                <div className="w-24 h-12 bg-gray-300 rounded flex items-center justify-center text-white text-sm">
+                  QuickBooks
+                </div>
+                <div className="w-20 h-16 bg-gray-300 rounded flex items-center justify-center text-white font-bold">
+                  Sage
+                </div>
+                <div className="w-24 h-12 bg-gray-300 rounded flex items-center justify-center text-white text-sm">
+                  FreeAgent
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Testimonials Section */}
+          <section className="py-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                What Our Customers Say
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              {testimonials.map((testimonial, index) => (
+                <Card key={index} className="p-6">
+                  <CardContent className="p-0">
+                    <div className="mb-4">
+                      <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold text-sm mx-auto mb-4">
+                        {testimonial.initials}
+                      </div>
+                    </div>
+                    <blockquote className="text-gray-600 mb-4 text-center">
+                      "{testimonial.text}"
+                    </blockquote>
+                    <div className="text-center">
+                      <div className="font-semibold text-gray-900">{testimonial.author}</div>
+                      <div className="text-sm text-gray-600">{testimonial.role}</div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
           <Card className="bg-gray-50">
             <CardHeader>
               <CardTitle className="text-center">Ready to streamline your workflow?</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <Button onClick={handleSubscribe} size="lg" className="bg-blue-600 hover:bg-blue-700">
+              <Button onClick={handleSubscribe} size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5]">
                 Get Started Today
               </Button>
             </CardContent>
