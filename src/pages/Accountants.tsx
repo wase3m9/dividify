@@ -76,133 +76,140 @@ const Accountants = () => {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <main className="container mx-auto px-4 pt-20">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Accountants & Agents Plan
-            </h1>
-            <p className="text-xl text-gray-600">
-              Everything you need to manage multiple companies efficiently
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div>
-              <h2 className="text-2xl font-semibold mb-6">Perfect for:</h2>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                  <span>Chartered Accountants managing multiple clients</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                  <span>Bookkeeping services</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                  <span>Company formation agents</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
-                  <span>Corporate service providers</span>
-                </li>
-              </ul>
+      <main className="pt-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                Accountants & Agents Plan
+              </h1>
+              <p className="text-xl text-gray-600">
+                Everything you need to manage multiple companies efficiently
+              </p>
             </div>
 
-            <Card className="border-2 border-[#9b87f5] bg-purple-50">
-              <CardHeader className="text-center">
-                <CardTitle className="text-3xl text-[#9b87f5]">£20</CardTitle>
-                <CardDescription className="text-purple-700">per month</CardDescription>
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div>
+                <h2 className="text-2xl font-semibold mb-6">Perfect for:</h2>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
+                    <span>Chartered Accountants managing multiple clients</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
+                    <span>Bookkeeping services</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
+                    <span>Company formation agents</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 text-[#9b87f5] mr-3 mt-0.5" />
+                    <span>Corporate service providers</span>
+                  </li>
+                </ul>
+              </div>
+
+              <Card className="border-2 border-[#9b87f5] bg-purple-50">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-3xl text-[#9b87f5]">£20</CardTitle>
+                  <CardDescription className="text-purple-700">per month</CardDescription>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <Button onClick={handleSubscribe} className="w-full mb-4 bg-[#9b87f5] hover:bg-[#8b77e5]">
+                    Start Your Account
+                  </Button>
+                  <p className="text-sm text-purple-600">
+                    14-day free trial • Cancel anytime
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {features.map((feature, index) => (
+                <Card key={index} className="text-center">
+                  <CardHeader>
+                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <div className="text-[#9b87f5]">
+                        {feature.icon}
+                      </div>
+                    </div>
+                    <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>{feature.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Integration Section - moved outside the max-w-4xl container */}
+        <section className="py-20 bg-gray-50 mb-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 text-gray-500 text-sm mb-4">
+                Coming Soon
+              </div>
+              <h2 className="text-4xl font-bold text-gray-500 mb-4">
+                Connect Dividify with your accounting software
+              </h2>
+              <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-6">
+                <Clock className="h-4 w-4" />
+                <span>Integration Launching Q4 2025</span>
+              </div>
+              <p className="text-sm text-gray-500 max-w-3xl mx-auto">
+                We're working on seamless connections with your accounting software to simplify your workflows. Soon 
+                Dividify will connect with leading platforms like QuickBooks, Xero, and others, allowing you to manage 
+                dividends and board meeting compliance effortlessly. Keep your accounting streamlined and your 
+                documentation compliant without any hassle.
+              </p>
+            </div>
+            
+            <div className="flex items-center justify-center gap-8 opacity-60">
+              <img 
+                src="/lovable-uploads/8a0c16ac-6c78-46b6-9188-7485f4dafec7.png" 
+                alt="Xero" 
+                className="h-16 object-contain grayscale"
+              />
+              <img 
+                src="/lovable-uploads/81d4efca-d219-452a-9d1d-94040a84119d.png" 
+                alt="QuickBooks" 
+                className="h-12 object-contain grayscale"
+              />
+              <img 
+                src="/lovable-uploads/bbce86a0-dde1-4c68-b1d0-74cd14b9af6c.png" 
+                alt="Sage" 
+                className="h-16 object-contain grayscale"
+              />
+              <img 
+                src="/lovable-uploads/1de316a5-53a6-4527-b5ef-01ced10ba2fe.png" 
+                alt="FreeAgent" 
+                className="h-12 object-contain grayscale"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section - moved outside the max-w-4xl container */}
+        <TestimonialsSection />
+
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <Card className="bg-gray-50 mt-12">
+              <CardHeader>
+                <CardTitle className="text-center">Ready to streamline your workflow?</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <Button onClick={handleSubscribe} className="w-full mb-4 bg-[#9b87f5] hover:bg-[#8b77e5]">
-                  Start Your Account
+                <Button onClick={handleSubscribe} size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5]">
+                  Get Started Today
                 </Button>
-                <p className="text-sm text-purple-600">
-                  14-day free trial • Cancel anytime
-                </p>
               </CardContent>
             </Card>
           </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {features.map((feature, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <div className="text-[#9b87f5]">
-                      {feature.icon}
-                    </div>
-                  </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>{feature.description}</CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Integration Section - exact copy from Index page with greyed out styling */}
-          <section className="py-20 bg-gray-50 rounded-lg mb-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 text-gray-500 text-sm mb-4">
-                  Coming Soon
-                </div>
-                <h2 className="text-4xl font-bold text-gray-500 mb-4">
-                  Connect Dividify with your accounting software
-                </h2>
-                <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-6">
-                  <Clock className="h-4 w-4" />
-                  <span>Integration Launching Q4 2025</span>
-                </div>
-                <p className="text-sm text-gray-500 max-w-3xl mx-auto">
-                  We're working on seamless connections with your accounting software to simplify your workflows. Soon 
-                  Dividify will connect with leading platforms like QuickBooks, Xero, and others, allowing you to manage 
-                  dividends and board meeting compliance effortlessly. Keep your accounting streamlined and your 
-                  documentation compliant without any hassle.
-                </p>
-              </div>
-              
-              <div className="flex items-center justify-center gap-8 opacity-60">
-                <img 
-                  src="/lovable-uploads/8a0c16ac-6c78-46b6-9188-7485f4dafec7.png" 
-                  alt="Xero" 
-                  className="h-16 object-contain grayscale"
-                />
-                <img 
-                  src="/lovable-uploads/81d4efca-d219-452a-9d1d-94040a84119d.png" 
-                  alt="QuickBooks" 
-                  className="h-12 object-contain grayscale"
-                />
-                <img 
-                  src="/lovable-uploads/bbce86a0-dde1-4c68-b1d0-74cd14b9af6c.png" 
-                  alt="Sage" 
-                  className="h-16 object-contain grayscale"
-                />
-                <img 
-                  src="/lovable-uploads/1de316a5-53a6-4527-b5ef-01ced10ba2fe.png" 
-                  alt="FreeAgent" 
-                  className="h-12 object-contain grayscale"
-                />
-              </div>
-            </div>
-          </section>
-
-          <TestimonialsSection />
-
-          <Card className="bg-gray-50 mt-12">
-            <CardHeader>
-              <CardTitle className="text-center">Ready to streamline your workflow?</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-              <Button onClick={handleSubscribe} size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5]">
-                Get Started Today
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </main>
     </div>
