@@ -15,7 +15,10 @@ const Signup = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
-  const isAccountant = searchParams.get('type') === 'accountant';
+  const isAccountant = searchParams.get('type') === 'accountant' || searchParams.get('from') === 'accountants';
+  
+  // Dynamic label based on user type
+  const nameLabel = isAccountant ? "Company/Agent name" : "Full Name";
   
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -177,7 +180,7 @@ const Signup = () => {
               <Input
                 id="fullName"
                 type="text"
-                placeholder="Full Name"
+                placeholder={nameLabel}
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
