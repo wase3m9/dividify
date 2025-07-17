@@ -291,6 +291,7 @@ export type Database = {
       }
       shareholders: {
         Row: {
+          address: string | null
           company_id: string
           created_at: string | null
           id: string
@@ -303,6 +304,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          address?: string | null
           company_id: string
           created_at?: string | null
           id?: string
@@ -315,6 +317,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          address?: string | null
           company_id?: string
           created_at?: string | null
           id?: string

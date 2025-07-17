@@ -95,6 +95,9 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
       if (firstShareholder.shareholder_name) {
         setValue('shareholderName', firstShareholder.shareholder_name);
       }
+      if (firstShareholder.address) {
+        setValue('shareholderAddress', firstShareholder.address);
+      }
       if (firstShareholder.number_of_shares) {
         setValue('sharesHeld', firstShareholder.number_of_shares);
       }
@@ -133,6 +136,9 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
           {selectedCompanyId && companyData && (
             <div className="text-sm text-green-600 bg-green-50 p-2 rounded">
               ✓ Company data auto-filled from: {companyData.name}
+              {shareholders && shareholders.length > 0 && (
+                <span className="block">✓ Shareholder data auto-filled: {shareholders[0].shareholder_name}</span>
+              )}
             </div>
           )}
         </div>
