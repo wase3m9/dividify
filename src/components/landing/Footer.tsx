@@ -15,6 +15,11 @@ export const Footer = () => {
               Simplifying dividend management<br />
               for your business
             </p>
+            <div className="text-sm text-gray-600 mt-3">
+              <p className="font-semibold">Dividify</p>
+              <p>124 City Road, London, EC1V 2NX, United Kingdom</p>
+              <p>Email: hello@dividify.co.uk | Phone: +44 20 7946 0958</p>
+            </div>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Product</h4>
@@ -41,12 +46,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          <div className="mb-4">
-            <p className="font-semibold">Dividify</p>
-            <p>124 City Road, London, EC1V 2NX, United Kingdom</p>
-            <p>Email: hello@dividify.co.uk | Phone: +44 20 7946 0958</p>
-          </div>
-          <p>&copy; {new Date().getFullYear()} Dividify. All rights reserved. Company registration number: 12345678</p>
+          <p>&copy; {new Date().getFullYear()} Dividify. All rights reserved.</p>
         </div>
       </div>
     </footer>
