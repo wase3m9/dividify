@@ -34,7 +34,7 @@ const BoardMinutesForm = () => {
               />
             </div>
 
-            <BoardMinutesDetailsForm selectedCompanyId={selectedCompanyId} />
+            <BoardMinutesFormComponent />
           </Card>
         </div>
       </div>
