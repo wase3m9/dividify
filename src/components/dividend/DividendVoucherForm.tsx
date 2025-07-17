@@ -148,11 +148,13 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
                   <SelectValue placeholder="Select a shareholder" />
                 </SelectTrigger>
                 <SelectContent>
-                  {shareholders.map((shareholder) => (
-                    <SelectItem key={shareholder.id} value={shareholder.id}>
-                      {shareholder.shareholder_name || shareholder.share_class} ({shareholder.number_of_shares} shares)
-                    </SelectItem>
-                  ))}
+                  {shareholders
+                    .filter(shareholder => shareholder.shareholder_name && !shareholder.is_share_class)
+                    .map((shareholder) => (
+                      <SelectItem key={shareholder.id} value={shareholder.id}>
+                        {shareholder.shareholder_name} ({shareholder.number_of_shares} shares)
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </div>
@@ -201,6 +203,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
                 {...register('companyAddress')}
                 placeholder="Enter company address"
                 rows={2}
+                className="resize-none"
               />
               {errors.companyAddress && (
                 <p className="text-sm text-red-600 mt-1">{errors.companyAddress.message}</p>
@@ -226,6 +229,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
                 {...register('shareholderAddress')}
                 placeholder="Enter shareholder address"
                 rows={2}
+                className="resize-none"
               />
               {errors.shareholderAddress && (
                 <p className="text-sm text-red-600 mt-1">{errors.shareholderAddress.message}</p>
