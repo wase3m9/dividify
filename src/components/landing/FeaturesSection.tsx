@@ -95,16 +95,16 @@ export const FeaturesSection = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-1 items-center justify-items-center max-w-3xl mx-auto opacity-50">
           <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
-            <img src="/lovable-uploads/58de35bd-d003-4898-8f07-85bf2be09dcc.png" alt="Xero" className="w-full h-full object-contain" />
+            <img src="/lovable-uploads/58de35bd-d003-4898-8f07-85bf2be09dcc.png" alt="Xero accounting software integration coming soon" className="w-full h-full object-contain" />
           </div>
           <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
-            <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks" className="w-full h-full object-contain" />
+            <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks accounting software integration coming soon" className="w-full h-full object-contain" />
           </div>
           <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
-            <img src="/lovable-uploads/3e1037ec-3005-442d-bf0a-1e05d952c398.png" alt="Sage" className="w-full h-full object-contain" />
+            <img src="/lovable-uploads/3e1037ec-3005-442d-bf0a-1e05d952c398.png" alt="Sage accounting software integration coming soon" className="w-full h-full object-contain" />
           </div>
           <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
-            <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent" className="w-full h-full object-contain" />
+            <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent accounting software integration coming soon" className="w-full h-full object-contain" />
           </div>
         </div>
       </div>

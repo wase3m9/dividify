@@ -52,13 +52,21 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>Dividify Blog | Expert Insights on Dividend Management</title>
-        <meta name="description" content="Stay informed about dividend management, tax efficiency, and corporate compliance with expert insights from Dividify's knowledge base." />
-        <meta name="keywords" content="dividend management, tax efficiency, corporate compliance, UK taxation, dividend vouchers" />
-        <meta property="og:title" content="Dividify Blog | Expert Insights on Dividend Management" />
-        <meta property="og:description" content="Stay informed about dividend management, tax efficiency, and corporate compliance with expert insights from Dividify's knowledge base." />
+        <title>UK Dividend Tax & Compliance Blog | Expert Insights for Directors | Dividify</title>
+        <meta name="description" content="Expert insights on UK dividend taxation, HMRC compliance, and board meeting requirements. Essential reading for UK limited company directors and accountants." />
+        <meta name="keywords" content="UK dividend taxation, HMRC compliance, board meeting requirements, dividend vouchers UK, UK limited company tax, accountants London, small business accounting UK" />
+        <meta name="geo.region" content="GB" />
+        <meta name="geo.country" content="UK" />
+        <meta property="og:title" content="UK Dividend Tax & Compliance Blog | Expert Insights for Directors" />
+        <meta property="og:description" content="Expert insights on UK dividend taxation, HMRC compliance, and board meeting requirements for limited company directors." />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`} />
+        <meta property="og:locale" content="en_GB" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="UK Dividend Tax & Compliance Blog" />
+        <meta name="twitter:description" content="Expert insights on UK dividend taxation and HMRC compliance for limited company directors." />
+        <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`} />
         <link rel="canonical" href={window.location.href} />
         <script type="application/ld+json">
           {JSON.stringify(generateBlogListSchema())}
@@ -68,7 +76,7 @@ const Blog = () => {
       <Navigation />
       <main className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-[#9b87f5] text-left">Latest Articles</h1>
+          <h1 className="text-4xl font-bold mb-8 text-[#9b87f5] text-left">UK Dividend Tax & Compliance Insights</h1>
           
           <BlogList posts={sampleBlogPosts} calculateReadingTime={calculateReadingTime} />
         </div>

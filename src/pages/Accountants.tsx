@@ -54,13 +54,22 @@ const Accountants = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>Dividify for Accountants | Streamline Dividend Documentation</title>
-        <meta name="description" content="Simplify dividend voucher preparation and board meeting documentation for your clients. Dividify offers automated solutions tailored for accounting professionals." />
-        <meta name="keywords" content="dividend vouchers, board minutes, accounting software, dividend documentation, accountant tools" />
-        <meta property="og:title" content="Dividify for Accountants | Streamline Dividend Documentation" />
-        <meta property="og:description" content="Simplify dividend voucher preparation and board meeting documentation for your clients. Dividify offers automated solutions tailored for accounting professionals." />
+        <title>Accountants Software | Dividend Voucher & Board Minutes Generator | London UK | Dividify</title>
+        <meta name="description" content="Streamline dividend voucher preparation for multiple clients. Professional accounting software for UK accountants. Unlimited companies, HMRC compliance, £20/month." />
+        <meta name="keywords" content="accountants software London, dividend voucher software, accounting tools UK, board minutes generator, accountants in London, small business accounting UK, tax return service UK" />
+        <meta name="geo.region" content="GB" />
+        <meta name="geo.country" content="UK" />
+        <meta name="geo.placename" content="London" />
+        <meta property="og:title" content="Accountants Software | Dividend Voucher & Board Minutes Generator | London UK" />
+        <meta property="og:description" content="Streamline dividend voucher preparation for multiple clients. Professional accounting software for UK accountants." />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png`} />
+        <meta property="og:locale" content="en_GB" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Accountants Software | Dividend Voucher Generator | London UK" />
+        <meta name="twitter:description" content="Professional accounting software for UK accountants. Unlimited companies, HMRC compliance." />
+        <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png`} />
         <link rel="canonical" href={window.location.href} />
       </Helmet>
 
@@ -68,7 +77,7 @@ const Accountants = () => {
       <main className="container mx-auto px-4 pt-24">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold mb-6">Dividend compliance. Simplified.</h1>
+            <h1 className="text-4xl font-bold mb-6">Dividend Compliance Software for UK Accountants</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               Where & when you need it. Eliminate the hassle of preparing dividend vouchers and recording board meetings. 
               Save time and ensure compliance with automation that provides accurate, real-time documents tailored to your business needs.
@@ -147,16 +156,16 @@ const Accountants = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto px-4 opacity-50">
               <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
-                <img src="/lovable-uploads/5ffca2d9-09a0-475f-afda-b85ebb91bd7f.png" alt="Xero" className="h-16 w-auto mx-auto object-contain" />
+                <img src="/lovable-uploads/5ffca2d9-09a0-475f-afda-b85ebb91bd7f.png" alt="Xero UK accounting software integration" className="h-16 w-auto mx-auto object-contain" />
               </div>
               <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
-                <img src="/lovable-uploads/d8e5ad39-7eae-4b22-bde1-df6a305c250d.png" alt="QuickBooks" className="h-16 w-auto mx-auto object-contain" />
+                <img src="/lovable-uploads/d8e5ad39-7eae-4b22-bde1-df6a305c250d.png" alt="QuickBooks UK accounting software integration" className="h-16 w-auto mx-auto object-contain" />
               </div>
               <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
-                <img src="/lovable-uploads/e25ce830-f9e6-4996-8e0c-434dfe8083d9.png" alt="Sage" className="h-16 w-auto mx-auto object-contain" />
+                <img src="/lovable-uploads/e25ce830-f9e6-4996-8e0c-434dfe8083d9.png" alt="Sage UK accounting software integration" className="h-16 w-auto mx-auto object-contain" />
               </div>
               <div className="bg-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow grayscale">
-                <img src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" alt="FreeAgent" className="h-16 w-auto mx-auto object-contain" />
+                <img src="/lovable-uploads/6a5a984e-f77e-43d2-90eb-1a68668aac0a.png" alt="FreeAgent UK accounting software integration" className="h-16 w-auto mx-auto object-contain" />
               </div>
             </div>
 

@@ -2,19 +2,38 @@ import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { Footer } from "@/components/landing/Footer";
 
 const Api = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Dividify API Documentation | Integrate Dividend Software | UK Developers</title>
+        <meta name="description" content="Integrate Dividify's dividend voucher and board minutes generation into your applications. API documentation for UK developers and accounting software." />
+        <meta name="keywords" content="dividend API, accounting software API, UK tax software integration, dividend voucher API, board minutes API" />
+        <meta name="geo.region" content="GB" />
+        <meta name="geo.country" content="UK" />
+        <meta property="og:title" content="Dividify API Documentation | Integrate Dividend Software" />
+        <meta property="og:description" content="Integrate Dividify's dividend voucher and board minutes generation into your applications." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:locale" content="en_GB" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Dividify API Documentation" />
+        <meta name="twitter:description" content="Integrate dividend voucher generation into your applications with our comprehensive API." />
+        <link rel="canonical" href={window.location.href} />
+      </Helmet>
+      
       <Navigation />
       
       <main className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="space-y-8">
             <div className="text-center space-y-4">
-              <h1 className="text-4xl font-bold tracking-tight">API Documentation</h1>
+              <h1 className="text-4xl font-bold tracking-tight">Dividify API Documentation</h1>
               <p className="text-xl text-muted-foreground">
-                Integrate Dividify's powerful features into your applications
+                Integrate UK dividend voucher and board minutes generation into your accounting applications
               </p>
             </div>
 
@@ -73,6 +92,7 @@ const Api = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

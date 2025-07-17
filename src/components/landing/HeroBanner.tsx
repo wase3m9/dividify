@@ -36,14 +36,12 @@ export const HeroBanner = ({
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] mb-6 min-h-[180px]">
           <span className="bg-gradient-to-r from-[#9b87f5] to-black bg-clip-text text-transparent">
-            {animatedText.replace("Directors", "")}
-            <span className="text-black">Directors</span>
-            <span className="animate-pulse">|</span>
+            Professional Dividend Vouchers & Board Minutes for UK Limited Companies
           </span>
         </h1>
 
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in">
-          Turn compliance into simplicity. Tailored for directors who need to manage dividends and board meetings effortlessly.
+          HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
         </p>
 
         <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm text-white px-8 py-6 text-lg animate-fade-in" onClick={handleStartFreeTrial}>

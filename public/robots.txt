@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /accountants
+Allow: /blog
+Allow: /contact
+Allow: /api
+
+# Block admin/internal pages
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /auth
+Disallow: /signup
+Disallow: /get-started
+
+# Sitemap location
+Sitemap: https://dividify.lovable.app/sitemap.xml

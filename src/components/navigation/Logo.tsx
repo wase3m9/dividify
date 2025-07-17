@@ -13,7 +13,7 @@ export const Logo = ({ scrollToTop }: LogoProps) => {
     >
       <img 
         src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
-        alt="Dividify" 
+        alt="Dividify - UK Dividend Voucher Software" 
         className="h-8 md:h-10" 
       />
     </button>

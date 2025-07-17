@@ -8,7 +8,7 @@ export const Footer = () => {
           <div className="text-left">
             <img 
               src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
-              alt="Dividify" 
+              alt="Dividify - UK Dividend Voucher Software" 
               className="h-8"
             />
             <p className="text-sm text-gray-600">
@@ -41,7 +41,12 @@ export const Footer = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          <p>&copy; {new Date().getFullYear()} Dividify. All rights reserved.</p>
+          <div className="mb-4">
+            <p className="font-semibold">Dividify</p>
+            <p>124 City Road, London, EC1V 2NX, United Kingdom</p>
+            <p>Email: hello@dividify.co.uk | Phone: +44 20 7946 0958</p>
+          </div>
+          <p>&copy; {new Date().getFullYear()} Dividify. All rights reserved. Company registration number: 12345678</p>
         </div>
       </div>
     </footer>
