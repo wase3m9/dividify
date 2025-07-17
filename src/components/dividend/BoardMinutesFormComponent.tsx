@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { CompanySelector } from '@/components/dividend/company/CompanySelector';
 import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
 import { BoardMinutesData } from '@/utils/documentGenerator/react-pdf/types';
 import { generateBoardMinutesPDF, downloadPDF } from '@/utils/documentGenerator/react-pdf';
+import { supabase } from '@/integrations/supabase/client';
 
 const boardMinutesSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -30,17 +33,67 @@ interface BoardMinutesFormProps {
 export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ initialData }) => {
   const [previewData, setPreviewData] = useState<BoardMinutesData | null>(null);
   const [directorsInput, setDirectorsInput] = useState('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+
+  // Fetch company data
+  const { data: companyData } = useQuery({
+    queryKey: ['company', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return null;
+      const { data, error } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('id', selectedCompanyId)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!selectedCompanyId,
+  });
+
+  // Fetch officers/directors for the selected company
+  const { data: officers } = useQuery({
+    queryKey: ['officers', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return [];
+      const { data, error } = await supabase
+        .from('officers')
+        .select('*')
+        .eq('company_id', selectedCompanyId);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!selectedCompanyId,
+  });
 
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<BoardMinutesFormData>({
     resolver: zodResolver(boardMinutesSchema),
     defaultValues: initialData as Partial<BoardMinutesFormData>,
   });
+
+  // Auto-fill form when company data is loaded
+  useEffect(() => {
+    if (companyData) {
+      setValue('companyName', companyData.name || '');
+    }
+  }, [companyData, setValue]);
+
+  // Auto-fill directors when officers are loaded
+  useEffect(() => {
+    if (officers && officers.length > 0) {
+      const directorNames = officers.map(officer => 
+        `${officer.title} ${officer.forenames} ${officer.surname}`.trim()
+      ).join('\n');
+      setDirectorsInput(directorNames);
+    }
+  }, [officers]);
 
   const templateStyle = watch('templateStyle') || 'classic';
 
@@ -73,6 +126,22 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
     <div className="space-y-6">
       <Card className="p-6">
         <h2 className="text-xl font-semibold mb-4">Board Minutes Generator</h2>
+        
+        <div className="space-y-4 mb-6">
+          <Label>Select Company</Label>
+          <CompanySelector
+            onSelect={setSelectedCompanyId}
+            selectedCompanyId={selectedCompanyId}
+          />
+          {selectedCompanyId && companyData && (
+            <div className="text-sm text-green-600 bg-green-50 p-2 rounded">
+              ✓ Company data auto-filled from: {companyData.name}
+              {officers && officers.length > 0 && (
+                <span className="block">✓ {officers.length} director(s) auto-filled</span>
+              )}
+            </div>
+          )}
+        </div>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

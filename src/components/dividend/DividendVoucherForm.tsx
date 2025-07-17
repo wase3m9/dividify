@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { CompanySelector } from '@/components/dividend/company/CompanySelector';
 import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
 import { DividendVoucherData } from '@/utils/documentGenerator/react-pdf/types';
 import { generateDividendVoucherPDF, downloadPDF } from '@/utils/documentGenerator/react-pdf';
+import { supabase } from '@/integrations/supabase/client';
 
 const dividendVoucherSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -31,17 +34,72 @@ interface DividendVoucherFormProps {
 
 export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = ({ initialData }) => {
   const [previewData, setPreviewData] = useState<DividendVoucherData | null>(null);
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+
+  // Fetch company data
+  const { data: companyData } = useQuery({
+    queryKey: ['company', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return null;
+      const { data, error } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('id', selectedCompanyId)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!selectedCompanyId,
+  });
+
+  // Fetch shareholders for the selected company
+  const { data: shareholders } = useQuery({
+    queryKey: ['shareholders', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return [];
+      const { data, error } = await supabase
+        .from('shareholders')
+        .select('*')
+        .eq('company_id', selectedCompanyId);
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!selectedCompanyId,
+  });
 
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<DividendVoucherData>({
     resolver: zodResolver(dividendVoucherSchema),
     defaultValues: initialData,
   });
+
+  // Auto-fill form when company data is loaded
+  useEffect(() => {
+    if (companyData) {
+      setValue('companyName', companyData.name || '');
+      setValue('companyAddress', companyData.registered_address || '');
+      setValue('companyRegNumber', companyData.registration_number || '');
+    }
+  }, [companyData, setValue]);
+
+  // Auto-fill shareholder data when shareholders are loaded
+  useEffect(() => {
+    if (shareholders && shareholders.length > 0) {
+      const firstShareholder = shareholders[0];
+      if (firstShareholder.shareholder_name) {
+        setValue('shareholderName', firstShareholder.shareholder_name);
+      }
+      if (firstShareholder.number_of_shares) {
+        setValue('sharesHeld', firstShareholder.number_of_shares);
+      }
+    }
+  }, [shareholders, setValue]);
 
   const templateStyle = watch('templateStyle') || 'classic';
 
@@ -65,6 +123,19 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     <div className="space-y-6">
       <Card className="p-6">
         <h2 className="text-xl font-semibold mb-4">Dividend Voucher Generator</h2>
+        
+        <div className="space-y-4 mb-6">
+          <Label>Select Company</Label>
+          <CompanySelector
+            onSelect={setSelectedCompanyId}
+            selectedCompanyId={selectedCompanyId}
+          />
+          {selectedCompanyId && companyData && (
+            <div className="text-sm text-green-600 bg-green-50 p-2 rounded">
+              ✓ Company data auto-filled from: {companyData.name}
+            </div>
+          )}
+        </div>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
