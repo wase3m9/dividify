@@ -12,6 +12,8 @@ interface Shareholder {
   id: string;
   shareholder_name: string;
   number_of_shares: number;
+  share_class?: string;
+  address?: string;
 }
 
 interface ShareholdingsSectionProps {
@@ -105,9 +107,9 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
             onSubmit={handleSubmit}
             onPrevious={handleDialogClose}
             initialData={selectedShareholder ? {
-              shareholderName: selectedShareholder.shareholder_name,
-              shareClass: "",
-              shareholderAddress: "",
+              shareholderName: selectedShareholder.shareholder_name || "",
+              shareClass: selectedShareholder.share_class || "",
+              shareholderAddress: selectedShareholder.address || "",
               numberOfShares: selectedShareholder.number_of_shares.toString()
             } : undefined}
           />
