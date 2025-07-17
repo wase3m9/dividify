@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
-import { BoardMinutesDetailsForm } from "@/components/dividend/BoardMinutesDetailsForm";
+import { BoardMinutesFormComponent } from "@/components/dividend/BoardMinutesFormComponent";
 import { CompanySelector } from "@/components/dividend/company/CompanySelector";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";

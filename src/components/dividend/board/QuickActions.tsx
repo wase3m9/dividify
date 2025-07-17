@@ -84,14 +84,14 @@ export const QuickActions = () => {
       <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
       <div className="space-y-2">
         {renderButton(
-          () => navigate("/dividend-voucher"),
+          () => navigate("/dividend-voucher-form"),
           <Plus className="mr-2 h-4 w-4" />,
           "Create Dividend Voucher",
           isDividendsDisabled,
           `You've reached your monthly limit of ${limits.dividends} dividend vouchers. This will reset at the start of your next billing cycle.`
         )}
         {renderButton(
-          () => navigate("/board-minutes"),
+          () => navigate("/board-minutes-form"),
           <FileText className="mr-2 h-4 w-4" />,
           "Create Board Minutes",
           isMinutesDisabled,
