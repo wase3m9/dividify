@@ -1,28 +1,17 @@
 import { Link } from "react-router-dom";
-
 export const Footer = () => {
-  return (
-    <footer className="border-t py-12">
+  return <footer className="border-t py-12">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           <div className="text-left">
-            <img 
-              src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" 
-              alt="Dividify - UK Dividend Voucher Software" 
-              className="h-8"
-            />
+            <img src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" className="h-8" />
             <p className="text-sm text-gray-600">
               Simplifying dividend management<br />
               for your business
             </p>
-            <div className="text-sm text-gray-600 mt-3">
-              <p className="font-semibold">Dividify</p>
-              <p>124 City Road, London, EC1V 2NX, United Kingdom</p>
-              <p>Email: hello@dividify.co.uk | Phone: +44 20 7946 0958</p>
-            </div>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Product</h4>
+            <h4 className="font-semibold mb-4">124 City Road, London, EC1V 2NX, United </h4>
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link to="/#features" className="hover:text-gray-900">Features</Link></li>
               <li><Link to="/#pricing" className="hover:text-gray-900">Pricing</Link></li>
@@ -49,6 +38,5 @@ export const Footer = () => {
           <p>&copy; {new Date().getFullYear()} Dividify. All rights reserved.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
