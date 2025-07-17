@@ -35,6 +35,7 @@ interface DividendVoucherFormProps {
 export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = ({ initialData }) => {
   const [previewData, setPreviewData] = useState<DividendVoucherData | null>(null);
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  const [selectedShareholderId, setSelectedShareholderId] = useState<string>('');
 
   // Fetch company data
   const { data: companyData } = useQuery({
@@ -88,21 +89,24 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     }
   }, [companyData, setValue]);
 
-  // Auto-fill shareholder data when shareholders are loaded
+  // Auto-fill shareholder data when a specific shareholder is selected
   useEffect(() => {
-    if (shareholders && shareholders.length > 0) {
-      const firstShareholder = shareholders[0];
-      if (firstShareholder.shareholder_name) {
-        setValue('shareholderName', firstShareholder.shareholder_name);
-      }
-      if (firstShareholder.address) {
-        setValue('shareholderAddress', firstShareholder.address);
-      }
-      if (firstShareholder.number_of_shares) {
-        setValue('sharesHeld', firstShareholder.number_of_shares);
+    if (selectedShareholderId && shareholders) {
+      const selectedShareholder = shareholders.find(s => s.id === selectedShareholderId);
+      if (selectedShareholder) {
+        setValue('shareholderName', selectedShareholder.shareholder_name || '');
+        setValue('shareholderAddress', selectedShareholder.address || '');
+        setValue('sharesHeld', selectedShareholder.number_of_shares || 0);
       }
     }
-  }, [shareholders, setValue]);
+  }, [selectedShareholderId, shareholders, setValue]);
+
+  // Auto-select first shareholder when shareholders are loaded
+  useEffect(() => {
+    if (shareholders && shareholders.length > 0 && !selectedShareholderId) {
+      setSelectedShareholderId(shareholders[0].id);
+    }
+  }, [shareholders, selectedShareholderId]);
 
   const templateStyle = watch('templateStyle') || 'classic';
 
@@ -128,16 +132,37 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         <h2 className="text-xl font-semibold mb-4">Dividend Voucher Generator</h2>
         
         <div className="space-y-4 mb-6">
-          <Label>Select Company</Label>
-          <CompanySelector
-            onSelect={setSelectedCompanyId}
-            selectedCompanyId={selectedCompanyId}
-          />
+          <div>
+            <Label className="text-left block">Select Company</Label>
+            <CompanySelector
+              onSelect={setSelectedCompanyId}
+              selectedCompanyId={selectedCompanyId}
+            />
+          </div>
+          
+          {shareholders && shareholders.length > 0 && (
+            <div>
+              <Label className="text-left block">Select Shareholder</Label>
+              <Select value={selectedShareholderId} onValueChange={setSelectedShareholderId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a shareholder" />
+                </SelectTrigger>
+                <SelectContent>
+                  {shareholders.map((shareholder) => (
+                    <SelectItem key={shareholder.id} value={shareholder.id}>
+                      {shareholder.shareholder_name || shareholder.share_class} ({shareholder.number_of_shares} shares)
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          
           {selectedCompanyId && companyData && (
             <div className="text-sm text-green-600 bg-green-50 p-2 rounded">
               ✓ Company data auto-filled from: {companyData.name}
-              {shareholders && shareholders.length > 0 && (
-                <span className="block">✓ Shareholder data auto-filled: {shareholders[0].shareholder_name}</span>
+              {selectedShareholderId && shareholders && (
+                <span className="block">✓ Shareholder data auto-filled: {shareholders.find(s => s.id === selectedShareholderId)?.shareholder_name || shareholders.find(s => s.id === selectedShareholderId)?.share_class}</span>
               )}
             </div>
           )}
@@ -146,7 +171,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="companyName">Company Name</Label>
+              <Label htmlFor="companyName" className="text-left block">Company Name</Label>
               <Input
                 id="companyName"
                 {...register('companyName')}
@@ -158,7 +183,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="companyRegNumber">Registration Number</Label>
+              <Label htmlFor="companyRegNumber" className="text-left block">Registration Number</Label>
               <Input
                 id="companyRegNumber"
                 {...register('companyRegNumber')}
@@ -170,12 +195,12 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div className="md:col-span-2">
-              <Label htmlFor="companyAddress">Company Address</Label>
+              <Label htmlFor="companyAddress" className="text-left block">Company Address</Label>
               <Textarea
                 id="companyAddress"
                 {...register('companyAddress')}
                 placeholder="Enter company address"
-                rows={3}
+                rows={2}
               />
               {errors.companyAddress && (
                 <p className="text-sm text-red-600 mt-1">{errors.companyAddress.message}</p>
@@ -183,7 +208,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="shareholderName">Shareholder Name</Label>
+              <Label htmlFor="shareholderName" className="text-left block">Shareholder Name</Label>
               <Input
                 id="shareholderName"
                 {...register('shareholderName')}
@@ -195,12 +220,12 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div className="md:col-span-2">
-              <Label htmlFor="shareholderAddress">Shareholder Address</Label>
+              <Label htmlFor="shareholderAddress" className="text-left block">Shareholder Address</Label>
               <Textarea
                 id="shareholderAddress"
                 {...register('shareholderAddress')}
                 placeholder="Enter shareholder address"
-                rows={3}
+                rows={2}
               />
               {errors.shareholderAddress && (
                 <p className="text-sm text-red-600 mt-1">{errors.shareholderAddress.message}</p>
@@ -208,7 +233,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="sharesHeld">Number of Shares</Label>
+              <Label htmlFor="sharesHeld" className="text-left block">Number of Shares</Label>
               <Input
                 id="sharesHeld"
                 type="number"
@@ -221,7 +246,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="dividendAmount">Dividend Amount (£)</Label>
+              <Label htmlFor="dividendAmount" className="text-left block">Dividend Amount (£)</Label>
               <Input
                 id="dividendAmount"
                 type="number"
@@ -235,7 +260,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="shareholdersAsAtDate">Shareholders as at Date</Label>
+              <Label htmlFor="shareholdersAsAtDate" className="text-left block">Shareholders as at Date</Label>
               <Input
                 id="shareholdersAsAtDate"
                 type="date"
@@ -247,7 +272,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="paymentDate">Payment Date</Label>
+              <Label htmlFor="paymentDate" className="text-left block">Payment Date</Label>
               <Input
                 id="paymentDate"
                 type="date"
@@ -259,7 +284,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="templateStyle">Template Style</Label>
+              <Label htmlFor="templateStyle" className="text-left block">Template Style</Label>
               <Select value={templateStyle} onValueChange={(value) => setValue('templateStyle', value as 'classic' | 'modern' | 'green')}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select template style" />
