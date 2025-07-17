@@ -96,7 +96,7 @@ const Accountants = () => {
           <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all hover:animate-jiggle max-w-md mx-auto mb-24" id="accountant-pricing">
             <div className="flex items-center gap-2 mb-4">
               <Building2 className="h-6 w-6 text-[#9b87f5]" />
-              <h3 className="text-xl font-bold">Accountants</h3>
+              <h3 className="text-xl font-bold">Accountants/Agents</h3>
             </div>
             <div className="mb-6">
               <span className="text-4xl font-bold">£20</span>
