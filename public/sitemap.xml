@@ -49,19 +49,19 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/privacy-policy</loc>
+    <loc>https://dividify.lovable.app/privacy</loc>
     <lastmod>2025-01-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/terms-of-service</loc>
+    <loc>https://dividify.lovable.app/terms</loc>
     <lastmod>2025-01-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/cookie-policy</loc>
+    <loc>https://dividify.lovable.app/cookies</loc>
     <lastmod>2025-01-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
