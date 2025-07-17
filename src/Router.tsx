@@ -115,12 +115,28 @@ export const router = createBrowserRouter([
     element: <PrivacyPolicy />,
   },
   {
+    path: "/privacy-policy",
+    element: <PrivacyPolicy />,
+  },
+  {
     path: "/terms",
+    element: <TermsOfService />,
+  },
+  {
+    path: "/terms-of-service", 
     element: <TermsOfService />,
   },
   {
     path: "/cookies",
     element: <CookiePolicy />,
+  },
+  {
+    path: "/cookie-policy",
+    element: <CookiePolicy />,
+  },
+  {
+    path: "/documentation",
+    element: <Api />,
   },
 ]);
 
