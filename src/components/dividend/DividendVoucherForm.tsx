@@ -97,6 +97,9 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         setValue('shareholderName', selectedShareholder.shareholder_name || '');
         setValue('shareholderAddress', selectedShareholder.address || '');
         setValue('sharesHeld', selectedShareholder.number_of_shares || 0);
+        
+        // Debug log to check what data we're getting
+        console.log('Selected shareholder data:', selectedShareholder);
       }
     }
   }, [selectedShareholderId, shareholders, setValue]);
