@@ -42,8 +42,7 @@ export const TemplateCard = ({
             disabled={!isSelected}
             onClick={() => onDownload(template.id, 'pdf')}
           >
-            <Download className="w-4 h-4" />
-            Download PDF
+            Generate Preview
           </Button>
         </div>
       </div>
