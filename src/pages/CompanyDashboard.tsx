@@ -146,29 +146,45 @@ const CompanyDashboard = () => {
     }
   };
 
-  const handleShareholderSubmit = async (data: any) => {
+  const handleShareholderSubmit = async (data: any, shareholderId?: string) => {
     if (!company) return;
     
     try {
       const user = (await supabase.auth.getUser()).data.user;
       if (!user) throw new Error("No user found");
 
-      const { error } = await supabase
-        .from('shareholders')
-        .insert([{
-          shareholder_name: data.shareholderName,
-          share_class: data.shareClass,
-          number_of_shares: parseInt(data.numberOfShares),
-          company_id: company.id,
-          user_id: user.id,
-          is_share_class: false
-        }]);
+      const shareholderData = {
+        shareholder_name: data.shareholderName,
+        share_class: data.shareClass,
+        number_of_shares: parseInt(data.numberOfShares),
+        address: data.shareholderAddress,
+        company_id: company.id,
+        user_id: user.id,
+        is_share_class: false
+      };
+
+      let error;
+      
+      if (shareholderId) {
+        // Update existing shareholder
+        const { error: updateError } = await supabase
+          .from('shareholders')
+          .update(shareholderData)
+          .eq('id', shareholderId);
+        error = updateError;
+      } else {
+        // Insert new shareholder
+        const { error: insertError } = await supabase
+          .from('shareholders')
+          .insert([shareholderData]);
+        error = insertError;
+      }
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "Shareholder added successfully",
+        description: shareholderId ? "Shareholder updated successfully" : "Shareholder added successfully",
       });
       setIsShareholderDialogOpen(false);
       fetchData();

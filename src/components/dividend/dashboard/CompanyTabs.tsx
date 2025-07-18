@@ -33,26 +33,45 @@ export const CompanyTabs = ({
   const { shareholders, refetchShareholders } = useCompanyData(selectedCompany?.id);
   const { toast } = useToast();
 
-  const handleShareholderSubmit = async (data: ShareholderDetails) => {
+  const handleShareholderSubmit = async (data: ShareholderDetails, shareholderId?: string) => {
     if (!selectedCompany?.id) return;
     
     try {
-      const { error } = await supabase
-        .from('shareholders')
-        .insert({
-          company_id: selectedCompany.id,
-          user_id: (await supabase.auth.getUser()).data.user?.id,
-          shareholder_name: data.shareholderName,
-          share_class: data.shareClass,
-          number_of_shares: parseInt(data.numberOfShares),
-          is_share_class: false
-        });
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) throw new Error("No user found");
+
+      const shareholderData = {
+        company_id: selectedCompany.id,
+        user_id: user.id,
+        shareholder_name: data.shareholderName,
+        share_class: data.shareClass,
+        number_of_shares: parseInt(data.numberOfShares),
+        address: data.shareholderAddress,
+        is_share_class: false
+      };
+
+      let error;
+      
+      if (shareholderId) {
+        // Update existing shareholder
+        const { error: updateError } = await supabase
+          .from('shareholders')
+          .update(shareholderData)
+          .eq('id', shareholderId);
+        error = updateError;
+      } else {
+        // Insert new shareholder
+        const { error: insertError } = await supabase
+          .from('shareholders')
+          .insert(shareholderData);
+        error = insertError;
+      }
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "Shareholder added successfully",
+        description: shareholderId ? "Shareholder updated successfully" : "Shareholder added successfully",
       });
 
       setIsShareholderDialogOpen(false);
