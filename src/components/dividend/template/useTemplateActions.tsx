@@ -53,6 +53,16 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
 
         if (saveError) throw saveError;
         setRecordId(newRecord.id);
+
+        // Increment the monthly dividend count for the user
+        const { error: profileError } = await supabase.rpc('increment_monthly_dividends', { 
+          user_id: user.id 
+        });
+
+        if (profileError) {
+          console.error('Failed to increment monthly dividends:', profileError);
+          // Don't throw error here as the main record was created successfully
+        }
       }
     } catch (error: any) {
       throw error;
