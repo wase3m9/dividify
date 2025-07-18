@@ -56,7 +56,7 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
 
         // Increment the monthly dividend count for the user
         const { error: profileError } = await supabase.rpc('increment_monthly_dividends', { 
-          user_id: user.id 
+          user_id_param: user.id 
         });
 
         if (profileError) {
