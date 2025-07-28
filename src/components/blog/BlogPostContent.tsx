@@ -57,7 +57,7 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
           }
 
           // Skip TOC items when not in TOC section
-          if (paragraph.trim().startsWith('•') && !section.includes('**Table of Contents:**')) {
+          if (paragraph.trim().startsWith('•')) {
             return null;
           }
 
