@@ -4,6 +4,7 @@ interface RelatedPost {
   id: string;
   slug: string;
   title: string;
+  image?: string;
 }
 
 interface RelatedPostsProps {
@@ -25,7 +26,7 @@ export const RelatedPosts = ({ posts }: RelatedPostsProps) => {
           >
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <img
-                src="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png"
+                src={post.image || `https://images.unsplash.com/photo-${1488590528505 + (parseInt(post.id) * 1000)}-98d2b5aba04b?auto=format&fit=crop&w=400&h=200`}
                 alt="Blog post thumbnail"
                 className="w-full h-40 object-cover"
               />
