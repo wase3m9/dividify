@@ -198,13 +198,28 @@ export const BlogPostContent = ({ content, slug }: BlogPostContentProps) => {
     return <span dangerouslySetInnerHTML={{ __html: formatted }} />;
   };
 
+  // Add full-width header image based on slug
+  const getHeaderImage = (slug: string) => {
+    switch (slug) {
+      case 'understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025':
+        return '/lovable-uploads/57b19283-3d8c-4363-bb49-924bb4c8c7cb.png';
+      case 'how-to-legally-take-dividends-from-your-limited-company':
+        return '/lovable-uploads/8a6a36c3-2cd1-4d16-9874-d000294e732f.png';
+      case 'dividend-waivers-when-and-how-to-use-them-effectively':
+        return '/lovable-uploads/bda6c9ee-0f6f-495c-abca-817d5287b0ba.png';
+      default:
+        return '/lovable-uploads/57b19283-3d8c-4363-bb49-924bb4c8c7cb.png';
+    }
+  };
+
   return (
     <div className="prose max-w-none text-left">
-      <div className="mb-8">
+      {/* Full-width header image */}
+      <div className="w-full mb-8 -mx-4">
         <img
-          src="/lovable-uploads/57b19283-3d8c-4363-bb49-924bb4c8c7cb.png"
-          alt="Plant growing from stack of coins representing dividend growth"
-          className="w-1/4 h-auto rounded-lg shadow-lg float-right ml-6 mb-6"
+          src={getHeaderImage(slug)}
+          alt="Financial growth and dividend management illustration"
+          className="w-full h-64 md:h-80 object-cover rounded-lg shadow-lg"
         />
       </div>
       {renderContent(content)}
