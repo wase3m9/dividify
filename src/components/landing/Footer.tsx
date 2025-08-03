@@ -11,7 +11,7 @@ export const Footer = () => {
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">124 City Road, London, EC1V 2NX, United </h4>
+            
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link to="/#features" className="hover:text-gray-900">Features</Link></li>
               <li><Link to="/#pricing" className="hover:text-gray-900">Pricing</Link></li>
@@ -19,14 +19,14 @@ export const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link to="/blog" className="hover:text-gray-900">Blog</Link></li>
               <li><Link to="/contact" className="hover:text-gray-900">Contact</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
+            
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link to="/privacy-policy" className="hover:text-gray-900">Privacy Policy</Link></li>
               <li><Link to="/terms-of-service" className="hover:text-gray-900">Terms of Service</Link></li>
