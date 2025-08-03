@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import businessDocs from "@/assets/business-documents.jpg";
 
 interface RelatedPost {
   id: string;
@@ -26,7 +27,7 @@ export const RelatedPosts = ({ posts }: RelatedPostsProps) => {
           >
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <img
-                src={post.image || `https://images.unsplash.com/photo-${1488590528505 + (parseInt(post.id) * 1000)}-98d2b5aba04b?auto=format&fit=crop&w=400&h=200`}
+                src={post.image || businessDocs}
                 alt="Blog post thumbnail"
                 className="w-full h-40 object-cover"
               />
