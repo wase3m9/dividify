@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import dividendTaxationImage from "@/assets/dividend-taxation-guide.jpg";
 import legalDividendImage from "@/assets/legal-dividend-process.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers.jpg";
+import directorsLoanAccountsImage from "@/assets/directors-loan-accounts.jpg";
+import salaryVsDividendsImage from "@/assets/salary-vs-dividends.jpg";
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -165,6 +167,199 @@ const sampleBlogPosts = [
   },
   {
     id: '3',
+    title: 'Director\'s Loan Accounts: Tax Implications and Common Pitfalls in 2025',
+    content: `**Table of Contents**
+
+• What is a Director's Loan Account (DLA)?
+• Tax Risks of Overdrawn DLAs
+• Example: Section 455 in Practice
+• Common Pitfalls to Avoid
+• Best Practices in 2025
+• Audit and HMRC Triggers
+• Final Thoughts
+
+If you're a UK limited company director, understanding how to properly manage a Director's Loan Account (DLA) is essential. Misusing or misunderstanding your DLA can trigger surprise tax bills, HMRC scrutiny, or even penalties. In this guide, we'll break down how DLAs work, what to watch out for in 2025, and how to stay compliant.
+
+**What is a Director's Loan Account (DLA)?**
+
+A DLA records money a director takes out of or puts into the company that isn't:
+
+• Salary or wages
+• Dividends
+• Business expense reimbursements
+
+Instead, it tracks personal borrowing from or lending to the company. A positive balance means the company owes you money; a negative balance (i.e., overdrawn) means you owe the company money.
+
+DLAs are common in small businesses, especially when directors use personal funds to cover company expenses or take money out for personal use.
+
+**Tax Risks of Overdrawn DLAs**
+
+When a DLA becomes overdrawn and is not repaid within 9 months and 1 day after the end of the company's accounting period, the company may face:
+
+• Section 455 tax at 33.75% of the outstanding amount
+• Benefit in Kind (BIK) for loans over £10,000 interest-free
+• Class 1A National Insurance on BIKs
+
+Section 455 tax is a temporary charge — it can be reclaimed once the loan is repaid, but that could take over a year depending on your company year-end.
+
+**Example: Section 455 in Practice**
+
+Let's say your company year ends on 31 March 2025, and you've borrowed £15,000 in January 2025:
+
+• Deadline for repayment: 31 December 2025
+• If unpaid, Section 455 tax = £5,062.50 payable with the Corporation Tax return
+• This tax is refundable — but only once the loan is repaid, and not until your next CT600 submission
+
+**Common Pitfalls to Avoid**
+
+• **Disguised remuneration**: Loans used in place of salary or dividends to avoid tax
+• **Bed and breakfasting**: Repaying just before the deadline, then reborrowing
+• **Unrecorded transactions**: Taking personal funds without noting them properly in company books
+• **No formal agreement**: Loans over £10,000 should have written terms
+• **Incorrect interest**: HMRC expects a market rate interest if over £10,000 — otherwise, BIK applies
+
+**Best Practices in 2025**
+
+• Repay loans within 9 months to avoid S455 tax
+• Keep DLAs separate from salary/dividends records
+• Charge interest at HMRC's official rate (currently 2.25% in 2025)
+• Use bookkeeping software to track balances and repayments
+• Get written loan agreements if you're borrowing large sums
+
+**Audit and HMRC Triggers**
+
+DLAs are red flags for HMRC if:
+
+• The account is overdrawn for multiple years
+• There's a pattern of repayment and reborrowing
+• The company shows consistent low profits while the director receives large advances
+
+A poorly handled DLA can be classified as income and attract Income Tax and NICs — much worse than a Section 455 charge.
+
+**Final Thoughts**
+
+A Director's Loan Account can be a useful tool, but only if used correctly. Make sure you work closely with your accountant and avoid common traps that could cost you significantly. If unsure, it's always better to take formal dividends or salary rather than blurring the lines with loans.
+
+**Frequently Asked Questions**
+
+**Q: What happens if I can't repay my Director's Loan within 9 months?**
+A: If you can't repay within 9 months and 1 day of your company year-end, your company will owe Section 455 tax at 33.75% of the outstanding amount. This is paid with your Corporation Tax return, but can be reclaimed once the loan is repaid.
+
+**Q: Can I avoid Section 455 tax by repaying just before the deadline and reborrowing?**
+A: This practice, known as "bed and breakfasting," is heavily scrutinized by HMRC. If there's a pattern of repayment and immediate reborrowing, HMRC may treat this as tax avoidance and apply penalties.
+
+**Q: Do I need to charge interest on my Director's Loan?**
+A: For loans over £10,000, you should charge interest at HMRC's official rate (currently 2.25% in 2025). If you don't, the benefit of the interest-free loan becomes a taxable benefit in kind.
+
+**Q: What's the difference between a Director's Loan and taking dividends?**
+A: Dividends are payments from company profits that have already been subject to Corporation Tax, and you pay dividend tax on them. Director's Loans are borrowings that must be repaid, and if not repaid within 9 months, trigger Section 455 tax.
+
+**Q: Can I use company money for personal expenses through my DLA?**
+A: You can, but this creates an overdrawn DLA that must be repaid within 9 months. It's often more tax-efficient to take formal salary or dividends instead of borrowing from the company.`,
+    slug: 'directors-loan-accounts-tax-implications-2025',
+    published_at: '2024-08-10T10:00:00Z',
+    image: directorsLoanAccountsImage
+  },
+  {
+    id: '4',
+    title: 'Salary vs Dividends: What\'s the Most Tax-Efficient Mix for UK Directors in 2025/26?',
+    content: `**Table of Contents**
+
+• Salary: The Pros and Cons
+• Dividends: What You Need to Know
+• Example: Optimal Mix for 2025/26
+• When Might a Higher Salary Be Better?
+• Common Mistakes to Avoid
+• Final Thoughts
+
+Getting the balance right between salary and dividends is one of the most effective ways for UK limited company directors to minimise their tax bill. But with National Insurance thresholds and dividend tax rates changing again for 2025/26, what is the most efficient strategy?
+
+**Salary: The Pros and Cons**
+
+**Pros:**
+• Allows you to build up qualifying years for state pension
+• Classed as an allowable expense — reduces corporation tax
+• Ensures regular income for mortgage or loan applications
+
+**Cons:**
+• Subject to PAYE and National Insurance (employer and employee)
+• Reduces company profit
+
+The Primary Threshold for 2025/26 is £12,570. This means you can receive a salary at this level without paying Income Tax, and if structured correctly (below the Secondary Threshold), you can avoid both employee and employer NI.
+
+**Dividends: What You Need to Know**
+
+Dividends are payments made from post-tax profits and are not classed as an expense.
+
+**Dividend tax rates for 2025/26:**
+• Basic rate: 8.75%
+• Higher rate: 33.75%
+• Additional rate: 39.35%
+
+The tax-free dividend allowance is now just £500, down from £1,000 in 2023/24. This makes planning even more important.
+
+**Key advantages:**
+• No NICs payable
+• Flexible — can be declared when profits allow
+• Lower tax rates than salary (up to higher rate threshold)
+
+**Example: Optimal Mix for 2025/26**
+
+Assume your company has £100,000 in pre-tax profit. After 19% corporation tax, £81,000 remains.
+
+| Income Type | Amount | Tax/NIC Due | Net |
+|-------------|--------|-------------|-----|
+| Salary | £12,570 | £0 (if structured right) | £12,570 |
+| Dividend | £37,930 | Approx £3,280 | £34,650 |
+
+Total net income = £47,220, with significantly less tax than taking all as salary.
+
+**When Might a Higher Salary Be Better?**
+
+• You want to maximise pension contributions (based on salary)
+• You want to reduce company profits to save corporation tax
+• You have no or low dividends available due to past losses or poor cashflow
+• You need a higher monthly payslip income for personal finance purposes
+
+**Common Mistakes to Avoid**
+
+• Taking dividends when there are no retained profits
+• Forgetting to document dividend declarations via board minutes
+• Not filing dividend vouchers
+• Mixing salary and dividends with no formal structure
+• Forgetting that dividends are not allowable expenses
+
+**Final Thoughts**
+
+There's no one-size-fits-all answer — the best approach depends on your personal situation, goals, and company performance. It's worth reviewing your salary/dividend strategy each tax year with a qualified accountant.
+
+With careful planning, UK directors can extract income tax-efficiently — while keeping HMRC happy.
+
+**Frequently Asked Questions**
+
+**Q: What's the optimal salary to take as a director in 2025/26?**
+A: The most tax-efficient salary is typically £12,570 (the Personal Allowance threshold), as this avoids Income Tax and, if structured correctly, National Insurance contributions for both employee and employer.
+
+**Q: How much dividend tax will I pay in 2025/26?**
+A: Dividend tax rates for 2025/26 are 8.75% (basic rate), 33.75% (higher rate), and 39.35% (additional rate). Remember, you have a £500 tax-free dividend allowance.
+
+**Q: Can I change my salary/dividend split during the year?**
+A: Yes, but salary changes require running payroll, while dividends can be declared as and when company profits allow. Both need proper documentation through board minutes.
+
+**Q: What if my company makes a loss - can I still take dividends?**
+A: No, dividends can only be paid from distributable profits. If your company has no retained profits or current year profits, you cannot legally declare dividends.
+
+**Q: Do I need to pay National Insurance on dividends?**
+A: No, dividends are not subject to National Insurance contributions, which is one of their main tax advantages over salary.
+
+**Q: How do I document dividend payments properly?**
+A: You need board minutes approving the dividend, dividend vouchers for each payment, and proper records in your company accounts. All shareholders must receive dividend vouchers.`,
+    slug: 'salary-vs-dividends-tax-efficient-mix-2025',
+    published_at: '2024-08-10T09:00:00Z',
+    image: salaryVsDividendsImage
+  },
+  {
+    id: '5',
     title: 'Dividend Waivers: When and How to Use Them Effectively',
     content: 'Dividend waivers can be a powerful tool for tax planning and cash flow management, but they\'re also one of the most scrutinized areas by HMRC. Use them incorrectly, and you could face significant tax penalties and accusations of artificial tax avoidance.\n\nThe stakes are high: HMRC successfully challenged dividend waiver arrangements in over 60% of investigated cases in recent years, often resulting in substantial tax bills plus penalties.\n\n**Table of Contents:**\n• What Are Dividend Waivers?\n• When Waivers Make Commercial Sense\n• HMRC\'s Settlements Legislation Challenge\n• Legal Requirements and Formal Process\n• Real-World Scenario: Family Company\n• Risks and Common Mistakes\n• FAQ\n________________________________________\n\nWhat Are Dividend Waivers?\n\nA dividend waiver is a formal legal agreement where a shareholder voluntarily gives up their right to receive a dividend payment. This allows other shareholders to receive the full dividend while the waiving shareholder receives nothing for that particular declaration.\n\n**Key principle:** All shareholders of the same class normally have equal rights to dividends. Waivers create an exception to this rule, but only when properly implemented.\n\n**Common uses:**\n- Managing tax liabilities across family members\n- Retaining funds in the business for growth\n- Accommodating shareholders with different income needs\n- Supporting business succession planning\n\nWhen Waivers Make Commercial Sense\n\nDividend waivers work best when there\'s genuine commercial reasoning beyond tax savings:\n\n**Scenario 1: Business Reinvestment**\nA growing company needs capital for expansion. Rather than external funding, one shareholder waives dividends to retain profits in the business.\n\n**Scenario 2: Retirement Planning**\nAn older director approaching retirement waives current dividends in favor of building company value for eventual sale.\n\n**Scenario 3: Income Smoothing**\nShareholders with fluctuating external income use waivers to manage their tax bands across different years.\n\n**Scenario 4: Family Circumstances**\nDifferent family members have varying financial needs, and waivers help accommodate these differences fairly.\n\nWhy are dividends waivers tax-efficient?\n\nWaivers allow income to be directed to shareholders in lower tax brackets. For example:\n\n**Without waiver:** Two shareholders each receive £20,000 dividend\n**With waiver:** One shareholder receives £40,000, the other receives nothing\n\nIf the receiving shareholder pays tax at a lower rate, the overall family tax liability reduces.\n\nHMRC Scrutiny and Settlement of Rights\n\nHMRC closely examines dividend waivers under the "settlements legislation" (Chapter 5, Part 5 of ITTOIA 2005). This allows them to tax waived income as if it still belonged to the original shareholder.\n\n**HMRC will challenge waivers when:**\n- The primary purpose appears to be tax avoidance\n- Arrangements lack commercial substance\n- Benefits flow back to the waiving shareholder\n- Waivers follow predictable patterns clearly designed for tax purposes\n\n**The "wholly or mainly" test:** If tax avoidance is the main purpose, HMRC can successfully challenge the arrangement.\n\nCan you pay dividends to some shareholders but not others?\n\nYes, but only in specific circumstances:\n\n**With valid dividend waivers:** Properly executed waivers allow unequal payments to shareholders with identical rights.\n\n**Different share classes:** Companies can create different classes of shares with varying dividend rights.\n\n**Without proper arrangements:** You cannot simply pay different amounts to shareholders with the same class of shares. This violates company law and creates personal liability for directors.\n\nLegal Requirements for Dividend Waivers\n\nDividend waivers must meet strict legal requirements to be effective:\n\n**1. Formal Deed Requirement**\nThe waiver must be executed as a deed, not a simple letter or email. This requires specific legal formalities.\n\n**2. Proper Execution**\n- Signed by the waiving shareholder\n- Witnessed by an independent person\n- Dated clearly\n- Uses appropriate legal language\n\n**3. Timing is Critical**\nThe waiver must be in place before the right to the dividend arises. You cannot waive a dividend after it\'s been declared.\n\n**4. Board Resolution**\nCompany directors should formally acknowledge the waiver in board meeting minutes when declaring dividends.\n\n**5. Genuine Commercial Purpose**\nDocument the business reasons for the waiver beyond tax savings.\n\nReal-World Scenario: Two Directors with Different Income Needs\n\nMeet Alex and Sam, equal shareholders in their family business:\n\n**Alex\'s situation:**\n- Other income: £90,000 (from property and investments)\n- Any dividends would face 33.75% tax\n- Approaching retirement and focused on long-term wealth\n\n**Sam\'s situation:**\n- Other income: £15,000 (part-time work)\n- Has capacity for dividends at 8.75% tax rate\n- Young family with immediate financial needs\n\n**The waiver solution:**\nAlex waives dividend entitlement for three years to allow Sam to receive larger payments at lower tax rates. This serves multiple purposes:\n- Reduces overall family tax burden\n- Supports Sam during expensive child-rearing years\n- Retains some profits in the business for Alex\'s future benefit\n- Creates a clear business succession pathway\n\n**Key success factors:**\n- Documented in formal deed with legal advice\n- Clear commercial reasoning beyond tax\n- Fixed time period (not indefinite)\n- Regular review of arrangements\n\nThe Formal Process\n\n**Step 1: Document Commercial Reasons**\nCreate a clear written record of why the waiver serves legitimate business purposes.\n\n**Step 2: Obtain Legal Advice**\nFor significant or ongoing waivers, professional legal advice ensures compliance and reduces HMRC challenge risk.\n\n**Step 3: Execute Formal Deed**\nUse proper legal documentation, not informal agreements.\n\n**Step 4: Company Resolution**\nRecord the waiver in company minutes when declaring dividends.\n\n**Step 5: Maintain Records**\nKeep all documentation for at least six years.\n\nRisks if Done Incorrectly\n\n**HMRC Challenges**\nFailed waivers can result in tax being charged on the original shareholder plus penalties and interest.\n\n**Company Law Breaches**\nImproper dividend payments can create director liability and potential disqualification.\n\n**Family Disputes**\nPoorly documented arrangements often lead to disputes when circumstances change.\n\n**Professional Negligence**\nInappropriate advice on waivers has led to successful negligence claims against advisors.\n\nAvoiding Common Mistakes\n\n**1. The "Informal Arrangement" Error**\nVerbal agreements or simple emails won\'t satisfy legal requirements for effective waivers.\n\n**2. The "Tax Only" Trap**\nWaivers purely for tax reasons without commercial substance will fail HMRC scrutiny.\n\n**3. The "Retrospective" Mistake**\nYou cannot validly waive dividends after they\'ve been declared or paid.\n\n**4. The "Circular Benefit" Problem**\nArrangements where benefits flow back to the waiving shareholder (like family expense payments) may be challenged.\n\n**5. The "Pattern Recognition" Issue**\nRegular, predictable waivers clearly designed for tax purposes attract HMRC attention.\n\nConclusion?\n\nDividend waivers can be valuable tools when used appropriately for genuine commercial purposes. However, they require careful planning, proper documentation, and often professional advice to ensure effectiveness.\n\n**Best practices:**\n- Always have commercial reasons beyond tax savings\n- Use proper legal documentation\n- Consider time limits rather than permanent arrangements\n- Regular review as circumstances change\n- Professional advice for significant amounts\n\n**FAQ Section**\n\n**Q: Can I waive my dividend and take the money as a loan instead?**\nA: This defeats the purpose of the waiver and creates beneficial loan tax charges. HMRC will challenge such arrangements.\n\n**Q: How long can a dividend waiver last?**\nA: While there\'s no legal limit, shorter periods (1-3 years) with clear review points are less likely to attract HMRC scrutiny than indefinite arrangements.\n\n**Q: Can I change my mind after signing a waiver?**\nA: Generally no, once properly executed and relied upon by the company. This is why careful consideration before signing is essential.\n\n**Q: Do dividend waivers affect my shareholding rights?**\nA: No, waivers only affect the right to specific dividend payments, not fundamental shareholding rights like voting or capital rights.\n\n**Q: What happens if HMRC successfully challenges a waiver?**\nA: The waived dividends may be taxed on the original shareholder, often with penalties and interest. The receiving shareholder normally keeps their received dividends.',
     slug: 'dividend-waivers-when-and-how-to-use-them-effectively',
