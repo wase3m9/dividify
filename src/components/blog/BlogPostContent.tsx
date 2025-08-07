@@ -124,7 +124,7 @@ export const BlogPostContent = ({
       },
       {
         title: "Salary vs Dividends: What's the Most Tax-Efficient Mix for UK Directors in 2025/26?",
-        slug: "salary-vs-dividends-whats-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
+        slug: "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
       }
     ];
 

@@ -49,7 +49,17 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <Helmet>
+        <title>Contact Dividify - Get Help with Dividend Vouchers & Board Minutes | Expert Support</title>
+        <meta name="description" content="Contact Dividify for expert support with dividend vouchers, board minutes, and HMRC compliance. Get help from our UK company law specialists." />
+        <meta name="keywords" content="contact dividify, dividend support, board minutes help, HMRC compliance support, UK company law assistance" />
+        <meta property="og:title" content="Contact Dividify - Expert Support for UK Limited Companies" />
+        <meta property="og:description" content="Get expert help with dividend vouchers, board minutes, and HMRC compliance from our UK company law specialists." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href={window.location.href} />
+      </Helmet>
+      <div className="min-h-screen bg-white">
       <Helmet>
         <title>Contact Dividify | UK Dividend Software Support | London</title>
         <meta name="description" content="Contact Dividify for support with dividend vouchers and board minutes software. Located in London, UK. Email hello@dividify.co.uk or call +44 20 7946 0958" />
@@ -159,8 +169,9 @@ const Contact = () => {
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 

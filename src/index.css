@@ -36,6 +36,40 @@
   }
 }
 
+/* Mobile-specific improvements */
+@layer utilities {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .mobile-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (max-width: 640px) {
+    .mobile-text {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+    
+    .mobile-spacing {
+      margin-bottom: 1rem;
+    }
+    
+    .mobile-hero-text {
+      font-size: 2rem;
+      line-height: 2.25rem;
+    }
+    
+    .mobile-hero-subtext {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+  }
+}
+
 .fade-in {
   opacity: 0;
   animation: fadeIn 0.5s ease-out forwards;

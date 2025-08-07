@@ -52,16 +52,16 @@ const Accountants = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
       <Helmet>
-        <title>Accountants Software | Dividend Voucher & Board Minutes Generator | London UK | Dividify</title>
-        <meta name="description" content="Streamline dividend voucher preparation for multiple clients. Professional accounting software for UK accountants. Unlimited companies, HMRC compliance, £20/month." />
-        <meta name="keywords" content="accountants software London, dividend voucher software, accounting tools UK, board minutes generator, accountants in London, small business accounting UK, tax return service UK" />
+        <title>Dividify for Accountants - Professional Dividend & Board Minutes Solutions | Practice Management</title>
+        <meta name="description" content="Streamline your accounting practice with Dividify's professional dividend voucher and board minutes generation. Built for UK accountants and bookkeepers." />
+        <meta name="keywords" content="dividify accountants, accounting practice software, dividend vouchers for accountants, board minutes automation, UK accounting software" />
         <meta name="geo.region" content="GB" />
         <meta name="geo.country" content="UK" />
         <meta name="geo.placename" content="London" />
-        <meta property="og:title" content="Accountants Software | Dividend Voucher & Board Minutes Generator | London UK" />
-        <meta property="og:description" content="Streamline dividend voucher preparation for multiple clients. Professional accounting software for UK accountants." />
+        <meta property="og:title" content="Dividify for Accountants - Professional Practice Management" />
+        <meta property="og:description" content="Streamline your accounting practice with professional dividend voucher and board minutes generation." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:image" content={`${window.location.origin}/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png`} />
@@ -72,8 +72,7 @@ const Accountants = () => {
         <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png`} />
         <link rel="canonical" href={window.location.href} />
       </Helmet>
-
-      <Navigation />
+      <div className="min-h-screen bg-white">
       <main className="container mx-auto px-4 pt-24">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -238,9 +237,10 @@ const Accountants = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </main>
-    </div>
+      <Footer />
+      </div>
+    </>
   );
 };
 
