@@ -1,4 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Link } from "react-router-dom";
+
 interface BlogPostContentProps {
   content: string;
   slug: string;
@@ -114,6 +116,47 @@ export const BlogPostContent = ({
 
   // Helper function to format text content
   const formatTextContent = (text: string) => {
+    // Convert specific blog post titles to links
+    const blogLinks = [
+      {
+        title: "Director's Loan Accounts: Tax Implications and Common Pitfalls in 2025",
+        slug: "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025"
+      },
+      {
+        title: "Salary vs Dividends: What's the Most Tax-Efficient Mix for UK Directors in 2025/26?",
+        slug: "salary-vs-dividends-whats-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
+      }
+    ];
+
+    // Check if this text contains any blog post references that should be links
+    for (const blog of blogLinks) {
+      if (text.includes(blog.title)) {
+        return (
+          <span>
+            {text.split(blog.title).map((part, index) => (
+              index === 0 ? (
+                <span key={index} dangerouslySetInnerHTML={{
+                  __html: part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                }} />
+              ) : (
+                <span key={index}>
+                  <Link 
+                    to={`/blog/${blog.slug}`} 
+                    className="text-[#9b87f5] hover:text-[#7E69AB] underline"
+                  >
+                    {blog.title}
+                  </Link>
+                  <span dangerouslySetInnerHTML={{
+                    __html: part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  }} />
+                </span>
+              )
+            ))}
+          </span>
+        );
+      }
+    }
+
     // Convert **text** to bold
     let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
