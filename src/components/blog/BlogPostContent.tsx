@@ -116,64 +116,68 @@ export const BlogPostContent = ({
 
   // Helper function to format text content
   const formatTextContent = (text: string) => {
-    // Convert specific blog post titles to links
+    // Convert specific blog post titles to links (robust matching)
     const blogLinks = [
       {
         title: "Director's Loan Accounts: Tax Implications and Common Pitfalls in 2025",
-        slug: "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025"
+        slug: "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025",
       },
       {
-        title: "Salary vs Dividends: What's the Most Tax-Efficient Mix for UK Directors in 2025/26?",
-        slug: "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
-      }
+        title:
+          "Salary vs Dividends: What's the Most Tax-Efficient Mix for UK Directors in 2025/26?",
+        slug: "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26",
+      },
     ];
+
+    const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const strongify = (s: string) => s.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
     // Check if this text contains any blog post references that should be links
     for (const blog of blogLinks) {
-      if (text.includes(blog.title)) {
+      // Match both straight and curly apostrophes within titles
+      const pattern = new RegExp(
+        escapeRegExp(blog.title).replace(/['’]/g, "['’]"),
+        "g"
+      );
+
+      if (pattern.test(text)) {
+        const parts = text.split(pattern);
         return (
           <span>
-            {text.split(blog.title).map((part, index) => (
-              index === 0 ? (
-                <span key={index} dangerouslySetInnerHTML={{
-                  __html: part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                }} />
-              ) : (
-                <span key={index}>
-                  <Link 
-                    to={`/blog/${blog.slug}`} 
+            {parts.map((part, index) => (
+              <span key={index}>
+                <span
+                  dangerouslySetInnerHTML={{ __html: strongify(part) }}
+                />
+                {index < parts.length - 1 && (
+                  <Link
+                    to={`/blog/${blog.slug}`}
                     className="text-[#9b87f5] hover:text-[#7E69AB] underline"
                   >
                     {blog.title}
                   </Link>
-                  <span dangerouslySetInnerHTML={{
-                    __html: part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                  }} />
-                </span>
-              )
+                )}
+              </span>
             ))}
           </span>
         );
       }
     }
 
-    // Convert **text** to bold
-    let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
     // Convert lines starting with - to bullet points
-    if (text.trim().startsWith('- ')) {
-      const bulletText = text.replace(/^- /, '');
-      return <li className="ml-4 list-disc">
-          <span dangerouslySetInnerHTML={{
-          __html: bulletText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        }} />
-        </li>;
+    if (text.trim().startsWith("- ")) {
+      const bulletText = text.replace(/^- /, "");
+      return (
+        <li className="ml-4 list-disc">
+          <span
+            dangerouslySetInnerHTML={{ __html: strongify(bulletText) }}
+          />
+        </li>
+      );
     }
 
     // For regular text with bold formatting
-    return <span dangerouslySetInnerHTML={{
-      __html: formatted
-    }} />;
+    return <span dangerouslySetInnerHTML={{ __html: strongify(text) }} />;
   };
 
   // Add full-width header image based on slug
