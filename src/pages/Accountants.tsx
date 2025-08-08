@@ -64,12 +64,12 @@ const Accountants = () => {
         <meta property="og:description" content="Streamline your accounting practice with professional dividend voucher and board minutes generation." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.href} />
-        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png`} />
+        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <meta property="og:locale" content="en_GB" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Accountants Software | Dividend Voucher Generator | London UK" />
         <meta name="twitter:description" content="Professional accounting software for UK accountants. Unlimited companies, HMRC compliance." />
-        <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/3130584a-b794-4839-9352-c4aeb26a0a45.png`} />
+        <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <link rel="canonical" href={window.location.href} />
       </Helmet>
       <div className="min-h-screen bg-white">

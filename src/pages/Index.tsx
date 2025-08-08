@@ -58,7 +58,7 @@ const Index = () => {
       "description": "Professional dividend voucher and board minutes generation service for UK limited companies",
       "url": window.location.origin,
       "logo": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
-      "image": `${window.location.origin}/og-image.png`,
+      "image": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
       "email": "hello@dividify.co.uk",
       "telephone": "+44 20 7946 0958",
       "address": {
@@ -155,7 +155,7 @@ const Index = () => {
         <meta property="og:description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance, from £4/month." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.href} />
-        <meta property="og:image" content={`${window.location.origin}/og-image.png`} />
+        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="en_GB" />
@@ -163,7 +163,7 @@ const Index = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Dividend Vouchers & Board Minutes Generator | UK Limited Companies" />
         <meta name="twitter:description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance." />
-        <meta name="twitter:image" content={`${window.location.origin}/og-image.png`} />
+        <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <link rel="canonical" href={window.location.origin} />
         <script type="application/ld+json">
           {JSON.stringify(generateHomeSchema())}

@@ -74,7 +74,7 @@ const BlogPost = () => {
       "@type": "BlogPosting",
       "headline": post.title,
       "description": metaDescription,
-      "image": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
+      "image": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
       "datePublished": post.published_at,
       "dateModified": post.published_at,
       "author": {
@@ -107,7 +107,7 @@ const BlogPost = () => {
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png" />
+        <meta property="og:image" content="/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png" />
         <meta property="article:published_time" content={post?.published_at} />
         <link rel="canonical" href={window.location.href} />
         <script type="application/ld+json">
