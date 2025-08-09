@@ -29,9 +29,7 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
                   ? "/src/assets/salary-vs-dividends-2025.jpg"
                   : post.slug === "dividend-waivers-when-and-how-to-use-them-effectively"
                   ? "/src/assets/dividend-waivers-2025.jpg"
-                  : post.slug === "how-to-legally-take-dividends-from-your-limited-company"
-                  ? "/lovable-uploads/d7b2765a-596a-46af-83a0-73cc1406247b.png"
-                  : "/lovable-uploads/fc2a21ca-69f6-4b6f-9407-0cf69a983c0f.png"}
+                   : "/lovable-uploads/fc2a21ca-69f6-4b6f-9407-0cf69a983c0f.png"}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"
               />
