@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import businessDocs from "@/assets/business-documents.jpg";
+import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
+import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
+import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 
 interface RelatedPost {
   id: string;
@@ -19,15 +21,15 @@ export const RelatedPosts = ({ posts }: RelatedPostsProps) => {
   const getImageForSlug = (slug: string) => {
     switch (slug) {
       case "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025":
-        return "/lovable-uploads/781bd6ec-c7ea-4ce8-98a6-b679f68235aa.png";
+        return directorsLoanImage;
       case "salary-vs-dividends-whats-the-most-tax-efficient-mix-for-uk-directors-in-2025-26":
-        return "/lovable-uploads/83f38d36-fbfb-49c6-a098-c2a051492bb1.png";
+        return salaryVsDividendsImage;
       case "dividend-waivers-when-and-how-to-use-them-effectively":
-        return "/lovable-uploads/95ceddf4-1eca-4c03-a525-31107e6bd67e.png";
+        return dividendWaiversImage;
       case "understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025":
-        return "/lovable-uploads/57b19283-3d8c-4363-bb49-924bb4c8c7cb.png";
+        return dividendWaiversImage;
       default:
-        return "/lovable-uploads/fc2a21ca-69f6-4b6f-9407-0cf69a983c0f.png";
+        return dividendWaiversImage;
     }
   };
 

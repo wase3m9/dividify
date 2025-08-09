@@ -11,7 +11,9 @@ import { Breadcrumb } from "@/components/blog/Breadcrumb";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { ArticleMetadata } from "@/components/blog/ArticleMetadata";
 import { TagList } from "@/components/blog/TagList";
-
+import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
+import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
+import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 import { CommentsSection } from "@/components/blog/CommentsSection";
 import { useEffect, useState } from "react";
 

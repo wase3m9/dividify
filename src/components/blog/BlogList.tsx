@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock } from "lucide-react";
+import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
+import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
+import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 
 interface BlogPost {
   id: string;
@@ -24,12 +27,12 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
             <div className="md:w-1/3 p-4">
               <img
                 src={post.slug === "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025" 
-                  ? "/lovable-uploads/781bd6ec-c7ea-4ce8-98a6-b679f68235aa.png"
+                  ? directorsLoanImage
                   : post.slug === "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
-                  ? "/lovable-uploads/83f38d36-fbfb-49c6-a098-c2a051492bb1.png"
+                  ? salaryVsDividendsImage
                   : post.slug === "dividend-waivers-when-and-how-to-use-them-effectively"
-                  ? "/lovable-uploads/95ceddf4-1eca-4c03-a525-31107e6bd67e.png"
-                   : "/lovable-uploads/fc2a21ca-69f6-4b6f-9407-0cf69a983c0f.png"}
+                  ? dividendWaiversImage
+                   : dividendWaiversImage}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"
               />
