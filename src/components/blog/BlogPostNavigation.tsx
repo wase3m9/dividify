@@ -18,19 +18,20 @@ export const BlogPostNavigation = ({ prev, next, currentTitle }: BlogPostNavigat
   const handleShare = async () => {
     const url = window.location.href;
     
-    if (navigator.share) {
+    if (navigator.share && navigator.canShare) {
       try {
         await navigator.share({
           title: currentTitle,
           url,
         });
+        return;
       } catch (error) {
-        // User cancelled or error occurred
-        await copyToClipboard(url);
+        console.log('Native sharing failed, falling back to clipboard');
       }
-    } else {
-      await copyToClipboard(url);
     }
+    
+    // Fallback to clipboard
+    await copyToClipboard(url);
   };
 
   const copyToClipboard = async (text: string) => {
@@ -38,7 +39,18 @@ export const BlogPostNavigation = ({ prev, next, currentTitle }: BlogPostNavigat
       await navigator.clipboard.writeText(text);
       toast.success("Link copied to clipboard!");
     } catch (error) {
-      toast.error("Failed to copy link");
+      // Fallback for older browsers
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        toast.success("Link copied to clipboard!");
+      } catch (fallbackError) {
+        toast.error("Failed to copy link");
+      }
     }
   };
 

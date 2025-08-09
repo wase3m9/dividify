@@ -4,8 +4,10 @@ export const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           <div className="text-left">
-            <img src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" className="h-8" />
-            <p className="text-sm text-gray-600">
+            <Link to="/" className="inline-block">
+              <img src="/lovable-uploads/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" className="h-8 hover:opacity-80 transition-opacity" />
+            </Link>
+            <p className="text-sm text-gray-600 mt-2">
               Simplifying dividend management<br />
               for your business
             </p>
