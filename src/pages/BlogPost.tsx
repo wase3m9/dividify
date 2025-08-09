@@ -7,7 +7,11 @@ import { BlogPostHeader } from "@/components/blog/BlogPostHeader";
 import { BlogPostContent } from "@/components/blog/BlogPostContent";
 import { AuthorProfile } from "@/components/blog/AuthorProfile";
 import { BlogPostNavigation } from "@/components/blog/BlogPostNavigation";
-
+import { Breadcrumb } from "@/components/blog/Breadcrumb";
+import { CategoryBadge } from "@/components/blog/CategoryBadge";
+import { ArticleMetadata } from "@/components/blog/ArticleMetadata";
+import { TagList } from "@/components/blog/TagList";
+import { CallToAction } from "@/components/blog/CallToAction";
 import { CommentsSection } from "@/components/blog/CommentsSection";
 import { useEffect, useState } from "react";
 import dividendTaxationImage from "@/assets/dividend-taxation-guide.jpg";
@@ -60,7 +64,13 @@ const BlogPost = () => {
 
   // Estimate reading time (assuming 200 words per minute)
   const wordCount = post?.content?.split(/\s+/).length || 0;
-  const readingTime = Math.ceil(wordCount / 200);
+  const readingTime = `${Math.ceil(wordCount / 200)} min read`;
+
+  // Get excerpt from content (first 2-3 sentences)
+  const getExcerpt = (content: string) => {
+    const sentences = content.split('.').slice(0, 3).join('.') + '.';
+    return sentences.length > 200 ? sentences.substring(0, 200) + '...' : sentences;
+  };
 
   // Get the first few sentences for the meta description
   const metaDescription = post?.content?.split('.').slice(0, 2).join('.') + '.';
@@ -115,33 +125,81 @@ const BlogPost = () => {
         </script>
       </Helmet>
 
-      <Navigation />
+      <div className="sticky top-0 z-50 bg-white border-b">
+        <Navigation />
+      </div>
       
-      <main className="container mx-auto px-4 pt-24 pb-16">
-        <article className="max-w-4xl mx-auto prose lg:prose-xl">
-          <BlogPostHeader
-            title={post?.title}
-            readingTime={readingTime}
-            publishedAt={post?.published_at}
-            content={post?.content}
-          />
-          
-          <BlogPostContent content={post?.content} slug={slug || ''} />
+      <main className="container mx-auto px-4 pt-8 pb-16">
+        <div className="max-w-4xl mx-auto">
+          {/* Breadcrumb Navigation */}
+          <Breadcrumb items={[
+            { label: "Blog", href: "/blog" },
+            { label: post?.title || "Article" }
+          ]} />
 
-          <AuthorProfile
-            name="James Wilson"
-            title="Financial Expert & Tax Advisor"
-            avatarUrl="/lovable-uploads/f6ba4012-2fdd-471e-9091-efae38d6d06a.png"
-          />
+          {/* Article Card Container */}
+          <article className="bg-white rounded-xl shadow-lg border overflow-hidden">
+            {/* Article Header */}
+            <div className="p-8 pb-6">
+              <CategoryBadge category="Tax Planning" />
+              
+              <h1 className="text-4xl font-bold text-gray-900 mt-4 mb-6 leading-tight">
+                {post?.title}
+              </h1>
 
-          <BlogPostNavigation 
-            prev={navigation?.prev} 
-            next={navigation?.next} 
-            currentTitle={post.title}
-          />
+              <ArticleMetadata 
+                publishedAt={post?.published_at || ""}
+                author="James Wilson"
+                readTime={readingTime}
+              />
 
-          <CommentsSection />
-        </article>
+              <p className="text-xl text-gray-600 leading-relaxed mb-8">
+                {getExcerpt(post?.content || "")}
+              </p>
+            </div>
+
+            {/* Article Content */}
+            <div className="px-8 pb-8">
+              <BlogPostContent content={post?.content} slug={slug || ''} />
+
+              {/* Call to Action */}
+              <CallToAction 
+                title="Ready to Optimize Your Tax Strategy?"
+                description="Let our expert team help you implement the most tax-efficient dividend and salary mix for your business."
+                buttonText="Get Professional Advice"
+                buttonLink="/contact"
+              />
+
+              {/* Tags */}
+              <TagList tags={["Dividends", "Tax Planning", "UK Taxation", "Business Finance", "HMRC Compliance"]} />
+            </div>
+
+            {/* Author Section */}
+            <div className="px-8">
+              <AuthorProfile
+                name="James Wilson"
+                title="Financial Expert & Tax Advisor"
+                avatarUrl="/lovable-uploads/f6ba4012-2fdd-471e-9091-efae38d6d06a.png"
+                bio="James has over 15 years of experience in UK taxation and corporate finance, helping hundreds of business owners optimize their tax strategies while ensuring full compliance with HMRC regulations."
+                credentials={["ACCA Qualified", "Tax Specialist", "15+ Years Experience"]}
+              />
+            </div>
+
+            {/* Navigation */}
+            <div className="px-8 pb-8">
+              <BlogPostNavigation 
+                prev={navigation?.prev} 
+                next={navigation?.next} 
+                currentTitle={post?.title || ""}
+              />
+            </div>
+          </article>
+
+          {/* Comments Section */}
+          <div className="mt-8">
+            <CommentsSection />
+          </div>
+        </div>
       </main>
       
       <Footer />

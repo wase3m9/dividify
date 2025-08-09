@@ -95,3 +95,53 @@
 .cta-accent {
   @apply bg-cta-accent text-white hover:bg-opacity-90 transition-colors;
 }
+
+/* Professional Blog Styling */
+.article-content {
+  line-height: 1.8;
+}
+
+.article-content h2 {
+  @apply text-2xl font-bold text-gray-900 mt-8 mb-4 pb-2 border-b-2 border-[#9b87f5];
+}
+
+.article-content h3 {
+  @apply text-xl font-semibold text-gray-900 mt-6 mb-3;
+}
+
+.article-content p {
+  @apply mb-4 text-gray-700 leading-relaxed;
+}
+
+.article-content ul, .article-content ol {
+  @apply mb-6 ml-6;
+}
+
+.article-content li {
+  @apply mb-2 text-gray-700 leading-relaxed;
+}
+
+.article-content blockquote {
+  @apply pl-6 border-l-4 border-[#9b87f5] bg-gray-50 py-4 my-6 italic text-gray-800;
+}
+
+.article-content strong {
+  @apply font-semibold text-gray-900;
+}
+
+/* Professional Table Styling */
+.article-content table {
+  @apply w-full border-collapse border border-gray-300 my-6;
+}
+
+.article-content th {
+  @apply bg-[#9b87f5] text-white font-semibold p-3 border border-gray-300;
+}
+
+.article-content td {
+  @apply p-3 border border-gray-300 text-gray-700;
+}
+
+.article-content tr:nth-child(even) {
+  @apply bg-gray-50;
+}

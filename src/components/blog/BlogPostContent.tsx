@@ -199,9 +199,11 @@ export const BlogPostContent = ({
   };
   return <div className="prose max-w-none text-left">
       {/* Full-width header image */}
-      <div className="w-full mb-8 -mx-4">
-        <img src={getHeaderImage(slug)} alt="Financial growth and dividend management illustration" className="w-full h-64 md:h-80 object-cover rounded-lg shadow-lg" />
+      <div className="w-full mb-8">
+        <img src={getHeaderImage(slug)} alt="Financial growth and dividend management illustration" className="w-full h-64 md:h-80 object-cover rounded-xl shadow-lg" />
       </div>
-      {renderContent(content)}
+      <div className="article-content leading-relaxed space-y-6">
+        {renderContent(content)}
+      </div>
     </div>;
 };
