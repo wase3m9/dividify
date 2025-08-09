@@ -186,7 +186,7 @@ export const BlogPostContent = ({
       case 'director-loan-accounts-tax-implications-and-common-pitfalls-in-2025':
         return '/src/assets/directors-loan-accounts-2025.jpg';
       case 'salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26':
-        return '/lovable-uploads/a8511f76-bbbc-44e3-809d-2ca6a4ec4af1.png';
+        return '/lovable-uploads/781bd6ec-c7ea-4ce8-98a6-b679f68235aa.png';
       case 'dividend-waivers-when-and-how-to-use-them-effectively':
         return '/src/assets/dividend-waivers-2025.jpg';
       case 'understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025':
