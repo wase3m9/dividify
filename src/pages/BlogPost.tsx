@@ -256,7 +256,7 @@ A: Dividends are payments from company profits that have already been subject to
 
 **Q: Can I use company money for personal expenses through my DLA?**
 A: You can, but this creates an overdrawn DLA that must be repaid within 9 months. It's often more tax-efficient to take formal salary or dividends instead of borrowing from the company.`,
-    slug: 'directors-loan-accounts-tax-implications-2025',
+    slug: 'director-loan-accounts-tax-implications-and-common-pitfalls-in-2025',
     published_at: '2024-08-10T10:00:00Z',
     image: directorsLoanAccountsImage
   },
@@ -354,7 +354,7 @@ A: No, dividends are not subject to National Insurance contributions, which is o
 
 **Q: How do I document dividend payments properly?**
 A: You need board minutes approving the dividend, dividend vouchers for each payment, and proper records in your company accounts. All shareholders must receive dividend vouchers.`,
-    slug: 'salary-vs-dividends-tax-efficient-mix-2025',
+    slug: 'salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26',
     published_at: '2024-08-10T09:00:00Z',
     image: salaryVsDividendsImage
   },

@@ -183,7 +183,7 @@ export const BlogPostContent = ({
   // Add full-width header image based on slug
   const getHeaderImage = (slug: string) => {
     switch (slug) {
-      case 'directors-loan-accounts-tax-implications-and-common-pitfalls-in-2025':
+      case 'director-loan-accounts-tax-implications-and-common-pitfalls-in-2025':
         return '/src/assets/directors-loan-accounts-2025.jpg';
       case 'salary-vs-dividends-whats-the-most-tax-efficient-mix-for-uk-directors-in-2025-26':
         return '/src/assets/salary-vs-dividends-2025.jpg';
