@@ -11,7 +11,7 @@ import { Breadcrumb } from "@/components/blog/Breadcrumb";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { ArticleMetadata } from "@/components/blog/ArticleMetadata";
 import { TagList } from "@/components/blog/TagList";
-import { CallToAction } from "@/components/blog/CallToAction";
+
 import { CommentsSection } from "@/components/blog/CommentsSection";
 import { useEffect, useState } from "react";
 import dividendTaxationImage from "@/assets/dividend-taxation-guide.jpg";
@@ -162,13 +162,6 @@ const BlogPost = () => {
             <div className="px-8 pb-8">
               <BlogPostContent content={post?.content} slug={slug || ''} />
 
-              {/* Call to Action */}
-              <CallToAction 
-                title="Ready to Optimize Your Tax Strategy?"
-                description="Let our expert team help you implement the most tax-efficient dividend and salary mix for your business."
-                buttonText="Get Professional Advice"
-                buttonLink="/contact"
-              />
 
               {/* Tags */}
               <TagList tags={["Dividends", "Tax Planning", "UK Taxation", "Business Finance", "HMRC Compliance"]} />
@@ -180,7 +173,6 @@ const BlogPost = () => {
                 name="James Wilson"
                 title="Financial Expert & Tax Advisor"
                 avatarUrl="/lovable-uploads/f6ba4012-2fdd-471e-9091-efae38d6d06a.png"
-                bio="James has over 15 years of experience in UK taxation and corporate finance, helping hundreds of business owners optimize their tax strategies while ensuring full compliance with HMRC regulations."
                 credentials={["ACCA Qualified", "Tax Specialist", "15+ Years Experience"]}
               />
             </div>
