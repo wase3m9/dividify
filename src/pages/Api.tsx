@@ -23,6 +23,41 @@ const Api = () => {
         <meta name="twitter:title" content="Dividify API Documentation" />
         <meta name="twitter:description" content="Integrate dividend voucher generation into your applications with our comprehensive API." />
         <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": "Dividify API Documentation",
+            "description": "Complete REST API documentation for Dividify's dividend voucher and board minutes generation service",
+            "author": {
+              "@type": "Organization",
+              "name": "Dividify",
+              "url": window.location.origin
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Dividify",
+              "logo": {
+                "@type": "ImageObject",
+                "url": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`
+              }
+            },
+            "datePublished": "2025-01-01",
+            "dateModified": "2025-01-17",
+            "url": window.location.href,
+            "mainEntity": {
+              "@type": "SoftwareApplication",
+              "name": "Dividify API",
+              "applicationCategory": "BusinessApplication",
+              "operatingSystem": "Any",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "GBP"
+              }
+            }
+          })}
+        </script>
       </Helmet>
       
       <Navigation />

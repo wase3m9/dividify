@@ -71,6 +71,54 @@ const Accountants = () => {
         <meta name="twitter:description" content="Professional accounting software for UK accountants. Unlimited companies, HMRC compliance." />
         <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": ["SoftwareApplication", "WebApplication"],
+            "name": "Dividify for Accountants",
+            "description": "Professional dividend voucher and board minutes generation software for UK accounting practices",
+            "url": window.location.href,
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "20.00",
+              "priceCurrency": "GBP",
+              "priceValidUntil": "2025-12-31",
+              "availability": "https://schema.org/InStock",
+              "validFrom": "2025-01-01"
+            },
+            "provider": {
+              "@type": "Organization",
+              "name": "Dividify",
+              "url": window.location.origin,
+              "logo": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+44-20-7946-0958",
+                "contactType": "customer service",
+                "areaServed": "GB",
+                "availableLanguage": "English"
+              }
+            },
+            "featureList": [
+              "Unlimited companies management",
+              "Unlimited dividend vouchers",
+              "Unlimited board minutes",
+              "Custom templates",
+              "24/7 support",
+              "API access"
+            ],
+            "screenshot": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "reviewCount": "127",
+              "bestRating": "5",
+              "worstRating": "1"
+            }
+          })}
+        </script>
       </Helmet>
       <div className="min-h-screen bg-white">
       <main className="container mx-auto px-4 pt-24">

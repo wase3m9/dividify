@@ -72,6 +72,20 @@ const BlogPost = () => {
   // Get the first few sentences for the meta description
   const metaDescription = post?.content?.split('.').slice(0, 2).join('.') + '.';
 
+  // Get post image based on slug
+  const getPostImage = (slug: string) => {
+    switch(slug) {
+      case 'director-loan-accounts-tax-implications-and-common-pitfalls-in-2025':
+        return directorsLoanImage;
+      case 'salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26':
+        return salaryVsDividendsImage;
+      case 'dividend-waivers-when-and-how-to-use-them-effectively':
+        return dividendWaiversImage;
+      default:
+        return '/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png';
+    }
+  };
+
   // Generate structured data for the article
   const generateArticleSchema = () => {
     if (!post) return null;
@@ -81,13 +95,17 @@ const BlogPost = () => {
       "@type": "BlogPosting",
       "headline": post.title,
       "description": metaDescription,
-      "image": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
+      "image": `${window.location.origin}${getPostImage(post.slug)}`,
       "datePublished": post.published_at,
       "dateModified": post.published_at,
       "author": {
         "@type": "Person",
         "name": "James Wilson",
-        "jobTitle": "Financial Expert & Tax Advisor"
+        "jobTitle": "Tax Specialist",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Dividify"
+        }
       },
       "publisher": {
         "@type": "Organization",
@@ -101,21 +119,47 @@ const BlogPost = () => {
         "@type": "WebPage",
         "@id": window.location.href
       },
-      "articleBody": post.content
+      "wordCount": wordCount,
+      "timeRequired": `PT${Math.ceil(wordCount / 200)}M`,
+      "keywords": "UK Taxation, Company Law, HMRC Compliance, Dividends",
+      "articleSection": "UK Tax & Compliance",
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "Dividify Blog",
+        "url": `${window.location.origin}/blog`
+      },
+      "inLanguage": "en-GB",
+      "copyrightHolder": {
+        "@type": "Organization",
+        "name": "Dividify"
+      }
     };
   };
 
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>{post?.title} | Dividify Blog</title>
+        <title>{post?.title} | Expert UK Tax Insights | Dividify Blog</title>
         <meta name="description" content={metaDescription} />
-        <meta name="keywords" content="dividends, tax efficiency, UK taxation, dividend vouchers, board minutes" />
+        <meta name="keywords" content="UK dividend taxation, HMRC compliance, board meeting requirements, UK limited company tax, dividends UK, company compliance" />
+        <meta name="geo.region" content="GB" />
+        <meta name="geo.country" content="UK" />
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="article" />
-        <meta property="og:image" content="/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
+        <meta property="og:locale" content="en_GB" />
         <meta property="article:published_time" content={post?.published_at} />
+        <meta property="article:author" content="James Wilson" />
+        <meta property="article:section" content="UK Tax & Compliance" />
+        <meta property="article:tag" content="UK Taxation" />
+        <meta property="article:tag" content="Company Law" />
+        <meta property="article:tag" content="HMRC Compliance" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post?.title} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
         <link rel="canonical" href={window.location.href} />
         <script type="application/ld+json">
           {JSON.stringify(generateArticleSchema())}

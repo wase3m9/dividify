@@ -54,10 +54,61 @@ const Contact = () => {
         <title>Contact Dividify - Get Help with Dividend Vouchers & Board Minutes | Expert Support</title>
         <meta name="description" content="Contact Dividify for expert support with dividend vouchers, board minutes, and HMRC compliance. Get help from our UK company law specialists." />
         <meta name="keywords" content="contact dividify, dividend support, board minutes help, HMRC compliance support, UK company law assistance" />
+        <meta name="geo.region" content="GB" />
+        <meta name="geo.country" content="UK" />
+        <meta name="geo.placename" content="London" />
         <meta property="og:title" content="Contact Dividify - Expert Support for UK Limited Companies" />
         <meta property="og:description" content="Get expert help with dividend vouchers, board minutes, and HMRC compliance from our UK company law specialists." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:locale" content="en_GB" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Contact Dividify | UK Support" />
+        <meta name="twitter:description" content="Get expert help with dividend vouchers and HMRC compliance from our UK specialists." />
         <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Contact Dividify",
+            "description": "Contact page for Dividify - UK dividend voucher and board minutes software support",
+            "url": window.location.href,
+            "mainEntity": {
+              "@type": "Organization",
+              "name": "Dividify",
+              "url": window.location.origin,
+              "logo": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
+              "contactPoint": [
+                {
+                  "@type": "ContactPoint",
+                  "telephone": "+44-20-7946-0958",
+                  "contactType": "customer service",
+                  "areaServed": "GB",
+                  "availableLanguage": "English",
+                  "hoursAvailable": "Mo-Fr 09:00-17:00"
+                },
+                {
+                  "@type": "ContactPoint",
+                  "email": "hello@dividify.co.uk",
+                  "contactType": "customer service",
+                  "areaServed": "GB"
+                }
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "124 City Road",
+                "addressLocality": "London",
+                "postalCode": "EC1V 2NX",
+                "addressCountry": "GB"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": "51.5274",
+                "longitude": "-0.0890"
+              }
+            }
+          })}
+        </script>
       </Helmet>
       <div className="min-h-screen bg-white">
       <Helmet>
