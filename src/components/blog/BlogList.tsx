@@ -24,11 +24,11 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
             <div className="md:w-1/3 p-4">
               <img
                 src={post.slug === "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025" 
-                  ? "/src/assets/directors-loan-accounts-2025.jpg"
+                  ? "/lovable-uploads/781bd6ec-c7ea-4ce8-98a6-b679f68235aa.png"
                   : post.slug === "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
-                  ? "/src/assets/salary-vs-dividends-2025.jpg"
+                  ? "/lovable-uploads/83f38d36-fbfb-49c6-a098-c2a051492bb1.png"
                   : post.slug === "dividend-waivers-when-and-how-to-use-them-effectively"
-                  ? "/src/assets/dividend-waivers-2025.jpg"
+                  ? "/lovable-uploads/95ceddf4-1eca-4c03-a525-31107e6bd67e.png"
                    : "/lovable-uploads/fc2a21ca-69f6-4b6f-9407-0cf69a983c0f.png"}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"
