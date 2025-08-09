@@ -7,7 +7,7 @@ import { BlogPostHeader } from "@/components/blog/BlogPostHeader";
 import { BlogPostContent } from "@/components/blog/BlogPostContent";
 import { AuthorProfile } from "@/components/blog/AuthorProfile";
 import { BlogPostNavigation } from "@/components/blog/BlogPostNavigation";
-import { RelatedPosts } from "@/components/blog/RelatedPosts";
+
 import { CommentsSection } from "@/components/blog/CommentsSection";
 import { useEffect, useState } from "react";
 import dividendTaxationImage from "@/assets/dividend-taxation-guide.jpg";
@@ -134,9 +134,11 @@ const BlogPost = () => {
             avatarUrl="/lovable-uploads/f6ba4012-2fdd-471e-9091-efae38d6d06a.png"
           />
 
-          <BlogPostNavigation prev={navigation?.prev} next={navigation?.next} />
-
-          <RelatedPosts posts={relatedPosts || []} />
+          <BlogPostNavigation 
+            prev={navigation?.prev} 
+            next={navigation?.next} 
+            currentTitle={post.title}
+          />
 
           <CommentsSection />
         </article>
@@ -688,7 +690,7 @@ A: You need board meeting minutes approving dividend declarations, dividend vouc
 A: Salary sacrifice can be very tax-efficient for benefits like pensions, electric cars, or cycle-to-work schemes. These should be considered alongside your basic salary and dividend strategy for maximum optimization.`,
     slug: 'salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26',
     published_at: '2024-08-10T09:00:00Z',
-    image: salaryVsDividendsImage
+    image: '/lovable-uploads/a8511f76-bbbc-44e3-809d-2ca6a4ec4af1.png'
   },
   {
     id: '5',
