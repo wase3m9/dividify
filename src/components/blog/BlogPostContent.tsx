@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
 import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
+import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
 
 interface BlogPostContentProps {
   content: string;

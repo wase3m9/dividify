@@ -4,6 +4,7 @@ import { Clock } from "lucide-react";
 import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
 import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
+import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
 
 interface BlogPost {
   id: string;
@@ -26,7 +27,9 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/3 p-4">
               <img
-                src={post.slug === "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025" 
+                src={post.slug === "retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26" 
+                  ? retainedProfitsImage
+                  : post.slug === "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025" 
                   ? directorsLoanImage
                   : post.slug === "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
                   ? salaryVsDividendsImage
