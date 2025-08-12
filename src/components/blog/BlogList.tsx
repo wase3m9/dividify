@@ -28,7 +28,7 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
             <div className="md:w-1/3 p-4">
               <img
                 src={post.slug === "retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26" 
-                  ? retainedProfitsImage
+                  ? "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png"
                   : post.slug === "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025" 
                   ? directorsLoanImage
                   : post.slug === "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"

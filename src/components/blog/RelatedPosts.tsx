@@ -21,6 +21,8 @@ export const RelatedPosts = ({ posts }: RelatedPostsProps) => {
   // Function to get the correct image for each blog post slug
   const getImageForSlug = (slug: string) => {
     switch (slug) {
+      case 'retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26':
+        return "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png";
       case "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025":
         return directorsLoanImage;
       case "salary-vs-dividends-whats-the-most-tax-efficient-mix-for-uk-directors-in-2025-26":

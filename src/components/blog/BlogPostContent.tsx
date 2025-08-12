@@ -177,7 +177,7 @@ export const BlogPostContent = ({
   const getHeaderImage = (slug: string) => {
     switch (slug) {
       case 'retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26':
-        return retainedProfitsImage;
+        return "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png";
       case 'director-loan-accounts-tax-implications-and-common-pitfalls-in-2025':
         return directorsLoanImage;
       case 'salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26':
@@ -187,7 +187,7 @@ export const BlogPostContent = ({
       case 'understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025':
         return dividendWaiversImage;
       default:
-        return retainedProfitsImage;
+        return "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png";
     }
   };
   return <div className="prose max-w-none text-left">
