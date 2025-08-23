@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { HeroBanner } from "@/components/landing/HeroBanner";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
+import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { FAQSection } from "@/components/landing/FAQSection";
@@ -177,6 +178,7 @@ const Index = () => {
         <div id="features">
           <FeaturesSection />
         </div>
+        <HowItWorksSection />
         <div id="pricing">
           <PricingSection onStartFreeTrial={handleStartFreeTrial} />
         </div>
