@@ -21,11 +21,13 @@ export const NavLinks = ({
 }: NavLinksProps) => {
   const location = useLocation();
   const isAccountantsPage = location.pathname === '/accountants';
+  const isFeaturesPage = location.pathname === '/features';
+  const isPublicPage = isLandingPage || isAccountantsPage || isFeaturesPage;
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <MainNavLinks user={user} scrollToTop={scrollToTop} />
-      {!user && (isLandingPage || isAccountantsPage) && (
+      {!user && isPublicPage && (
         <LandingNavLinks 
           scrollToSection={scrollToSection} 
           isAccountantsPage={isAccountantsPage} 
