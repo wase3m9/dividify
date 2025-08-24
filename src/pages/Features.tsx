@@ -21,7 +21,7 @@ const Features = () => {
         {/* Hero Section */}
         <section className="py-16 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Complete Dividend Management Solution
+            <span className="text-[#9b87f5]">Complete Dividend Management</span> Solution
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             Everything you need to manage dividends professionally, stay compliant, and save time on administrative tasks.
@@ -103,9 +103,9 @@ const Features = () => {
         </section>
 
         {/* Compliance Section */}
-        <section className="py-24 bg-gray-50">
+        <section className="py-24 bg-gradient-to-br from-blue-50 to-purple-50">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-8">
+            <h2 className="text-3xl font-bold mb-8 text-[#9b87f5]">
               Built for UK Compliance
             </h2>
             <p className="text-lg text-gray-600 mb-12">
@@ -114,16 +114,26 @@ const Features = () => {
             </p>
             
             <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-8 bg-white border-0 shadow-sm rounded-[20px]">
-                <h3 className="text-xl font-semibold mb-4">Companies House Ready</h3>
+              <Card className="p-8 bg-white border-2 border-blue-100 hover:border-[#9b87f5] shadow-sm rounded-[20px] transition-all hover-lift">
+                <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6 mx-auto">
+                  <div className="w-8 h-8 bg-[#9b87f5] rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">CH</span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-4 text-[#9b87f5]">Companies House Ready</h3>
                 <p className="text-gray-600">
                   All board minutes templates comply with Companies Act 2006 requirements 
                   and are ready for filing with Companies House.
                 </p>
               </Card>
               
-              <Card className="p-8 bg-white border-0 shadow-sm rounded-[20px]">
-                <h3 className="text-xl font-semibold mb-4">HMRC Compliant</h3>
+              <Card className="p-8 bg-white border-2 border-purple-100 hover:border-[#9b87f5] shadow-sm rounded-[20px] transition-all hover-lift">
+                <div className="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-6 mx-auto">
+                  <div className="w-8 h-8 bg-[#9b87f5] rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">HR</span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-4 text-[#9b87f5]">HMRC Compliant</h3>
                 <p className="text-gray-600">
                   Dividend vouchers include all required information for tax returns 
                   and self-assessment submissions.

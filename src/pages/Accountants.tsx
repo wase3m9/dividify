@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import { AccountantsHowItWorksSection } from "@/components/landing/AccountantsHowItWorksSection";
 
 const Accountants = () => {
   const navigate = useNavigate();
@@ -120,11 +121,14 @@ const Accountants = () => {
           })}
         </script>
       </Helmet>
+      <Navigation />
       <div className="min-h-screen bg-white">
       <main className="container mx-auto px-4 pt-24">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold mb-6">Dividend Compliance Software for UK Accountants</h1>
+            <h1 className="text-4xl font-bold mb-6">
+              <span className="text-[#9b87f5]">Dividend Compliance Software</span> for UK Accountants
+            </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               Where & when you need it. Eliminate the hassle of preparing dividend vouchers and recording board meetings. 
               Save time and ensure compliance with automation that provides accurate, real-time documents tailored to your business needs.
@@ -139,6 +143,8 @@ const Accountants = () => {
               </Button>
             </div>
           </div>
+
+          <AccountantsHowItWorksSection />
 
           <Card className="p-8 hover-lift border-2 border-transparent hover:border-[#9b87f5] transition-all hover:animate-jiggle max-w-md mx-auto mb-24" id="accountant-pricing">
             <div className="flex items-center gap-2 mb-4">
