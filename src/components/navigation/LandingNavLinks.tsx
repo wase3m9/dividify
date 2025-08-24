@@ -11,10 +11,12 @@ export const LandingNavLinks = ({ scrollToSection, isAccountantsPage }: LandingN
     <>
       <Button 
         variant="ghost" 
-        onClick={() => scrollToSection('features')}
+        asChild
         className="w-full"
       >
-        Features
+        <Link to="/features">
+          Features
+        </Link>
       </Button>
       <Button 
         variant="ghost" 

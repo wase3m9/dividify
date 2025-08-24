@@ -1,6 +1,7 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from "@/pages/Index";
+import Features from "@/pages/Features";
 import Auth from "@/pages/Auth";
 import AuthCallback from "@/pages/AuthCallback";
 import Signup from "@/pages/Signup";
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Index />,
+  },
+  {
+    path: "/features",
+    element: <Features />,
   },
   {
     path: "/auth",
