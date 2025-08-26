@@ -2,36 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Plus, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
 
 export const QuickActions = () => {
   const navigate = useNavigate();
-  
-  const { data: profile } = useQuery({
-    queryKey: ['profile-usage'],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('subscription_plan, current_month_dividends, current_month_minutes')
-        .eq('id', user.id)
-        .maybeSingle();
-
-      if (error) throw error;
-      if (!profile) throw new Error("Profile not found");
-
-      return profile;
-    }
-  });
+  const { data: usage } = useMonthlyUsage();
 
   const getPlanLimits = (plan: string) => {
     switch (plan) {
@@ -44,9 +20,9 @@ export const QuickActions = () => {
     }
   };
 
-  const limits = profile ? getPlanLimits(profile.subscription_plan) : { dividends: 0, minutes: 0 };
-  const isDividendsDisabled = profile?.current_month_dividends >= limits.dividends;
-  const isMinutesDisabled = profile?.current_month_minutes >= limits.minutes;
+  const limits = getPlanLimits(usage?.plan || 'trial');
+  const isDividendsDisabled = usage ? (limits.dividends !== Infinity && usage.dividendsCount >= limits.dividends) : false;
+  const isMinutesDisabled = usage ? (limits.minutes !== Infinity && usage.minutesCount >= limits.minutes) : false;
 
   const renderButton = (
     onClick: () => void,
