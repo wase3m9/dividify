@@ -1,6 +1,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 import { FileText, ScrollText } from "lucide-react";
 
 interface RecentActivityProps {
@@ -40,6 +41,18 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
     enabled: !!companyId,
   });
 
+  const handleDownload = async (filePath: string) => {
+    try {
+      const { data, error } = await supabase.storage
+        .from('dividend_vouchers')
+        .createSignedUrl(filePath, 60);
+      if (error) throw error;
+      window.open(data.signedUrl, '_blank');
+    } catch (e) {
+      console.error('Failed to download file:', e);
+    }
+  };
+
   if (isLoading) {
     return <div>Loading activity...</div>;
   }
@@ -68,6 +81,11 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
               {new Date(activity.created_at).toLocaleDateString()}
             </p>
           </div>
+          {activity.file_path && (
+            <Button variant="outline" size="sm" onClick={() => handleDownload(activity.file_path)}>
+              Download
+            </Button>
+          )}
         </div>
       ))}
     </div>

@@ -14,6 +14,9 @@ import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
 import { BoardMinutesData } from '@/utils/documentGenerator/react-pdf/types';
 import { generateBoardMinutesPDF, downloadPDF } from '@/utils/documentGenerator/react-pdf';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { useMonthlyUsage } from '@/hooks/useMonthlyUsage';
+import { useQueryClient } from '@tanstack/react-query';
 
 const boardMinutesSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -34,6 +37,20 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
   const [previewData, setPreviewData] = useState<BoardMinutesData | null>(null);
   const [directorsInput, setDirectorsInput] = useState('');
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  const { data: usage } = useMonthlyUsage();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const getPlanLimits = (plan: string) => {
+    switch (plan) {
+      case 'professional':
+        return { minutes: 10 };
+      case 'enterprise':
+        return { minutes: Infinity } as const;
+      default:
+        return { minutes: 2 };
+    }
+  };
 
   // Fetch company data
   const { data: companyData } = useQuery({
@@ -114,11 +131,68 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
     if (!previewData) return;
 
     try {
+      const plan = usage?.plan || 'trial';
+      const limits = getPlanLimits(plan);
+      const current = usage?.minutesCount ?? 0;
+      if (limits.minutes !== Infinity && current >= limits.minutes) {
+        toast({
+          variant: 'destructive',
+          title: 'Monthly limit reached',
+          description: `You have reached your monthly board minutes limit (${limits.minutes}). Upgrade to create more.`,
+        });
+        return;
+      }
+
+      if (!selectedCompanyId) {
+        toast({ variant: 'destructive', title: 'Select a company', description: 'Please select a company first.' });
+        return;
+      }
+
+      const { data: auth } = await supabase.auth.getUser();
+      const user = auth.user;
+      if (!user) {
+        toast({ variant: 'destructive', title: 'Error', description: 'User not authenticated' });
+        return;
+      }
+
+      // Generate PDF
       const blob = await generateBoardMinutesPDF(previewData);
       const filename = `board-minutes-${Date.now()}.pdf`;
+
+      // Upload to storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('dividend_vouchers')
+        .upload(`minutes/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
+      if (uploadError) throw uploadError;
+
+      // Save minutes record for history and counting
+      const attendees = previewData.directorsPresent || [];
+      const resolutions = [
+        `Declared dividend per share: £${previewData.dividendPerShare}`,
+        `Total dividend: £${previewData.totalDividend}`,
+        `Payment date: ${previewData.paymentDate}`,
+      ];
+
+      const { error: insertError } = await supabase.from('minutes').insert({
+        user_id: user.id,
+        company_id: selectedCompanyId,
+        meeting_date: previewData.boardDate,
+        meeting_type: 'Board Meeting',
+        attendees,
+        resolutions,
+        file_path: uploadData.path,
+      });
+      if (insertError) throw insertError;
+
+      // Refresh usage and activity
+      queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
+      queryClient.invalidateQueries({ queryKey: ['recent-activity', selectedCompanyId] });
+
       downloadPDF(blob, filename);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
+      toast({ title: 'Saved', description: 'Board minutes saved and downloaded.' });
+    } catch (error: any) {
+      console.error('Error generating/saving PDF:', error);
+      toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to generate document.' });
     }
   };
 

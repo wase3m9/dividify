@@ -14,6 +14,9 @@ import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
 import { DividendVoucherData } from '@/utils/documentGenerator/react-pdf/types';
 import { generateDividendVoucherPDF, downloadPDF } from '@/utils/documentGenerator/react-pdf';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { useMonthlyUsage } from '@/hooks/useMonthlyUsage';
+import { useQueryClient } from '@tanstack/react-query';
 
 const dividendVoucherSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -36,6 +39,20 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
   const [previewData, setPreviewData] = useState<DividendVoucherData | null>(null);
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
   const [selectedShareholderId, setSelectedShareholderId] = useState<string>('');
+  const { data: usage } = useMonthlyUsage();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const getPlanLimits = (plan: string) => {
+    switch (plan) {
+      case 'professional':
+        return { dividends: 10 };
+      case 'enterprise':
+        return { dividends: Infinity } as const;
+      default:
+        return { dividends: 2 };
+    }
+  };
 
   // Fetch company data
   const { data: companyData } = useQuery({
@@ -121,11 +138,70 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     if (!previewData) return;
 
     try {
+      const plan = usage?.plan || 'trial';
+      const limits = getPlanLimits(plan);
+      const current = usage?.dividendsCount ?? 0;
+      if (limits.dividends !== Infinity && current >= limits.dividends) {
+        toast({
+          variant: 'destructive',
+          title: 'Monthly limit reached',
+          description: `You have reached your monthly dividend voucher limit (${limits.dividends}). Upgrade to create more.`,
+        });
+        return;
+      }
+
+      if (!selectedCompanyId) {
+        toast({ variant: 'destructive', title: 'Select a company', description: 'Please select a company first.' });
+        return;
+      }
+
+      const { data: auth } = await supabase.auth.getUser();
+      const user = auth.user;
+      if (!user) {
+        toast({ variant: 'destructive', title: 'Error', description: 'User not authenticated' });
+        return;
+      }
+
+      // Generate the PDF
       const blob = await generateDividendVoucherPDF(previewData);
       const filename = `dividend-voucher-${Date.now()}.pdf`;
+
+      // Upload to storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('dividend_vouchers')
+        .upload(`dividends/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
+      if (uploadError) throw uploadError;
+
+      // Persist record for history and usage counting
+      const total_dividend = previewData.dividendAmount;
+      const number_of_shares = previewData.sharesHeld || 1;
+      const dividend_per_share = Number(number_of_shares) ? total_dividend / number_of_shares : total_dividend;
+
+      const { error: insertError } = await supabase.from('dividend_records').insert({
+        company_id: selectedCompanyId,
+        user_id: user.id,
+        shareholder_name: previewData.shareholderName,
+        share_class: 'Ordinary',
+        payment_date: previewData.paymentDate,
+        tax_year: new Date().getFullYear() + '-' + (new Date().getFullYear() + 1),
+        dividend_per_share,
+        total_dividend,
+        number_of_shares,
+        file_path: uploadData.path,
+      });
+      if (insertError) throw insertError;
+
+      // Refresh usage and activity
+      queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
+      queryClient.invalidateQueries({ queryKey: ['recent-activity', selectedCompanyId] });
+
+      // Let the user download immediately
       downloadPDF(blob, filename);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
+
+      toast({ title: 'Saved', description: 'Dividend voucher saved and downloaded.' });
+    } catch (error: any) {
+      console.error('Error generating/saving PDF:', error);
+      toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to generate document.' });
     }
   };
 
