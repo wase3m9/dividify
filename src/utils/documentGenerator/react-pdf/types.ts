@@ -9,6 +9,7 @@ export interface DividendVoucherData {
   sharesHeld: number;
   dividendAmount: number;
   templateStyle?: 'classic' | 'modern' | 'green';
+  logoUrl?: string;
 }
 
 export interface BoardMinutesData {
@@ -19,6 +20,7 @@ export interface BoardMinutesData {
   totalDividend: number;
   paymentDate: string;
   templateStyle?: 'classic' | 'modern' | 'green';
+  logoUrl?: string;
 }
 
 export type DocumentData = DividendVoucherData | BoardMinutesData;

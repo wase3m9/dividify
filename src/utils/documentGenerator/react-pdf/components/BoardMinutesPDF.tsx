@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { BoardMinutesData } from '../types';
 import { getTemplate } from '../templates';
 
@@ -21,6 +21,17 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
       marginBottom: 30,
       borderBottom: `2pt solid ${template.colors.primary}`,
       paddingBottom: 15,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    headerContent: {
+      flex: 1,
+    },
+    logo: {
+      width: 60,
+      height: 60,
+      objectFit: 'contain',
     },
     title: {
       fontSize: template.fonts.title,
@@ -92,8 +103,13 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text style={styles.title}>BOARD MINUTES</Text>
-          <Text style={styles.subtitle}>Dividend Declaration Meeting</Text>
+          <View style={styles.headerContent}>
+            <Text style={styles.title}>BOARD MINUTES</Text>
+            <Text style={styles.subtitle}>Dividend Declaration Meeting</Text>
+          </View>
+          {data.logoUrl && (
+            <Image style={styles.logo} src={data.logoUrl} />
+          )}
         </View>
 
         <View style={styles.section}>

@@ -90,6 +90,13 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
         return;
       }
 
+      // Get user's logo URL
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('logo_url')
+        .eq('id', user.id)
+        .single();
+
       const documentData = {
         companyName: company.name,
         registrationNumber: company.registration_number || '',
@@ -103,6 +110,7 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
         voucherNumber: 1,
         financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
         holdings: formData.shareholdings?.toString() || '',
+        logoUrl: profile?.logo_url || undefined,
       };
 
       let filePath = '';
