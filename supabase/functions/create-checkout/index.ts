@@ -66,12 +66,12 @@ serve(async (req) => {
     let userType = 'individual';
     let subscriptionPlan = 'starter';
     
-    // Map price IDs to plans and user types
+    // Map price IDs to plans and user types - using test price IDs
     const priceMapping: { [key: string]: { plan: string; userType: string } } = {
-      'price_1QTr2mP5i3F4Z8xZyNQJBjhD': { plan: 'starter', userType: 'individual' },
-      'price_1QTr3QP5i3F4Z8xZuDHGNLzS': { plan: 'professional', userType: 'individual' },
-      'price_1QTr4AP5i3F4Z8xZK8b2tLmX': { plan: 'enterprise', userType: 'individual' },
-      'price_1QTr4sP5i3F4Z8xZvBpQMbRz': { plan: 'accountant', userType: 'accountant' },
+      'price_starter_test': { plan: 'starter', userType: 'individual' },
+      'price_professional_test': { plan: 'professional', userType: 'individual' },
+      'price_enterprise_test': { plan: 'enterprise', userType: 'individual' },
+      'price_accountant_test': { plan: 'accountant', userType: 'accountant' },
     };
 
     const mapping = priceMapping[priceId];

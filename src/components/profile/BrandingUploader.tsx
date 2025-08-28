@@ -38,11 +38,12 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
   const handleFileUpload = async (file: File) => {
     if (!file) return;
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
+    // Validate file type - accept common image formats
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
       toast({
         title: "Invalid file type",
-        description: "Please upload an image file (PNG, JPG, etc.)",
+        description: "Please select a JPG, PNG, GIF, or WebP image file.",
         variant: "destructive",
       });
       return;
@@ -260,7 +261,7 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
           onChange={handleFileSelect}
           className="hidden"
         />

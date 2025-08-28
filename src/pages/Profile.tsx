@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Clock, CreditCard } from "lucide-react";
+import { Clock, CreditCard, Check } from "lucide-react";
 import { BrandingUploader } from "@/components/profile/BrandingUploader";
 
 const Profile = () => {
@@ -17,6 +17,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isUpgrading, setIsUpgrading] = useState(false);
+  const [showPlanSelection, setShowPlanSelection] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -106,7 +107,12 @@ const Profile = () => {
     }
   };
 
-  const handleUpgradeSubscription = async (priceId: string) => {
+  const handleUpgradeSubscription = async (priceId?: string) => {
+    if (!priceId) {
+      setShowPlanSelection(true);
+      return;
+    }
+    
     if (isUpgrading) return;
     
     setIsUpgrading(true);
@@ -120,6 +126,7 @@ const Profile = () => {
       if (data?.url) {
         // Open Stripe checkout in a new tab
         window.open(data.url, '_blank');
+        setShowPlanSelection(false);
       } else {
         throw new Error('No checkout URL received');
       }
@@ -164,7 +171,7 @@ const Profile = () => {
                     You have <span className="font-bold">{trialDaysLeft} days</span> left in your free trial.
                   </p>
                    <Button 
-                     onClick={() => handleUpgradeSubscription('price_1QTr3QP5i3F4Z8xZuDHGNLzS')}
+                     onClick={() => handleUpgradeSubscription()}
                      disabled={isUpgrading}
                      className="bg-orange-600 hover:bg-orange-700 text-white"
                    >
@@ -178,7 +185,7 @@ const Profile = () => {
                     Your trial has expired. Please upgrade to continue using the service.
                   </p>
                    <Button 
-                     onClick={() => handleUpgradeSubscription('price_1QTr3QP5i3F4Z8xZuDHGNLzS')}
+                     onClick={() => handleUpgradeSubscription()}
                      disabled={isUpgrading}
                      className="bg-red-600 hover:bg-red-700 text-white"
                    >
@@ -271,7 +278,7 @@ const Profile = () => {
                       </ul>
                       <Button 
                         className="w-full mt-4"
-                        onClick={() => handleUpgradeSubscription('price_1QTr2mP5i3F4Z8xZyNQJBjhD')}
+                        onClick={() => handleUpgradeSubscription('price_starter_test')}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -293,7 +300,7 @@ const Profile = () => {
                       </ul>
                       <Button 
                         className="w-full mt-4"
-                        onClick={() => handleUpgradeSubscription('price_1QTr3QP5i3F4Z8xZuDHGNLzS')}
+                        onClick={() => handleUpgradeSubscription('price_professional_test')}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -312,7 +319,7 @@ const Profile = () => {
                       </ul>
                       <Button 
                         className="w-full mt-4"
-                        onClick={() => handleUpgradeSubscription('price_1QTr4AP5i3F4Z8xZK8b2tLmX')}
+                        onClick={() => handleUpgradeSubscription('price_enterprise_test')}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -330,7 +337,7 @@ const Profile = () => {
                       </div>
                       <Button 
                         className="bg-green-600 hover:bg-green-700"
-                        onClick={() => handleUpgradeSubscription('price_1QTr4sP5i3F4Z8xZvBpQMbRz')}
+                        onClick={() => handleUpgradeSubscription('price_accountant_test')}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -339,6 +346,111 @@ const Profile = () => {
                   </div>
                 </CardContent>
               </Card>
+            )}
+
+            {/* Plan Selection Modal */}
+            {showPlanSelection && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div className="bg-card rounded-lg border p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                  <div className="flex justify-between items-center mb-6">
+                    <div>
+                      <h2 className="text-2xl font-semibold">Choose Your Plan</h2>
+                      <p className="text-muted-foreground">Select the plan that best fits your needs</p>
+                    </div>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => setShowPlanSelection(false)}
+                    >
+                      ✕
+                    </Button>
+                  </div>
+
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {/* Professional Plan */}
+                    <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors relative">
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
+                          Popular
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">Professional</h3>
+                      <div className="text-3xl font-bold mb-4">£12<span className="text-base font-normal">/month</span></div>
+                      <ul className="space-y-2 mb-6">
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Up to 10 Dividend Vouchers
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Up to 10 Board Minutes
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Custom branding
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Premium templates
+                        </li>
+                      </ul>
+                      <Button 
+                        onClick={() => handleUpgradeSubscription('price_professional_test')}
+                        disabled={isUpgrading}
+                        className="w-full"
+                      >
+                        Subscribe
+                      </Button>
+                    </div>
+
+                    {/* Enterprise Plan */}
+                    <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors">
+                      <h3 className="text-lg font-semibold mb-2">Enterprise</h3>
+                      <div className="text-3xl font-bold mb-4">£29<span className="text-base font-normal">/month</span></div>
+                      <ul className="space-y-2 mb-6">
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Unlimited documents
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Custom branding
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Premium templates
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Priority support
+                        </li>
+                      </ul>
+                      <Button 
+                        onClick={() => handleUpgradeSubscription('price_enterprise_test')}
+                        disabled={isUpgrading}
+                        variant="outline" 
+                        className="w-full"
+                      >
+                        Subscribe
+                      </Button>
+                    </div>
+
+                    {/* Accountant Plan */}
+                    <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors bg-green-50 border-green-200">
+                      <h3 className="text-lg font-semibold mb-2 text-green-800">Accountant Plan</h3>
+                      <div className="text-3xl font-bold mb-4 text-green-800">£20<span className="text-base font-normal">/month</span></div>
+                      <p className="text-green-700 text-sm mb-4">Perfect for accounting professionals managing multiple clients</p>
+                      <Button 
+                        onClick={() => handleUpgradeSubscription('price_accountant_test')}
+                        disabled={isUpgrading}
+                        className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      >
+                        Subscribe
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
