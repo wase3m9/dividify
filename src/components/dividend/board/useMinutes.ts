@@ -4,17 +4,22 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import type { MinuteRecord } from "./types";
 
-export const useMinutes = () => {
+export const useMinutes = (companyId?: string) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: minutes, isLoading } = useQuery({
-    queryKey: ['minutes'],
+    queryKey: ['minutes', companyId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('minutes')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('*');
+      
+      if (companyId) {
+        query = query.eq('company_id', companyId);
+      }
+      
+      const { data, error } = await query.order('created_at', { ascending: false });
 
       if (error) throw error;
       return data as MinuteRecord[];
@@ -31,6 +36,7 @@ export const useMinutes = () => {
       if (error) throw error;
 
       queryClient.invalidateQueries({ queryKey: ['minutes'] });
+      queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
 
       toast({
         title: "Success",

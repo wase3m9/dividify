@@ -5,6 +5,7 @@ import { Navigation } from "@/components/Navigation";
 import { CompanySection } from "@/components/dividend/CompanySection";
 import { RecentActivity } from "@/components/dividend/RecentActivity";
 import { useToast } from "@/hooks/use-toast";
+import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
 import { Header } from "@/components/dividend/board/Header";
 import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
 import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
@@ -23,6 +24,7 @@ import { Card } from "@/components/ui/card";
 const CompanyDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { data: monthlyUsage } = useMonthlyUsage();
   const [company, setCompany] = useState(null);
   const [directors, setDirectors] = useState([]);
   const [shareholdings, setShareholdings] = useState([]);
@@ -31,7 +33,6 @@ const CompanyDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
   const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
-  const [companiesCount, setCompaniesCount] = useState(0);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -41,7 +42,6 @@ const CompanyDashboard = () => {
       } else {
         await fetchData();
         await fetchUserProfile();
-        await fetchCompaniesCount();
       }
     };
 
@@ -66,22 +66,6 @@ const CompanyDashboard = () => {
     }
   };
 
-  const fetchCompaniesCount = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { count, error } = await supabase
-        .from('companies')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id);
-
-      if (error) throw error;
-      setCompaniesCount(count || 0);
-    } catch (error: any) {
-      console.error('Error fetching companies count:', error);
-    }
-  };
 
   const calculateTrialDaysLeft = () => {
     if (!userProfile?.created_at || userProfile.subscription_plan !== 'trial') return null;
@@ -363,10 +347,10 @@ const CompanyDashboard = () => {
                           />
                         </TabsContent>
                         <TabsContent value="dividends" className="mt-0">
-                          <DividendsSection />
+                          <DividendsSection companyId={company?.id} />
                         </TabsContent>
                         <TabsContent value="minutes" className="mt-0">
-                          <MinutesSection />
+                          <MinutesSection companyId={company?.id} />
                         </TabsContent>
                       </div>
                     </Tabs>
@@ -376,11 +360,11 @@ const CompanyDashboard = () => {
                 <div className="lg:col-start-3">
                   <div className="sticky top-24 space-y-6">
                     <PlanRestrictions 
-                      currentPlan={userProfile?.subscription_plan || 'trial'}
+                      currentPlan={monthlyUsage?.plan || 'trial'}
                       currentUsage={{
-                        companies: companiesCount,
-                        dividends: userProfile?.current_month_dividends || 0,
-                        minutes: userProfile?.current_month_minutes || 0
+                        companies: monthlyUsage?.companiesCount || 0,
+                        dividends: monthlyUsage?.dividendsCount || 0,
+                        minutes: monthlyUsage?.minutesCount || 0
                       }}
                     />
                     {company && <RecentActivity companyId={company.id} />}

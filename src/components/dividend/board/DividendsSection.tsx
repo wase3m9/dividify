@@ -5,14 +5,18 @@ import { BadgePoundSterling } from "lucide-react";
 import { DividendRecordItem } from "./DividendRecord";
 import { useDividends } from "./useDividends";
 
-export const DividendsSection: FC = () => {
+interface DividendsSectionProps {
+  companyId?: string;
+}
+
+export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
   const { 
     dividendRecords, 
     isLoading, 
     handleDelete, 
     handleDownload,
     canDelete 
-  } = useDividends();
+  } = useDividends(companyId);
 
   if (isLoading) {
     return <div>Loading...</div>;

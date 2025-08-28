@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import type { DividendRecord } from "./types";
 
-export const useDividends = () => {
+export const useDividends = (companyId?: string) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -26,12 +26,17 @@ export const useDividends = () => {
   });
 
   const { data: dividendRecords, isLoading } = useQuery({
-    queryKey: ['dividend-records'],
+    queryKey: ['dividend-records', companyId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from('dividend_records')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('*');
+      
+      if (companyId) {
+        query = query.eq('company_id', companyId);
+      }
+      
+      const { data, error } = await query.order('created_at', { ascending: false });
 
       if (error) throw error;
       return data as DividendRecord[];
@@ -48,6 +53,7 @@ export const useDividends = () => {
       if (error) throw error;
 
       queryClient.invalidateQueries({ queryKey: ['dividend-records'] });
+      queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
 
       toast({
         title: "Success",

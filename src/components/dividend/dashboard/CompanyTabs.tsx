@@ -127,11 +127,11 @@ export const CompanyTabs = ({
         </TabsContent>
 
         <TabsContent value="dividends">
-          <DividendsSection />
+          <DividendsSection companyId={selectedCompany?.id} />
         </TabsContent>
 
         <TabsContent value="meetings">
-          <MinutesSection />
+          <MinutesSection companyId={selectedCompany?.id} />
         </TabsContent>
       </Tabs>
     </div>

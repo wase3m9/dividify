@@ -5,8 +5,12 @@ import { FileText } from "lucide-react";
 import { MinuteRecordItem } from "./MinuteRecord";
 import { useMinutes } from "./useMinutes";
 
-export const MinutesSection: FC = () => {
-  const { minutes, isLoading, handleDelete, handleDownload } = useMinutes();
+interface MinutesSectionProps {
+  companyId?: string;
+}
+
+export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
+  const { minutes, isLoading, handleDelete, handleDownload } = useMinutes(companyId);
 
   if (isLoading) {
     return <div>Loading...</div>;
