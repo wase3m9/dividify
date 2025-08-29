@@ -42,11 +42,29 @@ export const useMonthlyUsage = () => {
       if (dividendsRes.error) throw dividendsRes.error;
       if (minutesRes.error) throw minutesRes.error;
 
+      // Get plan limits
+      const getPlanLimits = (plan: string) => {
+        switch (plan) {
+          case 'professional':
+            return { companies: 3, dividends: 10, minutes: 10 };
+          case 'enterprise':
+            return { companies: Infinity, dividends: Infinity, minutes: Infinity };
+          default: // starter or trial
+            return { companies: 1, dividends: 2, minutes: 2 };
+        }
+      };
+
+      const limits = getPlanLimits(profile?.subscription_plan || "trial");
+
       return {
         plan: profile?.subscription_plan || "trial",
         companiesCount: companiesRes.count || 0,
         dividendsCount: dividendsRes.count || 0,
         minutesCount: minutesRes.count || 0,
+        limits,
+        // Calculate remaining quotas
+        remainingDividends: Math.max(0, limits.dividends === Infinity ? Infinity : limits.dividends - (dividendsRes.count || 0)),
+        remainingMinutes: Math.max(0, limits.minutes === Infinity ? Infinity : limits.minutes - (minutesRes.count || 0)),
       };
     },
   });

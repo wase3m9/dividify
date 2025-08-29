@@ -55,7 +55,7 @@ export const PlanLimits = () => {
           <div className="flex justify-between mb-2">
             <span className="text-sm text-muted-foreground">Monthly Dividend Vouchers</span>
             <span className="text-sm font-medium">
-              {usage.dividendsCount} / {limits.dividends === Infinity ? '∞' : limits.dividends}
+              {limits.dividends === Infinity ? '∞' : Math.max(0, limits.dividends - usage.dividendsCount)} / {limits.dividends === Infinity ? '∞' : limits.dividends}
             </span>
           </div>
           <Progress 
@@ -68,7 +68,7 @@ export const PlanLimits = () => {
           <div className="flex justify-between mb-2">
             <span className="text-sm text-muted-foreground">Monthly Board Minutes</span>
             <span className="text-sm font-medium">
-              {usage.minutesCount} / {limits.minutes === Infinity ? '∞' : limits.minutes}
+              {limits.minutes === Infinity ? '∞' : Math.max(0, limits.minutes - usage.minutesCount)} / {limits.minutes === Infinity ? '∞' : limits.minutes}
             </span>
           </div>
           <Progress 

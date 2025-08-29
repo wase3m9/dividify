@@ -184,6 +184,16 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       });
       if (insertError) throw insertError;
 
+      // Increment the monthly minutes count for the user
+      const { error: profileError } = await supabase.rpc('increment_monthly_minutes', { 
+        user_id_param: user.id 
+      });
+
+      if (profileError) {
+        console.error('Failed to increment monthly minutes:', profileError);
+        // Don't throw error here as the main record was created successfully
+      }
+
       // Refresh usage and activity
       queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
       queryClient.invalidateQueries({ queryKey: ['recent-activity', selectedCompanyId] });
