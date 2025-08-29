@@ -358,6 +358,10 @@ export type Database = {
         Args: { user_id_param: string }
         Returns: undefined
       }
+      increment_monthly_minutes: {
+        Args: { user_id_param: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
