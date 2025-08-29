@@ -74,10 +74,10 @@ const AuthCallback = () => {
         // Redirect based on user type
         if (profile?.user_type === 'accountant') {
           console.log("AuthCallback - Redirecting to accountant dashboard");
-          window.location.href = "/accountant-dashboard";
+          navigate("/accountant-dashboard");
         } else {
           console.log("AuthCallback - Redirecting to company dashboard");
-          window.location.href = "/company-dashboard";
+          navigate("/company-dashboard");
         }
       } catch (error) {
         console.error("AuthCallback - Unexpected error:", error);

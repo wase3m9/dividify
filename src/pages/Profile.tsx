@@ -367,6 +367,34 @@ const Profile = () => {
                   </div>
 
                   <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {/* Starter Plan */}
+                    <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors">
+                      <h3 className="text-lg font-semibold mb-2">Starter</h3>
+                      <div className="text-3xl font-bold mb-4">£4<span className="text-base font-normal">/month</span></div>
+                      <ul className="space-y-2 mb-6">
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Up to 2 Dividend Vouchers
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Up to 2 Board Minutes
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Basic templates
+                        </li>
+                      </ul>
+                      <Button 
+                        onClick={() => handleUpgradeSubscription('price_starter_test')}
+                        disabled={isUpgrading}
+                        variant="outline" 
+                        className="w-full"
+                      >
+                        Subscribe
+                      </Button>
+                    </div>
+
                     {/* Professional Plan */}
                     <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors relative">
                       <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
