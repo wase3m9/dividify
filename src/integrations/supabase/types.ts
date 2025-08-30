@@ -437,6 +437,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_and_reset_monthly_counters: {
+        Args: { user_id_param: string }
+        Returns: undefined
+      }
       increment_monthly_dividends: {
         Args: { user_id_param: string }
         Returns: undefined
@@ -453,6 +457,10 @@ export type Database = {
           metadata_param?: Json
           user_id_param: string
         }
+        Returns: undefined
+      }
+      reset_monthly_counters: {
+        Args: Record<PropertyKey, never>
         Returns: undefined
       }
     }
