@@ -13,7 +13,8 @@ import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSec
 import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { QuickActions } from "@/components/dividend/board/QuickActions";
-import { PlanRestrictions } from "@/components/dividend/board/PlanRestrictions";
+import { UsageTracker } from "@/components/dividend/UsageTracker";
+import { TipsSection } from "@/components/dividend/dashboard/TipsSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Plus, CreditCard } from "lucide-react";
@@ -325,8 +326,9 @@ const CompanyDashboard = () => {
                             company={company}
                             onCompanyUpdate={fetchData}
                           />
-                          <div className="mt-8">
+                          <div className="mt-8 grid gap-8">
                             <QuickActions />
+                            <TipsSection />
                           </div>
                         </TabsContent>
                         <TabsContent value="officers" className="mt-0">
@@ -361,14 +363,7 @@ const CompanyDashboard = () => {
 
                 <div className="lg:col-start-3">
                   <div className="sticky top-24 space-y-6">
-                    <PlanRestrictions 
-                      currentPlan={monthlyUsage?.plan || 'trial'}
-                      currentUsage={{
-                        companies: monthlyUsage?.companiesCount || 0,
-                        dividends: monthlyUsage?.dividendsCount || 0,
-                        minutes: monthlyUsage?.minutesCount || 0
-                      }}
-                    />
+                    <UsageTracker />
                     {company && <RecentActivity companyId={company.id} />}
                   </div>
                 </div>
