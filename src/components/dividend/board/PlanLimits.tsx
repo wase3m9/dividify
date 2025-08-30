@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
+import { useNavigate } from "react-router-dom";
 
 const getPlanLimits = (plan: string) => {
   switch (plan) {
@@ -24,6 +25,7 @@ const formatResetDate = (dateString: string) => {
 
 export const PlanLimits = () => {
   const { data: usage } = useMonthlyUsage();
+  const navigate = useNavigate();
 
   if (!usage) return null;
 
@@ -49,7 +51,7 @@ export const PlanLimits = () => {
           <Button 
             variant="outline"
             className="text-primary border-primary"
-            onClick={() => window.location.href = '/pricing'}
+            onClick={() => navigate('/profile?openPlans=1')}
           >
             Upgrade Plan
           </Button>
