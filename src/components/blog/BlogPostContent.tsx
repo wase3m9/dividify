@@ -176,6 +176,8 @@ export const BlogPostContent = ({
   // Add full-width header image based on slug
   const getHeaderImage = (slug: string) => {
     switch (slug) {
+      case 'dividend-tax-in-2025-26-what-uk-directors-need-to-know-about-rates-and-allowances':
+        return "/lovable-uploads/237742a2-2257-4756-a9df-ae2a54bc113e.png";
       case 'retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26':
         return "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png";
       case 'director-loan-accounts-tax-implications-and-common-pitfalls-in-2025':
