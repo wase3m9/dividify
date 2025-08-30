@@ -25,15 +25,7 @@ const BoardMinutesForm = () => {
             progress={100}
           />
 
-          <Card className="p-6 space-y-6">
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium">Select Company</h3>
-              <CompanySelector
-                onSelect={handleCompanySelect}
-                selectedCompanyId={selectedCompanyId}
-              />
-            </div>
-
+          <Card className="p-6">
             <BoardMinutesFormComponent />
           </Card>
         </div>
