@@ -116,7 +116,8 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
 
   const templateStyle = watch('templateStyle') || 'classic';
 
-  const onSubmit = (data: BoardMinutesFormData) => {
+  // Generate preview (temporary, doesn't count against limits)
+  const handleGeneratePreview = (data: BoardMinutesFormData) => {
     const directors = directorsInput.split('\n').filter(d => d.trim());
     if (directors.length === 0) {
       alert('Please enter at least one director name');
@@ -129,7 +130,24 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
     } as BoardMinutesData);
   };
 
-  const handleDownload = async () => {
+  // Download preview (temporary download, doesn't count against limits)
+  const handleDownloadPreview = async () => {
+    if (!previewData) return;
+    
+    try {
+      const blob = await generateBoardMinutesPDF(previewData);
+      const filename = `board-minutes-preview-${Date.now()}.pdf`;
+      downloadPDF(blob, filename);
+      
+      toast({ title: 'Preview Downloaded', description: 'Temporary preview downloaded successfully.' });
+    } catch (error: any) {
+      console.error('Error generating preview:', error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate preview.' });
+    }
+  };
+
+  // Save & Generate (final version, counts against limits)
+  const handleSaveAndGenerate = async () => {
     if (!previewData) return;
 
     try {
@@ -214,7 +232,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       queryClient.invalidateQueries({ queryKey: ['activity-log'] });
 
       downloadPDF(blob, filename);
-      toast({ title: 'Saved', description: 'Board minutes saved and downloaded.' });
+      toast({ title: 'Saved & Generated', description: 'Board minutes saved to history and downloaded.' });
     } catch (error: any) {
       console.error('Error generating/saving PDF:', error);
       toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to generate document.' });
@@ -242,7 +260,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
           )}
         </div>
         
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(handleGeneratePreview)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="companyName">Company Name</Label>
@@ -340,9 +358,14 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
           <div className="flex gap-2">
             <Button type="submit">Generate Preview</Button>
             {previewData && (
-              <Button type="button" variant="secondary" onClick={handleDownload}>
-                Download PDF
-              </Button>
+              <>
+                <Button type="button" variant="outline" onClick={handleDownloadPreview}>
+                  Download Preview
+                </Button>
+                <Button type="button" onClick={handleSaveAndGenerate}>
+                  Save & Generate
+                </Button>
+              </>
             )}
           </div>
         </form>
