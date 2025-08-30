@@ -26,8 +26,6 @@ export const UsageTracker = () => {
   const user = useUser();
   const { subscriptionData } = useSubscriptionStatus();
   const { data: monthlyUsage, isLoading } = useMonthlyUsage();
-  const [usage, setUsage] = useState<UsageData | null>(null);
-  const [loading, setLoading] = useState(true);
 
   const getPlanLimits = (plan: string): PlanLimits => {
     switch (plan?.toLowerCase()) {
@@ -44,56 +42,6 @@ export const UsageTracker = () => {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      fetchUsage();
-      
-      // Set up real-time subscription to profile changes
-      const channel = supabase
-        .channel('profile-usage-changes')
-        .on(
-          'postgres_changes',
-          {
-            event: 'UPDATE',
-            schema: 'public',
-            table: 'profiles',
-            filter: `id=eq.${user.id}`
-          },
-          (payload) => {
-            if (payload.new) {
-              setUsage({
-                current_month_dividends: payload.new.current_month_dividends || 0,
-                current_month_minutes: payload.new.current_month_minutes || 0,
-                subscription_plan: payload.new.subscription_plan || 'trial'
-              });
-            }
-          }
-        )
-        .subscribe();
-
-      return () => {
-        supabase.removeChannel(channel);
-      };
-    }
-  }, [user]);
-
-  const fetchUsage = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('current_month_dividends, current_month_minutes, subscription_plan')
-        .eq('id', user?.id)
-        .single();
-
-      if (error) throw error;
-      setUsage(data);
-    } catch (error) {
-      console.error('Error fetching usage:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const openUpgradeCheckout = async () => {
     try {
@@ -112,7 +60,7 @@ export const UsageTracker = () => {
     }
   };
 
-  if (loading || !usage) {
+  if (isLoading || !monthlyUsage) {
     return (
       <Card>
         <CardHeader>
@@ -128,11 +76,11 @@ export const UsageTracker = () => {
     );
   }
 
-  const currentPlan = usage.subscription_plan || 'trial';
+  const currentPlan = monthlyUsage.plan || 'trial';
   const limits = getPlanLimits(currentPlan);
   
-  const dividendUsage = usage.current_month_dividends || 0;
-  const minuteUsage = usage.current_month_minutes || 0;
+  const dividendUsage = monthlyUsage.dividendsCount || 0;
+  const minuteUsage = monthlyUsage.minutesCount || 0;
   
   const dividendProgress = limits.isUnlimited ? 0 : (dividendUsage / limits.dividends) * 100;
   const minuteProgress = limits.isUnlimited ? 0 : (minuteUsage / limits.minutes) * 100;
