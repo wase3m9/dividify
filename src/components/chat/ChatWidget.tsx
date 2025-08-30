@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Send, Smile, Settings } from 'lucide-react';
+import { MessageCircle, X, Send, Smile } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { getAIResponse } from '@/utils/chatAI';
 
 interface Message {
   id: string;
@@ -54,13 +55,21 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
       const { data: { session } } = await supabase.auth.getSession();
       
       // Check for existing conversation
-      const { data: existingConversations, error: fetchError } = await supabase
+      const userId = session?.user?.id || null;
+      let query = supabase
         .from('chat_conversations')
         .select('*')
-        .eq('user_id', session?.user?.id || null)
         .eq('status', 'open')
         .order('updated_at', { ascending: false })
         .limit(1);
+      
+      if (userId === null) {
+        query = query.is('user_id', null);
+      } else {
+        query = query.eq('user_id', userId);
+      }
+      
+      const { data: existingConversations, error: fetchError } = await query;
 
       if (fetchError) {
         console.error('Error fetching conversations:', fetchError);
@@ -77,7 +86,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         const { data: newConversation, error: createError } = await supabase
           .from('chat_conversations')
           .insert([{
-            user_id: session?.user?.id || null,
+            user_id: userId,
             title: 'Support Chat',
             status: 'open'
           }])
@@ -171,15 +180,19 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         throw error;
       }
 
-      // Send automatic response for demo
+      // Send AI auto-response
       setTimeout(async () => {
+        const aiResponse = getAIResponse(messageText);
+        const responseMessage = aiResponse || 
+          "Thank you for your message! Our support team will get back to you within 24-48 hours. For urgent matters, please email us directly at info@cloud-keepers.co.uk.";
+
         const { error: responseError } = await supabase
           .from('chat_messages')
           .insert([{
             conversation_id: conversation.id,
             user_id: null,
             sender_type: 'admin',
-            message: "Thank you for your message! Our support team will get back to you shortly during business hours (Monday-Friday, 9 AM - 5 PM GMT)."
+            message: responseMessage
           }]);
 
         if (responseError) {
@@ -242,7 +255,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
           <div className="relative">
             <Button
               onClick={() => setIsOpen(true)}
-              className="rounded-full w-14 h-14 bg-primary hover:bg-primary/90 shadow-lg animate-scale-in"
+              className="rounded-full w-14 h-14 bg-[#9b87f5] hover:bg-[#8b77e5] shadow-lg animate-scale-in"
               size="icon"
             >
               <MessageCircle className="h-7 w-7" />
@@ -255,9 +268,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
           </div>
         ) : (
           <Card className="w-80 h-96 flex flex-col shadow-xl animate-scale-in">
-            <div className="flex items-center justify-between p-4 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between p-4 bg-[#9b87f5] text-white rounded-t-lg">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-primary-foreground/20 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                   <MessageCircle className="h-4 w-4" />
                 </div>
                 <h3 className="font-semibold">Dividify AI</h3>
@@ -266,7 +279,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsOpen(false)}
-                className="text-primary-foreground hover:bg-primary/80"
+                className="text-white hover:bg-white/20"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -290,11 +303,13 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
                     <div
                       className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
                         message.sender_type === 'user'
-                          ? 'bg-primary text-primary-foreground'
+                          ? 'bg-[#9b87f5] text-white'
                           : 'bg-background border'
                       }`}
                     >
-                      {message.message}
+                      <div dangerouslySetInnerHTML={{ 
+                        __html: message.message.replace(/\n/g, '<br/>') 
+                      }} />
                     </div>
                   </div>
                 ))
@@ -327,21 +342,20 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
                   variant="ghost"
                   size="sm"
                   className="text-muted-foreground hover:text-foreground"
+                  onClick={() => {
+                    // Basic emoji picker functionality
+                    const emojis = ['😊', '👍', '❤️', '😄', '🎉', '✅'];
+                    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                    setNewMessage(prev => prev + randomEmoji);
+                  }}
                 >
                   <Smile className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <Settings className="h-4 w-4" />
                 </Button>
                 <Button
                   onClick={sendMessage}
                   disabled={!newMessage.trim() || isLoading}
                   size="sm"
-                  className="bg-primary hover:bg-primary/90"
+                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
