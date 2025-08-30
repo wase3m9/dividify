@@ -3,10 +3,12 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { FileText, CreditCard, Calendar, AlertTriangle } from "lucide-react";
+import { FileText, CreditCard, Calendar, AlertTriangle, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
+import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
 
 interface UsageData {
   current_month_dividends: number;
@@ -23,6 +25,7 @@ interface PlanLimits {
 export const UsageTracker = () => {
   const user = useUser();
   const { subscriptionData } = useSubscriptionStatus();
+  const { data: monthlyUsage, isLoading } = useMonthlyUsage();
   const [usage, setUsage] = useState<UsageData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -235,7 +238,28 @@ export const UsageTracker = () => {
         {/* Next Reset Date */}
         {!limits.isUnlimited && (
           <div className="text-xs text-muted-foreground text-center pt-2 border-t">
-            Limits reset on the 1st of each month
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center justify-center gap-1 cursor-help">
+                    <Clock className="h-3 w-3" />
+                    <span>
+                      Next reset: {monthlyUsage?.periodEnd ? 
+                        new Date(new Date(monthlyUsage.periodEnd).getTime() + 24 * 60 * 60 * 1000).toLocaleDateString('en-GB', { 
+                          day: 'numeric', 
+                          month: 'short', 
+                          year: 'numeric' 
+                        }) : 
+                        '1st of next month'
+                      }
+                    </span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Your usage limits will reset on this date</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         )}
       </CardContent>

@@ -67,7 +67,7 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
       </div>
       
       {activities && activities.length > 0 ? (
-        <div className="space-y-3">
+        <div className="space-y-1">
           {activities.slice(0, 3).map((activity) => {
             const Icon = getActivityIcon(activity.action);
             const descriptionLines = getActivityDescription(
@@ -78,22 +78,37 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
             );
             
             return (
-              <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
-                <div className="mt-1">
-                  <Icon className="h-4 w-4 text-[#9b87f5]" />
+              <div key={activity.id} className="group relative">
+                <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-help">
+                  <Icon className="h-4 w-4 text-[#9b87f5] flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {descriptionLines[0]}
+                      </p>
+                      <p className="text-xs text-muted-foreground ml-2">
+                        {format(new Date(activity.created_at), 'MMM d')}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground">
-                    {descriptionLines[0]}
-                  </p>
-                  {descriptionLines.slice(1).map((line, index) => (
-                    <p key={index} className="text-xs text-muted-foreground">
-                      {line}
+                
+                {/* Hover tooltip with full details */}
+                <div className="absolute left-0 top-full mt-1 z-10 w-64 p-3 bg-popover border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-4 w-4 text-[#9b87f5]" />
+                      <p className="text-sm font-medium">{descriptionLines[0]}</p>
+                    </div>
+                    {descriptionLines.slice(1).map((line, index) => (
+                      <p key={index} className="text-xs text-muted-foreground">
+                        {line}
+                      </p>
+                    ))}
+                    <p className="text-xs text-muted-foreground border-t pt-2">
+                      {format(new Date(activity.created_at), 'MMM d, yyyy HH:mm')}
                     </p>
-                  ))}
-                  <p className="text-xs text-muted-foreground">
-                    {format(new Date(activity.created_at), 'MMM d, yyyy')}
-                  </p>
+                  </div>
                 </div>
               </div>
             );
