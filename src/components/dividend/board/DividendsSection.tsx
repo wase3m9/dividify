@@ -79,7 +79,7 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
               record={record}
               onDelete={handleDelete}
               onDownload={handleDownload}
-              canDelete={canDelete}
+              canDelete={true}
             />
           ))}
         </div>

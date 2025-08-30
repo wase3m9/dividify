@@ -68,16 +68,14 @@ export const DividendRecordItem = ({
           >
             <FileText className="h-4 w-4" />
           </Button>
-          {canDelete && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => onDelete(record.id)}
-              className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDelete(record.id)}
+            className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </div>

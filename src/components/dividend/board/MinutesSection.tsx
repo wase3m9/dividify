@@ -15,7 +15,7 @@ interface MinutesSectionProps {
 
 export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
   const navigate = useNavigate();
-  const { minutes, isLoading, handleDownload } = useMinutes(companyId);
+  const { minutes, isLoading, handleDownload, handleDelete } = useMinutes(companyId);
   const { data: usage } = useMonthlyUsage();
 
   const getPlanLimits = (plan: string) => {
@@ -72,6 +72,7 @@ export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
               key={record.id}
               record={record}
               onDownload={handleDownload}
+              onDelete={handleDelete}
             />
           ))}
         </div>

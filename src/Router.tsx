@@ -24,6 +24,7 @@ import Api from "@/pages/Api";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
+import JournalEntries from "@/pages/JournalEntries";
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 
 export const router = createBrowserRouter([
@@ -98,6 +99,10 @@ export const router = createBrowserRouter([
   {
     path: "/dividend-waivers",
     element: <DividendWaivers />,
+  },
+  {
+    path: "/journal-entries",
+    element: <JournalEntries />,
   },
   {
     path: "/contact",

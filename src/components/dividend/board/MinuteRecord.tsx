@@ -1,15 +1,16 @@
 
 import { Button } from "@/components/ui/button";
-import { Edit, FileText } from "lucide-react";
+import { Edit, FileText, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { MinuteRecord } from "./types";
 
 interface MinuteRecordProps {
   record: MinuteRecord;
   onDownload: (record: MinuteRecord, format: 'pdf') => void;
+  onDelete: (id: string) => void;
 }
 
-export const MinuteRecordItem = ({ record, onDownload }: MinuteRecordProps) => {
+export const MinuteRecordItem = ({ record, onDownload, onDelete }: MinuteRecordProps) => {
   const { toast } = useToast();
 
   const handleEdit = () => {
@@ -54,6 +55,14 @@ export const MinuteRecordItem = ({ record, onDownload }: MinuteRecordProps) => {
             className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
           >
             <FileText className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDelete(record.id)}
+            className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+          >
+            <Trash2 className="h-4 w-4" />
           </Button>
         </div>
       </div>
