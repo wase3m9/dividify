@@ -135,21 +135,6 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     setPreviewData(data);
   };
 
-  // Download preview (temporary download, doesn't count against limits)
-  const handleDownloadPreview = async () => {
-    if (!previewData) return;
-    
-    try {
-      const blob = await generateDividendVoucherPDF(previewData);
-      const filename = `dividend-voucher-preview-${Date.now()}.pdf`;
-      downloadPDF(blob, filename);
-      
-      toast({ title: 'Preview Downloaded', description: 'Temporary preview downloaded successfully.' });
-    } catch (error: any) {
-      console.error('Error generating preview:', error);
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate preview.' });
-    }
-  };
 
   // Save & Generate (final version, counts against limits)
   const handleSaveAndGenerate = async () => {
@@ -402,14 +387,9 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
           <div className="flex gap-2">
             <Button type="submit">Generate Preview</Button>
             {previewData && (
-              <>
-                <Button type="button" variant="outline" onClick={handleDownloadPreview}>
-                  Download Preview
-                </Button>
-                <Button type="button" onClick={handleSaveAndGenerate}>
-                  Save & Generate
-                </Button>
-              </>
+              <Button type="button" onClick={handleSaveAndGenerate}>
+                Save & Generate
+              </Button>
             )}
           </div>
         </form>
