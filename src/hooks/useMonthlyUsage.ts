@@ -33,11 +33,21 @@ export const useMonthlyUsage = () => {
         periodStart = new Date(subscription.current_period_start);
         periodEnd = new Date(subscription.current_period_end);
       } else {
-        // Fallback to calendar month for trial users
+        // Fallback to calendar month for trial users - use local timezone
         const now = new Date();
-        periodStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0));
-        periodEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
+        // Start of current month in local timezone
+        periodStart = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+        // Start of next month in local timezone  
+        periodEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0);
       }
+
+      // Add debugging
+      console.log('Period calculation:', {
+        plan,
+        periodStart: periodStart.toISOString(),
+        periodEnd: periodEnd.toISOString(),
+        hasSubscription: !!subscription
+      });
 
       // Parallel count queries for current billing period
       const [companiesRes, dividendsRes, minutesRes] = await Promise.all([
@@ -55,6 +65,12 @@ export const useMonthlyUsage = () => {
           .gte("created_at", periodStart.toISOString())
           .lt("created_at", periodEnd.toISOString()),
       ]);
+
+      console.log('Count results:', {
+        dividends: dividendsRes.count,
+        minutes: minutesRes.count,
+        companies: companiesRes.count
+      });
 
       if (companiesRes.error) throw companiesRes.error;
       if (dividendsRes.error) throw dividendsRes.error;
