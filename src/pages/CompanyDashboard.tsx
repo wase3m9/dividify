@@ -13,7 +13,7 @@ import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSec
 import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { QuickActions } from "@/components/dividend/board/QuickActions";
-import { UsageTracker } from "@/components/dividend/UsageTracker";
+import { PlanRestrictions } from "@/components/dividend/board/PlanRestrictions";
 import { TipsSection } from "@/components/dividend/dashboard/TipsSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -363,7 +363,14 @@ const CompanyDashboard = () => {
 
                 <div className="lg:col-start-3">
                   <div className="sticky top-24 space-y-6">
-                    <UsageTracker />
+                    <PlanRestrictions 
+                      currentPlan={monthlyUsage?.plan || 'trial'}
+                      currentUsage={{
+                        companies: monthlyUsage?.companiesCount || 0,
+                        dividends: monthlyUsage?.dividendsCount || 0,
+                        minutes: monthlyUsage?.minutesCount || 0
+                      }}
+                    />
                     {company && <RecentActivity companyId={company.id} />}
                   </div>
                 </div>

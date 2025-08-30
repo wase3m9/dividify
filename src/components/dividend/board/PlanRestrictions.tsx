@@ -1,8 +1,10 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CreditCard, Zap, Crown } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { CreditCard, Zap, Crown, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
 
 interface PlanRestrictionsProps {
   currentPlan: string;
@@ -15,6 +17,7 @@ interface PlanRestrictionsProps {
 
 export const PlanRestrictions = ({ currentPlan, currentUsage }: PlanRestrictionsProps) => {
   const navigate = useNavigate();
+  const { data: monthlyUsage } = useMonthlyUsage();
 
   const planLimits = {
     starter: { companies: 1, dividends: 2, minutes: 2 },
@@ -95,6 +98,24 @@ export const PlanRestrictions = ({ currentPlan, currentUsage }: PlanRestrictions
           <p className="text-sm text-orange-700">
             You've reached some plan limits. Consider upgrading for more capacity.
           </p>
+        </div>
+      )}
+
+      {monthlyUsage?.periodEnd && (
+        <div className="mt-4 pt-3 border-t">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground cursor-help">
+                  <Clock className="h-4 w-4" />
+                  <span>Next reset: {new Date(monthlyUsage.periodEnd).toLocaleDateString()}</span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Your usage limits will reset on this date</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       )}
     </Card>
