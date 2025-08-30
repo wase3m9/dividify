@@ -92,19 +92,9 @@ const JournalEntries = () => {
       <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-4xl mx-auto space-y-8">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/company-dashboard")}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
-            </Button>
-            <div className="flex items-center gap-2">
-              <Calculator className="h-6 w-6 text-[#9b87f5]" />
-              <h1 className="text-3xl font-bold">Journal Entries Generator</h1>
-            </div>
+          <div className="flex items-center gap-2">
+            <Calculator className="h-6 w-6 text-[#9b87f5]" />
+            <h1 className="text-3xl font-bold">Journal Entries Generator</h1>
           </div>
 
           <Card className="p-6">
