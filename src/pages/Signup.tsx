@@ -168,13 +168,13 @@ const Signup = () => {
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900">
-              Create your {isAccountant ? 'accountant' : 'company'} account
+              Create your {isAccountant ? 'Accountant/Agent' : 'company'} account
             </h2>
             <p className="mt-2 text-gray-600">
               {fromPricing && selectedPlan ? (
-                <>Start your free 7-day trial with the <span className="font-medium capitalize text-[#9b87f5]">{selectedPlan}</span> plan</>
+                <>Start your free 7-day trial with the <span className="font-medium capitalize text-[#9b87f5]">{selectedPlan === 'accountant' ? 'Accountant' : selectedPlan}</span> plan</>
               ) : isAccountant ? (
-                'Join as an accountant to manage multiple clients'
+                'Join as an accountant/agent to manage multiple clients'
               ) : (
                 'Get started with dividend management for your company'
               )}

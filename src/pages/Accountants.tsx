@@ -19,7 +19,7 @@ const Accountants = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        navigate("/signup?from=accountants");
+        navigate("/signup?from=accountants&plan=accountant");
         return;
       }
 
@@ -137,7 +137,7 @@ const Accountants = () => {
               <Button 
                 variant="outline" 
                 className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8"
-                onClick={() => navigate('/signup?from=accountants')}
+                onClick={() => navigate('/signup?from=accountants&plan=accountant')}
               >
                 Start a free trial
               </Button>
@@ -281,7 +281,7 @@ const Accountants = () => {
                 Thousands of directors and businesses rely on <span className="text-[#9b87f5]">Dividify</span> to streamline their dividend vouchers and board meeting records, saving time for what matters most. Click below to learn more.
               </p>
               <div className="flex gap-4 justify-center">
-                <Button className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8" onClick={() => navigate('/signup?from=accountants')}>
+                <Button className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8" onClick={() => navigate('/signup?from=accountants&plan=accountant')}>
                   Start a free trial
                 </Button>
                 <Button variant="outline" className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8" onClick={scrollToPricing}>
