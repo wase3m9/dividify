@@ -36,7 +36,7 @@ export const useMinutes = (companyId?: string) => {
       if (error) throw error;
 
       queryClient.invalidateQueries({ queryKey: ['minutes'] });
-      queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
+      // Don't invalidate monthly-usage to prevent reducing usage count when deleting
 
       toast({
         title: "Success",

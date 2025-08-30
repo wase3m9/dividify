@@ -53,7 +53,7 @@ export const useDividends = (companyId?: string) => {
       if (error) throw error;
 
       queryClient.invalidateQueries({ queryKey: ['dividend-records'] });
-      queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
+      // Don't invalidate monthly-usage to prevent reducing usage count when deleting
 
       toast({
         title: "Success",

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Plus, FileText } from "lucide-react";
+import { Plus, FileText, Calculator } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
@@ -73,6 +73,14 @@ export const QuickActions = () => {
           isMinutesDisabled,
           `You've reached your monthly limit of ${limits.minutes} board minutes. This will reset at the start of your next billing cycle.`
         )}
+        <Button
+          variant="outline"
+          className="w-full justify-start"
+          onClick={() => navigate("/journal-entries")}
+        >
+          <Calculator className="mr-2 h-4 w-4" />
+          Generate Journal Entries
+        </Button>
       </div>
     </Card>
   );
