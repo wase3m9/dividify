@@ -50,11 +50,12 @@ export const BlogPostContent = ({
           return null;
         }
 
-        // Headers with purple color and IDs for navigation
-        if (paragraph.trim().startsWith('Why This Decision Matters in 2025/26') || paragraph.trim().startsWith('The Case for Retaining Profits') || paragraph.trim().startsWith('The Case for Taking Dividends') || paragraph.trim().startsWith('Tax Implications to Consider') || paragraph.trim().startsWith('Finding the Right Balance') || paragraph.trim().startsWith('Final Thoughts') || paragraph.trim().startsWith('FAQs') || paragraph.trim().startsWith('What Are Dividends?') || paragraph.trim().startsWith('Common mistakes to Avoid') || paragraph.trim().startsWith('Why are dividends tax-efficient') || paragraph.trim().startsWith('Can you pay dividends') || paragraph.trim().startsWith('Conclusion?') || paragraph.trim().startsWith('Step 1:') || paragraph.trim().startsWith('Step 2:') || paragraph.trim().startsWith('Step 3:') || paragraph.trim().startsWith('Step 4:') || paragraph.trim().startsWith('Step 5:') || paragraph.trim().startsWith('Example: How Dividend Tax Works') || paragraph.trim().startsWith('Reporting Dividend Income to HMRC') || paragraph.trim().startsWith('Avoiding Common Mistakes') || paragraph.trim().startsWith('2025/26 Dividend Tax Rates') || paragraph.trim().startsWith('The Dividend Allowance') || paragraph.trim().startsWith('Tax Planning Strategies') || paragraph.trim().startsWith('When Waivers Make Commercial Sense') || paragraph.trim().startsWith('HMRC Scrutiny and Settlement') || paragraph.trim().startsWith('Legal Requirements for Dividend Waivers') || paragraph.trim().startsWith('Real-World Scenario') || paragraph.trim().startsWith('The Formal Process') || paragraph.trim().startsWith('Risks if Done Incorrectly') || paragraph.trim().startsWith('Why This Matters to UK Company Directors') || paragraph.trim().startsWith('HMRC and Companies House Implications') || paragraph.trim().startsWith('Formal Process and Legal Advice') || paragraph.trim().startsWith('FAQ Section')) {
-          const headerId = paragraph.trim().toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+        // Headers with purple color and IDs for navigation - improved detection
+        if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**') && !paragraph.includes('Table of Contents')) {
+          const headerText = paragraph.replace(/\*\*/g, '').trim();
+          const headerId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
           return <h2 key={pIndex} id={headerId} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4">
-                {paragraph}
+                {headerText}
               </h2>;
         }
 
