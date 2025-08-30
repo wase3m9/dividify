@@ -9,6 +9,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Helmet } from "react-helmet";
 import { Mail, Phone, MapPin } from "lucide-react";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -140,33 +141,33 @@ const Contact = () => {
               </p>
               
               <div className="space-y-6">
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <div className="bg-[#9b87f5] p-3 rounded-lg">
                     <Mail className="h-6 w-6 text-white" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold">Email Us</h3>
-                    <p className="text-gray-600">hello@dividify.co.uk</p>
+                  <div className="text-left">
+                    <h3 className="font-semibold text-left">For support, contact:</h3>
+                    <p className="text-gray-600 text-left">hello@dividify.co.uk</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <div className="bg-[#9b87f5] p-3 rounded-lg">
                     <Phone className="h-6 w-6 text-white" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold">Call Us</h3>
-                    <p className="text-gray-600">+44 20 7946 0958</p>
+                  <div className="text-left">
+                    <h3 className="font-semibold text-left">Accountants and Agents sales:</h3>
+                    <p className="text-gray-600 text-left">+44 20 7946 0958</p>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4">
+                <div className="flex items-start gap-4">
                   <div className="bg-[#9b87f5] p-3 rounded-lg">
                     <MapPin className="h-6 w-6 text-white" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold">Visit Us</h3>
-                    <p className="text-gray-600">124 City Road<br />London, EC1V 2NX<br />United Kingdom</p>
+                  <div className="text-left">
+                    <h3 className="font-semibold text-left">Registered office:</h3>
+                    <p className="text-gray-600 text-left">124 City Road<br />London, EC1V 2NX<br />United Kingdom</p>
                   </div>
                 </div>
               </div>
@@ -177,7 +178,7 @@ const Contact = () => {
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name" className="text-left block">Name</Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -187,7 +188,7 @@ const Contact = () => {
             </div>
             
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-left block">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -198,7 +199,7 @@ const Contact = () => {
             </div>
             
             <div>
-              <Label htmlFor="message">Message</Label>
+              <Label htmlFor="message" className="text-left block">Message</Label>
               <Textarea
                 id="message"
                 value={formData.message}
@@ -221,6 +222,7 @@ const Contact = () => {
         </div>
       </main>
         <Footer />
+        <ChatWidget />
       </div>
     </>
   );
