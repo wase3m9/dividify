@@ -37,17 +37,6 @@ export const PDFPreview: React.FC<PDFPreviewProps> = ({ data, documentType, file
             {showPreview ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
             {showPreview ? 'Hide Preview' : 'Show Preview'}
           </Button>
-          <PDFDownloadLink
-            document={renderDocument()}
-            fileName={filename}
-          >
-            {({ loading }) => (
-              <Button disabled={loading}>
-                <Download className="h-4 w-4 mr-2" />
-                {loading ? 'Generating...' : 'Download PDF'}
-              </Button>
-            )}
-          </PDFDownloadLink>
         </div>
       </div>
       
