@@ -172,16 +172,15 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         periodEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
       }
 
-      // Fresh count to avoid stale cache allowing over-limit creation
-      const { count: freshDividendsCount, error: divCountError } = await supabase
-        .from('dividend_records')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .gte('created_at', periodStart.toISOString())
-        .lt('created_at', periodEnd.toISOString());
-      if (divCountError) throw divCountError;
+      // Check current usage from profile counters
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('current_month_dividends')
+        .eq('id', user.id)
+        .single();
+      if (profileError) throw profileError;
 
-      const current = freshDividendsCount || 0;
+      const current = profile?.current_month_dividends || 0;
       if (limits.dividends !== Infinity && current >= limits.dividends) {
         toast({
           variant: 'destructive',
@@ -222,17 +221,17 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         total_dividend,
         number_of_shares,
         file_path: uploadData.path,
+        form_data: JSON.stringify(previewData)
       });
       if (insertError) throw insertError;
 
-      // Increment the monthly dividends count for the user
-      const { error: profileError } = await supabase.rpc('increment_monthly_dividends', { 
-        user_id_param: user.id 
+      // Increment the monthly dividend counter
+      const { error: counterError } = await supabase.rpc('increment_monthly_dividends', {
+        user_id_param: user.id
       });
-
-      if (profileError) {
-        console.error('Failed to increment monthly dividends:', profileError);
-        // Don't throw error here as the main record was created successfully
+      if (counterError) {
+        console.error('Error incrementing dividend counter:', counterError);
+        // Don't throw here - the main operation succeeded
       }
 
       // Refresh usage and activity

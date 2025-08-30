@@ -11,7 +11,7 @@ export const useMonthlyUsage = () => {
       // Get user's subscription and plan info
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
-        .select("subscription_plan")
+        .select("subscription_plan, current_month_dividends, current_month_minutes")
         .eq("id", user.id)
         .maybeSingle();
       if (profileError) throw profileError;
@@ -49,32 +49,25 @@ export const useMonthlyUsage = () => {
         hasSubscription: !!subscription
       });
 
-      // Parallel count queries for current billing period
-      const [companiesRes, dividendsRes, minutesRes] = await Promise.all([
-        supabase.from("companies").select("*", { count: "exact", head: true }).eq("user_id", user.id),
-        supabase
-          .from("dividend_records")
-          .select("*", { count: "exact", head: true })
-          .eq("user_id", user.id)
-          .gte("created_at", periodStart.toISOString())
-          .lt("created_at", periodEnd.toISOString()),
-        supabase
-          .from("minutes")
-          .select("*", { count: "exact", head: true })
-          .eq("user_id", user.id)
-          .gte("created_at", periodStart.toISOString())
-          .lt("created_at", periodEnd.toISOString()),
-      ]);
-
-      console.log('Count results:', {
-        dividends: dividendsRes.count,
-        minutes: minutesRes.count,
-        companies: companiesRes.count
-      });
+      // Count companies (this doesn't reset monthly, so we count actual records)
+      const companiesRes = await supabase
+        .from("companies")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
 
       if (companiesRes.error) throw companiesRes.error;
-      if (dividendsRes.error) throw dividendsRes.error;
-      if (minutesRes.error) throw minutesRes.error;
+
+      // Use profile counters for monthly usage (these track total creations, not current records)
+      const dividendsCount = profile?.current_month_dividends || 0;
+      const minutesCount = profile?.current_month_minutes || 0;
+
+      console.log('Usage data:', {
+        dividends: dividendsCount,
+        minutes: minutesCount,
+        companies: companiesRes.count,
+        periodStart: periodStart.toISOString(),
+        periodEnd: periodEnd.toISOString()
+      });
 
       // Get plan limits
       const getPlanLimits = (plan: string) => {
@@ -93,14 +86,14 @@ export const useMonthlyUsage = () => {
       return {
         plan,
         companiesCount: companiesRes.count || 0,
-        dividendsCount: dividendsRes.count || 0,
-        minutesCount: minutesRes.count || 0,
+        dividendsCount,
+        minutesCount,
         limits,
         periodStart: periodStart.toISOString(),
         periodEnd: periodEnd.toISOString(),
         // Calculate remaining quotas
-        remainingDividends: Math.max(0, limits.dividends === Infinity ? Infinity : limits.dividends - (dividendsRes.count || 0)),
-        remainingMinutes: Math.max(0, limits.minutes === Infinity ? Infinity : limits.minutes - (minutesRes.count || 0)),
+        remainingDividends: Math.max(0, limits.dividends === Infinity ? Infinity : limits.dividends - dividendsCount),
+        remainingMinutes: Math.max(0, limits.minutes === Infinity ? Infinity : limits.minutes - minutesCount),
       };
     },
     staleTime: 1 * 60 * 1000, // 1 minute

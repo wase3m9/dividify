@@ -220,7 +220,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       });
       if (insertError) throw insertError;
 
-      // Increment the monthly minutes count for the user
+      // Increment the monthly minutes counter using existing RPC function
       const { error: profileError } = await supabase.rpc('increment_monthly_minutes', { 
         user_id_param: user.id 
       });
