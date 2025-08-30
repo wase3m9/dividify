@@ -280,7 +280,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
         <form onSubmit={handleSubmit(handleGeneratePreview)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="companyName">Company Name</Label>
+              <Label htmlFor="companyName" className="text-left block">Company Name</Label>
               <Input
                 id="companyName"
                 {...register('companyName')}
@@ -292,7 +292,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="boardDate">Board Meeting Date</Label>
+              <Label htmlFor="boardDate" className="text-left block">Board Meeting Date</Label>
               <Input
                 id="boardDate"
                 type="date"
@@ -304,7 +304,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div className="md:col-span-2">
-              <Label htmlFor="directorsPresent">Directors Present (one per line)</Label>
+              <Label htmlFor="directorsPresent" className="text-left block">Directors Present (one per line)</Label>
               <Textarea
                 id="directorsPresent"
                 value={directorsInput}
@@ -318,7 +318,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="dividendPerShare">Dividend per Share (£)</Label>
+              <Label htmlFor="dividendPerShare" className="text-left block">Dividend per Share (£)</Label>
               <Input
                 id="dividendPerShare"
                 type="number"
@@ -332,7 +332,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="totalDividend">Total Dividend (£)</Label>
+              <Label htmlFor="totalDividend" className="text-left block">Total Dividend (£)</Label>
               <Input
                 id="totalDividend"
                 type="number"
@@ -346,7 +346,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="paymentDate">Payment Date</Label>
+              <Label htmlFor="paymentDate" className="text-left block">Payment Date</Label>
               <Input
                 id="paymentDate"
                 type="date"
@@ -358,7 +358,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="templateStyle">Template Style</Label>
+              <Label htmlFor="templateStyle" className="text-left block">Template Style</Label>
               <Select value={templateStyle} onValueChange={(value) => setValue('templateStyle', value as 'classic' | 'modern' | 'green')}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select template style" />
