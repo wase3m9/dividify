@@ -4,6 +4,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { downloadPDF, downloadWord } from "@/utils/documentGenerator";
 import { Packer } from "docx";
+import { useLogActivity } from "@/hooks/useActivityLog";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Company {
   id: string;
@@ -15,6 +17,8 @@ interface Company {
 export const useTemplateActions = (company: Company | null, formData: any) => {
   const { toast } = useToast();
   const [recordId, setRecordId] = useState<string | null>(null);
+  const logActivity = useLogActivity();
+  const queryClient = useQueryClient();
 
   const createOrUpdateRecord = async (filePath: string) => {
     try {
@@ -63,6 +67,22 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
           console.error('Failed to increment monthly dividends:', profileError);
           // Don't throw error here as the main record was created successfully
         }
+
+        // Log activity
+        logActivity.mutate({
+          action: 'dividend_voucher_created',
+          description: `Created dividend voucher for ${formData.shareholderName || 'shareholder'}`,
+          companyId: company.id,
+          metadata: {
+            amount: parseFloat(formData.totalAmount || '0'),
+            shareholderName: formData.shareholderName || '',
+            shareClass: formData.shareClass || ''
+          }
+        });
+
+        // Refresh queries
+        queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
+        queryClient.invalidateQueries({ queryKey: ['activity-log'] });
       }
     } catch (error: any) {
       throw error;

@@ -17,6 +17,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useMonthlyUsage } from '@/hooks/useMonthlyUsage';
 import { useQueryClient } from '@tanstack/react-query';
+import { useLogActivity } from '@/hooks/useActivityLog';
 
 const boardMinutesSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -40,6 +41,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const logActivity = useLogActivity();
 
   const getPlanLimits = (plan: string) => {
     switch (plan) {
@@ -194,9 +196,22 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
         // Don't throw error here as the main record was created successfully
       }
 
+      // Log activity
+      logActivity.mutate({
+        action: 'board_minutes_created',
+        description: `Created board minutes for meeting on ${previewData.boardDate}`,
+        companyId: selectedCompanyId,
+        metadata: {
+          meetingDate: previewData.boardDate,
+          dividendPerShare: previewData.dividendPerShare,
+          totalDividend: previewData.totalDividend,
+          directorsCount: previewData.directorsPresent.length
+        }
+      });
+
       // Refresh usage and activity
       queryClient.invalidateQueries({ queryKey: ['monthly-usage'] });
-      queryClient.invalidateQueries({ queryKey: ['recent-activity', selectedCompanyId] });
+      queryClient.invalidateQueries({ queryKey: ['activity-log'] });
 
       downloadPDF(blob, filename);
       toast({ title: 'Saved', description: 'Board minutes saved and downloaded.' });

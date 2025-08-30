@@ -2,7 +2,9 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
-import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 
 const getPlanLimits = (plan: string) => {
   switch (plan) {
@@ -25,7 +27,8 @@ const formatResetDate = (dateString: string) => {
 
 export const PlanLimits = () => {
   const { data: usage } = useMonthlyUsage();
-  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isUpgrading, setIsUpgrading] = useState(false);
 
   if (!usage) return null;
 
@@ -43,6 +46,35 @@ export const PlanLimits = () => {
     return Math.min((count / limit) * 100, 100);
   };
 
+  const handleUpgradeSubscription = async () => {
+    if (isUpgrading) return;
+    
+    setIsUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId: 'price_1S1czXDQxPzFmGY0BNG13iVd' } // Professional plan monthly
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank');
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error: any) {
+      console.error('Upgrade error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to start upgrade process",
+      });
+    } finally {
+      setIsUpgrading(false);
+    }
+  };
+
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -51,9 +83,10 @@ export const PlanLimits = () => {
           <Button 
             variant="outline"
             className="text-primary border-primary"
-            onClick={() => navigate('/profile?openPlans=1')}
+            onClick={handleUpgradeSubscription}
+            disabled={isUpgrading}
           >
-            Upgrade Plan
+            {isUpgrading ? 'Processing...' : 'Upgrade Plan'}
           </Button>
         )}
       </div>
