@@ -51,7 +51,19 @@ export const BlogPostContent = ({
         }
 
         // Headers with purple color and IDs for navigation - improved detection
-        if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**') && !paragraph.includes('Table of Contents')) {
+        if ((paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**') && !paragraph.includes('Table of Contents')) ||
+            // Also detect headers that are standalone without asterisks but are actual section headers
+            (paragraph.trim().match(/^[A-Z][A-Za-z\s:?''""-]+$/) && 
+             paragraph.trim().length < 80 && 
+             !paragraph.includes('.') && 
+             !paragraph.includes('•') &&
+             !paragraph.startsWith('A ') &&
+             !paragraph.startsWith('The ') &&
+             !paragraph.startsWith('In ') &&
+             !paragraph.startsWith('For ') &&
+             !paragraph.startsWith('With ') &&
+             !paragraph.startsWith('When ') &&
+             !paragraph.startsWith('While '))) {
           const headerText = paragraph.replace(/\*\*/g, '').trim();
           const headerId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
           return <h2 key={pIndex} id={headerId} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4">
