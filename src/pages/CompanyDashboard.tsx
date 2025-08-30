@@ -21,7 +21,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
 import { DocumentHistory } from "@/components/dividend/DocumentHistory";
-import { UsageTracker } from "@/components/dividend/UsageTracker";
+
 
 const CompanyDashboard = () => {
   const navigate = useNavigate();
@@ -370,7 +370,6 @@ const CompanyDashboard = () => {
 
                 <div className="lg:col-start-3">
                   <div className="sticky top-24 space-y-6">
-                    <UsageTracker />
                     <PlanRestrictions 
                       currentPlan={monthlyUsage?.plan || 'trial'}
                       currentUsage={{

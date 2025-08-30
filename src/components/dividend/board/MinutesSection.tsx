@@ -13,7 +13,7 @@ interface MinutesSectionProps {
 
 export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
   const navigate = useNavigate();
-  const { minutes, isLoading, handleDelete, handleDownload } = useMinutes(companyId);
+  const { minutes, isLoading, handleDownload } = useMinutes(companyId);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -40,7 +40,6 @@ export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
             <MinuteRecordItem
               key={record.id}
               record={record}
-              onDelete={handleDelete}
               onDownload={handleDownload}
             />
           ))}

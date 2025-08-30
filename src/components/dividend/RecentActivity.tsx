@@ -49,7 +49,7 @@ interface RecentActivityProps {
 }
 
 export const RecentActivity = ({ companyId }: RecentActivityProps) => {
-  const { data: activities, isLoading } = useActivityLog(10);
+  const { data: activities, isLoading } = useActivityLog(3);
 
   if (isLoading) {
     return <div>Loading activity...</div>;
@@ -68,7 +68,7 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
       
       {activities && activities.length > 0 ? (
         <div className="space-y-3">
-          {activities.slice(0, 8).map((activity) => {
+          {activities.slice(0, 3).map((activity) => {
             const Icon = getActivityIcon(activity.action);
             const descriptionLines = getActivityDescription(
               activity.action,
@@ -100,8 +100,8 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
           })}
         </div>
       ) : (
-        <div className="text-center py-8">
-          <Settings className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+        <div className="text-left py-8">
+          <Settings className="h-8 w-8 text-muted-foreground mb-2" />
           <p className="text-sm text-muted-foreground">No recent activity</p>
           <p className="text-xs text-muted-foreground">Create documents or manage companies to see activity here</p>
         </div>

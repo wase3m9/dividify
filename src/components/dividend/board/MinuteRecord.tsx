@@ -1,21 +1,24 @@
 
 import { Button } from "@/components/ui/button";
-import { FileText, Trash2 } from "lucide-react";
+import { Edit, FileText } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import type { MinuteRecord } from "./types";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface MinuteRecordProps {
   record: MinuteRecord;
-  onDelete: (id: string) => void;
-  onDownload: (record: MinuteRecord, format: 'pdf' | 'docx') => void;
+  onDownload: (record: MinuteRecord, format: 'pdf') => void;
 }
 
-export const MinuteRecordItem = ({ record, onDelete, onDownload }: MinuteRecordProps) => {
+export const MinuteRecordItem = ({ record, onDownload }: MinuteRecordProps) => {
+  const { toast } = useToast();
+
+  const handleEdit = () => {
+    toast({
+      title: "Coming Soon",
+      description: "Edit functionality will be available soon",
+    });
+  };
+
   return (
     <div key={record.id} className="p-4 border rounded-lg">
       <div className="flex justify-between items-start">
@@ -36,32 +39,21 @@ export const MinuteRecordItem = ({ record, onDelete, onDownload }: MinuteRecordP
           <div>{new Date(record.created_at).toLocaleDateString()}</div>
         </div>
         <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
-              >
-                <FileText className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => onDownload(record, 'pdf')}>
-                Download PDF
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDownload(record, 'docx')}>
-                Download Word
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => onDelete(record.id)}
-            className="text-red-500 hover:text-red-500 hover:bg-red-500/10"
+            onClick={() => handleEdit()}
+            className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
           >
-            <Trash2 className="h-4 w-4" />
+            <Edit className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDownload(record, 'pdf')}
+            className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10"
+          >
+            <FileText className="h-4 w-4" />
           </Button>
         </div>
       </div>
