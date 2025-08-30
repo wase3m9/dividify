@@ -9,13 +9,15 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Clock, CreditCard, Check } from "lucide-react";
+import { Clock, CreditCard, Check, RefreshCw, Loader2 } from "lucide-react";
 import { BrandingUploader } from "@/components/profile/BrandingUploader";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { refreshSubscriptionStatus, isLoading: subscriptionLoading } = useSubscriptionStatus();
   const [isUpgrading, setIsUpgrading] = useState(false);
   const [showPlanSelection, setShowPlanSelection] = useState(false);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
@@ -73,7 +75,18 @@ const Profile = () => {
     if (params.get('openPlans') === '1') {
       setShowPlanSelection(true);
     }
-  }, []);
+    // Handle success parameter from URL and refresh subscription
+    if (params.get('success') === '1') {
+      toast({
+        title: "Success",
+        description: "Subscription updated successfully!",
+      });
+      // Refresh subscription status after successful payment
+      refreshSubscriptionStatus();
+      // Remove the success parameter from URL
+      navigate('/profile', { replace: true });
+    }
+  }, [navigate, refreshSubscriptionStatus, toast]);
 
   const calculateTrialDaysLeft = () => {
     if (!profile?.created_at || profile.subscription_plan !== 'trial') return null;
@@ -245,12 +258,27 @@ const Profile = () => {
 
                 <div>
                   <Label htmlFor="plan" className="block text-left mb-2">Subscription Plan</Label>
-                  <Input
-                    id="plan"
-                    value={profile?.subscription_plan || 'trial'}
-                    disabled
-                    className="bg-gray-50"
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      id="plan"
+                      value={profile?.subscription_plan || 'trial'}
+                      disabled
+                      className="bg-gray-50 flex-1"
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={refreshSubscriptionStatus}
+                      disabled={subscriptionLoading}
+                      className="px-3"
+                      title="Refresh subscription status"
+                    >
+                      {subscriptionLoading ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <RefreshCw className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
                 </div>
 
                 <Button 

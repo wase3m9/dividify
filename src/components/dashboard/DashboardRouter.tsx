@@ -2,11 +2,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { Loader2 } from "lucide-react";
 
 export const DashboardRouter = () => {
   const navigate = useNavigate();
   const { profile, isLoading } = useUserTypeRouting();
+  const { refreshSubscriptionStatus } = useSubscriptionStatus();
 
   useEffect(() => {
     if (!isLoading) {
@@ -18,6 +20,9 @@ export const DashboardRouter = () => {
       } else {
         console.log("DashboardRouter - User type:", profile.user_type);
         
+        // Refresh subscription status when routing to dashboard
+        refreshSubscriptionStatus();
+        
         if (profile.user_type === 'accountant') {
           console.log("DashboardRouter - Redirecting to accountant dashboard");
           navigate('/accountant-dashboard');
@@ -27,7 +32,7 @@ export const DashboardRouter = () => {
         }
       }
     }
-  }, [isLoading, profile, navigate]);
+  }, [isLoading, profile, navigate, refreshSubscriptionStatus]);
 
   if (isLoading) {
     return (
