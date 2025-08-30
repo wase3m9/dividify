@@ -71,14 +71,9 @@ const AuthCallback = () => {
           description: "Your account has been confirmed successfully.",
         });
 
-        // Redirect based on user type
-        if (profile?.user_type === 'accountant') {
-          console.log("AuthCallback - Redirecting to accountant dashboard");
-          navigate("/accountant-dashboard");
-        } else {
-          console.log("AuthCallback - Redirecting to company dashboard");
-          navigate("/company-dashboard");
-        }
+        // Redirect to dashboard router which will handle user type detection
+        console.log("AuthCallback - Redirecting to dashboard router");
+        navigate("/dashboard");
       } catch (error) {
         console.error("AuthCallback - Unexpected error:", error);
         toast({
