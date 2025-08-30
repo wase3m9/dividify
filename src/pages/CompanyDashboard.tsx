@@ -20,7 +20,7 @@ import { Plus, CreditCard } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
-import { DocumentHistory } from "@/components/dividend/DocumentHistory";
+
 
 
 const CompanyDashboard = () => {
@@ -318,12 +318,6 @@ const CompanyDashboard = () => {
                         >
                           Minutes
                         </TabsTrigger>
-                        <TabsTrigger 
-                          value="history"
-                          className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
-                        >
-                          History
-                        </TabsTrigger>
                       </TabsList>
                       <div className="p-6">
                         <TabsContent value="company" className="mt-0">
@@ -359,9 +353,6 @@ const CompanyDashboard = () => {
                         </TabsContent>
                         <TabsContent value="minutes" className="mt-0">
                           <MinutesSection companyId={company?.id} />
-                        </TabsContent>
-                        <TabsContent value="history" className="mt-0">
-                          <DocumentHistory />
                         </TabsContent>
                       </div>
                     </Tabs>

@@ -51,7 +51,7 @@ export const PlanRestrictions = ({ currentPlan, currentUsage }: PlanRestrictions
         {currentPlan !== 'enterprise' && (
           <Button 
             size="sm" 
-            onClick={() => navigate('/#pricing')}
+            onClick={() => navigate('/profile')}
             className="bg-[#9b87f5] hover:bg-[#8b77e5]"
           >
             Upgrade
