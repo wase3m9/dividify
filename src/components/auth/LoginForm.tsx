@@ -50,54 +50,10 @@ export const LoginForm = () => {
     return true;
   };
 
-  const redirectToCorrectDashboard = async (userId: string) => {
-    try {
-      console.log("LoginForm - Fetching user profile for:", userId);
-      
-      // First, try to get the profile
-      let { data: profile, error } = await supabase
-        .from('profiles')
-        .select('user_type')
-        .eq('id', userId)
-        .single();
-
-      if (error || !profile) {
-        console.error("LoginForm - Profile fetch error:", error);
-        
-        // Try to create a profile if it doesn't exist
-        console.log("LoginForm - Attempting to create profile");
-        const { error: insertError } = await supabase
-          .from('profiles')
-          .insert({
-            id: userId,
-            user_type: 'individual',
-            subscription_plan: 'trial'
-          });
-
-        if (insertError) {
-          console.error("LoginForm - Profile creation error:", insertError);
-        }
-
-        // Default to company dashboard if profile operations fail
-        console.log("LoginForm - Defaulting to company dashboard");
-        window.location.href = "/company-dashboard";
-        return;
-      }
-
-      console.log("LoginForm - User profile:", profile);
-
-      if (profile?.user_type === 'accountant') {
-        console.log("LoginForm - Redirecting to accountant dashboard");
-        window.location.href = "/accountant-dashboard";
-      } else {
-        console.log("LoginForm - Redirecting to company dashboard");
-        window.location.href = "/company-dashboard";
-      }
-    } catch (error) {
-      console.error("LoginForm - Error during redirect:", error);
-      // Default to company dashboard on error
-      window.location.href = "/company-dashboard";
-    }
+  const redirectToCorrectDashboard = async () => {
+    console.log("LoginForm - Redirecting to dashboard router");
+    // Let DashboardRouter handle the user type detection and routing
+    navigate("/dashboard");
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -140,8 +96,8 @@ export const LoginForm = () => {
           description: "Successfully logged in",
         });
 
-        // Redirect to the correct dashboard based on user type
-        await redirectToCorrectDashboard(data.user.id);
+        // Redirect to dashboard router which will handle user type detection
+        await redirectToCorrectDashboard();
       } else {
         throw new Error("No user data returned");
       }
