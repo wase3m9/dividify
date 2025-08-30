@@ -38,6 +38,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
   const [previewData, setPreviewData] = useState<BoardMinutesData | null>(null);
   const [directorsInput, setDirectorsInput] = useState('');
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  const [isSaving, setIsSaving] = useState(false);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -133,12 +134,49 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
 
   // Save & Generate (final version, counts against limits)
   const handleSaveAndGenerate = async () => {
-    if (!previewData) return;
+    if (!previewData || isSaving) return;
 
+    setIsSaving(true);
     try {
       const plan = usage?.plan || 'trial';
       const limits = getPlanLimits(plan);
-      const current = usage?.minutesCount ?? 0;
+
+      // Always re-check usage with fresh counts to prevent stale cache allowing overage
+      const { data: auth } = await supabase.auth.getUser();
+      const user = auth.user;
+      if (!user) {
+        toast({ variant: 'destructive', title: 'Error', description: 'User not authenticated' });
+        return;
+      }
+
+      // Determine current billing period (subscription period if active, else calendar month)
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .maybeSingle();
+
+      let periodStart: Date;
+      let periodEnd: Date;
+      if (subscription) {
+        periodStart = new Date(subscription.current_period_start);
+        periodEnd = new Date(subscription.current_period_end);
+      } else {
+        const now = new Date();
+        periodStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0));
+        periodEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
+      }
+
+      const { count: freshMinutesCount, error: minutesCountError } = await supabase
+        .from('minutes')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .gte('created_at', periodStart.toISOString())
+        .lt('created_at', periodEnd.toISOString());
+      if (minutesCountError) throw minutesCountError;
+
+      const current = freshMinutesCount || 0;
       if (limits.minutes !== Infinity && current >= limits.minutes) {
         toast({
           variant: 'destructive',
@@ -150,13 +188,6 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
 
       if (!selectedCompanyId) {
         toast({ variant: 'destructive', title: 'Select a company', description: 'Please select a company first.' });
-        return;
-      }
-
-      const { data: auth } = await supabase.auth.getUser();
-      const user = auth.user;
-      if (!user) {
-        toast({ variant: 'destructive', title: 'Error', description: 'User not authenticated' });
         return;
       }
 
@@ -221,9 +252,10 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
     } catch (error: any) {
       console.error('Error generating/saving PDF:', error);
       toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to generate document.' });
+    } finally {
+      setIsSaving(false);
     }
   };
-
   return (
     <div className="space-y-6">
       <Card className="p-6">
@@ -343,8 +375,8 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
           <div className="flex gap-2">
             <Button type="submit">Generate Preview</Button>
             {previewData && (
-              <Button type="button" onClick={handleSaveAndGenerate}>
-                Save & Generate
+              <Button type="button" onClick={handleSaveAndGenerate} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save & Generate'}
               </Button>
             )}
           </div>

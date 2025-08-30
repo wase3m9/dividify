@@ -39,6 +39,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
   const [previewData, setPreviewData] = useState<DividendVoucherData | null>(null);
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
   const [selectedShareholderId, setSelectedShareholderId] = useState<string>('');
+  const [isSaving, setIsSaving] = useState(false);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -138,12 +139,49 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
 
   // Save & Generate (final version, counts against limits)
   const handleSaveAndGenerate = async () => {
-    if (!previewData) return;
+    if (!previewData || isSaving) return;
 
+    setIsSaving(true);
     try {
       const plan = usage?.plan || 'trial';
       const limits = getPlanLimits(plan);
-      const current = usage?.dividendsCount ?? 0;
+
+      const { data: auth } = await supabase.auth.getUser();
+      const user = auth.user;
+      if (!user) {
+        toast({ variant: 'destructive', title: 'Error', description: 'User not authenticated' });
+        return;
+      }
+
+      // Determine current billing period (subscription period if active, else calendar month)
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .maybeSingle();
+
+      let periodStart: Date;
+      let periodEnd: Date;
+      if (subscription) {
+        periodStart = new Date(subscription.current_period_start);
+        periodEnd = new Date(subscription.current_period_end);
+      } else {
+        const now = new Date();
+        periodStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0));
+        periodEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
+      }
+
+      // Fresh count to avoid stale cache allowing over-limit creation
+      const { count: freshDividendsCount, error: divCountError } = await supabase
+        .from('dividend_records')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .gte('created_at', periodStart.toISOString())
+        .lt('created_at', periodEnd.toISOString());
+      if (divCountError) throw divCountError;
+
+      const current = freshDividendsCount || 0;
       if (limits.dividends !== Infinity && current >= limits.dividends) {
         toast({
           variant: 'destructive',
@@ -155,13 +193,6 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
 
       if (!selectedCompanyId) {
         toast({ variant: 'destructive', title: 'Select a company', description: 'Please select a company first.' });
-        return;
-      }
-
-      const { data: auth } = await supabase.auth.getUser();
-      const user = auth.user;
-      if (!user) {
-        toast({ variant: 'destructive', title: 'Error', description: 'User not authenticated' });
         return;
       }
 
@@ -215,6 +246,8 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     } catch (error: any) {
       console.error('Error generating/saving PDF:', error);
       toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to generate document.' });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -397,8 +430,8 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
           <div className="flex gap-2">
             <Button type="submit">Generate Preview</Button>
             {previewData && (
-              <Button type="button" onClick={handleSaveAndGenerate}>
-                Save & Generate
+              <Button type="button" onClick={handleSaveAndGenerate} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save & Generate'}
               </Button>
             )}
           </div>
