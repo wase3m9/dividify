@@ -67,6 +67,14 @@ const Profile = () => {
     }
   }, [profile]);
 
+  // Open plan selection modal when arriving from pricing with query param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('openPlans') === '1') {
+      setShowPlanSelection(true);
+    }
+  }, []);
+
   const calculateTrialDaysLeft = () => {
     if (!profile?.created_at || profile.subscription_plan !== 'trial') return null;
     
