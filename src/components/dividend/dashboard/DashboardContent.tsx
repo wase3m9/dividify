@@ -14,8 +14,8 @@ export const DashboardContent = ({ selectedCompanyId }: DashboardContentProps) =
   return (
     <div className="grid md:grid-cols-2 gap-4">
       <QuickActions
-        onCreateVoucher={() => navigate("/dividend-voucher")}
-        onCreateMinutes={() => navigate("/board-minutes")}
+        onCreateVoucher={() => navigate("/dividend-voucher-form")}
+        onCreateMinutes={() => navigate("/board-minutes-form")}
       />
       <Card className="p-6">
         <h3 className="text-lg font-medium mb-4">Recent Activity</h3>

@@ -33,7 +33,7 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
           <h2 className="text-xl font-semibold">Dividend Vouchers</h2>
         </div>
         <Button
-          onClick={() => navigate("/dividend-voucher")}
+          onClick={() => navigate("/dividend-voucher-form")}
           size="sm"
         >
           <Plus className="mr-2 h-4 w-4" />

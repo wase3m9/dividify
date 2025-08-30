@@ -27,7 +27,7 @@ export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
           <h2 className="text-xl font-semibold">Board Minutes</h2>
         </div>
         <Button
-          onClick={() => navigate("/board-minutes")}
+          onClick={() => navigate("/board-minutes-form")}
           size="sm"
         >
           <Plus className="mr-2 h-4 w-4" />
