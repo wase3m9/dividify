@@ -9,6 +9,7 @@ import { DashboardContent } from "@/components/dividend/dashboard/DashboardConte
 import { useCompanyData } from "@/hooks/useCompanyData";
 import { useToast } from "@/hooks/use-toast";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
+import { TrialBanner } from "@/components/dashboard/TrialBanner";
 
 const AccountantDashboard = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
@@ -61,6 +62,7 @@ const AccountantDashboard = () => {
       <Navigation />
       <main className="container mx-auto px-4 pt-20">
         <div className="flex flex-col space-y-8">
+          <TrialBanner />
           <DashboardHeader
             displayName={displayName}
             isDialogOpen={isDialogOpen}

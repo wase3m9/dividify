@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Star, Rocket, Building } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 interface PricingSectionProps {
   onStartFreeTrial: () => void;
@@ -10,6 +12,13 @@ interface PricingSectionProps {
 
 export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+  }, []);
 
   const plans = [
     {
@@ -60,6 +69,19 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       isPopular: false,
     }
   ];
+
+  const handleSubscribeClick = (planName: string) => {
+    // Store selected plan for later use
+    localStorage.setItem('selectedPlan', planName.toLowerCase());
+    
+    if (isAuthenticated) {
+      // User is logged in, go to profile with plan selection
+      navigate(`/profile?openPlans=1&plan=${planName.toLowerCase()}`);
+    } else {
+      // User not logged in, redirect to signup with plan context
+      navigate(`/signup?plan=${planName.toLowerCase()}&from=pricing`);
+    }
+  };
 
   return (
     <section className="py-20 bg-gray-50">
@@ -118,7 +140,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                         ? 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white' 
                         : 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white'
                     }`}
-                    onClick={() => navigate('/profile?openPlans=1')}
+                    onClick={() => handleSubscribeClick(plan.name)}
                   >
                     {plan.buttonText}
                   </Button>
@@ -135,7 +157,10 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                 <h3 className="text-xl font-semibold text-green-900">Accountants & Agents</h3>
                 <p className="text-green-700">Manage unlimited companies for £30/month</p>
               </div>
-              <Button className="bg-green-600 hover:bg-green-700" onClick={() => navigate('/profile?openPlans=1&plan=accountant')}>
+              <Button 
+                className="bg-green-600 hover:bg-green-700" 
+                onClick={() => handleSubscribeClick('accountant')}
+              >
                 View Accountant Plan
               </Button>
             </div>

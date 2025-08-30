@@ -15,7 +15,11 @@ const Signup = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
-  const isAccountant = searchParams.get('type') === 'accountant' || searchParams.get('from') === 'accountants';
+  const selectedPlan = searchParams.get('plan');
+  const fromPricing = searchParams.get('from') === 'pricing';
+  const isAccountant = searchParams.get('type') === 'accountant' || 
+                      searchParams.get('from') === 'accountants' ||
+                      selectedPlan === 'accountant';
   
   // Dynamic label based on user type
   const nameLabel = isAccountant ? "Company/Agent name" : "Full Name";
@@ -118,8 +122,13 @@ const Signup = () => {
 
         toast({
           title: "Account created successfully",
-          description: "Welcome to Dividify!",
+          description: fromPricing ? "Welcome to Dividify! Your 7-day trial has started." : "Welcome to Dividify!",
         });
+
+        // Store trial start info if from pricing
+        if (fromPricing) {
+          localStorage.setItem('trialStarted', new Date().toISOString());
+        }
 
         // Redirect to appropriate dashboard
         if (isAccountant) {
@@ -162,11 +171,21 @@ const Signup = () => {
               Create your {isAccountant ? 'accountant' : 'company'} account
             </h2>
             <p className="mt-2 text-gray-600">
-              {isAccountant 
-                ? 'Join as an accountant to manage multiple clients' 
-                : 'Get started with dividend management for your company'
-              }
+              {fromPricing && selectedPlan ? (
+                <>Start your free 7-day trial with the <span className="font-medium capitalize text-[#9b87f5]">{selectedPlan}</span> plan</>
+              ) : isAccountant ? (
+                'Join as an accountant to manage multiple clients'
+              ) : (
+                'Get started with dividend management for your company'
+              )}
             </p>
+            {fromPricing && (
+              <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-sm text-green-800">
+                  ✨ No payment required • 7-day free trial • Cancel anytime
+                </p>
+              </div>
+            )}
           </div>
 
           {error && (
