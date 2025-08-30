@@ -2,7 +2,7 @@ import { FC, useState, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, Trash2, Edit } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { DirectorForm } from "./DirectorForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -228,6 +228,9 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
+          <DialogTitle>
+            {editingDirector ? 'Edit Officer' : 'Add Officer'}
+          </DialogTitle>
           <DirectorForm 
             onSubmit={handleSubmit} 
             isLoading={isLoading}

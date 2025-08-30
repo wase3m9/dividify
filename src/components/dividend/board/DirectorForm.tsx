@@ -2,7 +2,7 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -56,7 +56,7 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading, initi
   };
 
   return (
-    <DialogContent className="sm:max-w-[425px] bg-background border shadow-lg">
+    <>
       <DialogHeader>
         <DialogTitle>{initialData ? 'Edit Officer' : 'Add New Officer'}</DialogTitle>
         <DialogDescription>
@@ -179,6 +179,6 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading, initi
           </Button>
         </form>
       </Form>
-    </DialogContent>
+    </>
   );
 };
