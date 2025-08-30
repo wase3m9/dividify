@@ -10,6 +10,7 @@ import { PricingSection } from "@/components/landing/PricingSection";
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { FAQSection } from "@/components/landing/FAQSection";
 import { Footer } from "@/components/landing/Footer";
+import ChatNotification from "@/components/chat/ChatNotification";
 import { Helmet } from "react-helmet";
 import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
 
@@ -224,6 +225,7 @@ const Index = () => {
           <FAQSection />
         </div>
         <Footer />
+        <ChatNotification showOnLoad={true} delay={5000} />
       </main>
     </div>
   );

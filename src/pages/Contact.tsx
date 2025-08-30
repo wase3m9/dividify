@@ -9,7 +9,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Helmet } from "react-helmet";
 import { Mail, Phone, MapPin } from "lucide-react";
-import ChatWidget from "@/components/chat/ChatWidget";
+import ChatNotification from "@/components/chat/ChatNotification";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -222,7 +222,7 @@ const Contact = () => {
         </div>
       </main>
         <Footer />
-        <ChatWidget />
+        <ChatNotification showOnLoad={true} delay={2000} />
       </div>
     </>
   );
