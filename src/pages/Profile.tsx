@@ -359,30 +359,36 @@ const Profile = () => {
             {/* Plan Selection Modal */}
             {showPlanSelection && (
               <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <div className="bg-card rounded-lg border p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                  <div className="flex justify-between items-center mb-6">
-                    <div>
-                      <h2 className="text-2xl font-semibold">Choose Your Plan</h2>
-                      <p className="text-muted-foreground">Select the plan that best fits your needs</p>
+                <div className="bg-card rounded-lg border p-6 max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+                  <div className="flex items-center mb-6">
+                    <div className="flex-1">
+                      <h2 className="text-2xl font-semibold text-center">Choose Your Plan</h2>
+                      <p className="text-muted-foreground text-center">Select the plan that best fits your needs</p>
                     </div>
                     <Button 
                       variant="ghost" 
                       size="sm" 
                       onClick={() => setShowPlanSelection(false)}
+                      className="ml-4"
                     >
                       ✕
                     </Button>
                   </div>
+                  
                   <div className="mb-6 flex items-center justify-center gap-2">
                     <Button variant={billingCycle === 'monthly' ? 'default' : 'outline'} size="sm" onClick={() => setBillingCycle('monthly')}>Monthly</Button>
                     <Button variant={billingCycle === 'yearly' ? 'default' : 'outline'} size="sm" onClick={() => setBillingCycle('yearly')}>Yearly (save 20%)</Button>
                   </div>
 
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-6 lg:grid-cols-3 mb-6">
                     {/* Starter Plan */}
                     <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors">
                       <h3 className="text-lg font-semibold mb-2">Starter</h3>
-                      <div className="text-3xl font-bold mb-4">£6<span className="text-base font-normal">/month</span></div>
+                      <div className="text-3xl font-bold mb-4">
+                        £{billingCycle === 'monthly' ? '6' : Math.round(6 * 12 * 0.8 / 12).toString()}
+                        <span className="text-base font-normal">/{billingCycle === 'monthly' ? 'month' : 'month'}</span>
+                        {billingCycle === 'yearly' && <div className="text-sm text-muted-foreground">Billed £{Math.round(6 * 12 * 0.8)} yearly</div>}
+                      </div>
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
@@ -415,7 +421,11 @@ const Profile = () => {
                         </span>
                       </div>
                       <h3 className="text-lg font-semibold mb-2">Professional</h3>
-                      <div className="text-3xl font-bold mb-4">£15<span className="text-base font-normal">/month</span></div>
+                      <div className="text-3xl font-bold mb-4">
+                        £{billingCycle === 'monthly' ? '15' : Math.round(15 * 12 * 0.8 / 12).toString()}
+                        <span className="text-base font-normal">/{billingCycle === 'monthly' ? 'month' : 'month'}</span>
+                        {billingCycle === 'yearly' && <div className="text-sm text-muted-foreground">Billed £{Math.round(15 * 12 * 0.8)} yearly</div>}
+                      </div>
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
@@ -446,7 +456,11 @@ const Profile = () => {
                     {/* Enterprise Plan */}
                     <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors">
                       <h3 className="text-lg font-semibold mb-2">Enterprise</h3>
-                      <div className="text-3xl font-bold mb-4">£24<span className="text-base font-normal">/month</span></div>
+                      <div className="text-3xl font-bold mb-4">
+                        £{billingCycle === 'monthly' ? '24' : Math.round(24 * 12 * 0.8 / 12).toString()}
+                        <span className="text-base font-normal">/{billingCycle === 'monthly' ? 'month' : 'month'}</span>
+                        {billingCycle === 'yearly' && <div className="text-sm text-muted-foreground">Billed £{Math.round(24 * 12 * 0.8)} yearly</div>}
+                      </div>
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
@@ -474,12 +488,18 @@ const Profile = () => {
                         Subscribe
                       </Button>
                     </div>
+                  </div>
 
-                    {/* Accountant Plan */}
-                    <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors bg-green-50 border-green-200">
-                      <h3 className="text-lg font-semibold mb-2 text-green-800">Accountant Plan</h3>
-                      <div className="text-3xl font-bold mb-4 text-green-800">£30<span className="text-base font-normal">/month</span></div>
-                      <p className="text-green-700 text-sm mb-4">Perfect for accounting professionals managing multiple clients</p>
+                  {/* Accountants/Agents Plan - Centered */}
+                  <div className="flex justify-center">
+                    <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors bg-green-50 border-green-200 max-w-md w-full">
+                      <h3 className="text-lg font-semibold mb-2 text-green-800 text-center">Accountants/Agents</h3>
+                      <div className="text-3xl font-bold mb-4 text-green-800 text-center">
+                        £{billingCycle === 'monthly' ? '30' : Math.round(30 * 12 * 0.8 / 12).toString()}
+                        <span className="text-base font-normal">/{billingCycle === 'monthly' ? 'month' : 'month'}</span>
+                        {billingCycle === 'yearly' && <div className="text-sm text-muted-foreground">Billed £{Math.round(30 * 12 * 0.8)} yearly</div>}
+                      </div>
+                      <p className="text-green-700 text-sm mb-4 text-center">Perfect for accounting professionals managing multiple clients</p>
                       <Button 
                         onClick={() => handleUpgradeSubscription(getPriceId('accountant'))}
                         disabled={isUpgrading}

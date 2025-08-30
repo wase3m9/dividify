@@ -46,7 +46,14 @@ serve(async (req) => {
 
     logStep("Price ID received", { priceId });
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+    const stripeSecretKey = Deno.env.get("STRIPE_SECRET_KEY");
+    if (!stripeSecretKey) {
+      throw new Error("STRIPE_SECRET_KEY environment variable is not set");
+    }
+    
+    logStep("Stripe key found", { keyLength: stripeSecretKey.length });
+
+    const stripe = new Stripe(stripeSecretKey, {
       apiVersion: "2023-10-16",
     });
 
