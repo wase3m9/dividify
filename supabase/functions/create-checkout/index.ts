@@ -103,8 +103,8 @@ serve(async (req) => {
         },
       ],
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/profile?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/pricing`,
+      success_url: `${req.headers.get("origin") || "https://dividify.co.uk"}/profile?success=1`,
+      cancel_url: `${req.headers.get("origin") || "https://dividify.co.uk"}/profile`,
       metadata: {
         user_id: user.id,
         user_type: userType,

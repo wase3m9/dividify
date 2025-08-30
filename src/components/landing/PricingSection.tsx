@@ -118,7 +118,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                         ? 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white' 
                         : 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white'
                     }`}
-                    onClick={() => navigate('/signup')}
+                    onClick={() => navigate('/profile?openPlans=1')}
                   >
                     {plan.buttonText}
                   </Button>
@@ -135,7 +135,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                 <h3 className="text-xl font-semibold text-green-900">Accountants & Agents</h3>
                 <p className="text-green-700">Manage unlimited companies for £30/month</p>
               </div>
-              <Button className="bg-green-600 hover:bg-green-700" onClick={() => navigate('/accountants')}>
+              <Button className="bg-green-600 hover:bg-green-700" onClick={() => navigate('/profile?openPlans=1&plan=accountant')}>
                 View Accountant Plan
               </Button>
             </div>
