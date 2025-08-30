@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          company_id: string | null
+          created_at: string
+          description: string
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          company_id?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          company_id?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       companies: {
         Row: {
           accounting_category: string | null
@@ -82,6 +120,7 @@ export type Database = {
           created_at: string | null
           dividend_per_share: number
           file_path: string | null
+          form_data: Json | null
           id: string
           number_of_shares: number
           payment_date: string
@@ -97,6 +136,7 @@ export type Database = {
           created_at?: string | null
           dividend_per_share: number
           file_path?: string | null
+          form_data?: Json | null
           id?: string
           number_of_shares: number
           payment_date: string
@@ -112,6 +152,7 @@ export type Database = {
           created_at?: string | null
           dividend_per_share?: number
           file_path?: string | null
+          form_data?: Json | null
           id?: string
           number_of_shares?: number
           payment_date?: string
@@ -145,6 +186,7 @@ export type Database = {
           company_id: string
           created_at: string | null
           file_path: string | null
+          form_data: Json | null
           id: string
           meeting_date: string
           meeting_type: string
@@ -157,6 +199,7 @@ export type Database = {
           company_id: string
           created_at?: string | null
           file_path?: string | null
+          form_data?: Json | null
           id?: string
           meeting_date: string
           meeting_type: string
@@ -169,6 +212,7 @@ export type Database = {
           company_id?: string
           created_at?: string | null
           file_path?: string | null
+          form_data?: Json | null
           id?: string
           meeting_date?: string
           meeting_type?: string
@@ -349,6 +393,45 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          created_at: string
+          current_period_end: string
+          current_period_start: string
+          id: string
+          plan_code: string
+          status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          plan_code?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          plan_code?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -360,6 +443,16 @@ export type Database = {
       }
       increment_monthly_minutes: {
         Args: { user_id_param: string }
+        Returns: undefined
+      }
+      log_activity: {
+        Args: {
+          action_param: string
+          company_id_param?: string
+          description_param: string
+          metadata_param?: Json
+          user_id_param: string
+        }
         Returns: undefined
       }
     }

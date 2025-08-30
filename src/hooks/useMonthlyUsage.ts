@@ -8,7 +8,7 @@ export const useMonthlyUsage = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // Get subscription plan
+      // Get user's subscription and plan info
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("subscription_plan")
@@ -16,26 +16,44 @@ export const useMonthlyUsage = () => {
         .maybeSingle();
       if (profileError) throw profileError;
 
-      // Date range for current month (UTC)
-      const now = new Date();
-      const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0));
-      const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .maybeSingle();
 
-      // Parallel count queries
+      const plan = profile?.subscription_plan || "trial";
+      
+      // Use Stripe billing period if available, otherwise use calendar month
+      let periodStart: Date;
+      let periodEnd: Date;
+      
+      if (subscription) {
+        periodStart = new Date(subscription.current_period_start);
+        periodEnd = new Date(subscription.current_period_end);
+      } else {
+        // Fallback to calendar month for trial users
+        const now = new Date();
+        periodStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0));
+        periodEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
+      }
+
+      // Parallel count queries for current billing period
       const [companiesRes, dividendsRes, minutesRes] = await Promise.all([
         supabase.from("companies").select("*", { count: "exact", head: true }).eq("user_id", user.id),
         supabase
           .from("dividend_records")
           .select("*", { count: "exact", head: true })
           .eq("user_id", user.id)
-          .gte("created_at", start.toISOString())
-          .lt("created_at", nextMonth.toISOString()),
+          .gte("created_at", periodStart.toISOString())
+          .lt("created_at", periodEnd.toISOString()),
         supabase
           .from("minutes")
           .select("*", { count: "exact", head: true })
           .eq("user_id", user.id)
-          .gte("created_at", start.toISOString())
-          .lt("created_at", nextMonth.toISOString()),
+          .gte("created_at", periodStart.toISOString())
+          .lt("created_at", periodEnd.toISOString()),
       ]);
 
       if (companiesRes.error) throw companiesRes.error;
@@ -54,18 +72,22 @@ export const useMonthlyUsage = () => {
         }
       };
 
-      const limits = getPlanLimits(profile?.subscription_plan || "trial");
+      const limits = getPlanLimits(plan);
 
       return {
-        plan: profile?.subscription_plan || "trial",
+        plan,
         companiesCount: companiesRes.count || 0,
         dividendsCount: dividendsRes.count || 0,
         minutesCount: minutesRes.count || 0,
         limits,
+        periodStart: periodStart.toISOString(),
+        periodEnd: periodEnd.toISOString(),
         // Calculate remaining quotas
         remainingDividends: Math.max(0, limits.dividends === Infinity ? Infinity : limits.dividends - (dividendsRes.count || 0)),
         remainingMinutes: Math.max(0, limits.minutes === Infinity ? Infinity : limits.minutes - (minutesRes.count || 0)),
       };
     },
+    staleTime: 1 * 60 * 1000, // 1 minute
+    gcTime: 5 * 60 * 1000, // 5 minutes
   });
 };

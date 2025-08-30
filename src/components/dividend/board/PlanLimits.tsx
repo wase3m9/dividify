@@ -14,6 +14,14 @@ const getPlanLimits = (plan: string) => {
   }
 };
 
+const formatResetDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { 
+    month: 'long', 
+    day: 'numeric' 
+  });
+};
+
 export const PlanLimits = () => {
   const { data: usage } = useMonthlyUsage();
 
@@ -21,12 +29,23 @@ export const PlanLimits = () => {
 
   const limits = getPlanLimits(usage.plan);
   const planName = usage.plan.charAt(0).toUpperCase() + usage.plan.slice(1);
+  const isEnterprise = usage.plan === 'enterprise';
+
+  const formatUsage = (count: number, limit: number) => {
+    if (limit === Infinity) return `${count} / ∞`;
+    return `${count} / ${limit}`;
+  };
+
+  const getProgress = (count: number, limit: number) => {
+    if (limit === Infinity) return 0;
+    return Math.min((count / limit) * 100, 100);
+  };
 
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">Current Plan: {planName}</h3>
-        {usage.plan !== 'enterprise' && (
+        {!isEnterprise && (
           <Button 
             variant="outline"
             className="text-primary border-primary"
@@ -42,11 +61,11 @@ export const PlanLimits = () => {
           <div className="flex justify-between mb-2">
             <span className="text-sm text-muted-foreground">Companies</span>
             <span className="text-sm font-medium">
-              {usage.companiesCount} / {limits.companies === Infinity ? '∞' : limits.companies}
+              {formatUsage(usage.companiesCount, limits.companies)}
             </span>
           </div>
           <Progress 
-            value={(usage.companiesCount / (limits.companies === Infinity ? 1 : limits.companies)) * 100} 
+            value={getProgress(usage.companiesCount, limits.companies)} 
             className="h-2"
           />
         </div>
@@ -55,11 +74,11 @@ export const PlanLimits = () => {
           <div className="flex justify-between mb-2">
             <span className="text-sm text-muted-foreground">Monthly Dividend Vouchers</span>
             <span className="text-sm font-medium">
-              {limits.dividends === Infinity ? '∞' : Math.max(0, limits.dividends - usage.dividendsCount)} / {limits.dividends === Infinity ? '∞' : limits.dividends}
+              {formatUsage(usage.dividendsCount, limits.dividends)}
             </span>
           </div>
           <Progress 
-            value={(usage.dividendsCount / (limits.dividends === Infinity ? 1 : limits.dividends)) * 100}
+            value={getProgress(usage.dividendsCount, limits.dividends)}
             className="h-2"
           />
         </div>
@@ -68,15 +87,21 @@ export const PlanLimits = () => {
           <div className="flex justify-between mb-2">
             <span className="text-sm text-muted-foreground">Monthly Board Minutes</span>
             <span className="text-sm font-medium">
-              {limits.minutes === Infinity ? '∞' : Math.max(0, limits.minutes - usage.minutesCount)} / {limits.minutes === Infinity ? '∞' : limits.minutes}
+              {formatUsage(usage.minutesCount, limits.minutes)}
             </span>
           </div>
           <Progress 
-            value={(usage.minutesCount / (limits.minutes === Infinity ? 1 : limits.minutes)) * 100}
+            value={getProgress(usage.minutesCount, limits.minutes)}
             className="h-2"
           />
         </div>
       </div>
+      
+      {usage.periodEnd && !isEnterprise && (
+        <div className="mt-4 pt-4 border-t text-xs text-muted-foreground">
+          Resets on {formatResetDate(usage.periodEnd)}
+        </div>
+      )}
     </Card>
   );
 };
