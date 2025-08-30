@@ -5,6 +5,7 @@ import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
 import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
+import dividendTax2025Image from "@/assets/dividend-tax-2025-26.jpg";
 
 interface BlogPost {
   id: string;
@@ -29,6 +30,8 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
               <img
                 src={post.slug === "retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26" 
                   ? "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png"
+                  : post.slug === "dividend-tax-in-2025-26-what-uk-directors-need-to-know-about-rates-and-allowances"
+                  ? dividendTax2025Image
                   : post.slug === "director-loan-accounts-tax-implications-and-common-pitfalls-in-2025" 
                   ? directorsLoanImage
                   : post.slug === "salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26"
