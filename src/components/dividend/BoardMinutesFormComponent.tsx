@@ -164,10 +164,10 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       const blob = await generateBoardMinutesPDF(previewData);
       const filename = `board-minutes-${Date.now()}.pdf`;
 
-      // Upload to storage
+      // Upload to storage with user ID folder prefix
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('dividend_vouchers')
-        .upload(`minutes/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
+        .upload(`${user.id}/minutes/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
       if (uploadError) throw uploadError;
 
       // Save minutes record for history and counting

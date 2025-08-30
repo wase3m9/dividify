@@ -169,10 +169,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
       const blob = await generateDividendVoucherPDF(previewData);
       const filename = `dividend-voucher-${Date.now()}.pdf`;
 
-      // Upload to storage
+      // Upload to storage with user ID folder prefix
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('dividend_vouchers')
-        .upload(`dividends/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
+        .upload(`${user.id}/dividends/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
       if (uploadError) throw uploadError;
 
       // Persist record for history and usage counting
