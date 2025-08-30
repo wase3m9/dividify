@@ -125,7 +125,7 @@ export const UsageTracker = () => {
     );
   }
 
-  const currentPlan = subscriptionData?.subscription_tier || usage.subscription_plan;
+  const currentPlan = usage.subscription_plan || 'trial';
   const limits = getPlanLimits(currentPlan);
   
   const dividendUsage = usage.current_month_dividends || 0;
