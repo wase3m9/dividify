@@ -25,7 +25,7 @@ const Accountants = () => {
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: {
-          priceId: 'price_1QTr4sP5i3F4Z8xZvBpQMbRz' // Accountant plan price ID
+          priceId: 'price_1QiOntDQxPzFmGY0u6RQ4C0f' // Accountant plan price ID (monthly)
         }
       });
 
@@ -83,7 +83,7 @@ const Accountants = () => {
             "operatingSystem": "Web Browser",
             "offers": {
               "@type": "Offer",
-              "price": "20.00",
+              "price": "30.00",
               "priceCurrency": "GBP",
               "priceValidUntil": "2025-12-31",
               "availability": "https://schema.org/InStock",
@@ -152,7 +152,7 @@ const Accountants = () => {
               <h3 className="text-xl font-bold">Accountants/Agents</h3>
             </div>
             <div className="mb-6">
-              <span className="text-4xl font-bold">£20</span>
+              <span className="text-4xl font-bold">£30</span>
               <span className="text-gray-600">Accountants managing multiple clients</span>
             </div>
             <ul className="space-y-4 mb-8">

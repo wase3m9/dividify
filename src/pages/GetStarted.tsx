@@ -50,7 +50,7 @@ const GetStarted = () => {
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                    Starting from £3/month
+                    Starting from £6/month
                   </li>
                 </ul>
                 <Button className="w-full" size="lg">
@@ -85,7 +85,7 @@ const GetStarted = () => {
                   </li>
                   <li className="flex items-center">
                     <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                    £20/month
+                    £30/month
                   </li>
                 </ul>
                 <Button className="w-full bg-green-600 hover:bg-green-700" size="lg">

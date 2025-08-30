@@ -18,6 +18,14 @@ const Profile = () => {
   const queryClient = useQueryClient();
   const [isUpgrading, setIsUpgrading] = useState(false);
   const [showPlanSelection, setShowPlanSelection] = useState(false);
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const priceMap = {
+    starter: { monthly: 'price_1S1d26DQxPzFmGY056CeyPNE', yearly: 'price_1S1d26DQxPzFmGY056CeyPNE' },
+    professional: { monthly: 'price_1S1czXDQxPzFmGY0BNG13iVd', yearly: 'price_1S1d1PDQxPzFmGY0UNNWf8bW' },
+    enterprise: { monthly: 'price_1S1cmEDQxPzFmGY0PEEAQmpr', yearly: 'price_1S1cwCDQxPzFmGY0vqjzr51R' },
+    accountant: { monthly: 'price_1QiOntDQxPzFmGY0u6RQ4C0f', yearly: 'price_1S1ctdDQxPzFmGY0iyYLKRXp' },
+  } as const;
+  const getPriceId = (plan: keyof typeof priceMap) => priceMap[plan][billingCycle];
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -278,7 +286,7 @@ const Profile = () => {
                       </ul>
                       <Button 
                         className="w-full mt-4"
-                        onClick={() => handleUpgradeSubscription('price_starter_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('starter'))}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -300,7 +308,7 @@ const Profile = () => {
                       </ul>
                       <Button 
                         className="w-full mt-4"
-                        onClick={() => handleUpgradeSubscription('price_professional_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('professional'))}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -319,7 +327,7 @@ const Profile = () => {
                       </ul>
                       <Button 
                         className="w-full mt-4"
-                        onClick={() => handleUpgradeSubscription('price_enterprise_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('enterprise'))}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -337,7 +345,7 @@ const Profile = () => {
                       </div>
                       <Button 
                         className="bg-green-600 hover:bg-green-700"
-                        onClick={() => handleUpgradeSubscription('price_accountant_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('accountant'))}
                         disabled={isUpgrading}
                       >
                         {isUpgrading ? 'Processing...' : 'Subscribe'}
@@ -365,6 +373,10 @@ const Profile = () => {
                       ✕
                     </Button>
                   </div>
+                  <div className="mb-6 flex items-center justify-center gap-2">
+                    <Button variant={billingCycle === 'monthly' ? 'default' : 'outline'} size="sm" onClick={() => setBillingCycle('monthly')}>Monthly</Button>
+                    <Button variant={billingCycle === 'yearly' ? 'default' : 'outline'} size="sm" onClick={() => setBillingCycle('yearly')}>Yearly (save 20%)</Button>
+                  </div>
 
                   <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {/* Starter Plan */}
@@ -386,7 +398,7 @@ const Profile = () => {
                         </li>
                       </ul>
                       <Button 
-                        onClick={() => handleUpgradeSubscription('price_starter_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('starter'))}
                         disabled={isUpgrading}
                         variant="outline" 
                         className="w-full"
@@ -423,7 +435,7 @@ const Profile = () => {
                         </li>
                       </ul>
                       <Button 
-                        onClick={() => handleUpgradeSubscription('price_professional_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('professional'))}
                         disabled={isUpgrading}
                         className="w-full"
                       >
@@ -454,7 +466,7 @@ const Profile = () => {
                         </li>
                       </ul>
                       <Button 
-                        onClick={() => handleUpgradeSubscription('price_enterprise_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('enterprise'))}
                         disabled={isUpgrading}
                         variant="outline" 
                         className="w-full"
@@ -469,7 +481,7 @@ const Profile = () => {
                       <div className="text-3xl font-bold mb-4 text-green-800">£30<span className="text-base font-normal">/month</span></div>
                       <p className="text-green-700 text-sm mb-4">Perfect for accounting professionals managing multiple clients</p>
                       <Button 
-                        onClick={() => handleUpgradeSubscription('price_accountant_test')}
+                        onClick={() => handleUpgradeSubscription(getPriceId('accountant'))}
                         disabled={isUpgrading}
                         className="w-full bg-green-600 hover:bg-green-700 text-white"
                       >

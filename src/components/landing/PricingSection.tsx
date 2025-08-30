@@ -14,7 +14,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
   const plans = [
     {
       name: "Starter",
-      price: "£4",
+      price: "£6",
       description: "Perfect for small businesses",
       icon: Star,
       features: [
@@ -29,7 +29,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
     },
     {
       name: "Professional",
-      price: "£12",
+      price: "£15",
       description: "Ideal for growing companies",
       icon: Rocket,
       features: [
@@ -45,7 +45,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
     },
     {
       name: "Enterprise",
-      price: "£29",
+      price: "£24",
       description: "For established businesses",
       icon: Building,
       features: [

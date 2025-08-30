@@ -78,7 +78,7 @@ const Index = () => {
         "name": "United Kingdom"
       },
       "serviceType": ["Dividend Management", "Board Meeting Documentation", "Corporate Compliance"],
-      "priceRange": "£4-£20",
+      "priceRange": "£6-£30",
       "sameAs": [
         "https://twitter.com/dividify",
         "https://www.linkedin.com/company/dividify"
@@ -123,7 +123,7 @@ const Index = () => {
               "@type": "Service",
               "name": "Individual Plan - Dividend Vouchers"
             },
-            "price": "4.00",
+            "price": "6.00",
             "priceCurrency": "GBP"
           },
           {
@@ -132,7 +132,7 @@ const Index = () => {
               "@type": "Service",
               "name": "Accountants Plan - Multiple Companies"
             },
-            "price": "20.00",
+            "price": "30.00",
             "priceCurrency": "GBP"
           }
         ]
@@ -146,13 +146,13 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <Helmet>
         <title>Dividend Vouchers & Board Minutes Generator | UK Limited Companies | Dividify</title>
-        <meta name="description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance, from £4/month. Start your free trial today." />
+        <meta name="description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance, from £6/month. Start your free trial today." />
         <meta name="keywords" content="dividend vouchers UK, board minutes generator, UK limited company compliance, HMRC dividend compliance, accountants London, small business accounting UK, tax return service UK, corporate secretary services" />
         <meta name="geo.region" content="GB" />
         <meta name="geo.country" content="UK" />
         <meta name="geo.placename" content="London" />
         <meta property="og:title" content="Dividend Vouchers & Board Minutes Generator | UK Limited Companies | Dividify" />
-        <meta property="og:description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance, from £4/month." />
+        <meta property="og:description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance, from £6/month." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />

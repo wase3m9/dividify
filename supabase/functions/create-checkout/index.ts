@@ -66,13 +66,16 @@ serve(async (req) => {
     let userType = 'individual';
     let subscriptionPlan = 'starter';
     
-    // Map price IDs to plans and user types - using test price IDs
-    const priceMapping: { [key: string]: { plan: string; userType: string } } = {
-      'price_starter_test': { plan: 'starter', userType: 'individual' },
-      'price_professional_test': { plan: 'professional', userType: 'individual' },
-      'price_enterprise_test': { plan: 'enterprise', userType: 'individual' },
-      'price_accountant_test': { plan: 'accountant', userType: 'accountant' },
-    };
+      // Map price IDs to plans and user types - live price IDs
+      const priceMapping: { [key: string]: { plan: string; userType: string } } = {
+        'price_1S1d26DQxPzFmGY056CeyPNE': { plan: 'starter', userType: 'individual' }, // Starter monthly/yearly (same ID provided)
+        'price_1S1czXDQxPzFmGY0BNG13iVd': { plan: 'professional', userType: 'individual' }, // Professional monthly
+        'price_1S1d1PDQxPzFmGY0UNNWf8bW': { plan: 'professional', userType: 'individual' }, // Professional yearly
+        'price_1S1cmEDQxPzFmGY0PEEAQmpr': { plan: 'enterprise', userType: 'individual' }, // Enterprise monthly
+        'price_1S1cwCDQxPzFmGY0vqjzr51R': { plan: 'enterprise', userType: 'individual' }, // Enterprise yearly
+        'price_1QiOntDQxPzFmGY0u6RQ4C0f': { plan: 'accountant', userType: 'accountant' }, // Accountant monthly
+        'price_1S1ctdDQxPzFmGY0iyYLKRXp': { plan: 'accountant', userType: 'accountant' }, // Accountant yearly
+      };
 
     const mapping = priceMapping[priceId];
     if (mapping) {
