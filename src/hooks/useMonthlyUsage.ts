@@ -8,6 +8,11 @@ export const useMonthlyUsage = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
+      // Check if we need to reset monthly counters for this user
+      await supabase.rpc('check_and_reset_monthly_counters', {
+        user_id_param: user.id
+      });
+
       // Get user's subscription and plan info
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
