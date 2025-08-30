@@ -92,7 +92,7 @@ const JournalEntries = () => {
       <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-4xl mx-auto space-y-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center gap-2">
             <Calculator className="h-6 w-6 text-[#9b87f5]" />
             <h1 className="text-3xl font-bold">Journal Entries Generator</h1>
           </div>
