@@ -56,7 +56,7 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading, initi
   };
 
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="sm:max-w-[425px] bg-background border shadow-lg">
       <DialogHeader>
         <DialogTitle>{initialData ? 'Edit Officer' : 'Add New Officer'}</DialogTitle>
         <DialogDescription>

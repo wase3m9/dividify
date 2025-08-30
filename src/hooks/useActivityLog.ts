@@ -1,3 +1,4 @@
+import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -15,6 +16,8 @@ interface ActivityLogEntry {
 }
 
 export const useActivityLog = (limit = 10) => {
+  const queryClient = useQueryClient();
+  
   const { data, isLoading, error } = useQuery({
     queryKey: ["activity-log", limit],
     queryFn: async () => {
@@ -36,8 +39,38 @@ export const useActivityLog = (limit = 10) => {
       if (error) throw error;
       return activities as ActivityLogEntry[];
     },
-    staleTime: 30 * 1000, // 30 seconds
+    staleTime: 5 * 1000, // Reduced to 5 seconds for more real-time updates
   });
+
+  // Set up real-time subscription for activity log updates
+  React.useEffect(() => {
+    const setupSubscription = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const subscription = supabase
+        .channel('activity_log_updates')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'activity_log',
+            filter: `user_id=eq.${user.id}`,
+          },
+          () => {
+            queryClient.invalidateQueries({ queryKey: ["activity-log"] });
+          }
+        )
+        .subscribe();
+
+      return () => {
+        subscription.unsubscribe();
+      };
+    };
+
+    setupSubscription();
+  }, [queryClient]);
 
   return { data, isLoading, error };
 };
