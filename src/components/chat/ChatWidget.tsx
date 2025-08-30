@@ -32,6 +32,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -54,83 +55,37 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
       setIsLoading(true);
       const { data: { session } } = await supabase.auth.getSession();
       
-      // Check for existing conversation
+      // Always create a fresh conversation for each session
       const userId = session?.user?.id || null;
-      let query = supabase
+      
+      const { data: newConversation, error: createError } = await supabase
         .from('chat_conversations')
-        .select('*')
-        .eq('status', 'open')
-        .order('updated_at', { ascending: false })
-        .limit(1);
+        .insert([{
+          user_id: userId,
+          title: 'Support Chat',
+          status: 'open'
+        }])
+        .select()
+        .single();
       
-      if (userId === null) {
-        query = query.is('user_id', null);
-      } else {
-        query = query.eq('user_id', userId);
+      if (createError) {
+        console.error('Error creating conversation:', createError);
+        throw createError;
       }
       
-      const { data: existingConversations, error: fetchError } = await query;
-
-      if (fetchError) {
-        console.error('Error fetching conversations:', fetchError);
-        throw fetchError;
-      }
-
-      let conversationId;
-      
-      if (existingConversations && existingConversations.length > 0) {
-        conversationId = existingConversations[0].id;
-        setConversation(existingConversations[0]);
-      } else {
-        // Create new conversation
-        const { data: newConversation, error: createError } = await supabase
-          .from('chat_conversations')
-          .insert([{
-            user_id: userId,
-            title: 'Support Chat',
-            status: 'open'
-          }])
-          .select()
-          .single();
+      if (newConversation) {
+        setConversation(newConversation);
         
-        if (createError) {
-          console.error('Error creating conversation:', createError);
-          throw createError;
-        }
-        
-        if (newConversation) {
-          conversationId = newConversation.id;
-          setConversation(newConversation);
-        }
-      }
-
-      // Load messages
-      if (conversationId) {
-        const { data: chatMessages, error: messagesError } = await supabase
-          .from('chat_messages')
-          .select('*')
-          .eq('conversation_id', conversationId)
-          .order('created_at', { ascending: true });
-
-        if (messagesError) {
-          console.error('Error fetching messages:', messagesError);
-          throw messagesError;
-        }
-
-        if (chatMessages) {
-          setMessages(chatMessages as Message[]);
-        }
-
-        // Subscribe to new messages
+        // Subscribe to new messages for this conversation
         const channel = supabase
-          .channel('chat-messages')
+          .channel(`chat-messages-${newConversation.id}`)
           .on(
             'postgres_changes',
             {
               event: 'INSERT',
               schema: 'public',
               table: 'chat_messages',
-              filter: `conversation_id=eq.${conversationId}`
+              filter: `conversation_id=eq.${newConversation.id}`
             },
             (payload) => {
               console.log('New message received:', payload.new);
@@ -157,7 +112,17 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
   };
 
   const sendMessage = async () => {
-    if (!newMessage.trim() || !conversation || isLoading) return;
+    if (!newMessage.trim() || isLoading) return;
+
+    // Hide welcome message when user starts typing
+    setShowWelcome(false);
+
+    // Initialize chat if not already done
+    if (!conversation && !isInitialized) {
+      await initializeChat();
+    }
+
+    if (!conversation) return;
 
     setIsLoading(true);
     const messageText = newMessage;
@@ -225,6 +190,31 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
     onCloseNotification?.();
   };
 
+  const handleQuickAction = (action: string) => {
+    setShowWelcome(false);
+    setNewMessage(action);
+    // Auto-send the message
+    setTimeout(() => sendMessage(), 100);
+  };
+
+  const handleChatOpen = () => {
+    setIsOpen(true);
+    // Reset state for fresh conversation
+    setMessages([]);
+    setConversation(null);
+    setIsInitialized(false);
+    setShowWelcome(true);
+  };
+
+  const handleChatClose = () => {
+    setIsOpen(false);
+    // Clean up state
+    setMessages([]);
+    setConversation(null);
+    setIsInitialized(false);
+    setShowWelcome(true);
+  };
+
   return (
     <>
       {/* Notification Popup */}
@@ -254,7 +244,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         {!isOpen ? (
           <div className="relative">
             <Button
-              onClick={() => setIsOpen(true)}
+              onClick={handleChatOpen}
               className="rounded-full w-14 h-14 bg-[#9b87f5] hover:bg-[#8b77e5] shadow-lg animate-scale-in"
               size="icon"
             >
@@ -278,7 +268,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setIsOpen(false)}
+                onClick={handleChatClose}
                 className="text-white hover:bg-white/20"
               >
                 <X className="h-4 w-4" />
@@ -286,11 +276,46 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
             </div>
             
             <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted/10">
-              {messages.length === 0 && !isLoading ? (
-                <div className="space-y-2">
+              {showWelcome && messages.length === 0 && !isLoading ? (
+                <div className="space-y-3">
                   <div className="flex justify-start">
-                    <div className="max-w-[80%] rounded-lg px-3 py-2 text-sm bg-background border">
-                      <p className="text-foreground">Welcome to Dividify! How can I help you?</p>
+                    <div className="max-w-[90%] rounded-lg px-3 py-2 text-sm bg-background border">
+                      <p className="text-foreground mb-3">Hello! 👋 I'm here to help you with Dividify!</p>
+                      <div className="text-left">
+                        <p className="text-sm text-muted-foreground mb-2">I can assist with:</p>
+                        <div className="space-y-2">
+                          <button 
+                            onClick={() => handleQuickAction('How do I get started?')}
+                            className="block w-full text-left text-sm text-primary hover:text-primary/80 hover:bg-muted/50 p-2 rounded transition-colors"
+                          >
+                            • 🚀 Getting started
+                          </button>
+                          <button 
+                            onClick={() => handleQuickAction('What are your pricing plans?')}
+                            className="block w-full text-left text-sm text-primary hover:text-primary/80 hover:bg-muted/50 p-2 rounded transition-colors"
+                          >
+                            • 💰 Pricing questions
+                          </button>
+                          <button 
+                            onClick={() => handleQuickAction('How do I create dividend vouchers?')}
+                            className="block w-full text-left text-sm text-primary hover:text-primary/80 hover:bg-muted/50 p-2 rounded transition-colors"
+                          >
+                            • 📄 Document creation
+                          </button>
+                          <button 
+                            onClick={() => handleQuickAction('Are your documents HMRC compliant?')}
+                            className="block w-full text-left text-sm text-primary hover:text-primary/80 hover:bg-muted/50 p-2 rounded transition-colors"
+                          >
+                            • ⚖️ HMRC compliance
+                          </button>
+                          <button 
+                            onClick={() => handleQuickAction('I need technical support')}
+                            className="block w-full text-left text-sm text-primary hover:text-primary/80 hover:bg-muted/50 p-2 rounded transition-colors"
+                          >
+                            • 🔧 Technical support
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
