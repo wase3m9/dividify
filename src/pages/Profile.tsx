@@ -270,7 +270,7 @@ const Profile = () => {
                     {/* Starter Plan */}
                     <div className="p-4 border rounded-lg">
                       <h3 className="font-semibold text-lg">Starter</h3>
-                      <p className="text-2xl font-bold">£4<span className="text-sm font-normal">/month</span></p>
+                      <p className="text-2xl font-bold">£6<span className="text-sm font-normal">/month</span></p>
                       <ul className="text-sm text-muted-foreground mt-2 space-y-1">
                         <li>• Up to 2 Dividend Vouchers</li>
                         <li>• Up to 2 Board Minutes</li>
@@ -291,7 +291,7 @@ const Profile = () => {
                         <Badge className="bg-primary">Popular</Badge>
                       </div>
                       <h3 className="font-semibold text-lg">Professional</h3>
-                      <p className="text-2xl font-bold">£12<span className="text-sm font-normal">/month</span></p>
+                      <p className="text-2xl font-bold">£15<span className="text-sm font-normal">/month</span></p>
                       <ul className="text-sm text-muted-foreground mt-2 space-y-1">
                         <li>• Up to 10 Dividend Vouchers</li>
                         <li>• Up to 10 Board Minutes</li>
@@ -310,7 +310,7 @@ const Profile = () => {
                     {/* Enterprise Plan */}
                     <div className="p-4 border rounded-lg">
                       <h3 className="font-semibold text-lg">Enterprise</h3>
-                      <p className="text-2xl font-bold">£29<span className="text-sm font-normal">/month</span></p>
+                      <p className="text-2xl font-bold">£24<span className="text-sm font-normal">/month</span></p>
                       <ul className="text-sm text-muted-foreground mt-2 space-y-1">
                         <li>• Unlimited documents</li>
                         <li>• Custom branding</li>
@@ -332,7 +332,7 @@ const Profile = () => {
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-semibold text-lg text-green-900">Accountant Plan</h3>
-                        <p className="text-2xl font-bold text-green-900">£20<span className="text-sm font-normal">/month</span></p>
+                        <p className="text-2xl font-bold text-green-900">£30<span className="text-sm font-normal">/month</span></p>
                         <p className="text-sm text-green-700 mt-1">Perfect for accounting professionals managing multiple clients</p>
                       </div>
                       <Button 
@@ -370,7 +370,7 @@ const Profile = () => {
                     {/* Starter Plan */}
                     <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors">
                       <h3 className="text-lg font-semibold mb-2">Starter</h3>
-                      <div className="text-3xl font-bold mb-4">£4<span className="text-base font-normal">/month</span></div>
+                      <div className="text-3xl font-bold mb-4">£6<span className="text-base font-normal">/month</span></div>
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
@@ -403,7 +403,7 @@ const Profile = () => {
                         </span>
                       </div>
                       <h3 className="text-lg font-semibold mb-2">Professional</h3>
-                      <div className="text-3xl font-bold mb-4">£12<span className="text-base font-normal">/month</span></div>
+                      <div className="text-3xl font-bold mb-4">£15<span className="text-base font-normal">/month</span></div>
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
@@ -434,7 +434,7 @@ const Profile = () => {
                     {/* Enterprise Plan */}
                     <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors">
                       <h3 className="text-lg font-semibold mb-2">Enterprise</h3>
-                      <div className="text-3xl font-bold mb-4">£29<span className="text-base font-normal">/month</span></div>
+                      <div className="text-3xl font-bold mb-4">£24<span className="text-base font-normal">/month</span></div>
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
@@ -466,7 +466,7 @@ const Profile = () => {
                     {/* Accountant Plan */}
                     <div className="border rounded-lg p-6 hover:border-primary/50 transition-colors bg-green-50 border-green-200">
                       <h3 className="text-lg font-semibold mb-2 text-green-800">Accountant Plan</h3>
-                      <div className="text-3xl font-bold mb-4 text-green-800">£20<span className="text-base font-normal">/month</span></div>
+                      <div className="text-3xl font-bold mb-4 text-green-800">£30<span className="text-base font-normal">/month</span></div>
                       <p className="text-green-700 text-sm mb-4">Perfect for accounting professionals managing multiple clients</p>
                       <Button 
                         onClick={() => handleUpgradeSubscription('price_accountant_test')}

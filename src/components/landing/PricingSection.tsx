@@ -133,7 +133,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             <div className="flex items-center justify-center space-x-4">
               <div>
                 <h3 className="text-xl font-semibold text-green-900">Accountants & Agents</h3>
-                <p className="text-green-700">Manage unlimited companies for £20/month</p>
+                <p className="text-green-700">Manage unlimited companies for £30/month</p>
               </div>
               <Button className="bg-green-600 hover:bg-green-700" onClick={() => navigate('/accountants')}>
                 View Accountant Plan

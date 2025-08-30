@@ -60,7 +60,7 @@ export const HeroBanner = ({
           </span>
           <span className="flex items-center gap-2">
             <PoundSterling className="h-4 w-4" />
-            From £4/month
+            From £6/month
           </span>
         </div>
       </div>
