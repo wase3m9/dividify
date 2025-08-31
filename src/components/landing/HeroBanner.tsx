@@ -23,7 +23,7 @@ export const HeroBanner = ({
   }, [location, resetAnimation]);
 
   const handleStartFreeTrial = () => {
-    navigate("/signup");
+    navigate("/signup?plan=starter&from=pricing");
   };
 
   return (

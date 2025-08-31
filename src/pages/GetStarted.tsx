@@ -9,7 +9,7 @@ const GetStarted = () => {
   const navigate = useNavigate();
 
   const handleDirectorPlansClick = () => {
-    navigate('/', { state: { scrollTo: 'pricing' } });
+    navigate('/signup?plan=starter&from=pricing');
   };
 
   return (

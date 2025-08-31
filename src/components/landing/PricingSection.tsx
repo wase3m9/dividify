@@ -159,7 +159,14 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
               </div>
               <Button 
                 className="bg-green-600 hover:bg-green-700" 
-                onClick={() => handleSubscribeClick('accountant')}
+                onClick={() => {
+                  localStorage.setItem('selectedPlan', 'accountant');
+                  if (isAuthenticated) {
+                    navigate(`/profile?openPlans=1&plan=accountant`);
+                  } else {
+                    navigate(`/signup?plan=accountant&from=pricing`);
+                  }
+                }}
               >
                 View Accountant Plan
               </Button>
