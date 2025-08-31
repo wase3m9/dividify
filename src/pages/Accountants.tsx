@@ -137,7 +137,7 @@ const Accountants = () => {
               <Button 
                 variant="outline" 
                 className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8"
-                onClick={() => navigate('/signup?from=accountants&plan=accountant')}
+                onClick={() => navigate('/signup?plan=accountant&from=pricing')}
               >
                 Start a free trial
               </Button>
@@ -181,7 +181,10 @@ const Accountants = () => {
                 <span>API access</span>
               </li>
             </ul>
-            <Button className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]" onClick={handleSubscribe}>
+            <Button 
+              className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]" 
+              onClick={() => navigate('/signup?plan=accountant&from=pricing')}
+            >
               Subscribe Now
             </Button>
           </Card>
@@ -281,7 +284,10 @@ const Accountants = () => {
                 Thousands of directors and businesses rely on <span className="text-[#9b87f5]">Dividify</span> to streamline their dividend vouchers and board meeting records, saving time for what matters most. Click below to learn more.
               </p>
               <div className="flex gap-4 justify-center">
-                <Button className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8" onClick={() => navigate('/signup?from=accountants&plan=accountant')}>
+                <Button 
+                  className="bg-[#9b87f5] hover:bg-[#8b77e5] px-8" 
+                  onClick={() => navigate('/signup?plan=accountant&from=pricing')}
+                >
                   Start a free trial
                 </Button>
                 <Button variant="outline" className="border-[#9b87f5] text-[#9b87f5] hover:bg-[#9b87f5] hover:text-white px-8" onClick={scrollToPricing}>

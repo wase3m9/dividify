@@ -40,19 +40,19 @@ export const TipsSection = () => {
               variant="ghost" 
               size="sm" 
               className="w-full justify-start text-xs h-8"
-              onClick={() => window.open('https://www.gov.uk/guidance/corporation-tax-dividend-payments', '_blank')}
+              onClick={() => window.open('https://www.gov.uk/running-a-limited-company/taking-money-out-of-a-limited-company', '_blank')}
             >
               <ExternalLink className="h-3 w-3 mr-1" />
-              Corporation Tax: Dividend Payments
+              Dividends Payment
             </Button>
             <Button 
               variant="ghost" 
               size="sm" 
               className="w-full justify-start text-xs h-8"
-              onClick={() => window.open('https://www.gov.uk/running-a-limited-company/company-and-accounting-records', '_blank')}
+              onClick={() => window.open('https://www.gov.uk/tax-on-dividends/how-to-report-tax-on-dividends', '_blank')}
             >
               <ExternalLink className="h-3 w-3 mr-1" />
-              Company Records Requirements
+              How to report tax on dividends
             </Button>
           </div>
         </div>
