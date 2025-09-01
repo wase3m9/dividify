@@ -55,8 +55,17 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
       setIsLoading(true);
       const { data: { session } } = await supabase.auth.getSession();
       
-      // Always create a fresh conversation for each session
-      const userId = session?.user?.id || null;
+      // Only allow authenticated users to create conversations
+      if (!session?.user?.id) {
+        toast({
+          variant: "destructive",
+          title: "Authentication Required",
+          description: "Please log in to use the chat feature.",
+        });
+        return;
+      }
+      
+      const userId = session.user.id;
       
       const { data: newConversation, error: createError } = await supabase
         .from('chat_conversations')
@@ -131,11 +140,21 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
+      // Ensure user is authenticated
+      if (!session?.user?.id) {
+        toast({
+          variant: "destructive", 
+          title: "Authentication Required",
+          description: "Please log in to send messages.",
+        });
+        return;
+      }
+      
       const { error } = await supabase
         .from('chat_messages')
         .insert([{
           conversation_id: conversation.id,
-          user_id: session?.user?.id || null,
+          user_id: session.user.id,
           sender_type: 'user',
           message: messageText
         }]);
@@ -151,11 +170,12 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         const responseMessage = aiResponse || 
           "Thank you for your message! Our support team will get back to you within 24-48 hours. For urgent matters, please email us directly at info@cloud-keepers.co.uk.";
 
+        // AI responses should be linked to the authenticated user's conversation
         const { error: responseError } = await supabase
           .from('chat_messages')
           .insert([{
             conversation_id: conversation.id,
-            user_id: null,
+            user_id: session.user.id,
             sender_type: 'admin',
             message: responseMessage
           }]);
