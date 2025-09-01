@@ -55,6 +55,24 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
     }
   };
 
+  // Get user profile for logo
+  const { data: profile } = useQuery({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('logo_url')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
   // Fetch company data
   const { data: companyData } = useQuery({
     queryKey: ['company', selectedCompanyId],
@@ -127,7 +145,8 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
     
     setPreviewData({ 
       ...data, 
-      directorsPresent: directors 
+      directorsPresent: directors,
+      logoUrl: profile?.logo_url || undefined
     } as BoardMinutesData);
   };
 

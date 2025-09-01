@@ -93,8 +93,23 @@ export const useCompanyData = (selectedCompanyId?: string) => {
       const { data, error } = await supabase
         .from('shareholders')
         .select('*')
+        .eq('company_id', selectedCompanyId);
+      
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!selectedCompanyId,
+  });
+
+  const { data: shareClasses, refetch: refetchShareClasses } = useQuery({
+    queryKey: ['shareClasses', selectedCompanyId],
+    queryFn: async () => {
+      if (!selectedCompanyId) return [];
+      const { data, error } = await supabase
+        .from('shareholders')
+        .select('*')
         .eq('company_id', selectedCompanyId)
-        .eq('is_share_class', false);
+        .eq('is_share_class', true);
       
       if (error) throw error;
       return data || [];
@@ -112,9 +127,11 @@ export const useCompanyData = (selectedCompanyId?: string) => {
     selectedCompany,
     companies,
     directors,
-    shareholders,
+    shareholders: shareholders?.filter(s => !s.is_share_class),
+    shareClasses,
     refetchCompanies,
     refetchShareholders,
+    refetchShareClasses,
     handleCompanyUpdate,
     displayName: profile?.full_name || user?.email?.split('@')[0] || '',
   };

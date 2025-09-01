@@ -10,6 +10,7 @@ import { useCompanyData } from "@/hooks/useCompanyData";
 import { useToast } from "@/hooks/use-toast";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { TrialBanner } from "@/components/dashboard/TrialBanner";
+import { supabase } from "@/integrations/supabase/client";
 
 const AccountantDashboard = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
@@ -36,14 +37,32 @@ const AccountantDashboard = () => {
     refetchCompanies();
   };
 
-  const handleShareClassSubmit = async (data: ShareholderDetails) => {
+  const handleShareClassSubmit = async (data: any) => {
     if (!selectedCompanyId) return;
     
     try {
-      // For now, just show a success message since we don't have share_classes table
+      const user = (await supabase.auth.getUser()).data.user;
+      if (!user) throw new Error("No user found");
+
+      const shareClassData = {
+        company_id: selectedCompanyId,
+        user_id: user.id,
+        shareholder_name: `${data.shareClass} Class`,
+        share_class: data.shareClass,
+        number_of_shares: parseInt(data.numberOfShares),
+        number_of_holders: parseInt(data.numberOfHolders),
+        is_share_class: true
+      };
+
+      const { error } = await supabase
+        .from('shareholders')
+        .insert(shareClassData);
+
+      if (error) throw error;
+
       toast({
         title: "Success",
-        description: "Share class functionality coming soon",
+        description: "Share class added successfully",
       });
 
       setIsShareClassDialogOpen(false);

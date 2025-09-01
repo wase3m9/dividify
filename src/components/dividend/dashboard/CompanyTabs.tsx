@@ -119,7 +119,7 @@ export const CompanyTabs = ({
 
         <TabsContent value="share-classes">
           <ShareClassesSection 
-            shareClasses={[]}
+            shareClasses={shareholders?.filter(s => s.is_share_class) || []}
             isDialogOpen={isShareClassDialogOpen}
             onDialogOpenChange={onShareClassDialogOpenChange}
             onSubmit={onShareClassSubmit}
