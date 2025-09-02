@@ -12,6 +12,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Clock, CreditCard, Check, RefreshCw, Loader2 } from "lucide-react";
 import { BrandingUploader } from "@/components/profile/BrandingUploader";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
+import { RecentActivityProfile } from "@/components/profile/RecentActivityProfile";
 
 const Profile = () => {
   const { toast } = useToast();
@@ -296,6 +297,17 @@ const Profile = () => {
               userId={user?.id || ''} 
               currentLogoUrl={profile?.logo_url}
             />
+
+            {/* Recent Activity Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Activity</CardTitle>
+                <CardDescription>Your latest actions and documents</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <RecentActivityProfile userId={user?.id || ''} />
+              </CardContent>
+            </Card>
 
             {/* Upgrade Plans Section */}
             {(!profile?.subscription_plan || profile.subscription_plan === 'trial') && (

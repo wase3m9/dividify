@@ -2,8 +2,8 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Plus } from "lucide-react";
-import { MinuteRecordItem } from "./MinuteRecord";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { FileText, Plus, Trash2 } from "lucide-react";
 import { useMinutes } from "./useMinutes";
 import { useNavigate } from "react-router-dom";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
@@ -66,15 +66,48 @@ export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
         </TooltipProvider>
       </div>
       {minutes && minutes.length > 0 ? (
-        <div className="space-y-4">
-          {minutes.map((record) => (
-            <MinuteRecordItem
-              key={record.id}
-              record={record}
-              onDownload={handleDownload}
-              onDelete={handleDelete}
-            />
-          ))}
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Meeting Type</TableHead>
+                <TableHead>Meeting Date</TableHead>
+                <TableHead>Attendees</TableHead>
+                <TableHead>Created Date</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {minutes.map((record) => (
+                <TableRow key={record.id}>
+                  <TableCell className="font-medium">{record.meeting_type}</TableCell>
+                  <TableCell>{new Date(record.meeting_date).toLocaleDateString()}</TableCell>
+                  <TableCell>{record.attendees?.length || 0} attendees</TableCell>
+                  <TableCell>{new Date(record.created_at).toLocaleDateString()}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDownload(record, 'pdf')}
+                        className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10 h-8 w-8"
+                      >
+                        <FileText className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDelete(record.id)}
+                        className="text-red-500 hover:text-red-500 hover:bg-red-500/10 h-8 w-8"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       ) : (
         <p className="text-gray-500">No board minutes created yet.</p>

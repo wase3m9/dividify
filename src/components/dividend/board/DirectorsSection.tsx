@@ -98,20 +98,30 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
       // Compute the full name
       const fullName = `${data.title} ${data.forenames} ${data.surname}`.trim();
 
-      // Get the company ID from the first director
+      // Get the company ID from the first director or from URL params
       let companyId = directors[0]?.company_id;
       
       if (!companyId) {
-        const { data: companyData, error: companyError } = await supabase
-          .from('companies')
-          .select('id')
-          .eq('user_id', user.id)
-          .maybeSingle();
-
-        if (companyError) throw companyError;
-        if (!companyData) throw new Error("No company found");
+        // Try to get company ID from URL params first
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedCompanyId = urlParams.get('companyId') || sessionStorage.getItem('selectedCompanyId');
         
-        companyId = companyData.id;
+        if (selectedCompanyId) {
+          companyId = selectedCompanyId;
+        } else {
+          // Fallback to first company
+          const { data: companyData, error: companyError } = await supabase
+            .from('companies')
+            .select('id')
+            .eq('user_id', user.id)
+            .limit(1)
+            .maybeSingle();
+
+          if (companyError) throw companyError;
+          if (!companyData) throw new Error("No company found");
+          
+          companyId = companyData.id;
+        }
       }
 
       if (editingDirector) {
