@@ -106,7 +106,7 @@ export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initial
           .from('companies')
           .select('id')
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();
 
         if (companyError) throw companyError;
         if (!companyData) throw new Error("No company found");

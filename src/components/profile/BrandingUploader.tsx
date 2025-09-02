@@ -258,6 +258,19 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
           </div>
         )}
 
+        {/* Always show upload button regardless of current logo */}
+        {currentLogoUrl && (
+          <Button
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="w-full"
+          >
+            <Upload className="h-4 w-4 mr-2" />
+            {uploading ? 'Uploading...' : 'Upload New Logo'}
+          </Button>
+        )}
+
         <input
           ref={fileInputRef}
           type="file"

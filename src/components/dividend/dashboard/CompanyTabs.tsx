@@ -7,6 +7,7 @@ import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
 import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
+import { AnnualSummaryReport } from "@/components/dividend/AnnualSummaryReport";
 import { useState } from "react";
 import { useCompanyData } from "@/hooks/useCompanyData";
 import { useToast } from "@/hooks/use-toast";
@@ -30,7 +31,7 @@ export const CompanyTabs = ({
   onCompanyUpdate,
 }: CompanyTabsProps) => {
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
-  const { shareholders, refetchShareholders } = useCompanyData(selectedCompany?.id);
+  const { shareholders, shareClasses, refetchShareholders, refetchShareClasses } = useCompanyData(selectedCompany?.id);
   const { toast } = useToast();
 
   const handleShareholderSubmit = async (data: ShareholderDetails, shareholderId?: string) => {
@@ -76,6 +77,7 @@ export const CompanyTabs = ({
 
       setIsShareholderDialogOpen(false);
       refetchShareholders();
+      refetchShareClasses();
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -88,13 +90,14 @@ export const CompanyTabs = ({
   return (
     <div className="grid grid-cols-1 gap-4">
       <Tabs defaultValue="company" className="w-full">
-        <TabsList className="grid grid-cols-6 gap-4">
+        <TabsList className="grid grid-cols-7 gap-2">
           <TabsTrigger value="company">Company</TabsTrigger>
           <TabsTrigger value="officers">Officers</TabsTrigger>
           <TabsTrigger value="shareholders">Shareholders</TabsTrigger>
           <TabsTrigger value="share-classes">Share Classes</TabsTrigger>
           <TabsTrigger value="dividends">Dividends</TabsTrigger>
           <TabsTrigger value="meetings">Meetings</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
         </TabsList>
 
         <TabsContent value="company">
@@ -119,7 +122,7 @@ export const CompanyTabs = ({
 
         <TabsContent value="share-classes">
           <ShareClassesSection 
-            shareClasses={shareholders?.filter(s => s.is_share_class) || []}
+            shareClasses={shareClasses || []}
             isDialogOpen={isShareClassDialogOpen}
             onDialogOpenChange={onShareClassDialogOpenChange}
             onSubmit={onShareClassSubmit}
@@ -132,6 +135,10 @@ export const CompanyTabs = ({
 
         <TabsContent value="meetings">
           <MinutesSection companyId={selectedCompany?.id} />
+        </TabsContent>
+
+        <TabsContent value="reports">
+          <AnnualSummaryReport companyId={selectedCompany?.id} />
         </TabsContent>
       </Tabs>
     </div>
