@@ -2,12 +2,14 @@
 import { FC } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BadgePoundSterling, Plus } from "lucide-react";
-import { DividendRecordItem } from "./DividendRecord";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { BadgePoundSterling, Plus, Edit, FileText, Trash2 } from "lucide-react";
 import { useDividends } from "./useDividends";
 import { useNavigate } from "react-router-dom";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
+import type { DividendRecord } from "./types";
 
 interface DividendsSectionProps {
   companyId?: string;
@@ -15,6 +17,7 @@ interface DividendsSectionProps {
 
 export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { 
     dividendRecords, 
     isLoading, 
@@ -23,6 +26,13 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
     canDelete 
   } = useDividends(companyId);
   const { data: usage } = useMonthlyUsage();
+
+  const handleEdit = () => {
+    toast({
+      title: "Coming Soon",
+      description: "Edit functionality will be available soon",
+    });
+  };
 
   const getPlanLimits = (plan: string) => {
     switch (plan) {
@@ -72,16 +82,62 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
         </TooltipProvider>
       </div>
       {dividendRecords && dividendRecords.length > 0 ? (
-        <div className="space-y-4">
-          {dividendRecords.map((record) => (
-            <DividendRecordItem
-              key={record.id}
-              record={record}
-              onDelete={handleDelete}
-              onDownload={handleDownload}
-              canDelete={true}
-            />
-          ))}
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Shareholder</TableHead>
+                <TableHead>Share Class</TableHead>
+                <TableHead>Payment Date</TableHead>
+                <TableHead>Tax Year</TableHead>
+                <TableHead>Dividend per Share</TableHead>
+                <TableHead>Total Dividend</TableHead>
+                <TableHead>Number of Shares</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {dividendRecords.map((record) => (
+                <TableRow key={record.id}>
+                  <TableCell className="font-medium">{record.shareholder_name}</TableCell>
+                  <TableCell>{record.share_class}</TableCell>
+                  <TableCell>{new Date(record.payment_date).toLocaleDateString()}</TableCell>
+                  <TableCell>{record.tax_year}</TableCell>
+                  <TableCell>£{record.dividend_per_share}</TableCell>
+                  <TableCell>£{record.total_dividend}</TableCell>
+                  <TableCell>{record.number_of_shares}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleEdit()}
+                        className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10 h-8 w-8"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDownload(record)}
+                        className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10 h-8 w-8"
+                      >
+                        <FileText className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDelete(record.id)}
+                        className="text-red-500 hover:text-red-500 hover:bg-red-500/10 h-8 w-8"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       ) : (
         <p className="text-gray-500">No dividend vouchers created yet.</p>
