@@ -52,42 +52,6 @@ export type Database = {
           },
         ]
       }
-      blog_posts: {
-        Row: {
-          author: string | null
-          content: string
-          created_at: string | null
-          id: string
-          meta_description: string | null
-          published_at: string | null
-          slug: string
-          title: string
-          updated_at: string | null
-        }
-        Insert: {
-          author?: string | null
-          content: string
-          created_at?: string | null
-          id?: string
-          meta_description?: string | null
-          published_at?: string | null
-          slug: string
-          title: string
-          updated_at?: string | null
-        }
-        Update: {
-          author?: string | null
-          content?: string
-          created_at?: string | null
-          id?: string
-          meta_description?: string | null
-          published_at?: string | null
-          slug?: string
-          title?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
       chat_conversations: {
         Row: {
           created_at: string

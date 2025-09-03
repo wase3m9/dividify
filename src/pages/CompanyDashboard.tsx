@@ -334,7 +334,7 @@ const CompanyDashboard = () => {
                           </div>
                         </TabsContent>
                         <TabsContent value="officers" className="mt-0">
-                          <DirectorsSection companyId={company?.id} />
+                          <DirectorsSection directors={directors} />
                         </TabsContent>
                         <TabsContent value="shareholders" className="mt-0">
                           <ShareholdingsSection 

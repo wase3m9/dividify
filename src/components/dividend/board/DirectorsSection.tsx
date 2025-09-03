@@ -21,13 +21,13 @@ interface Director {
 }
 
 interface DirectorsSectionProps {
-  companyId?: string;
+  directors: Director[];
 }
 
-export const DirectorsSection: FC<DirectorsSectionProps> = ({ companyId }) => {
+export const DirectorsSection: FC<DirectorsSectionProps> = ({ directors: initialDirectors }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [directors, setDirectors] = useState<Director[]>([]);
+  const [directors, setDirectors] = useState<Director[]>(initialDirectors);
   const [editingDirector, setEditingDirector] = useState<Director | null>(null);
   const { toast } = useToast();
 

@@ -203,7 +203,7 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
           Custom Branding
         </CardTitle>
         <CardDescription>
-          Add your company logo to all generated documents. Recommended size: 200x200px (PNG, JPG - max 2MB)
+          Add your company logo to all generated documents (PNG, JPG - max 2MB)
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -280,10 +280,9 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
         />
 
         <div className="text-xs text-muted-foreground">
-          <p>• Supported formats: PNG, JPG, GIF, WebP</p>
+          <p>• Supported formats: PNG, JPG, GIF</p>
           <p>• Maximum file size: 2MB</p>
-          <p>• Recommended size: 200x200px (square)</p>
-          <p>• For best results, use a transparent background</p>
+          <p>• For best results, use a square logo with transparent background</p>
         </div>
       </CardContent>
     </Card>

@@ -4,7 +4,6 @@ import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
 import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
-import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-2025.jpg";
 
 interface BlogPostContentProps {
   content: string;
@@ -202,8 +201,6 @@ export const BlogPostContent = ({
         return dividendWaiversImage;
       case 'understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025':
         return dividendWaiversImage;
-      case 'dividend-voucher-templates-what-uk-directors-need-to-know-in-2025':
-        return dividendVoucherTemplatesImage;
       default:
         return "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png";
     }

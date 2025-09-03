@@ -6,7 +6,6 @@ import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
 import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
-import { AccountantUserManagement } from "@/components/accountant/AccountantUserManagement";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { AnnualSummaryReport } from "@/components/dividend/AnnualSummaryReport";
 import { useState } from "react";
@@ -94,7 +93,6 @@ export const CompanyTabs = ({
         <TabsList className="grid grid-cols-7 gap-2">
           <TabsTrigger value="company">Company</TabsTrigger>
           <TabsTrigger value="officers">Officers</TabsTrigger>
-          <TabsTrigger value="team">Team Access</TabsTrigger>
           <TabsTrigger value="shareholders">Shareholders</TabsTrigger>
           <TabsTrigger value="share-classes">Share Classes</TabsTrigger>
           <TabsTrigger value="dividends">Dividends</TabsTrigger>
@@ -110,11 +108,7 @@ export const CompanyTabs = ({
         </TabsContent>
 
         <TabsContent value="officers">
-          <DirectorsSection companyId={selectedCompany?.id} />
-        </TabsContent>
-        
-        <TabsContent value="team">
-          <AccountantUserManagement />
+          <DirectorsSection directors={directors} />
         </TabsContent>
 
         <TabsContent value="shareholders">

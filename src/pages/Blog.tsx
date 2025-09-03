@@ -3,8 +3,6 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { BlogList } from "@/components/blog/BlogList";
 import { Helmet } from "react-helmet";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
 const Blog = () => {
   const calculateReadingTime = (content: string) => {
@@ -51,23 +49,6 @@ const Blog = () => {
     };
   };
 
-  // Fetch blog posts from database
-  const { data: blogPosts = [], isLoading } = useQuery({
-    queryKey: ['blog_posts'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .order('published_at', { ascending: false });
-      
-      if (error) throw error;
-      return data || [];
-    },
-  });
-
-  // Use database posts if available, otherwise fallback to sample posts
-  const postsToShow = blogPosts.length > 0 ? blogPosts : sampleBlogPosts;
-
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
@@ -97,11 +78,7 @@ const Blog = () => {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-[#9b87f5] text-left">UK Dividend Tax & Compliance Insights</h1>
           
-          {isLoading ? (
-            <div className="text-center py-8">Loading blog posts...</div>
-          ) : (
-            <BlogList posts={postsToShow} calculateReadingTime={calculateReadingTime} />
-          )}
+          <BlogList posts={sampleBlogPosts} calculateReadingTime={calculateReadingTime} />
         </div>
       </main>
       <Footer />
