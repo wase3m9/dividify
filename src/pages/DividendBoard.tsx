@@ -344,7 +344,7 @@ const DividendBoard = () => {
                           </div>
                         </TabsContent>
                         <TabsContent value="officers" className="mt-0">
-                          <DirectorsSection directors={directors} />
+                          <DirectorsSection companyId={company?.id} />
                         </TabsContent>
                         <TabsContent value="shareholders" className="mt-0">
                           <ShareholdingsSection 

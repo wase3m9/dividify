@@ -75,25 +75,25 @@ export const PlanRestrictions = ({ currentPlan, currentUsage }: PlanRestrictions
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600">Monthly Dividends</span>
           <span className={`text-sm font-medium ${
-            isLimitReached(currentUsage.dividends, limits.dividends) ? 'text-red-600' : 'text-gray-900'
+            isLimitReached(monthlyUsage?.dividendsCount || 0, limits.dividends) ? 'text-red-600' : 'text-gray-900'
           }`}>
-            {currentUsage.dividends} / {formatLimit(limits.dividends)}
+            {monthlyUsage?.dividendsCount || 0} / {formatLimit(limits.dividends)}
           </span>
         </div>
 
         <div className="flex justify-between items-center">
           <span className="text-sm text-gray-600">Monthly Minutes</span>
           <span className={`text-sm font-medium ${
-            isLimitReached(currentUsage.minutes, limits.minutes) ? 'text-red-600' : 'text-gray-900'
+            isLimitReached(monthlyUsage?.minutesCount || 0, limits.minutes) ? 'text-red-600' : 'text-gray-900'
           }`}>
-            {currentUsage.minutes} / {formatLimit(limits.minutes)}
+            {monthlyUsage?.minutesCount || 0} / {formatLimit(limits.minutes)}
           </span>
         </div>
       </div>
 
       {(isLimitReached(currentUsage.companies, limits.companies) ||
-        isLimitReached(currentUsage.dividends, limits.dividends) ||
-        isLimitReached(currentUsage.minutes, limits.minutes)) && (
+        isLimitReached(monthlyUsage?.dividendsCount || 0, limits.dividends) ||
+        isLimitReached(monthlyUsage?.minutesCount || 0, limits.minutes)) && (
         <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
           <p className="text-sm text-orange-700">
             You've reached some plan limits. Consider upgrading for more capacity.

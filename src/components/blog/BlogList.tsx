@@ -38,7 +38,9 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
                   ? salaryVsDividendsImage
                   : post.slug === "dividend-waivers-when-and-how-to-use-them-effectively"
                   ? dividendWaiversImage
-                   : dividendWaiversImage}
+                  : post.slug === "dividend-voucher-templates-what-uk-directors-need-to-know-in-2025"
+                  ? "/src/assets/dividend-voucher-templates-2025.jpg"
+                  : dividendWaiversImage}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"
               />
