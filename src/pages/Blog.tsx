@@ -3,13 +3,34 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { BlogList } from "@/components/blog/BlogList";
 import { Helmet } from "react-helmet";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Blog = () => {
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  
   const calculateReadingTime = (content: string) => {
     const wordsPerMinute = 200;
     const wordCount = content.split(/\s+/).length;
     return Math.ceil(wordCount / wordsPerMinute);
   };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        // For now, just use sample posts until blog_posts table is added to types
+        setPosts(sampleBlogPosts);
+      } catch (err) {
+        console.error('Error:', err);
+        setPosts(sampleBlogPosts);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   // Create BlogPosting structured data
   const generateBlogListSchema = () => {
@@ -27,7 +48,7 @@ const Blog = () => {
           "url": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`
         }
       },
-      "blogPost": sampleBlogPosts.map(post => ({
+      "blogPost": posts.map(post => ({
         "@type": "BlogPosting",
         "headline": post.title,
         "description": post.content.split('.').slice(0, 2).join('.') + '.',
@@ -78,7 +99,11 @@ const Blog = () => {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-[#9b87f5] text-left">UK Dividend Tax & Compliance Insights</h1>
           
-          <BlogList posts={sampleBlogPosts} calculateReadingTime={calculateReadingTime} />
+          {loading ? (
+            <div className="text-center py-8">Loading...</div>
+          ) : (
+            <BlogList posts={posts} calculateReadingTime={calculateReadingTime} />
+          )}
         </div>
       </main>
       <Footer />

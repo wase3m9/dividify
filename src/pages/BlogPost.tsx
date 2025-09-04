@@ -18,6 +18,8 @@ import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jp
 import dividendTax2025Image from "@/assets/dividend-tax-2025-26.jpg";
 import { CommentsSection } from "@/components/blog/CommentsSection";
 import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-2025.jpg";
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -28,20 +30,25 @@ const BlogPost = () => {
 
   useEffect(() => {
     const fetchPostData = async () => {
-      // Find sample post
-      const samplePost = sampleBlogPosts.find(post => post.slug === slug);
-      
-      if (samplePost) {
-        setPost(samplePost);
-        setRelatedPosts(sampleBlogPosts.filter(p => p.slug !== slug));
+      try {
+        // For now, just use sample posts until blog_posts table is added to types
+        const samplePost = sampleBlogPosts.find(post => post.slug === slug);
         
-        // Create simple navigation between sample posts
-        const currentIndex = sampleBlogPosts.findIndex(p => p.slug === slug);
-        setNavigation({
-          prev: currentIndex > 0 ? sampleBlogPosts[currentIndex - 1] : null,
-          next: currentIndex < sampleBlogPosts.length - 1 ? sampleBlogPosts[currentIndex + 1] : null
-        });
-      } else {
+        if (samplePost) {
+          setPost(samplePost);
+          setRelatedPosts(sampleBlogPosts.filter(p => p.slug !== slug));
+          
+          // Create navigation
+          const currentIndex = sampleBlogPosts.findIndex(p => p.slug === slug);
+          setNavigation({
+            prev: currentIndex > 0 ? sampleBlogPosts[currentIndex - 1] : null,
+            next: currentIndex < sampleBlogPosts.length - 1 ? sampleBlogPosts[currentIndex + 1] : null
+          });
+        } else {
+          navigate('/blog');
+        }
+      } catch (err) {
+        console.error('Error fetching post:', err);
         navigate('/blog');
       }
     };
@@ -87,6 +94,8 @@ const BlogPost = () => {
         return dividendWaiversImage;
       case 'dividend-tax-in-2025-26-what-uk-directors-need-to-know-about-rates-and-allowances':
         return dividendTax2025Image;
+      case 'dividend-voucher-templates-what-uk-directors-need-to-know-in-2025':
+        return dividendVoucherTemplatesImage;
       default:
         return '/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png';
     }

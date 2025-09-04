@@ -6,6 +6,7 @@ import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
 import dividendTax2025Image from "@/assets/dividend-tax-2025-26.jpg";
+import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-2025.jpg";
 
 interface BlogPost {
   id: string;
@@ -38,7 +39,9 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
                   ? salaryVsDividendsImage
                   : post.slug === "dividend-waivers-when-and-how-to-use-them-effectively"
                   ? dividendWaiversImage
-                   : dividendWaiversImage}
+                  : post.slug === "dividend-voucher-templates-what-uk-directors-need-to-know-in-2025"
+                  ? dividendVoucherTemplatesImage
+                  : dividendWaiversImage}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"
               />
