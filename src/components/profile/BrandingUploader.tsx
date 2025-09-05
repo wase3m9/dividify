@@ -280,8 +280,9 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
         />
 
         <div className="text-xs text-muted-foreground">
-          <p>• Supported formats: PNG, JPG, GIF</p>
+          <p>• Supported formats: PNG, JPG, GIF, WebP</p>
           <p>• Maximum file size: 2MB</p>
+          <p>• Recommended size: 300x300 pixels for best quality</p>
           <p>• For best results, use a square logo with transparent background</p>
         </div>
       </CardContent>

@@ -169,7 +169,10 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
         </View>
 
         <Text style={styles.footer}>
-          These minutes were approved at the board meeting held on [DATE]
+          {data.accountantFirmName 
+            ? `These board minutes were prepared by ${data.accountantFirmName} and recorded in accordance with the Companies Act 2006.`
+            : "These minutes were approved at the board meeting held on [DATE]"
+          }
         </Text>
       </Page>
     </Document>
