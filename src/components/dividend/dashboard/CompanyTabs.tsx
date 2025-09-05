@@ -1,7 +1,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompanySection } from "@/components/dividend/CompanySection";
-import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
+import { OfficersSection } from "@/components/dividend/board/OfficersSection";
 import { DividendsSection } from "@/components/dividend/board/DividendsSection";
 import { MinutesSection } from "@/components/dividend/board/MinutesSection";
 import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSection";
@@ -108,7 +108,7 @@ export const CompanyTabs = ({
         </TabsContent>
 
         <TabsContent value="officers">
-          <DirectorsSection directors={directors} />
+          <OfficersSection directors={directors} />
         </TabsContent>
 
         <TabsContent value="shareholders">

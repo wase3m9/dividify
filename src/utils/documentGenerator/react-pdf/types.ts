@@ -10,6 +10,7 @@ export interface DividendVoucherData {
   dividendAmount: number;
   templateStyle?: 'classic' | 'modern' | 'green';
   logoUrl?: string;
+  accountantFirmName?: string;
 }
 
 export interface BoardMinutesData {
@@ -21,6 +22,7 @@ export interface BoardMinutesData {
   paymentDate: string;
   templateStyle?: 'classic' | 'modern' | 'green';
   logoUrl?: string;
+  accountantFirmName?: string;
 }
 
 export type DocumentData = DividendVoucherData | BoardMinutesData;

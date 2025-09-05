@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Clock, CreditCard, Check, RefreshCw, Loader2 } from "lucide-react";
 import { BrandingUploader } from "@/components/profile/BrandingUploader";
+import { TeamAccess } from "@/components/profile/TeamAccess";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { RecentActivityProfile } from "@/components/profile/RecentActivityProfile";
 
@@ -297,6 +298,9 @@ const Profile = () => {
               userId={user?.id || ''} 
               currentLogoUrl={profile?.logo_url}
             />
+
+            {/* Team Access Section */}
+            <TeamAccess userId={user?.id || ''} />
 
             {/* Recent Activity Section */}
             <Card>
