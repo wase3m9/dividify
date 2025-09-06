@@ -2,11 +2,15 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 
-const getPlanLimits = (plan: string) => {
+const getPlanLimits = (plan: string, userType: string) => {
+  if (userType === 'accountant') {
+    return { companies: Infinity, dividends: Infinity, minutes: Infinity };
+  }
   switch (plan) {
     case 'professional':
       return { companies: 3, dividends: 10, minutes: 10 };
@@ -27,14 +31,15 @@ const formatResetDate = (dateString: string) => {
 
 export const PlanLimits = () => {
   const { data: usage } = useMonthlyUsage();
+  const { userType } = useSubscriptionStatus();
   const { toast } = useToast();
   const [isUpgrading, setIsUpgrading] = useState(false);
 
   if (!usage) return null;
 
-  const limits = getPlanLimits(usage.plan);
+  const limits = getPlanLimits(usage.plan, userType);
   const planName = usage.plan.charAt(0).toUpperCase() + usage.plan.slice(1);
-  const isEnterprise = usage.plan === 'enterprise';
+  const isEnterprise = usage.plan === 'enterprise' || userType === 'accountant';
 
   const formatUsage = (count: number, limit: number) => {
     if (limit === Infinity) return `${count} / ∞`;

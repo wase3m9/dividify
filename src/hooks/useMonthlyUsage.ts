@@ -16,7 +16,7 @@ export const useMonthlyUsage = () => {
       // Get user's subscription and plan info
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
-        .select("subscription_plan, current_month_dividends, current_month_minutes")
+        .select("subscription_plan, current_month_dividends, current_month_minutes, user_type")
         .eq("id", user.id)
         .maybeSingle();
       if (profileError) throw profileError;
@@ -74,8 +74,11 @@ export const useMonthlyUsage = () => {
         periodEnd: periodEnd.toISOString()
       });
 
-      // Get plan limits
-      const getPlanLimits = (plan: string) => {
+      // Get plan limits - accountants have unlimited access
+      const getPlanLimits = (plan: string, userType: string) => {
+        if (userType === 'accountant') {
+          return { companies: Infinity, dividends: Infinity, minutes: Infinity };
+        }
         switch (plan) {
           case 'professional':
             return { companies: 3, dividends: 10, minutes: 10 };
@@ -86,7 +89,7 @@ export const useMonthlyUsage = () => {
         }
       };
 
-      const limits = getPlanLimits(plan);
+      const limits = getPlanLimits(plan, profile?.user_type || 'individual');
 
       return {
         plan,

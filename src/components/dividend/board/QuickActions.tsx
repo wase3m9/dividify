@@ -4,10 +4,12 @@ import { Plus, FileText, Calculator } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 
 export const QuickActions = () => {
   const navigate = useNavigate();
   const { data: usage } = useMonthlyUsage();
+  const { userType } = useSubscriptionStatus();
 
   const getPlanLimits = (plan: string) => {
     switch (plan) {
@@ -20,9 +22,11 @@ export const QuickActions = () => {
     }
   };
 
+  // Accountants have unlimited access regardless of plan
+  const isAccountant = userType === 'accountant';
   const limits = getPlanLimits(usage?.plan || 'trial');
-  const isDividendsDisabled = usage ? (limits.dividends !== Infinity && usage.dividendsCount >= limits.dividends) : false;
-  const isMinutesDisabled = usage ? (limits.minutes !== Infinity && usage.minutesCount >= limits.minutes) : false;
+  const isDividendsDisabled = !isAccountant && usage ? (limits.dividends !== Infinity && usage.dividendsCount >= limits.dividends) : false;
+  const isMinutesDisabled = !isAccountant && usage ? (limits.minutes !== Infinity && usage.minutesCount >= limits.minutes) : false;
 
   const renderButton = (
     onClick: () => void,
