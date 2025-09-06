@@ -232,7 +232,7 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
           </div>
         ) : (
           <div
-            className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+            className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
               dragOver 
                 ? 'border-primary bg-primary/5' 
                 : 'border-muted-foreground/25 hover:border-muted-foreground/50'
@@ -243,6 +243,7 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
               setDragOver(true);
             }}
             onDragLeave={() => setDragOver(false)}
+            onClick={() => fileInputRef.current?.click()}
           >
             <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
             <p className="text-sm text-muted-foreground mb-2">
@@ -279,11 +280,14 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
           className="hidden"
         />
 
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-muted-foreground space-y-1">
+          <p className="font-medium text-sm mb-2">Upload Requirements:</p>
           <p>• Supported formats: PNG, JPG, GIF, WebP</p>
           <p>• Maximum file size: 2MB</p>
-          <p>• Recommended size: 300x300 pixels for best quality</p>
+          <p>• Recommended dimensions: 300×300 pixels (1:1 ratio)</p>
+          <p>• Minimum size: 150×150 pixels</p>
           <p>• For best results, use a square logo with transparent background</p>
+          <p>• Logo will be automatically resized to fit document templates</p>
         </div>
       </CardContent>
     </Card>

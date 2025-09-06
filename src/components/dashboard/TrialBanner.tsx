@@ -4,7 +4,6 @@ import { Clock, Crown, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
-import { useEffect, useState } from "react";
 
 export const TrialBanner = () => {
   const navigate = useNavigate();
