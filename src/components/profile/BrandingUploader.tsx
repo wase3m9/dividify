@@ -232,10 +232,10 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
           </div>
         ) : (
           <div
-            className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
+            className={`border-2 border-dashed rounded-lg p-6 text-center transition-all cursor-pointer hover:border-primary hover:bg-primary/5 ${
               dragOver 
-                ? 'border-primary bg-primary/5' 
-                : 'border-muted-foreground/25 hover:border-muted-foreground/50'
+                ? 'border-primary bg-primary/10 scale-[1.02]' 
+                : 'border-muted-foreground/25'
             }`}
             onDrop={handleDrop}
             onDragOver={(e) => {
@@ -243,19 +243,19 @@ export const BrandingUploader = ({ userId, currentLogoUrl }: BrandingUploaderPro
               setDragOver(true);
             }}
             onDragLeave={() => setDragOver(false)}
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => {
+              if (!uploading) {
+                fileInputRef.current?.click();
+              }
+            }}
           >
-            <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+            <Upload className={`h-8 w-8 mx-auto mb-2 transition-colors ${dragOver ? 'text-primary' : 'text-muted-foreground'}`} />
             <p className="text-sm text-muted-foreground mb-2">
-              Drag and drop your logo here, or click to browse
+              {dragOver ? 'Drop your logo here' : 'Click here or drag and drop your logo'}
             </p>
-            <Button
-              variant="outline"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={uploading}
-            >
-              {uploading ? 'Uploading...' : 'Choose File'}
-            </Button>
+            <p className="text-xs text-muted-foreground">
+              PNG, JPG, GIF or WebP up to 2MB
+            </p>
           </div>
         )}
 
