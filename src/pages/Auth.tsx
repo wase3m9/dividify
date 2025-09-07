@@ -78,6 +78,19 @@ const Auth = () => {
       if (profile && !error) {
         userType = profile.user_type;
         console.log("Auth - Using profile user_type:", userType);
+        // If metadata says accountant but profile differs, correct it
+        if (userMetadata?.user_type && userMetadata.user_type !== userType) {
+          console.log("Auth - Correcting profile user_type from metadata:", userMetadata.user_type);
+          try {
+            await supabase
+              .from('profiles')
+              .update({ user_type: userMetadata.user_type })
+              .eq('id', userId);
+            userType = userMetadata.user_type;
+          } catch (e) {
+            console.error("Auth - Failed to update profile user_type:", e);
+          }
+        }
       } else {
         // Fallback to user metadata if profile doesn't exist or has error
         userType = userMetadata?.user_type || 'individual';
