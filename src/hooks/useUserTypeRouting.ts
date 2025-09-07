@@ -32,18 +32,6 @@ export const useUserTypeRouting = () => {
         throw error;
       }
       
-      // Correct mismatch between metadata and profile if needed
-      const metadataType = (user as any)?.user_metadata?.user_type;
-      if (data && metadataType && data.user_type !== metadataType) {
-        console.log('useUserTypeRouting - Fixing user_type mismatch. Profile:', data.user_type, 'Metadata:', metadataType);
-        try {
-          await supabase.from('profiles').update({ user_type: metadataType }).eq('id', user.id);
-          (data as any).user_type = metadataType;
-        } catch (e) {
-          console.error('useUserTypeRouting - Failed to update user_type:', e);
-        }
-      }
-      
       console.log("useUserTypeRouting - Profile data:", data);
       return data;
     },

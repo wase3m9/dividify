@@ -191,7 +191,7 @@ const Index = () => {
               </div>
               <div className="flex items-center justify-center gap-2 mb-4">
                 <div className="h-5 w-5 text-gray-500">⏱️</div>
-                <p className="text-gray-500 font-medium">Integration Launching Q1 2026</p>
+                <p className="text-gray-500 font-medium">Integration Launching Q1 2025</p>
               </div>
               <p className="text-gray-500 max-w-3xl mx-auto">
                 We're working on seamless connections with your accounting software to simplify your workflows. 

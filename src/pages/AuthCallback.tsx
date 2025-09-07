@@ -36,42 +36,33 @@ const AuthCallback = () => {
 
         console.log("AuthCallback - Session found for user:", session.user.id);
 
-        // Check if profile exists, create if needed, and correct mismatches
+        // Check if profile exists, create if needed
         let { data: profile, error: profileError } = await supabase
           .from('profiles')
-          .select('user_type, full_name')
+          .select('user_type')
           .eq('id', session.user.id)
           .single();
 
-        const userTypeMeta = session.user.user_metadata?.user_type || 'individual';
-        const fullName = session.user.user_metadata?.full_name || session.user.email;
-
         if (profileError || !profile) {
           console.log("AuthCallback - Creating profile for user");
+          
+          // Extract user_type from user metadata
+          const userType = session.user.user_metadata?.user_type || 'individual';
+          const fullName = session.user.user_metadata?.full_name || session.user.email;
+          
           const { error: insertError } = await supabase
             .from('profiles')
-            .upsert({
+            .insert({
               id: session.user.id,
               full_name: fullName,
-              user_type: userTypeMeta,
+              user_type: userType,
               subscription_plan: 'trial'
             });
 
           if (insertError) {
             console.error("AuthCallback - Profile creation error:", insertError);
           } else {
-            profile = { user_type: userTypeMeta, full_name: fullName } as any;
-          }
-        } else if (profile.user_type !== userTypeMeta) {
-          console.log("AuthCallback - Correcting profile user_type to match metadata:", userTypeMeta);
-          const { error: updateError } = await supabase
-            .from('profiles')
-            .update({ user_type: userTypeMeta })
-            .eq('id', session.user.id);
-          if (updateError) {
-            console.error("AuthCallback - Failed to update user_type:", updateError);
-          } else {
-            profile.user_type = userTypeMeta;
+            profile = { user_type: userType };
           }
         }
 
