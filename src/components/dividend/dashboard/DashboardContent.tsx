@@ -15,7 +15,7 @@ export const DashboardContent: FC<DashboardContentProps> = ({ selectedCompanyId 
   const navigate = useNavigate();
 
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-6 max-w-4xl mx-auto">
       {/* Quick Actions */}
       <QuickActions 
         onCreateVoucher={() => navigate("/dividend-voucher-form")}
