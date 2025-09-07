@@ -63,7 +63,7 @@ const Auth = () => {
     return "An unexpected error occurred. Please try again.";
   };
 
-  const redirectToCorrectDashboard = async (userId: string) => {
+  const redirectToCorrectDashboard = async (userId: string, userMetadata?: any) => {
     try {
       console.log("Auth - Fetching user profile for:", userId);
       
@@ -73,16 +73,31 @@ const Auth = () => {
         .eq('id', userId)
         .single();
 
-      if (error) {
-        console.error("Auth - Profile fetch error:", error);
-        // Default to company dashboard if profile fetch fails
-        window.location.href = "/company-dashboard";
-        return;
+      let userType = 'individual'; // default
+
+      if (profile && !error) {
+        userType = profile.user_type;
+        console.log("Auth - Using profile user_type:", userType);
+      } else {
+        // Fallback to user metadata if profile doesn't exist or has error
+        userType = userMetadata?.user_type || 'individual';
+        console.log("Auth - Using metadata user_type:", userType, "from metadata:", userMetadata);
+        
+        // Create profile if it doesn't exist
+        if (error && userMetadata) {
+          console.log("Auth - Creating missing profile");
+          await supabase
+            .from('profiles')
+            .upsert({
+              id: userId,
+              full_name: userMetadata.full_name || userMetadata.email,
+              user_type: userType,
+              subscription_plan: 'trial'
+            });
+        }
       }
 
-      console.log("Auth - User profile:", profile);
-
-      if (profile?.user_type === 'accountant') {
+      if (userType === 'accountant') {
         console.log("Auth - Redirecting to accountant dashboard");
         window.location.href = "/accountant-dashboard";
       } else {
@@ -91,8 +106,13 @@ const Auth = () => {
       }
     } catch (error) {
       console.error("Auth - Error during redirect:", error);
-      // Default to company dashboard on error
-      window.location.href = "/company-dashboard";
+      // Fallback to user metadata if available
+      const userType = userMetadata?.user_type || 'individual';
+      if (userType === 'accountant') {
+        window.location.href = "/accountant-dashboard";
+      } else {
+        window.location.href = "/company-dashboard";
+      }
     }
   };
 
@@ -129,7 +149,7 @@ const Auth = () => {
       
       // Redirect to the correct dashboard based on user type
       if (data.user) {
-        await redirectToCorrectDashboard(data.user.id);
+        await redirectToCorrectDashboard(data.user.id, data.user.user_metadata);
       }
     } catch (error) {
       console.error("Sign in error:", error);
