@@ -64,7 +64,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
       
       const { data, error } = await supabase
         .from('profiles')
-        .select('logo_url')
+        .select('logo_url, full_name, user_type')
         .eq('id', user.id)
         .single();
       
@@ -153,7 +153,8 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
   const handleGeneratePreview = (data: DividendVoucherData) => {
     setPreviewData({
       ...data,
-      logoUrl: profile?.logo_url || undefined
+      logoUrl: profile?.logo_url || undefined,
+      accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined
     });
   };
 
