@@ -50,97 +50,197 @@ const Index = () => {
     }
   };
 
-  // Generate structured data for the home page
+  // Generate comprehensive structured data for the home page
   const generateHomeSchema = () => {
-    const localBusinessSchema = {
+    return {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Dividify",
-      "description": "Professional dividend voucher and board minutes generation service for UK limited companies",
-      "url": window.location.origin,
-      "logo": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
-      "image": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
-      "email": "hello@dividify.co.uk",
-      "telephone": "+44 20 7946 0958",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "124 City Road",
-        "addressLocality": "London",
-        "postalCode": "EC1V 2NX",
-        "addressCountry": "GB"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "51.5274",
-        "longitude": "-0.0890"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "United Kingdom"
-      },
-      "serviceType": ["Dividend Management", "Board Meeting Documentation", "Corporate Compliance"],
-      "priceRange": "£6-£30",
-      "sameAs": [
-        "https://twitter.com/dividify",
-        "https://www.linkedin.com/company/dividify"
-      ]
-    };
-
-    const websiteSchema = {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Dividify",
-      "url": window.location.origin,
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": `${window.location.origin}/blog?q={search_term_string}`
-        },
-        "query-input": "required name=search_term_string"
-      }
-    };
-
-    const serviceSchema = {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Dividend Voucher Generation",
-      "description": "Professional dividend voucher and board minutes generation for UK limited companies",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Dividify"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "United Kingdom"
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Dividend Management Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Individual Plan - Dividend Vouchers"
-            },
-            "price": "6.00",
-            "priceCurrency": "GBP"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": `${window.location.origin}/#org`,
+          "name": "Dividify",
+          "url": `${window.location.origin}/`,
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
+            "contentUrl": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`
           },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Accountants Plan - Multiple Companies"
+          "brand": {
+            "@type": "Brand",
+            "name": "Dividify"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Waseem Choudhary"
+          },
+          "sameAs": [
+            "https://www.linkedin.com/company/dividify", 
+            "https://twitter.com/dividify"
+          ],
+          "contactPoint": [{
+            "@type": "ContactPoint",
+            "contactType": "customer support",
+            "email": "hello@dividify.co.uk",
+            "areaServed": "GB",
+            "availableLanguage": ["en-GB"]
+          }],
+          "knowsAbout": [
+            "Dividend vouchers",
+            "Board minutes",
+            "Companies Act 2006",
+            "UK company directors",
+            "Accountants and accounting firms",
+            "PDF generation",
+            "QuickBooks integrations"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": `${window.location.origin}/#website`,
+          "url": `${window.location.origin}/`,
+          "name": "Dividify",
+          "publisher": { "@id": `${window.location.origin}/#org` },
+          "inLanguage": "en-GB",
+          "isFamilyFriendly": true,
+          "description": "Dividify helps UK accountants and company directors instantly generate compliant dividend vouchers and board minutes as polished PDFs.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": `${window.location.origin}/blog?q={search_term_string}`,
+            "query-input": "required name=search_term_string"
+          },
+          "termsOfService": `${window.location.origin}/terms`,
+          "privacyPolicy": `${window.location.origin}/privacy`
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": `${window.location.origin}/#app`,
+          "name": "Dividify",
+          "applicationCategory": "BusinessApplication",
+          "applicationSubCategory": "Accounting software",
+          "operatingSystem": "Web",
+          "url": `${window.location.origin}/`,
+          "image": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
+          "publisher": { "@id": `${window.location.origin}/#org` },
+          "offers": {
+            "@type": "AggregateOffer",
+            "priceCurrency": "GBP",
+            "lowPrice": "15",
+            "highPrice": "20",
+            "offerCount": "3",
+            "url": `${window.location.origin}/#pricing`
+          },
+          "featureList": [
+            "Generate dividend vouchers",
+            "Generate board minutes",
+            "AI-assisted text and compliance prompts",
+            "Custom branding and firm name on PDFs",
+            "Audit trail and document history",
+            "Team access for accounting firms"
+          ],
+          "softwareHelp": `${window.location.origin}/contact`,
+          "isAccessibleForFree": false
+        },
+        {
+          "@type": "Service",
+          "@id": `${window.location.origin}/#service`,
+          "serviceType": "Dividend Voucher & Board Minutes Generator",
+          "provider": { "@id": `${window.location.origin}/#org` },
+          "areaServed": {
+            "@type": "Country",
+            "name": "United Kingdom"
+          },
+          "audience": {
+            "@type": "BusinessAudience",
+            "name": "Accountants, accounting firms, and UK company directors"
+          },
+          "offers": { "@id": `${window.location.origin}/#catalog` }
+        },
+        {
+          "@type": "OfferCatalog",
+          "@id": `${window.location.origin}/#catalog`,
+          "name": "Dividify Pricing Plans",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "name": "Starter",
+              "price": "15",
+              "priceCurrency": "GBP",
+              "url": `${window.location.origin}/#pricing`,
+              "category": "entry-level",
+              "description": "Best for single directors and small firms testing Dividify.",
+              "eligibleCustomerType": "Business"
             },
-            "price": "30.00",
-            "priceCurrency": "GBP"
-          }
-        ]
-      }
+            {
+              "@type": "Offer",
+              "name": "Professional",
+              "price": "20",
+              "priceCurrency": "GBP",
+              "url": `${window.location.origin}/#pricing`,
+              "category": "standard",
+              "description": "For growing firms needing custom branding and team access.",
+              "eligibleCustomerType": "Business"
+            },
+            {
+              "@type": "Offer",
+              "name": "Enterprise",
+              "price": "POA",
+              "priceCurrency": "GBP",
+              "url": `${window.location.origin}/#pricing`,
+              "category": "enterprise",
+              "description": "Unlimited usage, SSO, priority support and onboarding.",
+              "eligibleCustomerType": "Business"
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": `${window.location.origin}/#faqs`,
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Are the dividend vouchers and board minutes compliant with the Companies Act 2006?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Dividify's templates and prompts are built around UK requirements, including Companies Act 2006 conventions for dividend vouchers and board meeting minutes."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can accounting firms invite multiple team members?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Team access lets firms invite colleagues to share the same dashboard and document history."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do the generated PDFs include my firm's branding?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You can add your firm name and logo so each PDF states it was generated by your firm and issued or recorded in accordance with UK rules."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is there a free trial?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We periodically offer free trials or starter quotas; check the pricing page for current promotions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Dividify integrate with accounting software?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Initial focus is standalone PDF generation; QuickBooks and other integrations are on the roadmap."
+              }
+            }
+          ]
+        }
+      ],
+      "dateModified": "2025-09-08"
     };
-
-    return [localBusinessSchema, websiteSchema, serviceSchema];
   };
 
   return (
