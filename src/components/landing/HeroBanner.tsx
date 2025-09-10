@@ -1,14 +1,11 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, FileText, Zap, PoundSterling, Shield, Cloud, RotateCcw } from "lucide-react";
 import { useTypewriter } from "@/hooks/use-typewriter";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
 interface HeroBannerProps {
   onStartFreeTrial: () => void;
 }
-
 export const HeroBanner = ({
   onStartFreeTrial
 }: HeroBannerProps) => {
@@ -21,13 +18,10 @@ export const HeroBanner = ({
   useEffect(() => {
     resetAnimation();
   }, [location, resetAnimation]);
-
   const handleStartFreeTrial = () => {
     navigate("/signup?plan=starter&from=pricing");
   };
-
-  return (
-    <section className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-br from-purple-100 via-purple-50 to-blue-50 overflow-hidden">
+  return <section className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-br from-purple-100 via-purple-50 to-blue-50 overflow-hidden">
       {/* Gradient overlay extending upward */}
       <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-100/30 to-purple-200/50 -top-20"></div>
       
@@ -95,13 +89,8 @@ export const HeroBanner = ({
 
         {/* Right Illustration */}
         <div className="relative flex items-center justify-center lg:justify-end">
-          <img 
-            src="/lovable-uploads/2a378f8c-bd5c-4578-a319-1884c55f81c4.png" 
-            alt="Professional dividend vouchers and board minutes illustration"
-            className="w-full max-w-lg h-auto object-contain animate-fade-in drop-shadow-lg"
-          />
+          
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
