@@ -48,7 +48,7 @@ export const HeroBanner = ({
             HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 text-sm text-gray-700">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-700">
             <span className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-green-600" />
               HMRC-Compliant
@@ -60,6 +60,14 @@ export const HeroBanner = ({
             <span className="flex items-center gap-2">
               <Shield className="h-4 w-4 text-blue-600" />
               Secure & Private
+            </span>
+            <span className="flex items-center gap-2">
+              <Cloud className="h-4 w-4 text-indigo-600" />
+              Cloud Storage
+            </span>
+            <span className="flex items-center gap-2">
+              <RotateCcw className="h-4 w-4 text-teal-600" />
+              Auto-Sync
             </span>
           </div>
 
@@ -83,16 +91,6 @@ export const HeroBanner = ({
             </span>
           </div>
 
-          <div className="flex flex-wrap items-start gap-4 sm:gap-6 text-xs text-gray-500">
-            <span className="flex items-center gap-2">
-              <Cloud className="h-3 w-3" />
-              Cloud Storage
-            </span>
-            <span className="flex items-center gap-2">
-              <RotateCcw className="h-3 w-3" />
-              Auto-Sync
-            </span>
-          </div>
         </div>
 
         {/* Right Illustration */}
