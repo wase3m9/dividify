@@ -26,7 +26,7 @@ export const HeroBanner = ({
       style={{
         backgroundImage: `url('/lovable-uploads/fe0ade17-4a44-4fa3-bbb5-b6606b55a12c.png')`,
         backgroundSize: 'cover',
-        backgroundPosition: '95% center',
+        backgroundPosition: '80% center',
         backgroundRepeat: 'no-repeat'
       }}
     >
