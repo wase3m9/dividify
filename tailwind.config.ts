@@ -87,8 +87,12 @@ export default {
           "75%": { transform: "rotate(1deg)" }
         },
         "rotate-border": {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" }
+          "0%": { 
+            background: "conic-gradient(from 0deg, transparent 70%, hsl(var(--brand-purple)) 90%, transparent 100%)"
+          },
+          "100%": { 
+            background: "conic-gradient(from 360deg, transparent 70%, hsl(var(--brand-purple)) 90%, transparent 100%)"
+          }
         }
       },
       animation: {

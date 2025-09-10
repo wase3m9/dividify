@@ -30,8 +30,8 @@ export const HeroBanner = ({
     <section className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6">
       <div className="max-w-4xl mx-auto text-center space-y-8">
         <div className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-sm mb-8 animate-fade-in">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-purple via-transparent to-brand-purple opacity-30 animate-rotate-border"></div>
-          <div className="relative flex items-center gap-2">
+          <div className="absolute -inset-0.5 rounded-full animate-rotate-border"></div>
+          <div className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100">
             <CheckCircle className="h-4 w-4 text-[#8E9196]" />
             Built for Directors legal compliance
           </div>
