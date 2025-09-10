@@ -21,5 +21,6 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     sourcemap: true, // Enable source maps for production builds
+    cssCodeSplit: false, // Bundle CSS into a single file for better optimization
   },
 }));

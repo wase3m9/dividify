@@ -15,6 +15,26 @@
     <meta property="og:title" content="Dividify" />
     <meta property="og:description" content="Generate dividend vouchers and board minutes with ease" />
     <meta property="og:image" content="/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png" />
+    
+    <!-- Optimize CSS loading to prevent render blocking -->
+    <style>
+      /* Critical inline styles to prevent FOUC */
+      html { font-family: system-ui, -apple-system, sans-serif; }
+      body { margin: 0; background: #fff; }
+      #root { min-height: 100vh; }
+      .loading-placeholder { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        right: 0; 
+        bottom: 0; 
+        background: #fff; 
+        z-index: 9999; 
+        opacity: 0; 
+        pointer-events: none; 
+      }
+    </style>
+    
     <!-- Enable new Lovable features -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
   </head>
