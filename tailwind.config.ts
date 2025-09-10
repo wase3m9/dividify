@@ -52,6 +52,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        brand: {
+          purple: "hsl(var(--brand-purple))",
+          "purple-foreground": "hsl(var(--brand-purple-foreground))",
+          "purple-light": "hsl(var(--brand-purple-light))",
+        },
         cta: {
           primary: "#F97316", // Bright Orange for primary CTAs
           secondary: "#0EA5E9", // Ocean Blue for secondary CTAs

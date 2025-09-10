@@ -44,12 +44,12 @@ export const HeroBanner = ({
           HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
         </p>
 
-        <Button size="lg" className="bg-[#9b87f5] hover:bg-[#8b77e5] hover-lift shadow-sm text-white px-8 py-6 text-lg animate-fade-in" onClick={handleStartFreeTrial}>
+        <Button size="lg" className="bg-brand-purple hover:bg-brand-purple/90 hover-lift shadow-sm text-brand-purple-foreground px-8 py-6 text-lg animate-fade-in" onClick={handleStartFreeTrial}>
           Start Free Trial
           <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-[#9b87f5] mt-6">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm text-brand-purple mt-6">
           <span className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
             Professional templates

@@ -9,12 +9,12 @@ export const TestimonialsSection = () => {
         <h2 className="text-3xl font-bold text-center mb-16">What Our Customers Say</h2>
         <div className="grid md:grid-cols-3 gap-8">
           <Card className="p-8 bg-white relative hover:animate-jiggle">
-            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-brand-purple" />
             <p className="text-gray-600 mb-6">
               "Dividify has transformed how we handle dividend documentation. It's saved us countless hours and ensures compliance."
             </p>
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-12 h-12 bg-brand-purple rounded-full flex items-center justify-center text-brand-purple-foreground font-semibold">
                 JD
               </div>
               <div>
@@ -25,12 +25,12 @@ export const TestimonialsSection = () => {
           </Card>
 
           <Card className="p-8 bg-white relative hover:animate-jiggle">
-            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-brand-purple" />
             <p className="text-gray-600 mb-6">
               "The automated document generation is fantastic. It's like having a company secretary at your fingertips."
             </p>
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-12 h-12 bg-brand-purple rounded-full flex items-center justify-center text-brand-purple-foreground font-semibold">
                 JS
               </div>
               <div>
@@ -41,12 +41,12 @@ export const TestimonialsSection = () => {
           </Card>
 
           <Card className="p-8 bg-white relative hover:animate-jiggle">
-            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-[#9b87f5]" />
+            <MessageSquareQuote className="absolute -top-4 -left-4 h-8 w-8 text-brand-purple" />
             <p className="text-gray-600 mb-6">
               "The interface is intuitive and the support team is incredibly helpful. Best investment for our company administration."
             </p>
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-[#9b87f5] rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-12 h-12 bg-brand-purple rounded-full flex items-center justify-center text-brand-purple-foreground font-semibold">
                 RB
               </div>
               <div>

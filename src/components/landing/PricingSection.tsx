@@ -103,20 +103,20 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                 key={index} 
                 className={`relative transition-all duration-200 hover:shadow-lg hover:animate-jiggle ${
                   plan.isPopular 
-                    ? 'border-[#9b87f5] shadow-lg bg-white' 
-                    : 'border-gray-200 hover:border-[#9b87f5]/50'
+                    ? 'border-brand-purple shadow-lg bg-white' 
+                    : 'border-gray-200 hover:border-brand-purple/50'
                 }`}
               >
                 {plan.isPopular && (
                   <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <span className="bg-[#9b87f5] text-white px-4 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-brand-purple text-brand-purple-foreground px-4 py-1 rounded-full text-sm font-medium">
                       Most Popular
                     </span>
                   </div>
                 )}
                 <CardHeader className="text-center pb-4">
                   <CardTitle className="text-2xl text-gray-900 flex items-center justify-center gap-2">
-                    <IconComponent className="w-6 h-6 text-[#9b87f5]" />
+                    <IconComponent className="w-6 h-6 text-brand-purple" />
                     {plan.name}
                   </CardTitle>
                   <CardDescription className="text-gray-600">{plan.description}</CardDescription>
@@ -129,7 +129,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                   <ul className="space-y-4 mb-8">
                     {plan.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-center">
-                        <Check className="h-5 w-5 text-[#9b87f5] mr-3 flex-shrink-0" />
+                        <Check className="h-5 w-5 text-brand-purple mr-3 flex-shrink-0" />
                         <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}
@@ -137,8 +137,8 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                   <Button 
                     className={`w-full transition-colors ${
                       plan.isPopular 
-                        ? 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white' 
-                        : 'bg-[#9b87f5] hover:bg-[#8b77e5] text-white'
+                        ? 'bg-brand-purple hover:bg-brand-purple/90 text-brand-purple-foreground' 
+                        : 'bg-brand-purple hover:bg-brand-purple/90 text-brand-purple-foreground'
                     }`}
                     onClick={() => handleSubscribeClick(plan.name)}
                   >

@@ -13,7 +13,7 @@ export const FeaturesSection = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
-              <FileCheck className="h-6 w-6 text-[#9b87f5]" />
+              <FileCheck className="h-6 w-6 text-brand-purple" />
               <h3 className="text-xl font-semibold">Compliant Documentation</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
@@ -23,7 +23,7 @@ export const FeaturesSection = () => {
 
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
-              <Clock className="h-6 w-6 text-[#9b87f5]" />
+              <Clock className="h-6 w-6 text-brand-purple" />
               <h3 className="text-xl font-semibold">Time-Saving</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
@@ -33,7 +33,7 @@ export const FeaturesSection = () => {
 
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
-              <Users className="h-6 w-6 text-[#9b87f5]" />
+              <Users className="h-6 w-6 text-brand-purple" />
               <h3 className="text-xl font-semibold">Multi-Shareholder</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
@@ -45,7 +45,7 @@ export const FeaturesSection = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
-              <FileText className="h-6 w-6 text-[#9b87f5]" />
+              <FileText className="h-6 w-6 text-brand-purple" />
               <h3 className="text-xl font-semibold">Tax Compliance</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
@@ -55,7 +55,7 @@ export const FeaturesSection = () => {
 
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
-              <History className="h-6 w-6 text-[#9b87f5]" />
+              <History className="h-6 w-6 text-brand-purple" />
               <h3 className="text-xl font-semibold">Audit Trail</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
@@ -65,7 +65,7 @@ export const FeaturesSection = () => {
 
           <Card className="p-8 hover-lift bg-white border-0 shadow-sm rounded-[20px]">
             <div className="flex items-center gap-3 mb-4">
-              <Link className="h-6 w-6 text-[#9b87f5]" />
+              <Link className="h-6 w-6 text-brand-purple" />
               <h3 className="text-xl font-semibold">Accounting Integration</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
