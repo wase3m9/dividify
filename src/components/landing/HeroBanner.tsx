@@ -27,7 +27,7 @@ export const HeroBanner = ({
   };
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-r from-brand-purple/20 via-brand-purple/5 to-background">
+    <section className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-br from-background via-background to-brand-purple/5">
       <div className="max-w-4xl mx-auto text-center space-y-8">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-sm mb-8 animate-fade-in">
           <CheckCircle className="h-4 w-4 text-[#8E9196]" />
