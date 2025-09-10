@@ -27,16 +27,8 @@ export const HeroBanner = ({
   };
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-br from-background via-background to-brand-purple/5 overflow-hidden">
-      {/* Background illustration */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
-        <img 
-          src="/lovable-uploads/89536639-51c1-4e4c-9ff2-7898d1beaa40.png"
-          alt=""
-          className="w-96 h-96 object-contain"
-        />
-      </div>
-      <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+    <section className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-br from-background via-background to-brand-purple/5">
+      <div className="max-w-4xl mx-auto text-center space-y-8">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-sm mb-8 animate-fade-in">
           <CheckCircle className="h-4 w-4 text-[#8E9196]" />
           Built for Directors legal compliance
