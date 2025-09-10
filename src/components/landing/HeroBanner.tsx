@@ -24,14 +24,14 @@ export const HeroBanner = ({
   return <section 
       className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 overflow-hidden"
       style={{
-        backgroundImage: `url('/lovable-uploads/c9d21bc2-1645-4369-8989-114f8cff2691.png')`,
-        backgroundSize: '45%',
-        backgroundPosition: '150% center',
+        backgroundImage: `url('/lovable-uploads/6ec42178-5408-4688-93f6-2e09893cc590.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'right center',
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Extended gradient overlay for text readability and nav coverage */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent -top-20"></div>
+      {/* Light overlay for text readability */}
+      <div className="absolute inset-0 bg-white/10 -top-20"></div>
       
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
         {/* Left Content */}
