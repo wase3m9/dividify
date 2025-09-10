@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -32,8 +31,8 @@ export const useUserTypeRouting = () => {
         throw error;
       }
       
-      // User type routing without automatic elevation for security
-      // User type changes should only be done manually by admins
+      // SECURITY FIX: Removed automatic user type elevation
+      // User types should be manually assigned by administrators for security
       
       console.log("useUserTypeRouting - Profile data:", data);
       return data;

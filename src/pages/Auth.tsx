@@ -82,8 +82,8 @@ const Auth = () => {
 
       console.log("Auth - User profile:", profile);
 
-      // Route based on user type without automatic elevation
-      // User type changes should only be done manually by admins
+      // SECURITY FIX: Removed automatic user type elevation
+      // User types should be manually assigned by administrators for security
 
       if (profile?.user_type === 'accountant') {
         console.log("Auth - Redirecting to accountant dashboard");

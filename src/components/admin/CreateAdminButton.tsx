@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,58 +8,12 @@ export const CreateAdminButton = () => {
   const { toast } = useToast();
 
   const createAdminUser = async () => {
-    // Check if current user has admin privileges
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Authentication required",
-      });
-      return;
-    }
-
-    // Check if user has admin role
-    const { data: userRole } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .eq('role', 'admin')
-      .single();
-
-    if (!userRole) {
-      toast({
-        variant: "destructive",
-        title: "Error", 
-        description: "Admin privileges required to create admin users",
-      });
-      return;
-    }
-
-    // Get admin details from user input (you may want to add a form for this)
-    const email = prompt("Enter email for new admin user:");
-    const fullName = prompt("Enter full name for new admin user:");
-    const password = prompt("Enter password for new admin user (or leave blank for auto-generated):");
-
-    if (!email || !fullName) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Email and full name are required",
-      });
-      return;
-    }
-
     setIsLoading(true);
     try {
       console.log("Calling create-admin function...");
       
       const { data, error } = await supabase.functions.invoke('create-admin', {
-        body: {
-          email: email.trim(),
-          full_name: fullName.trim(),
-          password: password?.trim() || null
-        }
+        body: { email: 'wase3m@hotmail.com' }
       });
 
       if (error) {
@@ -72,7 +25,7 @@ export const CreateAdminButton = () => {
       
       toast({
         title: "Success",
-        description: `Admin user created successfully for ${email}`,
+        description: `Admin user created successfully. Temporary password: ${data?.tempPassword}. Please change it immediately.`,
       });
     } catch (error: any) {
       console.error("Failed to create admin user:", error);

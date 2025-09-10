@@ -1,4 +1,3 @@
-
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
@@ -12,9 +11,9 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Get authorization header
-    const authHeader = req.headers.get('Authorization')
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    // Check authentication
+    const authHeader = req.headers.get('authorization')
+    if (!authHeader) {
       return new Response(
         JSON.stringify({ error: 'Authentication required' }),
         { 
@@ -32,16 +31,15 @@ Deno.serve(async (req) => {
       throw new Error('Missing environment variables.')
     }
 
-    // Create client for auth verification
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey)
     const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey)
     
-    // Verify the user is authenticated and has admin role
-    const token = authHeader.replace('Bearer ', '')
-    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(token)
+    // Verify the user is authenticated and has admin privileges
+    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(authHeader.replace('Bearer ', ''))
     
     if (authError || !user) {
       return new Response(
-        JSON.stringify({ error: 'Invalid authentication token' }),
+        JSON.stringify({ error: 'Invalid authentication' }),
         { 
           status: 401,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -50,15 +48,20 @@ Deno.serve(async (req) => {
     }
 
     // Check if user has admin role
-    const { data: userRole, error: roleError } = await supabaseAuth
+    const { data: userRoles } = await supabaseAdmin
       .from('user_roles')
       .select('role')
       .eq('user_id', user.id)
       .eq('role', 'admin')
-      .single()
-
-    if (roleError || !userRole) {
-      console.log('Admin creation attempt by non-admin user:', user.email)
+      
+    if (!userRoles || userRoles.length === 0) {
+      // Log unauthorized access attempt
+      await supabaseAdmin.rpc('log_admin_action', {
+        action_type: 'unauthorized_admin_access_attempt',
+        target_user_id: user.id,
+        details: { endpoint: 'create-admin', user_email: user.email }
+      })
+      
       return new Response(
         JSON.stringify({ error: 'Admin privileges required' }),
         { 
@@ -68,16 +71,19 @@ Deno.serve(async (req) => {
       )
     }
 
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey)
+    // Parse request body to get email and generate secure password
+    const body = await req.json()
+    const targetEmail = body.email || 'wase3m@hotmail.com'
+    const generatedPassword = crypto.randomUUID().substring(0, 16) + '!'
 
-    // First, try to delete ALL existing users with this email
+    // First, try to delete existing users with this email
     try {
       const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers()
-      const usersToDelete = existingUsers.users.filter(user => user.email === 'wase3m@hotmail.com')
+      const usersToDelete = existingUsers.users.filter(existingUser => existingUser.email === targetEmail)
       
-      for (const user of usersToDelete) {
-        await supabaseAdmin.auth.admin.deleteUser(user.id)
-        console.log('Deleted existing user:', user.id)
+      for (const existingUser of usersToDelete) {
+        await supabaseAdmin.auth.admin.deleteUser(existingUser.id)
+        console.log('Deleted existing user:', existingUser.id)
       }
     } catch (err) {
       console.log('No existing users to delete or error deleting:', err)
@@ -85,24 +91,13 @@ Deno.serve(async (req) => {
 
     // Wait a moment to ensure deletion is processed
     await new Promise(resolve => setTimeout(resolve, 1000))
-
-    // Get request body for admin user details
-    const body = await req.json()
-    const { email, password, full_name } = body
-
-    if (!email || !password || !full_name) {
-      throw new Error('Email, password, and full_name are required')
-    }
-
-    // Generate secure password if not provided
-    const securePassword = password || crypto.randomUUID().slice(0, 16)
-
+    
     // Create user with admin role
     const { data: authUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: email,
-      password: securePassword,
+      email: targetEmail,
+      password: generatedPassword,
       email_confirm: true,
-      user_metadata: { full_name: full_name }
+      user_metadata: { full_name: 'Professional Accountant' }
     })
 
     if (createError) {
@@ -118,7 +113,7 @@ Deno.serve(async (req) => {
         .from('profiles')
         .upsert({ 
           id: authUser.user.id,
-          full_name: full_name,
+          full_name: 'Professional Accountant',
           subscription_plan: 'enterprise',
           current_month_dividends: 0,
           current_month_minutes: 0,
@@ -139,36 +134,28 @@ Deno.serve(async (req) => {
           created_by: user.id
         })
 
-      if (roleError) {
+      if (roleError && roleError.code !== '23505') { // Ignore duplicate key error
         console.error('Role assignment error:', roleError)
         throw roleError
       }
 
-      // Log admin creation action
-      const { error: logError } = await supabaseAdmin
-        .from('activity_log')
-        .insert({
-          user_id: user.id,
-          action: 'admin_action',
-          description: 'create_admin_user',
-          metadata: {
-            target_user_id: authUser.user.id,
-            target_email: email,
-            created_at: new Date().toISOString()
-          }
-        })
+      console.log('Profile updated successfully')
 
-      if (logError) {
-        console.error('Activity log error:', logError)
-      }
-
-      console.log('Admin user created successfully')
+      // Log the admin creation action
+      await supabaseAdmin.rpc('log_admin_action', {
+        action_type: 'admin_user_created',
+        target_user_id: authUser.user.id,
+        details: { target_email: targetEmail, created_by: user.id }
+      })
 
       return new Response(
         JSON.stringify({ 
           message: 'Admin user created successfully',
           userId: authUser.user.id,
-          email: authUser.user.email
+          email: authUser.user.email,
+          // Return password securely (in production, send via email instead)
+          tempPassword: generatedPassword,
+          note: 'Please change this password immediately after first login'
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
