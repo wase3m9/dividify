@@ -96,10 +96,10 @@ export default {
         },
         "shimmer": {
           "0%": { 
-            background: "conic-gradient(from 0deg, transparent 60%, hsl(var(--brand-purple)) 80%, hsl(var(--brand-purple-light)) 90%, transparent 100%)"
+            "background-position": "-200% 0"
           },
           "100%": { 
-            background: "conic-gradient(from 360deg, transparent 60%, hsl(var(--brand-purple)) 80%, hsl(var(--brand-purple-light)) 90%, transparent 100%)"
+            "background-position": "200% 0"
           }
         }
       },
