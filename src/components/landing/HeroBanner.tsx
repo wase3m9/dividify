@@ -97,7 +97,7 @@ export const HeroBanner = ({
         {/* Right Illustration */}
         <div className="relative flex items-center justify-center lg:justify-end">
           <img 
-            src="/lovable-uploads/f8663dc0-5573-43cc-9512-da71636f1626.png" 
+            src="/lovable-uploads/2a378f8c-bd5c-4578-a319-1884c55f81c4.png" 
             alt="Professional dividend vouchers and board minutes illustration"
             className="w-full max-w-lg h-auto object-contain animate-fade-in"
           />
