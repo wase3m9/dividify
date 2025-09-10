@@ -22,7 +22,7 @@ export const HeroBanner = ({
     navigate("/signup?plan=starter&from=pricing");
   };
   return <section 
-      className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 overflow-hidden bg-gradient-to-br from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end"
+      className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 overflow-hidden"
       style={{
         backgroundImage: `url('/lovable-uploads/e756fe6f-90c4-4999-abf3-7f70ae4ba739.png')`,
         backgroundSize: '100%',
@@ -30,8 +30,8 @@ export const HeroBanner = ({
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Subtle overlay for cohesive blending */}
-      <div className="absolute inset-0 bg-gradient-to-br from-hero-gradient-start/30 via-hero-gradient-middle/20 to-hero-gradient-end/30 -top-24"></div>
+      {/* Extended gradient overlay for text readability and nav coverage */}
+      <div className="absolute inset-0 bg-white/10 -top-24"></div>
       
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
         {/* Left Content */}
