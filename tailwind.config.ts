@@ -93,6 +93,14 @@ export default {
           "100%": { 
             background: "conic-gradient(from 360deg, transparent 70%, hsl(var(--brand-purple)) 90%, transparent 100%)"
           }
+        },
+        "shimmer": {
+          "0%": { 
+            background: "conic-gradient(from 0deg, transparent 60%, hsl(var(--brand-purple)) 80%, hsl(var(--brand-purple-light)) 90%, transparent 100%)"
+          },
+          "100%": { 
+            background: "conic-gradient(from 360deg, transparent 60%, hsl(var(--brand-purple)) 80%, hsl(var(--brand-purple-light)) 90%, transparent 100%)"
+          }
         }
       },
       animation: {
@@ -100,7 +108,8 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         fadeIn: "fadeIn 0.5s ease-out forwards",
         jiggle: "jiggle 0.3s ease-in-out",
-        "rotate-border": "rotate-border 3s linear infinite"
+        "rotate-border": "rotate-border 3s linear infinite",
+        "shimmer": "shimmer 2s linear infinite"
       },
     },
   },
