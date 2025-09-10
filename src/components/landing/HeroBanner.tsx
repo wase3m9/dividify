@@ -14,7 +14,7 @@ export const HeroBanner = ({
 }: HeroBannerProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const titleText = "Dividend Voucher and Board Meeting Solutions for Savvy Directors";
+  const titleText = "Professional Dividend Vouchers & Board Minutes for UK Limited Companies";
   const [animatedText, resetAnimation] = useTypewriter(titleText, 50);
 
   // Reset animation when location changes or component mounts
@@ -35,8 +35,9 @@ export const HeroBanner = ({
         </div>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] mb-6 min-h-[180px]">
-          <span className="bg-gradient-to-r from-[#9b87f5] to-black bg-clip-text text-transparent">
-            Professional Dividend Vouchers & Board Minutes for UK Limited Companies
+          <span className="bg-gradient-to-r from-brand-purple to-black bg-clip-text text-transparent">
+            {animatedText}
+            <span className="animate-pulse">|</span>
           </span>
         </h1>
 
