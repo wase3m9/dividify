@@ -96,10 +96,10 @@ export default {
         },
         "shimmer": {
           "0%": { 
-            "background-position": "-200% 0"
+            transform: "rotate(0deg)"
           },
           "100%": { 
-            "background-position": "200% 0"
+            transform: "rotate(360deg)"
           }
         }
       },
@@ -109,7 +109,7 @@ export default {
         fadeIn: "fadeIn 0.5s ease-out forwards",
         jiggle: "jiggle 0.3s ease-in-out",
         "rotate-border": "rotate-border 3s linear infinite",
-        "shimmer": "shimmer 2s linear infinite"
+        "shimmer": "shimmer 2.5s linear infinite"
       },
     },
   },
