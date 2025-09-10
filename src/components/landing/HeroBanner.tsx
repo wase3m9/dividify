@@ -29,9 +29,12 @@ export const HeroBanner = ({
   return (
     <section className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6">
       <div className="max-w-4xl mx-auto text-center space-y-8">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-sm mb-8 animate-fade-in">
-          <CheckCircle className="h-4 w-4 text-[#8E9196]" />
-          Built for Directors legal compliance
+        <div className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-sm mb-8 animate-fade-in">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-brand-purple via-transparent to-brand-purple opacity-30 animate-rotate-border"></div>
+          <div className="relative flex items-center gap-2">
+            <CheckCircle className="h-4 w-4 text-[#8E9196]" />
+            Built for Directors legal compliance
+          </div>
         </div>
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] mb-6 min-h-[180px]">

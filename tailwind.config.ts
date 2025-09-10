@@ -85,13 +85,18 @@ export default {
           "0%, 100%": { transform: "rotate(0deg)" },
           "25%": { transform: "rotate(-1deg)" },
           "75%": { transform: "rotate(1deg)" }
+        },
+        "rotate-border": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" }
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         fadeIn: "fadeIn 0.5s ease-out forwards",
-        jiggle: "jiggle 0.3s ease-in-out"
+        jiggle: "jiggle 0.3s ease-in-out",
+        "rotate-border": "rotate-border 3s linear infinite"
       },
     },
   },
