@@ -25,13 +25,13 @@ export const HeroBanner = ({
       className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 overflow-hidden"
       style={{
         backgroundImage: `url('/lovable-uploads/6ec42178-5408-4688-93f6-2e09893cc590.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'right center',
+        backgroundSize: '70%',
+        backgroundPosition: '120% center',
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Light overlay for text readability */}
-      <div className="absolute inset-0 bg-white/10 -top-20"></div>
+      {/* Extended gradient overlay for text readability and nav coverage */}
+      <div className="absolute inset-0 bg-white/10 -top-24"></div>
       
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
         {/* Left Content */}
