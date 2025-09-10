@@ -32,29 +32,8 @@ export const useUserTypeRouting = () => {
         throw error;
       }
       
-      // Check if this is an accountant that needs profile correction
-      const email = user.email?.toLowerCase() || '';
-      const knownAccountantEmails = ['wase3m@hotmail.com']; // Add known accountant emails here
-      const isAccountantEmail = knownAccountantEmails.includes(email) ||
-                               email.includes('accountant') || 
-                               email.includes('accounting') || 
-                               data?.full_name?.toLowerCase().includes('accountant') ||
-                               data?.full_name?.toLowerCase().includes('accounting');
-
-      // If user type is 'individual' but should be accountant, update it
-      if (data?.user_type === 'individual' && isAccountantEmail) {
-        console.log("useUserTypeRouting - Correcting user type to accountant for:", email);
-        
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({ user_type: 'accountant' })
-          .eq('id', user.id);
-          
-        if (!updateError) {
-          console.log("useUserTypeRouting - Successfully updated user type to accountant");
-          return { ...data, user_type: 'accountant' };
-        }
-      }
+      // User type routing without automatic elevation for security
+      // User type changes should only be done manually by admins
       
       console.log("useUserTypeRouting - Profile data:", data);
       return data;

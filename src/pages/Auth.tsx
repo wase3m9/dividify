@@ -82,33 +82,8 @@ const Auth = () => {
 
       console.log("Auth - User profile:", profile);
 
-      // Check if this is an accountant that needs profile correction
-      // If the email contains accounting-related terms, known accountant domains, or specific known accountant emails
-      const user = (await supabase.auth.getUser()).data.user;
-      const email = user?.email?.toLowerCase() || '';
-      
-      const knownAccountantEmails = ['wase3m@hotmail.com']; // Add known accountant emails here
-      const isAccountantEmail = knownAccountantEmails.includes(email) ||
-                               email.includes('accountant') || 
-                               email.includes('accounting') || 
-                               profile?.full_name?.toLowerCase().includes('accountant') ||
-                               profile?.full_name?.toLowerCase().includes('accounting');
-
-      // If user type is 'individual' but email/name suggests accountant, update it
-      if (profile?.user_type === 'individual' && isAccountantEmail) {
-        console.log("Auth - Correcting user type to accountant for:", email);
-        
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({ user_type: 'accountant' })
-          .eq('id', userId);
-          
-        if (!updateError) {
-          console.log("Auth - Successfully updated user type to accountant");
-          window.location.href = "/accountant-dashboard";
-          return;
-        }
-      }
+      // Route based on user type without automatic elevation
+      // User type changes should only be done manually by admins
 
       if (profile?.user_type === 'accountant') {
         console.log("Auth - Redirecting to accountant dashboard");
