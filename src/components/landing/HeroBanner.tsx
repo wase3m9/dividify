@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, FileText, Zap, PoundSterling } from "lucide-react";
+import { ArrowRight, CheckCircle, FileText, Zap, PoundSterling, Shield, Cloud, RotateCcw } from "lucide-react";
 import { useTypewriter } from "@/hooks/use-typewriter";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -62,6 +62,29 @@ export const HeroBanner = ({
           <span className="flex items-center gap-2">
             <PoundSterling className="h-4 w-4" />
             From £6/month
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs text-gray-600 mt-8 pt-6 border-t border-gray-200">
+          <span className="flex items-center gap-2">
+            <CheckCircle className="h-3 w-3 text-green-600" />
+            HMRC-Compliant
+          </span>
+          <span className="flex items-center gap-2">
+            <Zap className="h-3 w-3 text-purple-600" />
+            Instant Generation
+          </span>
+          <span className="flex items-center gap-2">
+            <Shield className="h-3 w-3 text-blue-600" />
+            Secure & Private
+          </span>
+          <span className="flex items-center gap-2">
+            <Cloud className="h-3 w-3 text-indigo-600" />
+            Cloud Storage
+          </span>
+          <span className="flex items-center gap-2">
+            <RotateCcw className="h-3 w-3 text-teal-600" />
+            Auto-Sync
           </span>
         </div>
       </div>
