@@ -29,12 +29,13 @@ export const HeroBanner = ({
   return (
     <section className="relative flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-br from-background via-background to-brand-purple/5 overflow-hidden">
       {/* Background Image */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-full opacity-20 z-0">
+      <div className="absolute inset-0 w-full h-full z-0">
         <img 
           src="/lovable-uploads/16ede732-c446-4d57-9f8b-1b3f4e10b76b.png" 
           alt="Dividend vouchers and board minutes illustration"
-          className="w-full h-full object-contain object-right"
+          className="w-full h-full object-cover opacity-10"
         />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/80 to-brand-purple/20"></div>
       </div>
       <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-600 text-sm mb-8 animate-fade-in">
