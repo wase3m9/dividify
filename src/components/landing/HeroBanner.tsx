@@ -24,7 +24,7 @@ export const HeroBanner = ({
   return <section 
       className="relative min-h-screen py-16 px-4 md:px-6 overflow-hidden"
       style={{
-        backgroundImage: `url('/lovable-uploads/128d7896-a18f-4ade-aebf-b567e7907ff7.png')`,
+        backgroundImage: `url('/lovable-uploads/fe0ade17-4a44-4fa3-bbb5-b6606b55a12c.png')`,
         backgroundSize: '60%',
         backgroundPosition: '130% center',
         backgroundRepeat: 'no-repeat'
