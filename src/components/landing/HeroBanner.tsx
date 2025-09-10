@@ -21,9 +21,17 @@ export const HeroBanner = ({
   const handleStartFreeTrial = () => {
     navigate("/signup?plan=starter&from=pricing");
   };
-  return <section className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 bg-gradient-to-br from-purple-100 via-purple-50 to-blue-50 overflow-hidden">
-      {/* Gradient overlay extending upward */}
-      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-100/30 to-purple-200/50 -top-20"></div>
+  return <section 
+      className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 overflow-hidden"
+      style={{
+        backgroundImage: `url('/lovable-uploads/fe0ade17-4a44-4fa3-bbb5-b6606b55a12c.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center right',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Light overlay for text readability */}
+      <div className="absolute inset-0 bg-white/10 -top-20"></div>
       
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
         {/* Left Content */}
