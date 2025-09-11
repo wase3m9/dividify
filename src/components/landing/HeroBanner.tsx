@@ -114,7 +114,7 @@ export const HeroBanner = ({
           className="z-0 absolute inset-0 size-full"
           squareSize={3}
           gridGap={4}
-          color="rgb(147, 51, 234)"
+          color="rgb(107, 114, 128)"
           maxOpacity={0.4}
           flickerChance={0.1}
         />
