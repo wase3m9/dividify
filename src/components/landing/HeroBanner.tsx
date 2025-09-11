@@ -106,7 +106,7 @@ export const HeroBanner = ({
         <div className="relative flex items-center justify-center lg:justify-end">
           <div className="relative w-full max-w-2xl">
             <img 
-              src="/lovable-uploads/8153f5da-fa2e-400a-94e2-7a8efa571da5.png" 
+              src="/lovable-uploads/5a104380-6d34-4b9f-a753-c95568808443.png" 
               alt="Professional dividend vouchers and board minutes templates preview"
               className="w-full h-auto drop-shadow-2xl animate-fade-in scale-110"
             />
