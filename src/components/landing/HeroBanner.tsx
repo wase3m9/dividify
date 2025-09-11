@@ -47,7 +47,7 @@ export const HeroBanner = ({
           </div>
           
           <h1 
-            className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[150px] md:min-h-[190px] text-gray-900 mt-4 text-center lg:text-left"
+            className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[150px] md:min-h-[190px] text-gray-900 text-center lg:text-left"
             dangerouslySetInnerHTML={{
               __html: renderStyledTitle(animatedText) + '<span class="animate-pulse">|</span>'
             }}
