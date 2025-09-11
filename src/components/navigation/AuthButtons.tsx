@@ -29,7 +29,11 @@ export const AuthButtons = ({
 
   return (
     <div className={cn("flex items-center space-x-4", className)}>
-      <Button variant="ghost" asChild>
+      <Button 
+        variant="ghost" 
+        asChild
+        className="bg-brand-purple text-white hover:bg-brand-purple/90 shadow-lg px-6 py-2 font-semibold rounded-lg"
+      >
         <Link to="/auth">Log In</Link>
       </Button>
     </div>
