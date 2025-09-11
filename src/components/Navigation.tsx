@@ -95,7 +95,7 @@ export const Navigation = () => {
     <nav className="fixed top-0 w-full bg-gradient-to-r from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end backdrop-blur-md z-50 border-b border-white/20">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center -ml-8 md:-ml-12">
+          <div className="flex items-center -ml-16 md:-ml-24">
             <Logo scrollToTop={scrollToTop} />
           </div>
 
