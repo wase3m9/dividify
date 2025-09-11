@@ -108,7 +108,7 @@ export const HeroBanner = ({
             <img 
               src="/lovable-uploads/da06b819-4dab-46ea-af98-3ed9bfde0abe.png" 
               alt="Professional dividend vouchers and board minutes templates preview"
-              className="w-full h-auto drop-shadow-2xl animate-fade-in scale-[0.72]"
+              className="w-full h-auto drop-shadow-2xl animate-fade-in scale-[1.008]"
             />
           </div>
         </div>
