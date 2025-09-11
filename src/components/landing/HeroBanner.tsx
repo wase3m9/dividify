@@ -28,27 +28,34 @@ export const HeroBanner = ({
       {/* Tech pattern background */}
       <div className="absolute inset-0 opacity-30">
         <svg className="w-full h-full" viewBox="0 0 1000 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Circuit-like patterns */}
-          <path d="M200 100 L300 100 L300 150 L400 150" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
-          <path d="M400 150 L500 150 L500 200 L600 200" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
-          <path d="M600 200 L700 200 L700 100 L800 100" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
-          <path d="M150 250 L250 250 L250 300 L350 300 L350 350" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
-          <path d="M350 350 L450 350 L450 400 L550 400" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
-          <path d="M550 400 L650 400 L650 300 L750 300" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
-          <path d="M100 200 L180 200 L180 280 L260 280" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M260 280 L340 280 L340 180 L420 180" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M420 180 L500 180 L500 260 L580 260" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          {/* Circuit-like patterns - moved to right side with more density */}
+          <path d="M600 80 L700 80 L700 130 L800 130" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
+          <path d="M800 130 L900 130 L900 180 L950 180" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
+          <path d="M950 180 L980 180 L980 80 L950 80" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
+          <path d="M650 220 L750 220 L750 270 L850 270 L850 320" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
+          <path d="M850 320 L920 320 L920 370 L980 370" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
+          <path d="M980 370 L950 370 L950 270 L900 270" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
+          <path d="M600 180 L680 180 L680 260 L760 260" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M760 260 L840 260 L840 160 L920 160" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M920 160 L980 160 L980 240 L950 240" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M700 100 L780 100 L780 140 L860 140" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M860 140 L920 140 L920 200 L980 200" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M650 300 L730 300 L730 380 L810 380" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M810 380 L890 380 L890 340 L950 340" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
           
           {/* Connection nodes */}
-          <circle cx="300" cy="100" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
-          <circle cx="400" cy="150" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
-          <circle cx="600" cy="200" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
-          <circle cx="250" cy="250" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
-          <circle cx="350" cy="350" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
-          <circle cx="550" cy="400" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
-          <circle cx="180" cy="200" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
-          <circle cx="340" cy="280" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
-          <circle cx="500" cy="180" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="700" cy="80" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
+          <circle cx="800" cy="130" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
+          <circle cx="950" cy="180" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
+          <circle cx="750" cy="220" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
+          <circle cx="850" cy="320" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
+          <circle cx="980" cy="370" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
+          <circle cx="680" cy="180" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="840" cy="260" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="920" cy="160" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="780" cy="100" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="730" cy="300" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="890" cy="380" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
         </svg>
       </div>
       
@@ -58,13 +65,13 @@ export const HeroBanner = ({
       {/* Content container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center min-h-[90vh] py-8">
         {/* Left Content */}
-        <div className="space-y-8 text-left">
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/80 text-gray-700 text-base animate-fade-in backdrop-blur-sm">
-            <CheckCircle className="h-5 w-5 text-green-600" />
+        <div className="space-y-8 text-left flex flex-col items-center lg:items-start">
+          <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/80 text-gray-700 text-xs animate-fade-in backdrop-blur-sm">
+            <CheckCircle className="h-3 w-3 text-green-600" />
             Built for Directors legal compliance
           </div>
           
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[150px] md:min-h-[190px] text-gray-900 mt-4">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[150px] md:min-h-[190px] text-gray-900 mt-4 text-center lg:text-left">
             {animatedText}
             <span className="animate-pulse">|</span>
           </h1>
