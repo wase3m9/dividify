@@ -22,11 +22,11 @@ export const HeroBanner = ({
     navigate("/signup?plan=starter&from=pricing");
   };
   return <section 
-      className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 overflow-hidden bg-gradient-to-br from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end"
+      className="relative min-h-screen pt-20 pb-16 px-4 md:px-6 overflow-hidden bg-gradient-to-br from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end"
       style={{
         backgroundImage: `url('/lovable-uploads/e756fe6f-90c4-4999-abf3-7f70ae4ba739.png')`,
-        backgroundSize: '100%',
-        backgroundPosition: '120% center',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center right',
         backgroundRepeat: 'no-repeat'
       }}
     >
