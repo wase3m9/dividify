@@ -25,37 +25,63 @@ export const HeroBanner = ({
     {/* Full-width gradient background that extends beyond container */}
     <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-b from-purple-100 via-purple-50 to-transparent overflow-hidden">
       
-      {/* Tech pattern background */}
-      <div className="absolute inset-0 opacity-30">
-        <svg className="w-full h-full" viewBox="0 0 1000 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Circuit-like patterns - moved to right side with more density */}
-          <path d="M600 80 L700 80 L700 130 L800 130" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
-          <path d="M800 130 L900 130 L900 180 L950 180" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
-          <path d="M950 180 L980 180 L980 80 L950 80" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
-          <path d="M650 220 L750 220 L750 270 L850 270 L850 320" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
-          <path d="M850 320 L920 320 L920 370 L980 370" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
-          <path d="M980 370 L950 370 L950 270 L900 270" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
-          <path d="M600 180 L680 180 L680 260 L760 260" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M760 260 L840 260 L840 160 L920 160" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M920 160 L980 160 L980 240 L950 240" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M700 100 L780 100 L780 140 L860 140" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M860 140 L920 140 L920 200 L980 200" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M650 300 L730 300 L730 380 L810 380" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
-          <path d="M810 380 L890 380 L890 340 L950 340" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+      {/* Tech circuit pattern background */}
+      <div className="absolute inset-0 opacity-20">
+        <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          {/* Main circuit branches - right side focus */}
+          <g strokeLinecap="round" strokeLinejoin="round">
+            {/* Primary circuit paths */}
+            <path d="M700 120 L780 120 L780 180 L860 180 L860 240" stroke="rgb(147 51 234)" strokeWidth="1.5" fill="none" opacity="0.6"/>
+            <path d="M860 240 L920 240 L920 300 L980 300" stroke="rgb(147 51 234)" strokeWidth="1.5" fill="none" opacity="0.6"/>
+            <path d="M980 300 L1020 300 L1020 360 L1080 360" stroke="rgb(147 51 234)" strokeWidth="1.5" fill="none" opacity="0.6"/>
+            
+            {/* Secondary branching paths */}
+            <path d="M780 180 L820 180 L820 140 L880 140" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.4"/>
+            <path d="M880 140 L940 140 L940 100 L1000 100" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.4"/>
+            <path d="M920 240 L960 240 L960 200 L1020 200" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.4"/>
+            <path d="M1020 200 L1060 200 L1060 160 L1100 160" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.4"/>
+            
+            {/* Tertiary micro-circuits */}
+            <path d="M750 280 L800 280 L800 320 L850 320" stroke="rgb(147 51 234)" strokeWidth="0.8" fill="none" opacity="0.3"/>
+            <path d="M850 320 L890 320 L890 380 L930 380" stroke="rgb(147 51 234)" strokeWidth="0.8" fill="none" opacity="0.3"/>
+            <path d="M930 380 L980 380 L980 420 L1040 420" stroke="rgb(147 51 234)" strokeWidth="0.8" fill="none" opacity="0.3"/>
+            
+            {/* Vertical connectors */}
+            <path d="M840 160 L840 200 L870 200" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.3"/>
+            <path d="M900 220 L900 260 L940 260" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.3"/>
+            <path d="M1000 180 L1000 220 L1040 220" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.3"/>
+            
+            {/* Additional branching for density */}
+            <path d="M720 400 L770 400 L770 460 L820 460" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.3"/>
+            <path d="M820 460 L880 460 L880 500 L940 500" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.3"/>
+            <path d="M940 500 L990 500 L990 540 L1050 540" stroke="rgb(147 51 234)" strokeWidth="1" fill="none" opacity="0.3"/>
+            
+            {/* Cross connections */}
+            <path d="M810 340 L810 380 L850 380" stroke="rgb(147 51 234)" strokeWidth="0.8" fill="none" opacity="0.25"/>
+            <path d="M950 340 L950 380 L990 380" stroke="rgb(147 51 234)" strokeWidth="0.8" fill="none" opacity="0.25"/>
+          </g>
           
-          {/* Connection nodes */}
-          <circle cx="700" cy="80" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
-          <circle cx="800" cy="130" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
-          <circle cx="950" cy="180" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
-          <circle cx="750" cy="220" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
-          <circle cx="850" cy="320" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
-          <circle cx="980" cy="370" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
-          <circle cx="680" cy="180" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
-          <circle cx="840" cy="260" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
-          <circle cx="920" cy="160" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
-          <circle cx="780" cy="100" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
-          <circle cx="730" cy="300" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
-          <circle cx="890" cy="380" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          {/* Circuit connection nodes */}
+          <g fill="rgb(147 51 234)">
+            {/* Primary nodes */}
+            <circle cx="780" cy="120" r="3" opacity="0.7"/>
+            <circle cx="860" cy="180" r="3" opacity="0.7"/>
+            <circle cx="920" cy="240" r="3" opacity="0.7"/>
+            <circle cx="980" cy="300" r="3" opacity="0.7"/>
+            
+            {/* Secondary nodes */}
+            <circle cx="820" cy="180" r="2" opacity="0.5"/>
+            <circle cx="880" cy="140" r="2" opacity="0.5"/>
+            <circle cx="960" cy="240" r="2" opacity="0.5"/>
+            <circle cx="1020" cy="200" r="2" opacity="0.5"/>
+            
+            {/* Micro nodes */}
+            <circle cx="800" cy="280" r="1.5" opacity="0.4"/>
+            <circle cx="850" cy="320" r="1.5" opacity="0.4"/>
+            <circle cx="890" cy="380" r="1.5" opacity="0.4"/>
+            <circle cx="940" cy="260" r="1.5" opacity="0.4"/>
+            <circle cx="1000" cy="180" r="1.5" opacity="0.4"/>
+          </g>
         </svg>
       </div>
       
