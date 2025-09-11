@@ -32,59 +32,59 @@ export const HeroBanner = ({
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center min-h-[90vh] py-8">
         {/* Left Content */}
         <div className="space-y-8 text-left">
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/80 text-gray-700 text-lg animate-fade-in backdrop-blur-sm">
-            <CheckCircle className="h-6 w-6 text-green-600" />
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/80 text-gray-700 text-base animate-fade-in backdrop-blur-sm">
+            <CheckCircle className="h-5 w-5 text-green-600" />
             Built for Directors legal compliance
           </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.2] min-h-[170px] md:min-h-[220px] text-gray-900">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[150px] md:min-h-[190px] text-gray-900 mt-4">
             {animatedText}
             <span className="animate-pulse">|</span>
           </h1>
 
-          <p className="text-lg md:text-3xl text-gray-700 max-w-xl leading-relaxed animate-fade-in">
+          <p className="text-base md:text-2xl text-gray-700 max-w-xl leading-relaxed animate-fade-in">
             HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-base text-gray-700">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-700">
             <span className="flex items-center gap-2">
-              <CheckCircle className="h-6 w-6 text-green-600" />
+              <CheckCircle className="h-5 w-5 text-green-600" />
               HMRC-Compliant
             </span>
             <span className="flex items-center gap-2">
-              <Zap className="h-6 w-6 text-purple-600" />
+              <Zap className="h-5 w-5 text-purple-600" />
               Instant Generation
             </span>
             <span className="flex items-center gap-2">
-              <Shield className="h-6 w-6 text-blue-600" />
+              <Shield className="h-5 w-5 text-blue-600" />
               Secure & Private
             </span>
             <span className="flex items-center gap-2">
-              <Cloud className="h-6 w-6 text-indigo-600" />
+              <Cloud className="h-5 w-5 text-indigo-600" />
               Cloud Storage
             </span>
             <span className="flex items-center gap-2">
-              <RotateCcw className="h-6 w-6 text-teal-600" />
+              <RotateCcw className="h-5 w-5 text-teal-600" />
               Auto-Sync
             </span>
           </div>
 
-          <Button size="lg" className="bg-brand-purple text-white hover:bg-brand-purple/90 hover-lift shadow-lg px-12 py-8 text-lg animate-fade-in font-semibold" onClick={handleStartFreeTrial}>
+          <Button size="lg" className="bg-brand-purple text-white hover:bg-brand-purple/90 hover-lift shadow-lg px-10 py-7 text-base animate-fade-in font-semibold" onClick={handleStartFreeTrial}>
             Start Free Trial
-            <ArrowRight className="ml-3 h-7 w-7" />
+            <ArrowRight className="ml-3 h-6 w-6" />
           </Button>
 
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 text-base text-gray-600">
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 text-sm text-gray-600">
             <span className="flex items-center gap-2">
-              <FileText className="h-6 w-6" />
+              <FileText className="h-5 w-5" />
               Professional templates
             </span>
             <span className="flex items-center gap-2">
-              <Zap className="h-6 w-6" />
+              <Zap className="h-5 w-5" />
               Generate in seconds
             </span>
             <span className="flex items-center gap-2">
-              <PoundSterling className="h-6 w-6" />
+              <PoundSterling className="h-5 w-5" />
               From £6/month
             </span>
           </div>
