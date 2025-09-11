@@ -25,7 +25,7 @@ export const NavLinks = ({
   const isPublicPage = isLandingPage || isAccountantsPage || isFeaturesPage;
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-2 text-base", className)}>
       <MainNavLinks user={user} scrollToTop={scrollToTop} />
       {!user && isPublicPage && (
         <LandingNavLinks 

@@ -38,7 +38,7 @@ export const HeroBanner = ({
       <div className="absolute inset-0 bg-gradient-to-br from-purple-100/40 via-purple-50/20 to-transparent"></div>
       
       {/* Content container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center min-h-[90vh] py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center min-h-[90vh] py-2 pt-16">
         {/* Left Content */}
         <div className="space-y-8 text-left flex flex-col items-center">
           <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/80 text-gray-700 text-xs animate-fade-in backdrop-blur-sm">
