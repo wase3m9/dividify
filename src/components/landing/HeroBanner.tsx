@@ -24,16 +24,6 @@ export const HeroBanner = ({
   return <>
     {/* Full-width gradient background that extends beyond container */}
     <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-br from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end overflow-hidden">
-      {/* Background image */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url('/lovable-uploads/e756fe6f-90c4-4999-abf3-7f70ae4ba739.png')`,
-          backgroundSize: '40%',
-          backgroundPosition: '130% center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      />
       
       {/* Subtle overlay for cohesive blending */}
       <div className="absolute inset-0 bg-gradient-to-br from-hero-gradient-start/30 via-hero-gradient-middle/20 to-hero-gradient-end/30"></div>
