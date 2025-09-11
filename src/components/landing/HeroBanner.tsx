@@ -25,6 +25,33 @@ export const HeroBanner = ({
     {/* Full-width gradient background that extends beyond container */}
     <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-b from-purple-100 via-purple-50 to-transparent overflow-hidden">
       
+      {/* Tech pattern background */}
+      <div className="absolute inset-0 opacity-30">
+        <svg className="w-full h-full" viewBox="0 0 1000 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Circuit-like patterns */}
+          <path d="M200 100 L300 100 L300 150 L400 150" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
+          <path d="M400 150 L500 150 L500 200 L600 200" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
+          <path d="M600 200 L700 200 L700 100 L800 100" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.6"/>
+          <path d="M150 250 L250 250 L250 300 L350 300 L350 350" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
+          <path d="M350 350 L450 350 L450 400 L550 400" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
+          <path d="M550 400 L650 400 L650 300 L750 300" stroke="rgb(168 85 247)" strokeWidth="2" fill="none" opacity="0.4"/>
+          <path d="M100 200 L180 200 L180 280 L260 280" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M260 280 L340 280 L340 180 L420 180" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M420 180 L500 180 L500 260 L580 260" stroke="rgb(168 85 247)" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          
+          {/* Connection nodes */}
+          <circle cx="300" cy="100" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
+          <circle cx="400" cy="150" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
+          <circle cx="600" cy="200" r="4" fill="rgb(168 85 247)" opacity="0.7"/>
+          <circle cx="250" cy="250" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
+          <circle cx="350" cy="350" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
+          <circle cx="550" cy="400" r="3" fill="rgb(168 85 247)" opacity="0.5"/>
+          <circle cx="180" cy="200" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="340" cy="280" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+          <circle cx="500" cy="180" r="2" fill="rgb(168 85 247)" opacity="0.4"/>
+        </svg>
+      </div>
+      
       {/* Additional gradient overlay for modern depth */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-100/40 via-purple-50/20 to-transparent"></div>
       
@@ -42,7 +69,7 @@ export const HeroBanner = ({
             <span className="animate-pulse">|</span>
           </h1>
 
-          <p className="text-base md:text-2xl text-gray-700 max-w-xl leading-relaxed animate-fade-in">
+          <p className="text-sm md:text-xl text-gray-700 max-w-xl leading-relaxed animate-fade-in">
             HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
           </p>
 
