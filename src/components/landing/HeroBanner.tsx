@@ -23,10 +23,10 @@ export const HeroBanner = ({
   };
   return <>
     {/* Full-width gradient background that extends beyond container */}
-    <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-b from-purple-400 via-purple-300 to-transparent overflow-hidden">
+    <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-b from-purple-100 via-purple-50 to-transparent overflow-hidden">
       
       {/* Additional gradient overlay for modern depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-300/60 via-purple-200/30 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-100/40 via-purple-50/20 to-transparent"></div>
       
       {/* Content container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center min-h-[90vh] py-8">
@@ -37,44 +37,44 @@ export const HeroBanner = ({
             Built for Directors legal compliance
           </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.2] min-h-[170px] md:min-h-[220px] text-white">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.2] min-h-[170px] md:min-h-[220px] text-gray-900">
             {animatedText}
             <span className="animate-pulse">|</span>
           </h1>
 
-          <p className="text-lg md:text-3xl text-white/90 max-w-xl leading-relaxed animate-fade-in">
+          <p className="text-lg md:text-3xl text-gray-700 max-w-xl leading-relaxed animate-fade-in">
             HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-base text-white/90">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-base text-gray-700">
             <span className="flex items-center gap-2">
-              <CheckCircle className="h-6 w-6 text-green-400" />
+              <CheckCircle className="h-6 w-6 text-green-600" />
               HMRC-Compliant
             </span>
             <span className="flex items-center gap-2">
-              <Zap className="h-6 w-6 text-purple-300" />
+              <Zap className="h-6 w-6 text-purple-600" />
               Instant Generation
             </span>
             <span className="flex items-center gap-2">
-              <Shield className="h-6 w-6 text-blue-300" />
+              <Shield className="h-6 w-6 text-blue-600" />
               Secure & Private
             </span>
             <span className="flex items-center gap-2">
-              <Cloud className="h-6 w-6 text-indigo-300" />
+              <Cloud className="h-6 w-6 text-indigo-600" />
               Cloud Storage
             </span>
             <span className="flex items-center gap-2">
-              <RotateCcw className="h-6 w-6 text-teal-300" />
+              <RotateCcw className="h-6 w-6 text-teal-600" />
               Auto-Sync
             </span>
           </div>
 
-          <Button size="lg" className="bg-white text-purple-900 hover:bg-white/90 hover-lift shadow-lg px-12 py-8 text-lg animate-fade-in font-semibold" onClick={handleStartFreeTrial}>
+          <Button size="lg" className="bg-brand-purple text-white hover:bg-brand-purple/90 hover-lift shadow-lg px-12 py-8 text-lg animate-fade-in font-semibold" onClick={handleStartFreeTrial}>
             Start Free Trial
             <ArrowRight className="ml-3 h-7 w-7" />
           </Button>
 
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 text-base text-white/70">
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 text-base text-gray-600">
             <span className="flex items-center gap-2">
               <FileText className="h-6 w-6" />
               Professional templates
