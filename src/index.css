@@ -26,6 +26,9 @@
     --brand-purple: 257 60% 45%;
     --brand-purple-foreground: 0 0% 100%;
     --brand-purple-light: 257 60% 65%;
+    --hero-gradient-start: 240 100% 98%;
+    --hero-gradient-middle: 250 75% 94%;
+    --hero-gradient-end: 260 85% 90%;
     --radius: 0.75rem;
   }
 }
