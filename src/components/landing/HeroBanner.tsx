@@ -108,17 +108,6 @@ export const HeroBanner = ({
         </div>
       </div>
       
-      {/* FlickeringGrid at the bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 opacity-60">
-        <FlickeringGrid
-          className="z-0 absolute inset-0 size-full"
-          squareSize={3}
-          gridGap={4}
-          color="rgb(107, 114, 128)"
-          maxOpacity={0.4}
-          flickerChance={0.1}
-        />
-      </div>
     </div>
   </>;
 };
