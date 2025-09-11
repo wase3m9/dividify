@@ -94,21 +94,14 @@ export const Navigation = () => {
   return (
     <nav className="fixed top-0 w-full bg-gradient-to-r from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end backdrop-blur-md z-50 border-b border-white/20">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center -ml-96 md:-ml-[192px]">
-            <Logo scrollToTop={scrollToTop} />
-          </div>
-
-          <div className="hidden md:flex items-center justify-center">
+        <div className="flex items-center justify-center h-16 md:h-20">
+          <div className="flex items-center gap-8">
             <NavLinks
               user={user}
               isLandingPage={isLandingPage}
               scrollToSection={scrollToSection}
               scrollToTop={scrollToTop}
             />
-          </div>
-
-          <div className="hidden md:flex items-center -ml-[800px] pr-4 md:pr-8">
             <AuthButtons
               user={user}
               handleSignOut={handleSignOut}
