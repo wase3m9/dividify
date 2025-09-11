@@ -104,7 +104,7 @@ export const HeroBanner = ({
 
         {/* Right Product Showcase */}
         <div className="relative flex items-center justify-center lg:justify-end">
-          <div className="relative max-w-lg w-full">
+          <div className="relative max-w-2xl w-full">
             <img 
               src="/lovable-uploads/da06b819-4dab-46ea-af98-3ed9bfde0abe.png" 
               alt="Professional dividend vouchers and board minutes templates preview"
