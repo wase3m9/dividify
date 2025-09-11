@@ -31,11 +31,11 @@ export const HeroBanner = ({
   };
   return <>
     {/* Full-width gradient background that extends beyond container */}
-    <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-b from-purple-100 via-purple-50 to-transparent overflow-hidden">
+    <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-br from-purple-200 via-purple-100 to-blue-50 overflow-hidden">
       
       
       {/* Additional gradient overlay for modern depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-100/40 via-purple-50/20 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-200/60 via-blue-100/30 to-transparent"></div>
       
       {/* Content container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center min-h-[90vh] py-2 pt-16">
@@ -104,11 +104,11 @@ export const HeroBanner = ({
 
         {/* Right Product Showcase */}
         <div className="relative flex items-center justify-center lg:justify-end">
-          <div className="relative max-w-lg w-full">
+          <div className="relative w-full max-w-2xl">
             <img 
               src="/lovable-uploads/8153f5da-fa2e-400a-94e2-7a8efa571da5.png" 
               alt="Professional dividend vouchers and board minutes templates preview"
-              className="w-full h-auto drop-shadow-2xl animate-fade-in"
+              className="w-full h-auto drop-shadow-2xl animate-fade-in scale-110"
             />
           </div>
         </div>
