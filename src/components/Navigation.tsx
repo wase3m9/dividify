@@ -108,7 +108,7 @@ export const Navigation = () => {
             />
           </div>
 
-          <div className="hidden md:flex items-center pr-4 md:pr-8">
+          <div className="hidden md:flex items-center -ml-[800px] pr-4 md:pr-8">
             <AuthButtons
               user={user}
               handleSignOut={handleSignOut}
