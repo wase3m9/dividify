@@ -14,6 +14,13 @@ export const HeroBanner = ({
   const titleText = "Professional Dividend Vouchers & Board Minutes for UK Limited Companies";
   const [animatedText, resetAnimation] = useTypewriter(titleText, 50);
 
+  // Function to apply gradient to specific terms
+  const renderStyledTitle = (text: string) => {
+    return text
+      .replace("Dividend Vouchers", '<span class="bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent">Dividend Vouchers</span>')
+      .replace("Board Minutes", '<span class="bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent">Board Minutes</span>');
+  };
+
   // Reset animation when location changes or component mounts
   useEffect(() => {
     resetAnimation();
@@ -97,10 +104,12 @@ export const HeroBanner = ({
             Built for Directors legal compliance
           </div>
           
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[150px] md:min-h-[190px] text-gray-900 mt-4 text-center lg:text-left">
-            {animatedText}
-            <span className="animate-pulse">|</span>
-          </h1>
+          <h1 
+            className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[150px] md:min-h-[190px] text-gray-900 mt-4 text-center lg:text-left"
+            dangerouslySetInnerHTML={{
+              __html: renderStyledTitle(animatedText) + '<span class="animate-pulse">|</span>'
+            }}
+          />
 
           <p className="text-sm md:text-xl text-gray-700 max-w-xl leading-relaxed animate-fade-in">
             HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
