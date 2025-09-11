@@ -21,19 +21,25 @@ export const HeroBanner = ({
   const handleStartFreeTrial = () => {
     navigate("/signup?plan=starter&from=pricing");
   };
-  return <section 
-      className="relative min-h-[calc(100vh-4rem)] py-16 px-4 md:px-6 overflow-hidden bg-gradient-to-br from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end"
-      style={{
-        backgroundImage: `url('/lovable-uploads/e756fe6f-90c4-4999-abf3-7f70ae4ba739.png')`,
-        backgroundSize: '100%',
-        backgroundPosition: '120% center',
-        backgroundRepeat: 'no-repeat'
-      }}
-    >
-      {/* Subtle overlay for cohesive blending */}
-      <div className="absolute inset-0 bg-gradient-to-br from-hero-gradient-start/30 via-hero-gradient-middle/20 to-hero-gradient-end/30 -top-24"></div>
+  return <>
+    {/* Full-width gradient background that extends beyond container */}
+    <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[90vh] bg-gradient-to-br from-hero-gradient-start via-hero-gradient-middle to-hero-gradient-end overflow-hidden">
+      {/* Background image */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url('/lovable-uploads/e756fe6f-90c4-4999-abf3-7f70ae4ba739.png')`,
+          backgroundSize: '40%',
+          backgroundPosition: '130% center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
       
-      <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
+      {/* Subtle overlay for cohesive blending */}
+      <div className="absolute inset-0 bg-gradient-to-br from-hero-gradient-start/30 via-hero-gradient-middle/20 to-hero-gradient-end/30"></div>
+      
+      {/* Content container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-12 items-center min-h-[90vh] py-20">
         {/* Left Content */}
         <div className="space-y-8 text-left">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 text-gray-700 text-sm animate-fade-in backdrop-blur-sm">
@@ -100,5 +106,6 @@ export const HeroBanner = ({
           
         </div>
       </div>
-    </section>;
+    </div>
+  </>;
 };
