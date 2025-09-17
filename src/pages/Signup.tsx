@@ -84,7 +84,8 @@ const Signup = () => {
           emailRedirectTo: `${window.location.origin}/auth-callback`,
           data: {
             full_name: fullName.trim(),
-            user_type: isAccountant ? 'accountant' : 'individual'
+            user_type: isAccountant ? 'accountant' : 'individual',
+            signup_plan: selectedPlan || (isAccountant ? 'accountant' : 'professional')
           }
         }
       });
