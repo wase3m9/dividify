@@ -22,6 +22,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
 import { TrialBanner } from "@/components/dashboard/TrialBanner";
+import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
 
 
 
@@ -260,7 +261,8 @@ const CompanyDashboard = () => {
       <Navigation />
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-5xl mx-auto space-y-12">
-          <TrialBanner />
+        <PaymentSetupBanner />
+        <TrialBanner />
           {!company ? (
             <div className="text-center py-12">
               <h2 className="text-2xl font-semibold mb-4">Welcome to Dividify!</h2>

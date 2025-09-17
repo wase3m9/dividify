@@ -92,7 +92,7 @@ serve(async (req) => {
 
     logStep("Determined user type and plan", { userType, subscriptionPlan });
 
-    // Create checkout session
+    // Create checkout session with trial period
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
@@ -103,7 +103,10 @@ serve(async (req) => {
         },
       ],
       mode: "subscription",
-      success_url: `${req.headers.get("origin") || "https://dividify.co.uk"}/profile?success=1`,
+      subscription_data: {
+        trial_period_days: 7, // 7-day trial period
+      },
+      success_url: `${req.headers.get("origin") || "https://dividify.co.uk"}/profile?success=1&trial=1`,
       cancel_url: `${req.headers.get("origin") || "https://dividify.co.uk"}/profile`,
       metadata: {
         user_id: user.id,

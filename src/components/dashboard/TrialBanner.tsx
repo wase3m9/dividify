@@ -8,9 +8,10 @@ import { useTrialStatus } from "@/hooks/useTrialStatus";
 export const TrialBanner = () => {
   const navigate = useNavigate();
   const { subscriptionData, isSubscribed, subscriptionPlan } = useSubscriptionStatus();
-  const { daysRemaining, isTrialActive } = useTrialStatus();
+  const { daysRemaining, isTrialActive, isOnTrial } = useTrialStatus();
 
-  if (isSubscribed || subscriptionPlan !== 'trial') {
+  // Show banner for trial users (including Stripe trials) but not for fully subscribed users
+  if (isSubscribed && !subscriptionData?.is_trialing) {
     return null;
   }
 
@@ -46,10 +47,10 @@ export const TrialBanner = () => {
       <Sparkles className="h-5 w-5 text-[#9b87f5]" />
       <AlertDescription className="flex items-center justify-between">
         <div>
-          <span className="font-medium text-[#9b87f5]">Free Trial Active</span>
+          <span className="font-medium text-[#9b87f5]">Trial Active</span>
           <p className="text-sm text-purple-700 mt-1 flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            {daysRemaining} {daysRemaining === 1 ? 'day' : 'days'} remaining
+            {daysRemaining} {daysRemaining === 1 ? 'day' : 'days'} remaining • Payment method on file
           </p>
         </div>
         <Button 

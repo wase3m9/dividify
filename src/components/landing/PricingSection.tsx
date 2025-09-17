@@ -91,7 +91,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             Simple, Transparent Pricing
           </h2>
           <p className="text-xl text-gray-600">
-            Start with a free trial, then choose the plan that fits your needs
+            7-day trial with payment method required • No charge until trial ends
           </p>
         </div>
         
@@ -134,7 +134,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                       </li>
                     ))}
                   </ul>
-                  <Button 
+                   <Button 
                     className={`w-full transition-colors ${
                       plan.isPopular 
                         ? 'bg-brand-purple hover:bg-brand-purple/90 text-brand-purple-foreground' 
@@ -142,7 +142,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                     }`}
                     onClick={() => handleSubscribeClick(plan.name)}
                   >
-                    {plan.buttonText}
+                    Start 7-Day Trial
                   </Button>
                 </CardContent>
               </Card>

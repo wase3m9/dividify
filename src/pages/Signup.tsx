@@ -121,20 +121,26 @@ const Signup = () => {
         }
 
         toast({
-          title: "Account created successfully",
-          description: fromPricing ? "Welcome to Dividify! Your 7-day trial has started." : "Welcome to Dividify!",
+          title: "Account created successfully", 
+          description: fromPricing ? "Welcome to Dividify! Please add your payment method to start your trial." : "Welcome to Dividify!",
         });
 
-        // Store trial start info if from pricing
-        if (fromPricing) {
-          localStorage.setItem('trialStarted', new Date().toISOString());
+        // Store selected plan for checkout
+        if (fromPricing && selectedPlan) {
+          localStorage.setItem('selectedPlan', selectedPlan);
+          localStorage.setItem('needsPaymentSetup', 'true');
         }
 
-        // Redirect to appropriate dashboard
-        if (isAccountant) {
-          window.location.href = "/accountant-dashboard";
+        // Redirect to profile to set up payment method
+        if (fromPricing) {
+          window.location.href = "/profile?setup=payment";
         } else {
-          window.location.href = "/company-dashboard";
+          // Redirect to appropriate dashboard for non-pricing signups
+          if (isAccountant) {
+            window.location.href = "/accountant-dashboard";
+          } else {
+            window.location.href = "/company-dashboard";
+          }
         }
       }
     } catch (error: any) {
@@ -180,9 +186,9 @@ const Signup = () => {
               )}
             </p>
             {fromPricing && (
-              <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-sm text-green-800">
-                  ✨ No payment required • 7-day free trial • Cancel anytime
+              <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  💳 Payment method required • 7-day trial • No charge until trial ends
                 </p>
               </div>
             )}

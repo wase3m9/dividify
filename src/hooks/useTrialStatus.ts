@@ -41,12 +41,20 @@ export const useTrialStatus = () => {
       setSelectedPlan(storedPlan);
     }
 
-    if (subscriptionPlan === 'trial' && !isSubscribed && profile?.created_at) {
-      // Use the same calculation logic as Profile.tsx
+    // Check if user is on Stripe trial
+    if (subscriptionData?.is_trialing && subscriptionData?.trial_end) {
+      const trialEnd = new Date(subscriptionData.trial_end * 1000); // Convert Unix timestamp
+      const now = new Date();
+      const daysLeft = Math.max(0, Math.ceil((trialEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+      
+      setDaysRemaining(daysLeft);
+      setIsTrialActive(daysLeft > 0);
+    } else if (subscriptionPlan === 'trial' && !isSubscribed && profile?.created_at) {
+      // Fallback to old trial logic for users without Stripe subscription
       const createdAt = new Date(profile.created_at);
       const now = new Date();
       const daysSinceCreation = Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
-      const daysLeft = 7 - daysSinceCreation; // 7 days trial period
+      const daysLeft = 7 - daysSinceCreation;
       
       setDaysRemaining(Math.max(0, daysLeft));
       setIsTrialActive(daysLeft > 0);
@@ -54,13 +62,13 @@ export const useTrialStatus = () => {
       setIsTrialActive(false);
       setDaysRemaining(0);
     }
-  }, [subscriptionPlan, isSubscribed, profile?.created_at]);
+  }, [subscriptionPlan, isSubscribed, subscriptionData, profile?.created_at]);
 
   return {
     daysRemaining,
     isTrialActive,
-    isTrialExpired: !isTrialActive && subscriptionPlan === 'trial',
+    isTrialExpired: !isTrialActive && (subscriptionPlan === 'trial' || subscriptionData?.is_trialing === false),
     selectedPlan,
-    isOnTrial: subscriptionPlan === 'trial' && !isSubscribed
+    isOnTrial: subscriptionData?.is_trialing || (subscriptionPlan === 'trial' && !isSubscribed)
   };
 };

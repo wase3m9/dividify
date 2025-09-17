@@ -10,6 +10,7 @@ import { useCompanyData } from "@/hooks/useCompanyData";
 import { useToast } from "@/hooks/use-toast";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { TrialBanner } from "@/components/dashboard/TrialBanner";
+import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
 import { supabase } from "@/integrations/supabase/client";
 
 const AccountantDashboard = () => {
@@ -81,7 +82,8 @@ const AccountantDashboard = () => {
       <Navigation />
       <main className="container mx-auto px-4 pt-20">
         <div className="flex flex-col space-y-8">
-          <TrialBanner />
+        <PaymentSetupBanner />
+        <TrialBanner />
           <DashboardHeader
             displayName={displayName}
             isDialogOpen={isDialogOpen}

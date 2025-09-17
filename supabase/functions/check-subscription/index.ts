@@ -77,19 +77,26 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     logStep("Found Stripe customer", { customerId });
 
-    // Get active subscriptions
+    // Get active subscriptions (including trialing)
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      status: "active",
-      limit: 1,
+      status: "all",
+      limit: 10,
     });
+
+    // Filter for active or trialing subscriptions
+    const activeSubscriptions = subscriptions.data.filter(sub => 
+      sub.status === 'active' || sub.status === 'trialing'
+    );
 
     let subscriptionPlan = 'trial';
     let userType = 'individual';
+    let isTrialing = false;
     
-    if (subscriptions.data.length > 0) {
-      const subscription = subscriptions.data[0];
+    if (activeSubscriptions.length > 0) {
+      const subscription = activeSubscriptions[0];
       const priceId = subscription.items.data[0].price.id;
+      isTrialing = subscription.status === 'trialing';
       
       logStep("Active subscription found", { subscriptionId: subscription.id, priceId });
 
@@ -128,9 +135,11 @@ serve(async (req) => {
     logStep("Updated user profile", { subscriptionPlan, userType });
 
     return new Response(JSON.stringify({
-      subscribed: subscriptions.data.length > 0,
+      subscribed: activeSubscriptions.length > 0,
       subscription_plan: subscriptionPlan,
       user_type: userType,
+      is_trialing: isTrialing,
+      trial_end: isTrialing ? activeSubscriptions[0].trial_end : null,
       message: "Subscription status updated successfully"
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
