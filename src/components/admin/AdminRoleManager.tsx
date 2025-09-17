@@ -29,38 +29,29 @@ export const AdminRoleManager = () => {
         throw new Error("Authentication required");
       }
 
-      // Grant admin role by calling the function
-      const { error: roleError } = await supabase
-        .from('user_roles')
-        .insert({
-          user_id: email.trim(), // This will need to be resolved to actual user ID
-          role: 'admin',
-          created_by: currentUser.id
-        });
+      // First, find the user by email in auth.users via the create-admin function
+      // We'll use the create-admin edge function which properly handles user creation and role assignment
+      const { data, error } = await supabase.functions.invoke('create-admin', {
+        body: { email: email.trim() }
+      });
 
-      if (roleError) {
-        if (roleError.code === '23505') { // Unique constraint violation
-          toast({
-            variant: "destructive",
-            title: "Error",
-            description: "User already has admin role",
-          });
-        } else {
-          throw roleError;
-        }
-        return;
+      if (error) {
+        throw new Error(error.message || 'Failed to create admin user');
       }
 
       // Log the action
       await supabase.rpc('log_admin_action', {
         action_type: 'admin_role_granted',
-        target_user_id: email.trim(),
-        details: { target_email: email.trim() }
+        target_user_id: data.user.id,
+        details: { 
+          target_email: email.trim(),
+          temporary_password: data.temporaryPassword 
+        }
       });
 
       toast({
         title: "Success",
-        description: `Admin role granted to ${email}`,
+        description: `Admin role granted to ${email}. Temporary password: ${data.temporaryPassword}`,
       });
       
       setEmail("");
