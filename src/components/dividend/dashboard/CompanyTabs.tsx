@@ -108,7 +108,11 @@ export const CompanyTabs = ({
         </TabsContent>
 
         <TabsContent value="officers">
-          <OfficersSection directors={directors} />
+          <OfficersSection 
+            directors={directors} 
+            companyRegistrationNumber={selectedCompany?.registration_number}
+            companyId={selectedCompany?.id}
+          />
         </TabsContent>
 
         <TabsContent value="shareholders">

@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { DirectorForm } from "./DirectorForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { OfficersAutoFill } from "../company/OfficersAutoFill";
 
 interface Director {
   id: string;
@@ -23,9 +24,15 @@ interface Director {
 
 interface OfficersSectionProps {
   directors: Director[];
+  companyRegistrationNumber?: string;
+  companyId?: string;
 }
 
-export const OfficersSection: FC<OfficersSectionProps> = ({ directors: initialDirectors }) => {
+export const OfficersSection: FC<OfficersSectionProps> = ({ 
+  directors: initialDirectors, 
+  companyRegistrationNumber,
+  companyId 
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [directors, setDirectors] = useState<Director[]>(initialDirectors);
@@ -170,24 +177,42 @@ export const OfficersSection: FC<OfficersSectionProps> = ({ directors: initialDi
     }
   };
 
+  const handleOfficersImported = () => {
+    // Refresh the directors list after import
+    if (companyId) {
+      fetchDirectors(companyId);
+    }
+  };
+
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <Users className="h-5 w-5 text-[#9b87f5]" />
-          <h2 className="text-xl font-semibold">Officers ({directors.length}/10)</h2>
+    <div className="space-y-6">
+      {/* Companies House Auto-Fill */}
+      {companyRegistrationNumber && companyId && (
+        <OfficersAutoFill 
+          companyNumber={companyRegistrationNumber}
+          companyId={companyId}
+          onOfficersImported={handleOfficersImported}
+        />
+      )}
+
+      {/* Officers Table */}
+      <Card className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-[#9b87f5]" />
+            <h2 className="text-xl font-semibold">Officers ({directors.length}/10)</h2>
+          </div>
+          <Button 
+            onClick={() => {
+              setEditingDirector(null);
+              setIsDialogOpen(true);
+            }}
+            disabled={directors.length >= 10}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Officer
+          </Button>
         </div>
-        <Button 
-          onClick={() => {
-            setEditingDirector(null);
-            setIsDialogOpen(true);
-          }}
-          disabled={directors.length >= 10}
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add Officer
-        </Button>
-      </div>
       
       {directors.length > 0 ? (
         <div className="rounded-md border">
@@ -251,6 +276,7 @@ export const OfficersSection: FC<OfficersSectionProps> = ({ directors: initialDi
           />
         </DialogContent>
       </Dialog>
-    </Card>
+      </Card>
+    </div>
   );
 };

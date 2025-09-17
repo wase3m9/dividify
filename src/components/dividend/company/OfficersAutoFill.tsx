@@ -73,10 +73,24 @@ export const OfficersAutoFill = ({ companyNumber, companyId, onOfficersImported 
         const nameParts = officer.name.split(',').map(part => part.trim());
         let surname = '';
         let forenames = '';
+        let title = '';
         
         if (nameParts.length >= 2) {
+          // Format: "SURNAME, Title Forenames" or "SURNAME, Forenames"
           surname = nameParts[0];
-          forenames = nameParts.slice(1).join(' ');
+          const remaining = nameParts.slice(1).join(' ');
+          
+          // Common titles to extract
+          const titles = ['MR', 'MRS', 'MISS', 'MS', 'DR', 'PROF', 'SIR', 'LADY', 'LORD'];
+          const words = remaining.split(' ').filter(word => word.length > 0);
+          
+          // Check if first word is a title
+          if (words.length > 0 && titles.includes(words[0].toUpperCase())) {
+            title = words[0];
+            forenames = words.slice(1).join(' ');
+          } else {
+            forenames = remaining;
+          }
         } else {
           // If no comma, assume last word is surname
           const words = officer.name.split(' ');
@@ -94,9 +108,9 @@ export const OfficersAutoFill = ({ companyNumber, companyId, onOfficersImported 
           company_id: companyId,
           forenames: forenames || 'N/A',
           surname: surname || 'N/A',
-          title: '', // Companies House doesn't provide titles
+          title: title || '', // Will be selectable in form
           position: officer.officer_role,
-          email: '', // Not available from Companies House
+          email: '', // Not available from Companies House - user will need to add
           address: officer.address ? [
             officer.address.address_line_1,
             officer.address.address_line_2,
