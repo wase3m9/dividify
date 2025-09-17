@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { BasicInfoFields } from "./BasicInfoFields";
 import { formSchema, CompanyFormData } from "./types";
 import { DialogTitle } from "@/components/ui/dialog";
+import { CompanyHouseSearch } from "./CompanyHouseSearch";
+import { CompanyDetails } from "@/hooks/useCompaniesHouse";
 import { Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -35,6 +37,24 @@ export const CompanyForm = ({ existingCompany, onSuccess }: CompanyFormProps) =>
       registered_address: existingCompany?.registered_address || "",
     }
   });
+
+  const handleCompanyHouseSelect = (company: CompanyDetails) => {
+    form.setValue("name", company.company_name);
+    form.setValue("registration_number", company.company_number);
+    
+    if (company.registered_office_address) {
+      const address = [
+        company.registered_office_address.address_line_1,
+        company.registered_office_address.address_line_2,
+        company.registered_office_address.locality,
+        company.registered_office_address.region,
+        company.registered_office_address.postal_code,
+        company.registered_office_address.country
+      ].filter(Boolean).join(", ");
+      
+      form.setValue("registered_address", address);
+    }
+  };
 
   const onSubmit = async (data: CompanyFormData) => {
     try {
@@ -93,6 +113,24 @@ export const CompanyForm = ({ existingCompany, onSuccess }: CompanyFormProps) =>
       </DialogTitle>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {!existingCompany && (
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-2 block">Search Companies House</label>
+                <CompanyHouseSearch onSelectCompany={handleCompanyHouseSelect} />
+              </div>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or enter manually
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="space-y-4">
             <BasicInfoFields form={form} />
           </div>
