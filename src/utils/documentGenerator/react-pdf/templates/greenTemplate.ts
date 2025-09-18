@@ -8,9 +8,9 @@ export const greenTemplate: TemplateConfig = {
     accent: '#16A34A'
   },
   fonts: {
-    title: 20,
-    heading: 14,
-    body: 11,
-    small: 9
+    title: 18,
+    heading: 12,
+    body: 9,
+    small: 7
   }
 };

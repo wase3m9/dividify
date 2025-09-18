@@ -8,9 +8,9 @@ export const corporateEliteTemplate: TemplateConfig = {
     accent: '#3B82F6'
   },
   fonts: {
-    title: 30,
-    heading: 20,
-    body: 14,
-    small: 12
+    title: 28,
+    heading: 18,
+    body: 12,
+    small: 10
   }
 };

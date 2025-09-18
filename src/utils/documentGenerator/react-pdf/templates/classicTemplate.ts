@@ -8,9 +8,9 @@ export const classicTemplate: TemplateConfig = {
     accent: '#4A5568'
   },
   fonts: {
-    title: 24,
-    heading: 16,
-    body: 12,
-    small: 10
+    title: 22,
+    heading: 14,
+    body: 10,
+    small: 8
   }
 };

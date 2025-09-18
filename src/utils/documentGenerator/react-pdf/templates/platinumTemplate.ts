@@ -8,9 +8,9 @@ export const platinumTemplate: TemplateConfig = {
     accent: '#9CA3AF'
   },
   fonts: {
-    title: 30,
-    heading: 19,
-    body: 14,
-    small: 12
+    title: 28,
+    heading: 17,
+    body: 12,
+    small: 10
   }
 };

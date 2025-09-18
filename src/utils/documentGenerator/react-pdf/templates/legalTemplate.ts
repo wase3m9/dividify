@@ -8,9 +8,9 @@ export const legalTemplate: TemplateConfig = {
     accent: '#8B4513'
   },
   fonts: {
-    title: 26,
-    heading: 16,
-    body: 12,
-    small: 10
+    title: 24,
+    heading: 14,
+    body: 10,
+    small: 8
   }
 };

@@ -8,9 +8,9 @@ export const modernTemplate: TemplateConfig = {
     accent: '#4A5568'
   },
   fonts: {
-    title: 22,
-    heading: 14,
-    body: 11,
-    small: 9
+    title: 20,
+    heading: 12,
+    body: 9,
+    small: 7
   }
 };

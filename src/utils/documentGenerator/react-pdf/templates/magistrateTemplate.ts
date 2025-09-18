@@ -8,9 +8,9 @@ export const magistrateTemplate: TemplateConfig = {
     accent: '#EA580C'
   },
   fonts: {
-    title: 29,
-    heading: 19,
-    body: 14,
-    small: 12
+    title: 27,
+    heading: 17,
+    body: 12,
+    small: 10
   }
 };

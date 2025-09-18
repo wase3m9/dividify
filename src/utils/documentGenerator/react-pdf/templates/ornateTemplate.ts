@@ -8,9 +8,9 @@ export const ornateTemplate: TemplateConfig = {
     accent: '#10B981'
   },
   fonts: {
-    title: 27,
-    heading: 18,
-    body: 13,
-    small: 11
+    title: 25,
+    heading: 16,
+    body: 11,
+    small: 9
   }
 };

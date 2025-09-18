@@ -8,9 +8,9 @@ export const executiveTemplate: TemplateConfig = {
     accent: '#D4AF37'
   },
   fonts: {
-    title: 28,
-    heading: 18,
-    body: 13,
-    small: 11
+    title: 26,
+    heading: 16,
+    body: 11,
+    small: 9
   }
 };

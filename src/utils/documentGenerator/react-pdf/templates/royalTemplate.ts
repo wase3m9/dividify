@@ -8,9 +8,9 @@ export const royalTemplate: TemplateConfig = {
     accent: '#C0392B'
   },
   fonts: {
-    title: 28,
-    heading: 18,
-    body: 13,
-    small: 11
+    title: 26,
+    heading: 16,
+    body: 11,
+    small: 9
   }
 };

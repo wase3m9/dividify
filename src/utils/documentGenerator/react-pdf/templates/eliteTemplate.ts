@@ -8,9 +8,9 @@ export const eliteTemplate: TemplateConfig = {
     accent: '#047857'
   },
   fonts: {
-    title: 26,
-    heading: 17,
-    body: 12,
-    small: 10
+    title: 24,
+    heading: 15,
+    body: 10,
+    small: 8
   }
 };
