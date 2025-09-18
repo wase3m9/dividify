@@ -1,5 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { format } from 'date-fns';
 import { BoardMinutesData } from '../types';
 import { getTemplate } from '../templates';
 
@@ -118,7 +119,7 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
             Company: {data.companyName}
           </Text>
           <Text style={styles.paragraph}>
-            Date of Meeting: {data.boardDate}
+            Date of Meeting: {format(new Date(data.boardDate), 'dd/MM/yyyy')}
           </Text>
         </View>
 
@@ -145,7 +146,7 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
             • Total dividend amount: £{data.totalDividend.toFixed(2)}
           </Text>
           <Text style={styles.paragraph}>
-            • Payment date: {data.paymentDate}
+            • Payment date: {format(new Date(data.paymentDate), 'dd/MM/yyyy')}
           </Text>
           <Text style={styles.paragraph}>
             The dividend shall be paid to all shareholders on the register at the close of business on the record date.

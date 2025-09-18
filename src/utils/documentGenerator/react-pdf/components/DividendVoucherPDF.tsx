@@ -1,5 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { format } from 'date-fns';
 import { DividendVoucherData } from '../types';
 import { getTemplate } from '../templates';
 
@@ -138,11 +139,11 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
           <Text style={styles.sectionTitle}>Dividend Details</Text>
           <View style={styles.row}>
             <Text style={styles.label}>Payment Date:</Text>
-            <Text style={styles.value}>{data.paymentDate}</Text>
+            <Text style={styles.value}>{format(new Date(data.paymentDate), 'dd/MM/yyyy')}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Shareholders as at:</Text>
-            <Text style={styles.value}>{data.shareholdersAsAtDate}</Text>
+            <Text style={styles.value}>{format(new Date(data.shareholdersAsAtDate), 'dd/MM/yyyy')}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Number of Shares:</Text>
