@@ -64,7 +64,7 @@ export const TipsSection = () => {
             <span className="text-sm font-medium">Export to Accounting Software</span>
             <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground text-left">
             Export journal entries to QuickBooks, Xero, and other platforms
           </p>
         </div>
