@@ -222,12 +222,18 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
 
       // Generate PDF
       const blob = await generateBoardMinutesPDF(previewData);
-      const filename = `board-minutes-${Date.now()}.pdf`;
+      
+      // Create filename in format: Company Name - Board Minutes - DD/MM/YYYY
+      const boardDate = new Date(previewData.boardDate);
+      const formattedDate = boardDate.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+      const sanitizedCompanyName = previewData.companyName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+      const filename = `${sanitizedCompanyName} - Board Minutes - ${formattedDate}.pdf`;
 
-      // Upload to storage with user ID folder prefix
+      // Upload to storage with user ID folder prefix and timestamp to avoid conflicts
+      const timestampedFilename = `board-minutes-${Date.now()}.pdf`;
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('dividend_vouchers')
-        .upload(`${user.id}/minutes/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
+        .upload(`${user.id}/minutes/${timestampedFilename}`, blob, { contentType: 'application/pdf', upsert: false });
       if (uploadError) throw uploadError;
 
       // Save minutes record for history and counting
@@ -417,7 +423,12 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
         <PDFPreview
           data={previewData}
           documentType="board-minutes"
-          filename={`board-minutes-${Date.now()}.pdf`}
+          filename={(() => {
+            const boardDate = new Date(previewData.boardDate);
+            const formattedDate = boardDate.toLocaleDateString('en-GB');
+            const sanitizedCompanyName = previewData.companyName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+            return `${sanitizedCompanyName} - Board Minutes - ${formattedDate}.pdf`;
+          })()}
         />
       )}
     </div>

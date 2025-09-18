@@ -227,12 +227,18 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
 
       // Generate the PDF
       const blob = await generateDividendVoucherPDF(previewData);
-      const filename = `dividend-voucher-${Date.now()}.pdf`;
+      
+      // Create filename in format: Company Name - Dividend Voucher - DD/MM/YYYY
+      const paymentDate = new Date(previewData.paymentDate);
+      const formattedDate = paymentDate.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+      const sanitizedCompanyName = previewData.companyName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+      const filename = `${sanitizedCompanyName} - Dividend Voucher - ${formattedDate}.pdf`;
 
-      // Upload to storage with user ID folder prefix
+      // Upload to storage with user ID folder prefix and timestamp to avoid conflicts
+      const timestampedFilename = `dividend-voucher-${Date.now()}.pdf`;
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('dividend_vouchers')
-        .upload(`${user.id}/dividends/${filename}`, blob, { contentType: 'application/pdf', upsert: false });
+        .upload(`${user.id}/dividends/${timestampedFilename}`, blob, { contentType: 'application/pdf', upsert: false });
       if (uploadError) throw uploadError;
 
       // Persist record for history and usage counting
@@ -472,7 +478,12 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         <PDFPreview
           data={previewData}
           documentType="dividend-voucher"
-          filename={`dividend-voucher-${Date.now()}.pdf`}
+          filename={(() => {
+            const paymentDate = new Date(previewData.paymentDate);
+            const formattedDate = paymentDate.toLocaleDateString('en-GB');
+            const sanitizedCompanyName = previewData.companyName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+            return `${sanitizedCompanyName} - Dividend Voucher - ${formattedDate}.pdf`;
+          })()}
         />
       )}
     </div>
