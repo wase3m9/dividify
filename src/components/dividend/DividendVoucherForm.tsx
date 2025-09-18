@@ -24,6 +24,7 @@ const dividendVoucherSchema = z.object({
   companyRegNumber: z.string().min(1, 'Registration number is required'),
   shareholderName: z.string().min(1, 'Shareholder name is required'),
   shareholderAddress: z.string().min(1, 'Shareholder address is required'),
+  voucherNumber: z.string().optional(),
   paymentDate: z.string().min(1, 'Payment date is required'),
   shareholdersAsAtDate: z.string().min(1, 'Shareholders as at date is required'),
   sharesHeld: z.number().min(1, 'Number of shares must be greater than 0'),
@@ -131,6 +132,28 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     }
   }, [companyData, setValue]);
 
+  // Auto-populate voucher number when company is selected
+  useEffect(() => {
+    const populateVoucherNumber = async () => {
+      if (selectedCompanyId && companyData) {
+        try {
+          // Get the next voucher number for preview (this will increment the counter)
+          const { data: voucherNumber, error } = await supabase
+            .rpc('get_next_voucher_number', { company_id_param: selectedCompanyId });
+
+          if (!error && voucherNumber) {
+            const formattedVoucherNumber = String(voucherNumber).padStart(4, '0');
+            setValue('voucherNumber', formattedVoucherNumber);
+          }
+        } catch (error) {
+          console.error('Error getting voucher number:', error);
+        }
+      }
+    };
+
+    populateVoucherNumber();
+  }, [selectedCompanyId, companyData, setValue]);
+
   // Auto-fill shareholder data when a specific shareholder is selected
   useEffect(() => {
     if (selectedShareholderId && shareholders) {
@@ -163,18 +186,8 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     }
 
     try {
-      // Get the next sequential voucher number for this company (for preview)
-      const { data: voucherNumber, error: voucherError } = await supabase
-        .rpc('get_next_voucher_number', { company_id_param: selectedCompanyId });
-
-      if (voucherError) {
-        console.error('Error getting voucher number:', voucherError);
-        toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate voucher number' });
-        return;
-      }
-
-      // Format voucher number as 4-digit string (0001, 0002, etc.)
-      const formattedVoucherNumber = String(voucherNumber).padStart(4, '0');
+      // Use the voucher number from the form (already populated)
+      const voucherNumber = data.voucherNumber || '0001';
 
       // Map form data to PDF data format with proper defaults
       const mappedData: DividendVoucherData = {
@@ -187,7 +200,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         paymentDate: data.paymentDate || '',
         amountPerShare: data.dividendAmount ? (data.dividendAmount / (data.sharesHeld || 1)).toFixed(4) : '0.0000',
         totalAmount: data.dividendAmount?.toString() || '0',
-        voucherNumber: formattedVoucherNumber,
+        voucherNumber: voucherNumber,
         holdings: data.sharesHeld?.toString() || '0',
         financialYearEnding: data.paymentDate || new Date().toISOString().split('T')[0], // Use payment date as fallback
         templateStyle: data.templateStyle,
@@ -439,6 +452,21 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
               {errors.shareholderAddress && (
                 <p className="text-sm text-red-600 mt-1">{errors.shareholderAddress.message}</p>
               )}
+            </div>
+
+            {/* Add some spacing */}
+            <div className="md:col-span-2 pt-4">
+              <div className="border-t border-gray-200 pt-4">
+                <Label htmlFor="voucherNumber" className="text-left block">Dividend Voucher Number</Label>
+                <Input
+                  id="voucherNumber"
+                  {...register('voucherNumber')}
+                  placeholder="Will be auto-generated"
+                  disabled
+                  className="bg-gray-50 text-gray-500"
+                />
+                <p className="text-xs text-gray-500 mt-1">Sequential number will be assigned automatically</p>
+              </div>
             </div>
 
             <div>
