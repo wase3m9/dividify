@@ -14,6 +14,15 @@ export interface DividendVoucherData {
   voucherNumber: number;
   holdings?: string;
   financialYearEnding: string;
+  templateStyle?: string;
+  logoUrl?: string;
+  accountantFirmName?: string;
+  // Additional properties for backwards compatibility
+  companyAddress?: string;
+  companyRegNumber?: string;
+  sharesHeld?: number;
+  dividendAmount?: number;
+  shareholdersAsAtDate?: string;
 }
 
 export interface BoardMinutesData {
@@ -29,6 +38,13 @@ export interface BoardMinutesData {
   dividendType: string;
   nominalValue: string;
   financialYearEnd: string;
+  boardDate: string;
+  directorsPresent: string[];
+  dividendPerShare: number;
+  totalDividend: number;
+  templateStyle?: string;
+  logoUrl?: string;
+  accountantFirmName?: string;
 }
 
 export interface DocumentGenerator {
@@ -36,14 +52,16 @@ export interface DocumentGenerator {
 }
 
 export interface TemplateConfig {
-  fontFamily?: string;
-  fontSize?: {
-    title: number;
-    header: number;
-    normal: number;
-  };
-  colors?: {
+  colors: {
     primary: string;
     secondary: string;
+    text: string;
+    accent: string;
+  };
+  fonts: {
+    title: number;
+    heading: number;
+    body: number;
+    small: number;
   };
 }

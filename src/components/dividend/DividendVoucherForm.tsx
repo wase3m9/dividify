@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CompanySelector } from '@/components/dividend/company/CompanySelector';
 import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
-import { DividendVoucherData } from '@/utils/documentGenerator/react-pdf/types';
+import { DividendVoucherData } from '@/utils/documentGenerator/types';
 import { generateDividendVoucherPDF, downloadPDF } from '@/utils/documentGenerator/react-pdf';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';

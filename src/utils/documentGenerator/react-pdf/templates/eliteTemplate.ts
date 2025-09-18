@@ -1,4 +1,4 @@
-import { TemplateConfig } from '../types';
+import { TemplateConfig } from '../../types';
 
 export const eliteTemplate: TemplateConfig = {
   colors: {

@@ -1,4 +1,4 @@
-export * from './types';
+export * from '../types';
 export * from './generator';
 export * from './components/DividendVoucherPDF';
 export * from './components/BoardMinutesPDF';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { format } from 'date-fns';
-import { BoardMinutesData } from '../types';
+import { BoardMinutesData } from '../../types';
 import { getTemplate } from '../templates';
 
 interface BoardMinutesPDFProps {

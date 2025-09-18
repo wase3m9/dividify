@@ -2,7 +2,7 @@ import React from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { DividendVoucherPDF } from './components/DividendVoucherPDF';
 import { BoardMinutesPDF } from './components/BoardMinutesPDF';
-import { DividendVoucherData, BoardMinutesData } from './types';
+import { DividendVoucherData, BoardMinutesData } from '../types';
 
 export const generateDividendVoucherPDF = async (data: DividendVoucherData): Promise<Blob> => {
   const blob = await pdf(<DividendVoucherPDF data={data} />).toBlob();

@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Download, Eye, EyeOff } from 'lucide-react';
 import { DividendVoucherPDF } from './DividendVoucherPDF';
 import { BoardMinutesPDF } from './BoardMinutesPDF';
-import { DividendVoucherData, BoardMinutesData } from '../types';
+import { DividendVoucherData, BoardMinutesData } from '../../types';
 
 interface PDFPreviewProps {
   data: DividendVoucherData | BoardMinutesData;

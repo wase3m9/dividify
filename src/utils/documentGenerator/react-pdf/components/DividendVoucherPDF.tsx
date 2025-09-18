@@ -1,7 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { format } from 'date-fns';
-import { DividendVoucherData } from '../types';
+import { DividendVoucherData } from '../../types';
 import { getTemplate } from '../templates';
 
 interface DividendVoucherPDFProps {
@@ -15,81 +15,97 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'column',
-      backgroundColor: isPremium && data.templateStyle === 'executive' ? '#FAFAFA' : '#FFFFFF',
+      backgroundColor: isPremium && data.templateStyle === 'executive' ? '#F8F8F8' : '#FFFFFF',
       padding: isPremium ? 40 : 30,
       fontFamily: isPremium ? 'Times-Roman' : 'Helvetica',
     },
-    header: {
-      marginBottom: isPremium ? 40 : 30,
-      borderBottom: isPremium ? `3pt solid ${template.colors.primary}` : `2pt solid ${template.colors.primary}`,
+    companyHeader: {
+      marginBottom: 30,
       paddingBottom: isPremium ? 20 : 15,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      textAlign: 'center',
       ...(isPremium && data.templateStyle === 'executive' && {
         backgroundColor: template.colors.primary,
         marginHorizontal: -40,
         marginTop: -40,
         paddingHorizontal: 40,
         paddingTop: 30,
-        marginBottom: 50,
+        marginBottom: 40,
       }),
-    },
-    headerContent: {
-      flex: 1,
     },
     logo: {
       width: 60,
       height: 60,
       objectFit: 'contain',
+      alignSelf: 'center',
+      marginBottom: 10,
     },
-    title: {
+    companyName: {
       fontSize: template.fonts.title,
       fontWeight: 'bold',
       color: isPremium && data.templateStyle === 'executive' ? template.colors.accent : template.colors.primary,
       textAlign: 'center',
-      marginBottom: isPremium ? 15 : 10,
+      marginBottom: 8,
       ...(isPremium && data.templateStyle === 'executive' && {
         color: template.colors.accent,
         textTransform: 'uppercase',
-        letterSpacing: 2,
-      }),
-    },
-    section: {
-      marginBottom: 20,
-    },
-    sectionTitle: {
-      fontSize: template.fonts.heading,
-      fontWeight: 'bold',
-      color: isPremium ? template.colors.accent : template.colors.text,
-      marginBottom: isPremium ? 12 : 8,
-      backgroundColor: isPremium && data.templateStyle === 'executive' ? template.colors.primary : template.colors.secondary,
-      padding: isPremium ? 8 : 5,
-      ...(isPremium && data.templateStyle === 'legal' && {
-        borderLeft: `4pt solid ${template.colors.accent}`,
-        paddingLeft: 12,
-        backgroundColor: 'transparent',
-      }),
-      ...(isPremium && data.templateStyle === 'corporateElite' && {
-        textTransform: 'uppercase',
         letterSpacing: 1,
-        color: template.colors.primary,
       }),
     },
-    row: {
-      flexDirection: 'row',
+    companyAddress: {
+      fontSize: template.fonts.body,
+      color: template.colors.text,
+      textAlign: 'center',
       marginBottom: 5,
+      ...(isPremium && data.templateStyle === 'executive' && {
+        color: template.colors.accent,
+      }),
     },
-    label: {
+    registrationNumber: {
+      fontSize: template.fonts.body,
+      color: template.colors.text,
+      textAlign: 'center',
+      ...(isPremium && data.templateStyle === 'executive' && {
+        color: template.colors.accent,
+      }),
+    },
+    voucherNumber: {
+      position: 'absolute',
+      top: isPremium ? 80 : 70,
+      right: 30,
+      fontSize: template.fonts.body,
+      color: template.colors.text,
+    },
+    shareholderSection: {
+      marginTop: 40,
+      marginBottom: 30,
+      marginLeft: 0,
+    },
+    declarationSection: {
+      marginBottom: 30,
+    },
+    paymentSection: {
+      marginBottom: 40,
+      paddingLeft: 50,
+    },
+    paymentRow: {
+      flexDirection: 'row',
+      marginBottom: 8,
+    },
+    paymentLabel: {
       fontSize: template.fonts.body,
       fontWeight: 'bold',
-      width: '40%',
+      width: '30%',
       color: template.colors.text,
     },
-    value: {
+    paymentValue: {
       fontSize: template.fonts.body,
-      width: '60%',
+      width: '70%',
       color: template.colors.text,
+    },
+    text: {
+      fontSize: template.fonts.body,
+      color: template.colors.text,
+      marginBottom: 3,
     },
     signatureSection: {
       marginTop: isPremium ? 60 : 40,
@@ -153,63 +169,62 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
         {isPremium && (
           <Text style={styles.watermark}>PREMIUM</Text>
         )}
-        <View style={styles.header}>
-          <View style={styles.headerContent}>
-            <Text style={styles.title}>DIVIDEND VOUCHER</Text>
-          </View>
+        
+        {/* Company Header */}
+        <View style={styles.companyHeader}>
           {data.logoUrl && (
             <Image style={styles.logo} src={data.logoUrl} />
           )}
+          <Text style={styles.companyName}>{data.companyName}</Text>
+          <Text style={styles.companyAddress}>{data.registeredAddress}</Text>
+          <Text style={styles.registrationNumber}>Registered number: {data.registrationNumber}</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Company Information</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Company Name:</Text>
-            <Text style={styles.value}>{data.companyName}</Text>
+        {/* Voucher Number - Top Right */}
+        <View style={styles.voucherNumber}>
+          <Text style={styles.text}>Dividend voucher number: {data.voucherNumber}</Text>
+        </View>
+
+        {/* Director/Shareholder Address - Left Side */}
+        <View style={styles.shareholderSection}>
+          <Text style={styles.text}>{data.shareholderName}</Text>
+          {data.shareholderAddress.split(',').map((line, index) => (
+            <Text key={index} style={styles.text}>{line.trim()}</Text>
+          ))}
+        </View>
+
+        {/* Declaration Statement */}
+        <View style={styles.declarationSection}>
+          <Text style={styles.text}>
+            {data.companyName} has declared the final dividend for the year ending {format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} on its Ordinary shares as follows:
+          </Text>
+        </View>
+
+        {/* Payment Details - No Labels */}
+        <View style={styles.paymentSection}>
+          <View style={styles.paymentRow}>
+            <Text style={styles.paymentLabel}>Payment Date:</Text>
+            <Text style={styles.paymentValue}>{format(new Date(data.paymentDate), 'dd/MM/yyyy')}</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Registration Number:</Text>
-            <Text style={styles.value}>{data.companyRegNumber}</Text>
+          <View style={styles.paymentRow}>
+            <Text style={styles.paymentLabel}>Shareholders as at:</Text>
+            <Text style={styles.paymentValue}>{format(new Date(data.paymentDate), 'dd/MM/yyyy')}</Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Address:</Text>
-            <Text style={styles.value}>{data.companyAddress}</Text>
+          <View style={styles.paymentRow}>
+            <Text style={styles.paymentLabel}>Shareholder:</Text>
+            <Text style={styles.paymentValue}>{data.shareholderName}</Text>
+          </View>
+          <View style={styles.paymentRow}>
+            <Text style={styles.paymentLabel}>Holdings:</Text>
+            <Text style={styles.paymentValue}>{data.holdings || '0'}</Text>
+          </View>
+          <View style={styles.paymentRow}>
+            <Text style={styles.paymentLabel}>Dividend payable:</Text>
+            <Text style={styles.paymentValue}>£{data.totalAmount}</Text>
           </View>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Shareholder Information</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Shareholder Name:</Text>
-            <Text style={styles.value}>{data.shareholderName}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Address:</Text>
-            <Text style={styles.value}>{data.shareholderAddress}</Text>
-          </View>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Dividend Details</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Payment Date:</Text>
-            <Text style={styles.value}>{format(new Date(data.paymentDate), 'dd/MM/yyyy')}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Shareholders as at:</Text>
-            <Text style={styles.value}>{format(new Date(data.shareholdersAsAtDate), 'dd/MM/yyyy')}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Number of Shares:</Text>
-            <Text style={styles.value}>{data.sharesHeld.toLocaleString()}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Total Dividend Amount:</Text>
-            <Text style={styles.value}>£{data.dividendAmount.toFixed(2)}</Text>
-          </View>
-        </View>
-
+        {/* Signature Section */}
         <View style={styles.signatureSection}>
           <View style={styles.signatureBox}>
             <Text style={styles.signatureLabel}>Director Signature</Text>
@@ -219,6 +234,7 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
           </View>
         </View>
 
+        {/* Footer */}
         <Text style={styles.footer}>
           {data.accountantFirmName 
             ? `This dividend voucher was generated by ${data.accountantFirmName} and issued in accordance with the Companies Act 2006.`
