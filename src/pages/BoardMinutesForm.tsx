@@ -23,13 +23,10 @@ const BoardMinutesForm = () => {
   };
 
   const handleBackClick = () => {
-    if (companyId) {
-      // Navigate to the appropriate dashboard based on user type
-      if (userType === 'accountant') {
-        navigate('/accountant-dashboard');
-      } else {
-        navigate('/company-dashboard');
-      }
+    if (userType === 'accountant') {
+      navigate('/accountant-dashboard');
+    } else if (companyId) {
+      navigate('/company-dashboard');
     } else {
       navigate(-1);
     }

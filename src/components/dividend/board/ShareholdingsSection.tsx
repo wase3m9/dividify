@@ -169,7 +169,7 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
           {officers.length > 0 && (
             <Button
               variant="outline"
-              className="text-blue-600 border-blue-600"
+              className="text-[#9b87f5] border-[#9b87f5]"
               disabled={shareholdings.length >= MAX_SHAREHOLDERS}
               onClick={() => setIsCopyDialogOpen(true)}
             >

@@ -121,6 +121,7 @@ export const CompanyTabs = ({
             isDialogOpen={isShareholderDialogOpen}
             onDialogOpenChange={setIsShareholderDialogOpen}
             onSubmit={handleShareholderSubmit}
+            officers={directors}
           />
         </TabsContent>
 
