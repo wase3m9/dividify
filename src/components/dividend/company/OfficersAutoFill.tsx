@@ -103,13 +103,21 @@ export const OfficersAutoFill = ({ companyNumber, companyId, onOfficersImported 
           }
         }
 
+        // Create display name in "First Name Surname" format
+        const displayName = title ? 
+          `${title} ${forenames} ${surname}`.trim() : 
+          `${forenames} ${surname}`.trim();
+        
+        // Capitalize first letter of position
+        const capitalizedPosition = officer.officer_role.charAt(0).toUpperCase() + officer.officer_role.slice(1).toLowerCase();
+
         return {
           user_id: user.id,
           company_id: companyId,
           forenames: forenames || 'N/A',
           surname: surname || 'N/A',
           title: title || '', // Will be selectable in form
-          position: officer.officer_role,
+          position: capitalizedPosition,
           email: '', // Not available from Companies House - user will need to add
           address: officer.address ? [
             officer.address.address_line_1,
@@ -120,7 +128,7 @@ export const OfficersAutoFill = ({ companyNumber, companyId, onOfficersImported 
             officer.address.country
           ].filter(Boolean).join(', ') : '',
           date_of_appointment: officer.appointed_on || new Date().toISOString().split('T')[0],
-          computed_full_name: officer.name
+          computed_full_name: displayName
         };
       });
 
