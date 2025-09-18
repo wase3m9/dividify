@@ -268,16 +268,16 @@ const sampleBlogPosts = [
 
 **Table of contents**
 
-1. Why this matters to UK company directors
-2. Mistake #1: Paying dividends without distributable profits
-3. Mistake #2: Missing paperwork (vouchers & board minutes)
-4. Mistake #3: "What's in the bank?" withdrawals
-5. Mistake #4: Forgetting to plan for the personal tax bill
-6. Mistake #5: Unequal dividends without the right share structure
-7. Best-practice checklist for 2025/26
-8. FAQs
+1. [Why this matters to UK company directors](#why-this-matters)
+2. [Mistake #1: Paying dividends without distributable profits](#mistake-1)
+3. [Mistake #2: Missing paperwork (vouchers & board minutes)](#mistake-2)
+4. [Mistake #3: "What's in the bank?" withdrawals](#mistake-3)
+5. [Mistake #4: Forgetting to plan for the personal tax bill](#mistake-4)
+6. [Mistake #5: Unequal dividends without the right share structure](#mistake-5)
+7. [Best-practice checklist for 2025/26](#checklist)
+8. [FAQs](#faqs)
 
-**Why this matters to UK company directors**
+## Why this matters to UK company directors {#why-this-matters}
 
 Dividends are distributions of post-tax profits. Get them right and you'll usually take home more after tax than via pure salary. Get them wrong and you could face:
 
@@ -287,7 +287,7 @@ Dividends are distributions of post-tax profits. Get them right and you'll usual
 
 Dividify helps you prevent this by producing proper dividend vouchers and board minutes in seconds — branded for your firm or your client's company.
 
-**Mistake #1: Paying dividends without distributable profits**
+## Mistake #1: Paying dividends without distributable profits {#mistake-1}
 
 The issue: Seeing cash in the bank and assuming a dividend is fine. It isn't. Dividends must come from accumulated, post-tax profits (per Companies Act rules). Loans, VAT money, or supplier funds ≠ profit.
 
@@ -304,7 +304,7 @@ The issue: Seeing cash in the bank and assuming a dividend is fine. It isn't. Di
 • Ring-fence CT: Park an estimate of corporation tax so you don't overstate profits.
 • Only declare what profits genuinely support.
 
-**Mistake #2: Missing paperwork (vouchers & board minutes)**
+## Mistake #2: Missing paperwork (vouchers & board minutes) {#mistake-2}
 
 The issue: HMRC can challenge "dividends" without supporting documentation. Every declaration should have:
 
@@ -315,7 +315,7 @@ The issue: HMRC can challenge "dividends" without supporting documentation. Ever
 
 Use Dividify to generate clean, compliant PDFs (board minutes + vouchers) with your firm's branding. Store them alongside your management accounts for audit-ready records.
 
-**Mistake #3: "What's in the bank?" withdrawals**
+## Mistake #3: "What's in the bank?" withdrawals {#mistake-3}
 
 The issue: Irregular amounts taken ad hoc ("I'll just transfer £2k this month"). This makes you lose track of what you've actually drawn and risks an overdrawn DLA if profits dip.
 
@@ -324,7 +324,7 @@ The issue: Irregular amounts taken ad hoc ("I'll just transfer £2k this month")
 • Use a standing order so it's disciplined and predictable.
 • If the year goes brilliantly, pay a separate one-off bonus dividend — with the paperwork — rather than constantly changing your regular amount.
 
-**Mistake #4: Forgetting to plan for the personal tax bill**
+## Mistake #4: Forgetting to plan for the personal tax bill {#mistake-4}
 
 The issue: Dividends are paid gross. The personal tax on those dividends usually arrives much later (via Self Assessment and possibly payments on account). If you haven't planned, you may need an extra dividend at the worst time.
 
@@ -333,7 +333,7 @@ The issue: Dividends are paid gross. The personal tax on those dividends usually
 • Ask your accountant to estimate your blended effective rate based on your total income and the current dividend allowance/bands.
 • Review the pot each quarter and top up if profits — or your drawings — have changed.
 
-**Mistake #5: Unequal dividends without the right share structure**
+## Mistake #5: Unequal dividends without the right share structure {#mistake-5}
 
 The issue: Want to pay different amounts to different shareholders (e.g., spouse or co-founder)? With ordinary shares of the same class, dividends must be paid per share, equally. Paying unevenly without the right paperwork/share classes can create problems.
 
@@ -341,7 +341,7 @@ The issue: Want to pay different amounts to different shareholders (e.g., spouse
 • Speak to your accountant about alphabet shares (A, B, etc.) or formal dividend waivers where appropriate — and ensure the minutes reflect the decision.
 • Keep company registers and share certificates up to date so your paperwork matches reality.
 
-**Best-practice checklist for 2025/26**
+## Best-practice checklist for 2025/26 {#checklist}
 
 ✅ Confirm accumulated, post-tax profits before you declare.
 ✅ Ring-fence CT estimates each month so profits are realistic.
@@ -351,7 +351,7 @@ The issue: Want to pay different amounts to different shareholders (e.g., spouse
 ✅ If paying shareholders differently, use the right share structure and record it properly.
 ✅ Store everything neatly — if HMRC asks, you can show the full trail in minutes.
 
-**FAQs**
+## FAQs {#faqs}
 
 1) **Can I pay a dividend if the bank account is healthy but last year's accounts show small profits?**
 Not unless you have current and retained profits to cover it. Bank balance isn't the test; distributable profits are.
