@@ -8,6 +8,7 @@ import { BoardMinutesFormComponent } from "@/components/dividend/BoardMinutesFor
 import { CompanySelector } from "@/components/dividend/company/CompanySelector";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 
 const BoardMinutesForm = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const BoardMinutesForm = () => {
   const companyId = searchParams.get('companyId');
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
   const { toast } = useToast();
+  const { userType } = useSubscriptionStatus();
 
   const handleCompanySelect = (companyId: string) => {
     setSelectedCompanyId(companyId);
@@ -22,7 +24,12 @@ const BoardMinutesForm = () => {
 
   const handleBackClick = () => {
     if (companyId) {
-      navigate('/company-dashboard');
+      // Navigate to the appropriate dashboard based on user type
+      if (userType === 'accountant') {
+        navigate('/accountant-dashboard');
+      } else {
+        navigate('/company-dashboard');
+      }
     } else {
       navigate(-1);
     }
@@ -40,7 +47,7 @@ const BoardMinutesForm = () => {
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Company Dashboard
+              Back to {userType === 'accountant' ? 'Accountant' : 'Company'} Dashboard
             </Button>
           </div>
           <DividendFormHeader

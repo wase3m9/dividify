@@ -6,15 +6,22 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
 import { DividendVoucherFormComponent } from "@/components/dividend/DividendVoucherForm";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 
 const DividendVoucherForm = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const companyId = searchParams.get('companyId');
+  const { userType } = useSubscriptionStatus();
 
   const handleBackClick = () => {
     if (companyId) {
-      navigate('/company-dashboard');
+      // Navigate to the appropriate dashboard based on user type
+      if (userType === 'accountant') {
+        navigate('/accountant-dashboard');
+      } else {
+        navigate('/company-dashboard');
+      }
     } else {
       navigate(-1);
     }
@@ -32,7 +39,7 @@ const DividendVoucherForm = () => {
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Company Dashboard
+              Back to {userType === 'accountant' ? 'Accountant' : 'Company'} Dashboard
             </Button>
           </div>
           <DividendVoucherFormComponent companyId={companyId || undefined} />
