@@ -48,22 +48,50 @@ export const TemplateSelection = () => {
     );
   }
 
+  const standardTemplates = templates.filter(t => !t.isPremium);
+  const premiumTemplates = templates.filter(t => t.isPremium);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <h2 className="text-xl font-semibold text-blue-600 bg-blue-500/10 p-4 rounded-md">
         Choose a template for your dividend voucher
       </h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {templates.map((template) => (
-          <TemplateCard
-            key={template.id}
-            template={template}
-            isSelected={selectedTemplate === template.id}
-            onSelect={setSelectedTemplate}
-            onDownload={handleDownload}
-          />
-        ))}
+      {/* Standard Templates */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-gray-800">Standard Templates</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {standardTemplates.map((template) => (
+            <TemplateCard
+              key={template.id}
+              template={template}
+              isSelected={selectedTemplate === template.id}
+              onSelect={setSelectedTemplate}
+              onDownload={handleDownload}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Premium Templates */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <h3 className="text-lg font-medium text-gray-800">Premium Templates</h3>
+          <div className="bg-gradient-to-r from-amber-100 to-orange-100 px-3 py-1 rounded-full">
+            <span className="text-sm font-medium text-amber-700">Enhanced Features</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {premiumTemplates.map((template) => (
+            <TemplateCard
+              key={template.id}
+              template={template}
+              isSelected={selectedTemplate === template.id}
+              onSelect={setSelectedTemplate}
+              onDownload={handleDownload}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="flex justify-between pt-6 border-t">

@@ -8,7 +8,7 @@ export interface DividendVoucherData {
   shareholdersAsAtDate: string;
   sharesHeld: number;
   dividendAmount: number;
-  templateStyle?: 'classic' | 'modern' | 'green';
+  templateStyle?: 'classic' | 'modern' | 'green' | 'executive' | 'legal' | 'corporateElite';
   logoUrl?: string;
   accountantFirmName?: string;
 }
@@ -20,7 +20,7 @@ export interface BoardMinutesData {
   dividendPerShare: number;
   totalDividend: number;
   paymentDate: string;
-  templateStyle?: 'classic' | 'modern' | 'green';
+  templateStyle?: 'classic' | 'modern' | 'green' | 'executive' | 'legal' | 'corporateElite';
   logoUrl?: string;
   accountantFirmName?: string;
 }
