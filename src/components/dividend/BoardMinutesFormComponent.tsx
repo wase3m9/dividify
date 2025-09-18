@@ -25,7 +25,7 @@ const boardMinutesSchema = z.object({
   dividendPerShare: z.number().min(0.0001, 'Dividend per share must be greater than 0'),
   totalDividend: z.number().min(0.01, 'Total dividend must be greater than 0'),
   paymentDate: z.string().min(1, 'Payment date is required'),
-  templateStyle: z.enum(['classic', 'modern', 'green']).optional(),
+  templateStyle: z.enum(['classic', 'modern', 'green', 'executive', 'legal', 'corporateElite']).optional(),
 });
 
 type BoardMinutesFormData = Omit<BoardMinutesData, 'directorsPresent'>;
@@ -395,7 +395,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
 
             <div>
               <Label htmlFor="templateStyle" className="text-left block">Template Style</Label>
-              <Select value={templateStyle} onValueChange={(value) => setValue('templateStyle', value as 'classic' | 'modern' | 'green')}>
+              <Select value={templateStyle} onValueChange={(value) => setValue('templateStyle', value as any)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select template style" />
                 </SelectTrigger>
@@ -403,6 +403,12 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
                   <SelectItem value="classic">Classic (Mint Green)</SelectItem>
                   <SelectItem value="modern">Modern (Navy Blue)</SelectItem>
                   <SelectItem value="green">Green (Eco Green)</SelectItem>
+                  <div className="px-2 py-1 text-xs font-medium text-amber-600 border-t mt-1">
+                    Premium Templates
+                  </div>
+                  <SelectItem value="executive">Executive Premium (Dark & Gold)</SelectItem>
+                  <SelectItem value="legal">Legal Professional (Traditional)</SelectItem>
+                  <SelectItem value="corporateElite">Corporate Elite (Modern Blue)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

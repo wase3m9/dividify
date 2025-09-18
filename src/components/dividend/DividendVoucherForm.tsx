@@ -28,7 +28,7 @@ const dividendVoucherSchema = z.object({
   shareholdersAsAtDate: z.string().min(1, 'Shareholders as at date is required'),
   sharesHeld: z.number().min(1, 'Number of shares must be greater than 0'),
   dividendAmount: z.number().min(0.01, 'Dividend amount must be greater than 0'),
-  templateStyle: z.enum(['classic', 'modern', 'green']).optional(),
+  templateStyle: z.enum(['classic', 'modern', 'green', 'executive', 'legal', 'corporateElite']).optional(),
 });
 
 interface DividendVoucherFormProps {
@@ -450,7 +450,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
 
             <div>
               <Label htmlFor="templateStyle" className="text-left block">Template Style</Label>
-              <Select value={templateStyle} onValueChange={(value) => setValue('templateStyle', value as 'classic' | 'modern' | 'green')}>
+              <Select value={templateStyle} onValueChange={(value) => setValue('templateStyle', value as any)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select template style" />
                 </SelectTrigger>
@@ -458,6 +458,12 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
                   <SelectItem value="classic">Classic (Mint Green)</SelectItem>
                   <SelectItem value="modern">Modern (Navy Blue)</SelectItem>
                   <SelectItem value="green">Green (Eco Green)</SelectItem>
+                  <div className="px-2 py-1 text-xs font-medium text-amber-600 border-t mt-1">
+                    Premium Templates
+                  </div>
+                  <SelectItem value="executive">Executive Premium (Dark & Gold)</SelectItem>
+                  <SelectItem value="legal">Legal Professional (Traditional)</SelectItem>
+                  <SelectItem value="corporateElite">Corporate Elite (Modern Blue)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
