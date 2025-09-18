@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { TemplateCard } from "./template/TemplateCard";
 import { useCompanyData } from "./template/useCompanyData";
 import { useTemplateActions } from "./template/useTemplateActions";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 
 export const TemplateSelection = () => {
   const location = useLocation();
@@ -16,6 +17,10 @@ export const TemplateSelection = () => {
   
   const { company, error, isLoading } = useCompanyData(formData.companyId);
   const { handleDownload } = useTemplateActions(company, formData);
+  const { subscriptionPlan } = useSubscriptionStatus();
+  
+  // Check if premium templates should be disabled (only for starter plan)
+  const isPremiumDisabled = subscriptionPlan === 'starter';
 
   if (isLoading) {
     return (
@@ -89,6 +94,7 @@ export const TemplateSelection = () => {
               isSelected={selectedTemplate === template.id}
               onSelect={setSelectedTemplate}
               onDownload={handleDownload}
+              isDisabled={isPremiumDisabled}
             />
           ))}
         </div>

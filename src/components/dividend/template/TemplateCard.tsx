@@ -15,6 +15,7 @@ interface TemplateCardProps {
   isSelected: boolean;
   onSelect: (id: TemplateId) => void;
   onDownload: (templateId: TemplateId, format: 'pdf') => Promise<void>;
+  isDisabled?: boolean;
 }
 
 export const TemplateCard = ({
@@ -22,13 +23,16 @@ export const TemplateCard = ({
   isSelected,
   onSelect,
   onDownload,
+  isDisabled = false,
 }: TemplateCardProps) => {
   return (
     <Card 
-      className={`p-6 cursor-pointer transition-all hover:shadow-lg relative ${
+      className={`p-6 transition-all hover:shadow-lg relative ${
         isSelected ? 'ring-2 ring-blue-500' : ''
-      } ${template.isPremium ? 'border-2 border-gradient-to-br from-amber-400 to-orange-500' : ''}`}
-      onClick={() => onSelect(template.id)}
+      } ${template.isPremium ? 'border-2 border-gradient-to-br from-amber-400 to-orange-500' : ''} ${
+        isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+      }`}
+      onClick={() => !isDisabled && onSelect(template.id)}
     >
       {template.isPremium && (
         <div className="absolute -top-2 -right-2 z-10">
@@ -63,16 +67,16 @@ export const TemplateCard = ({
         <div className="flex justify-center">
           <Button 
             className={`font-medium flex items-center gap-2 ${
-              !isSelected ? 'opacity-50' : ''
+              !isSelected || isDisabled ? 'opacity-50' : ''
             } ${
               template.isPremium 
                 ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white' 
                 : 'text-blue-600'
             }`}
-            disabled={!isSelected}
+            disabled={!isSelected || isDisabled}
             onClick={() => onDownload(template.id, 'pdf')}
           >
-            Generate Preview
+            {isDisabled ? 'Upgrade Required' : 'Generate Preview'}
           </Button>
         </div>
       </div>

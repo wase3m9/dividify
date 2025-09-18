@@ -89,20 +89,10 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
         color: template.colors.accent,
       }),
     },
-    voucherNumber: {
-      position: 'absolute',
-      top: isPremium ? 80 : 70,
-      right: 30,
-      fontSize: template.fonts.body,
-      color: template.colors.text,
-    },
     shareholderSection: {
       marginTop: 40,
       marginBottom: 30,
       marginLeft: 0,
-    },
-    declarationSection: {
-      marginBottom: 30,
     },
     paymentSection: {
       marginBottom: 40,
@@ -201,21 +191,21 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
           <Text style={styles.registrationNumber}>Registered number: {data.registrationNumber}</Text>
         </View>
 
-        {/* Voucher Number - Top Right */}
-        <View style={styles.voucherNumber}>
-          <Text style={styles.text}>Dividend voucher number: {data.voucherNumber}</Text>
-        </View>
-
         {/* Director/Shareholder Address - Left Side */}
         <View style={styles.shareholderSection}>
           <Text style={styles.text}>{data.shareholderName}</Text>
           {data.shareholderAddress.split(',').map((line, index) => (
             <Text key={index} style={styles.text}>{line.trim()}</Text>
           ))}
-        </View>
-
-        {/* Declaration Statement */}
-        <View style={styles.declarationSection}>
+          
+          {/* Line breaks and voucher number */}
+          <Text style={styles.text}> </Text>
+          <Text style={styles.text}> </Text>
+          <Text style={styles.text}>Dividend voucher number: {data.voucherNumber}</Text>
+          <Text style={styles.text}> </Text>
+          <Text style={styles.text}> </Text>
+          
+          {/* Declaration Statement */}
           <Text style={styles.text}>
             {data.companyName} has declared the final dividend for the year ending {formatDate(data.financialYearEnding, 'TBD')} on its Ordinary shares as follows:
           </Text>
