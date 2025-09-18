@@ -1,6 +1,6 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
-import { format } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
 import { DividendVoucherData } from '../../types';
 import { getTemplate } from '../templates';
 
@@ -11,6 +11,27 @@ interface DividendVoucherPDFProps {
 export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) => {
   const template = getTemplate(data.templateStyle);
   const isPremium = ['executive', 'legal', 'corporateElite', 'royal', 'elite', 'platinum', 'ornate', 'magistrate'].includes(data.templateStyle || '');
+  
+  // Helper function to safely format dates
+  const formatDate = (dateString: string, fallback: string = 'Invalid Date'): string => {
+    if (!dateString) return fallback;
+    
+    let date: Date;
+    
+    // Try parsing as ISO string first, then as regular Date
+    if (dateString.includes('T') || dateString.includes('-')) {
+      date = parseISO(dateString);
+    } else {
+      date = new Date(dateString);
+    }
+    
+    if (!isValid(date)) {
+      console.warn('Invalid date provided:', dateString);
+      return fallback;
+    }
+    
+    return format(date, 'dd/MM/yyyy');
+  };
   
   const styles = StyleSheet.create({
     page: {
@@ -196,7 +217,7 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
         {/* Declaration Statement */}
         <View style={styles.declarationSection}>
           <Text style={styles.text}>
-            {data.companyName} has declared the final dividend for the year ending {format(new Date(data.financialYearEnding), 'dd/MM/yyyy')} on its Ordinary shares as follows:
+            {data.companyName} has declared the final dividend for the year ending {formatDate(data.financialYearEnding, 'TBD')} on its Ordinary shares as follows:
           </Text>
         </View>
 
@@ -204,11 +225,11 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
         <View style={styles.paymentSection}>
           <View style={styles.paymentRow}>
             <Text style={styles.paymentLabel}>Payment Date:</Text>
-            <Text style={styles.paymentValue}>{format(new Date(data.paymentDate), 'dd/MM/yyyy')}</Text>
+            <Text style={styles.paymentValue}>{formatDate(data.paymentDate)}</Text>
           </View>
           <View style={styles.paymentRow}>
             <Text style={styles.paymentLabel}>Shareholders as at:</Text>
-            <Text style={styles.paymentValue}>{format(new Date(data.paymentDate), 'dd/MM/yyyy')}</Text>
+            <Text style={styles.paymentValue}>{formatDate(data.paymentDate)}</Text>
           </View>
           <View style={styles.paymentRow}>
             <Text style={styles.paymentLabel}>Shareholder:</Text>
