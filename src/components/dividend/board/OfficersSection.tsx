@@ -1,4 +1,4 @@
-import { FC, useState, useCallback } from "react";
+import { FC, useState, useCallback, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -38,6 +38,11 @@ export const OfficersSection: FC<OfficersSectionProps> = ({
   const [directors, setDirectors] = useState<Director[]>(initialDirectors);
   const [editingDirector, setEditingDirector] = useState<Director | null>(null);
   const { toast } = useToast();
+
+  // Update directors when the prop changes (company change)
+  useEffect(() => {
+    setDirectors(initialDirectors);
+  }, [initialDirectors]);
 
   const fetchDirectors = useCallback(async (companyId: string) => {
     const { data, error } = await supabase
