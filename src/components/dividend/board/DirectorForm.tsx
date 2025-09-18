@@ -12,7 +12,7 @@ const directorFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
   forenames: z.string().min(1, "Forename(s) is required"),
   surname: z.string().min(1, "Surname is required"),
-  email: z.string().email("Invalid email address").min(1, "Email is required"),
+  email: z.string().email("Invalid email address").optional().or(z.literal("")),
   address: z.string().min(1, "Address is required"),
   position: z.string().optional(),
   date_of_appointment: z.string().min(1, "Date of appointment is required")
@@ -123,7 +123,7 @@ export const DirectorForm: FC<DirectorFormProps> = ({ onSubmit, isLoading, initi
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Email (Optional)</FormLabel>
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
