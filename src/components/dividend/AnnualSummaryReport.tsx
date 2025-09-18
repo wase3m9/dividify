@@ -2,11 +2,12 @@ import { FC, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FileSpreadsheet, Download } from "lucide-react";
+import { FileSpreadsheet, Download, FileText } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { exportToExcel } from "@/utils/excelExport";
+import { exportToPDF } from "@/utils/pdfExport";
 
 interface AnnualSummaryReportProps {
   companyId?: string;
@@ -56,14 +57,46 @@ export const AnnualSummaryReport: FC<AnnualSummaryReportProps> = ({ companyId })
     ? [...new Set(dividendRecords.map(record => record.tax_year))].sort()
     : [];
 
-  const generateReport = () => {
+  const generateExcelReport = () => {
+    const result = validateAndGetData();
+    if (!result) return;
+
+    const { selectedDirectorData, filteredRecords } = result;
+
+    // Export to Excel
+    const filename = `${selectedDirectorData.computed_full_name?.replace(/\s+/g, '_')}_dividend_summary_${selectedTaxYear}.xlsx`;
+    exportToExcel(filteredRecords, filename);
+
+    toast({
+      title: "Excel Report Generated",
+      description: `Annual summary report for ${selectedDirectorData.computed_full_name} (${selectedTaxYear}) downloaded as Excel file`,
+    });
+  };
+
+  const generatePDFReport = () => {
+    const result = validateAndGetData();
+    if (!result) return;
+
+    const { selectedDirectorData, filteredRecords } = result;
+
+    // Export to PDF
+    const filename = `${selectedDirectorData.computed_full_name?.replace(/\s+/g, '_')}_dividend_summary_${selectedTaxYear}.pdf`;
+    exportToPDF(filteredRecords, filename, selectedDirectorData.computed_full_name || '', selectedTaxYear);
+
+    toast({
+      title: "PDF Report Generated",
+      description: `Annual summary report for ${selectedDirectorData.computed_full_name} (${selectedTaxYear}) downloaded as PDF file`,
+    });
+  };
+
+  const validateAndGetData = () => {
     if (!selectedDirector) {
       toast({
         variant: "destructive",
         title: "Error",
         description: "Please select a director",
       });
-      return;
+      return null;
     }
 
     if (!selectedTaxYear) {
@@ -72,7 +105,7 @@ export const AnnualSummaryReport: FC<AnnualSummaryReportProps> = ({ companyId })
         title: "Error",
         description: "Please select a tax year",
       });
-      return;
+      return null;
     }
 
     const selectedDirectorData = directors?.find(d => d.id === selectedDirector);
@@ -88,17 +121,10 @@ export const AnnualSummaryReport: FC<AnnualSummaryReportProps> = ({ companyId })
         title: "No Data",
         description: "No dividend records found for the selected director and tax year",
       });
-      return;
+      return null;
     }
 
-    // Export to Excel
-    const filename = `${directorName?.replace(/\s+/g, '_')}_dividend_summary_${selectedTaxYear}.xlsx`;
-    exportToExcel(filteredRecords, filename);
-
-    toast({
-      title: "Report Generated",
-      description: `Annual summary report for ${directorName} (${selectedTaxYear}) downloaded as Excel file`,
-    });
+    return { selectedDirectorData, filteredRecords };
   };
 
   return (
@@ -143,20 +169,29 @@ export const AnnualSummaryReport: FC<AnnualSummaryReportProps> = ({ companyId })
             </Select>
           </div>
           
-          <div className="flex items-end">
+          <div className="flex items-end gap-2">
             <Button 
-              onClick={generateReport}
+              onClick={generateExcelReport}
               disabled={!selectedDirector || !selectedTaxYear}
-              className="w-full"
+              variant="outline"
+              className="flex-1"
             >
-              <Download className="mr-2 h-4 w-4" />
+              <FileSpreadsheet className="mr-2 h-4 w-4" />
               Download Excel
+            </Button>
+            <Button 
+              onClick={generatePDFReport}
+              disabled={!selectedDirector || !selectedTaxYear}
+              className="flex-1 bg-[#9b87f5] hover:bg-[#8b77e5]"
+            >
+              <FileText className="mr-2 h-4 w-4" />
+              Download PDF
             </Button>
           </div>
         </div>
         
         <p className="text-sm text-gray-500">
-          Generate a comprehensive Excel report of all dividend vouchers for the selected director and tax year for self-assessment purposes.
+          Generate a comprehensive Excel or PDF report of all dividend vouchers for the selected director and tax year for self-assessment purposes.
         </p>
       </CardContent>
     </Card>
