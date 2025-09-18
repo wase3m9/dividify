@@ -14,6 +14,8 @@ export interface DividendVoucherData {
   voucherNumber: string;
   holdings?: string;
   financialYearEnding: string;
+  yearEndDate?: string;
+  dividendType?: string;
   templateStyle?: string;
   logoUrl?: string;
   accountantFirmName?: string;

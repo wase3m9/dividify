@@ -201,13 +201,13 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
           {/* Line breaks and voucher number */}
           <Text style={styles.text}> </Text>
           <Text style={styles.text}> </Text>
-          <Text style={styles.text}>Dividend voucher number: {data.voucherNumber}</Text>
+          <Text style={styles.text}>Dividend No: {data.voucherNumber}</Text>
           <Text style={styles.text}> </Text>
           <Text style={styles.text}> </Text>
           
           {/* Declaration Statement */}
           <Text style={styles.text}>
-            {data.companyName} has declared the final dividend for the year ending {formatDate(data.financialYearEnding, 'TBD')} on its Ordinary shares as follows:
+            {data.companyName} has declared the {data.dividendType?.toLowerCase() || 'final'} dividend for the year ending {formatDate(data.yearEndDate || data.financialYearEnding, 'TBD')} on its Ordinary shares as follows:
           </Text>
         </View>
 

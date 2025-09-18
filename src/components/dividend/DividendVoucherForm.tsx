@@ -27,6 +27,8 @@ const dividendVoucherSchema = z.object({
   voucherNumber: z.string().optional(),
   paymentDate: z.string().min(1, 'Payment date is required'),
   shareholdersAsAtDate: z.string().min(1, 'Shareholders as at date is required'),
+  yearEndDate: z.string().min(1, 'Year end date is required'),
+  dividendType: z.enum(['Final', 'Interim'], { required_error: 'Please select dividend type' }),
   sharesHeld: z.number().min(1, 'Number of shares must be greater than 0'),
   dividendAmount: z.number().min(0.01, 'Dividend amount must be greater than 0'),
   templateStyle: z.enum(['classic', 'modern', 'green', 'executive', 'legal', 'corporateElite', 'royal', 'elite', 'platinum', 'ornate', 'magistrate']).optional(),
@@ -202,7 +204,9 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         totalAmount: data.dividendAmount?.toString() || '0',
         voucherNumber: voucherNumber,
         holdings: data.sharesHeld?.toString() || '0',
-        financialYearEnding: data.paymentDate || new Date().toISOString().split('T')[0], // Use payment date as fallback
+        financialYearEnding: data.yearEndDate || '',
+        yearEndDate: data.yearEndDate || '',
+        dividendType: data.dividendType || 'Final',
         templateStyle: data.templateStyle,
         logoUrl: profile?.logo_url || undefined,
         accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
@@ -517,6 +521,35 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
               />
               {errors.paymentDate && (
                 <p className="text-sm text-red-600 mt-1">{errors.paymentDate.message}</p>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="yearEndDate" className="text-left block">Year End Date</Label>
+              <Input
+                id="yearEndDate"
+                type="date"
+                {...register('yearEndDate')}
+                className="w-full"
+              />
+              {errors.yearEndDate && (
+                <p className="text-sm text-red-600 mt-1">{errors.yearEndDate.message}</p>
+              )}
+            </div>
+
+            <div>
+              <Label htmlFor="dividendType" className="text-left block">Dividend Type</Label>
+              <select
+                id="dividendType"
+                {...register('dividendType')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="">Select dividend type</option>
+                <option value="Final">Final</option>
+                <option value="Interim">Interim</option>
+              </select>
+              {errors.dividendType && (
+                <p className="text-sm text-red-600 mt-1">{errors.dividendType.message}</p>
               )}
             </div>
 
