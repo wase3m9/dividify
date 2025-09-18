@@ -7,6 +7,7 @@ import { BadgePoundSterling, Plus, Edit, FileText, Trash2 } from "lucide-react";
 import { useDividends } from "./useDividends";
 import { useNavigate } from "react-router-dom";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import type { DividendRecord } from "./types";
@@ -26,6 +27,7 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
     canDelete 
   } = useDividends(companyId);
   const { data: usage } = useMonthlyUsage();
+  const { userType } = useSubscriptionStatus();
 
   const handleEdit = () => {
     toast({
@@ -34,19 +36,10 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
     });
   };
 
-  const getPlanLimits = (plan: string) => {
-    switch (plan) {
-      case 'professional':
-        return { dividends: 10 };
-      case 'enterprise':
-        return { dividends: Infinity };
-      default: // starter or trial
-        return { dividends: 2 };
-    }
-  };
-
-  const limits = getPlanLimits(usage?.plan || 'trial');
-  const isDividendsDisabled = usage ? (limits.dividends !== Infinity && usage.dividendsCount >= limits.dividends) : false;
+  // Accountants have unlimited access regardless of plan
+  const isAccountant = userType === 'accountant';
+  const limits = usage?.limits || { dividends: 2 }; // Use limits from useMonthlyUsage which already handles accountants
+  const isDividendsDisabled = !isAccountant && usage ? (limits.dividends !== Infinity && usage.dividendsCount >= limits.dividends) : false;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -64,7 +57,7 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
             <TooltipTrigger asChild>
               <div>
                 <Button
-                  onClick={() => navigate("/dividend-voucher-form")}
+                  onClick={() => navigate(`/dividend-voucher-form?companyId=${companyId}`)}
                   size="sm"
                   disabled={isDividendsDisabled}
                 >

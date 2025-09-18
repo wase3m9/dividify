@@ -7,6 +7,7 @@ import { FileText, Plus, Trash2 } from "lucide-react";
 import { useMinutes } from "./useMinutes";
 import { useNavigate } from "react-router-dom";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
+import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface MinutesSectionProps {
@@ -17,20 +18,12 @@ export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
   const navigate = useNavigate();
   const { minutes, isLoading, handleDownload, handleDelete } = useMinutes(companyId);
   const { data: usage } = useMonthlyUsage();
+  const { userType } = useSubscriptionStatus();
 
-  const getPlanLimits = (plan: string) => {
-    switch (plan) {
-      case 'professional':
-        return { minutes: 10 };
-      case 'enterprise':
-        return { minutes: Infinity };
-      default: // starter or trial
-        return { minutes: 2 };
-    }
-  };
-
-  const limits = getPlanLimits(usage?.plan || 'trial');
-  const isMinutesDisabled = usage ? (limits.minutes !== Infinity && usage.minutesCount >= limits.minutes) : false;
+  // Accountants have unlimited access regardless of plan
+  const isAccountant = userType === 'accountant';
+  const limits = usage?.limits || { minutes: 2 }; // Use limits from useMonthlyUsage which already handles accountants
+  const isMinutesDisabled = !isAccountant && usage ? (limits.minutes !== Infinity && usage.minutesCount >= limits.minutes) : false;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -48,7 +41,7 @@ export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
             <TooltipTrigger asChild>
               <div>
                 <Button
-                  onClick={() => navigate("/board-minutes-form")}
+                  onClick={() => navigate(`/board-minutes-form?companyId=${companyId}`)}
                   size="sm"
                   disabled={isMinutesDisabled}
                 >
