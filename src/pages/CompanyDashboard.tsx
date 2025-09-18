@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { CompanySection } from "@/components/dividend/CompanySection";
@@ -28,6 +28,8 @@ import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
 
 const CompanyDashboard = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const companyIdFromUrl = searchParams.get('companyId');
   const { toast } = useToast();
   const { data: monthlyUsage } = useMonthlyUsage();
   const [company, setCompany] = useState(null);
@@ -51,7 +53,7 @@ const CompanyDashboard = () => {
     };
 
     checkAuth();
-  }, [navigate]);
+  }, [navigate, companyIdFromUrl]);
 
   const fetchUserProfile = async () => {
     try {
@@ -88,13 +90,30 @@ const CompanyDashboard = () => {
 
   const fetchData = async () => {
     try {
-      const { data: companyData, error: companyError } = await supabase
-        .from('companies')
-        .select('*')
-        .limit(1)
-        .maybeSingle();
+      let companyData;
+      
+      if (companyIdFromUrl) {
+        // Load specific company from URL parameter
+        const { data, error: companyError } = await supabase
+          .from('companies')
+          .select('*')
+          .eq('id', companyIdFromUrl)
+          .maybeSingle();
+        
+        if (companyError) throw companyError;
+        companyData = data;
+      } else {
+        // Load first company (existing behavior)
+        const { data, error: companyError } = await supabase
+          .from('companies')
+          .select('*')
+          .limit(1)
+          .maybeSingle();
 
-      if (companyError) throw companyError;
+        if (companyError) throw companyError;
+        companyData = data;
+      }
+      
       setCompany(companyData);
 
       if (companyData) {

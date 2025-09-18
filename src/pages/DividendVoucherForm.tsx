@@ -18,9 +18,9 @@ const DividendVoucherForm = () => {
     if (userType === 'accountant') {
       navigate('/accountant-dashboard');
     } else if (companyId) {
-      navigate('/company-dashboard');
+      navigate(`/company-dashboard?companyId=${companyId}`);
     } else {
-      navigate(-1);
+      navigate('/company-dashboard');
     }
   };
 
