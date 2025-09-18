@@ -344,6 +344,7 @@ const CompanyDashboard = () => {
                             isDialogOpen={isShareholderDialogOpen}
                             onDialogOpenChange={setIsShareholderDialogOpen}
                             onSubmit={handleShareholderSubmit}
+                            officers={directors}
                           />
                         </TabsContent>
                         <TabsContent value="share-classes" className="mt-0">

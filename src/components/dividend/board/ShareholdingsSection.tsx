@@ -1,8 +1,11 @@
 import { FC, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building2, Pencil, Trash2 } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Building2, Pencil, Trash2, Users, Copy } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogHeader, DialogDescription } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ShareholderDetailsForm } from "@/components/dividend/ShareholderDetailsForm";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { useToast } from "@/hooks/use-toast";
@@ -16,20 +19,35 @@ interface Shareholder {
   address?: string;
 }
 
+interface Officer {
+  id: string;
+  title: string;
+  forenames: string;
+  surname: string;
+  email?: string;
+  address: string;
+  position?: string;
+}
+
 interface ShareholdingsSectionProps {
   shareholdings: Shareholder[];
   isDialogOpen: boolean;
   onDialogOpenChange: (open: boolean) => void;
   onSubmit: (data: ShareholderDetails, shareholderId?: string) => void;
+  officers?: Officer[]; // Add officers prop
 }
 
 export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
   shareholdings,
   isDialogOpen,
   onDialogOpenChange,
-  onSubmit
+  onSubmit,
+  officers = []
 }) => {
   const [selectedShareholder, setSelectedShareholder] = useState<Shareholder | null>(null);
+  const [isCopyDialogOpen, setIsCopyDialogOpen] = useState(false);
+  const [selectedOfficers, setSelectedOfficers] = useState<string[]>([]);
+  const [defaultShares, setDefaultShares] = useState("100");
   const { toast } = useToast();
   const MAX_SHAREHOLDERS = 10;
 
@@ -82,6 +100,55 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
     setSelectedShareholder(null);
   };
 
+  const handleCopyOfficers = async () => {
+    if (selectedOfficers.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "No officers selected",
+        description: "Please select at least one officer to copy.",
+      });
+      return;
+    }
+
+    try {
+      const officersToCopy = officers.filter(officer => selectedOfficers.includes(officer.id));
+      
+      for (const officer of officersToCopy) {
+        const shareholderData: ShareholderDetails = {
+          shareholderName: `${officer.forenames} ${officer.surname}`,
+          shareClass: "Ordinary", // Default share class
+          numberOfShares: defaultShares,
+          shareholderAddress: officer.address
+        };
+        
+        await onSubmit(shareholderData);
+      }
+      
+      setIsCopyDialogOpen(false);
+      setSelectedOfficers([]);
+      setDefaultShares("100");
+      
+      toast({
+        title: "Success",
+        description: `${officersToCopy.length} officer(s) copied as shareholder(s).`,
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive", 
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
+  const toggleOfficerSelection = (officerId: string) => {
+    setSelectedOfficers(prev => 
+      prev.includes(officerId) 
+        ? prev.filter(id => id !== officerId)
+        : [...prev, officerId]
+    );
+  };
+
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -89,15 +156,110 @@ export const ShareholdingsSection: FC<ShareholdingsSectionProps> = ({
           <Building2 className="h-5 w-5 text-[#9b87f5]" />
           <h2 className="text-xl font-semibold">Shareholders</h2>
         </div>
-        <Button 
-          variant="outline"
-          className="text-[#9b87f5] border-[#9b87f5]"
-          disabled={shareholdings.length >= MAX_SHAREHOLDERS}
-          onClick={() => onDialogOpenChange(true)}
-        >
-          Add Shareholder {shareholdings.length >= MAX_SHAREHOLDERS && `(${MAX_SHAREHOLDERS} max)`}
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline"
+            className="text-[#9b87f5] border-[#9b87f5]"
+            disabled={shareholdings.length >= MAX_SHAREHOLDERS}
+            onClick={() => onDialogOpenChange(true)}
+          >
+            Add Shareholder {shareholdings.length >= MAX_SHAREHOLDERS && `(${MAX_SHAREHOLDERS} max)`}
+          </Button>
+          
+          {officers.length > 0 && (
+            <Button
+              variant="outline"
+              className="text-blue-600 border-blue-600"
+              disabled={shareholdings.length >= MAX_SHAREHOLDERS}
+              onClick={() => setIsCopyDialogOpen(true)}
+            >
+              <Copy className="mr-2 h-4 w-4" />
+              Copy from Officers
+            </Button>
+          )}
+        </div>
       </div>
+      
+      {/* Copy from Officers Dialog */}
+      <Dialog open={isCopyDialogOpen} onOpenChange={setIsCopyDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Copy Officers as Shareholders</DialogTitle>
+            <DialogDescription>
+              Select officers to copy as shareholders. They will be added with the default number of shares specified below.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="defaultShares">Default Number of Shares</Label>
+              <Input
+                id="defaultShares"
+                type="number"
+                value={defaultShares}
+                onChange={(e) => setDefaultShares(e.target.value)}
+                min="1"
+              />
+            </div>
+            
+            <div>
+              <Label>Select Officers to Copy:</Label>
+              <div className="space-y-2 mt-2 max-h-60 overflow-y-auto">
+                {officers.map((officer) => {
+                  const isAlreadyShareholder = shareholdings.some(sh => 
+                    sh.shareholder_name === `${officer.forenames} ${officer.surname}`
+                  );
+                  
+                  return (
+                    <div 
+                      key={officer.id} 
+                      className={`flex items-center space-x-2 p-2 rounded border ${
+                        isAlreadyShareholder ? 'bg-gray-50 opacity-50' : ''
+                      }`}
+                    >
+                      <Checkbox
+                        id={officer.id}
+                        checked={selectedOfficers.includes(officer.id)}
+                        onCheckedChange={() => toggleOfficerSelection(officer.id)}
+                        disabled={isAlreadyShareholder}
+                      />
+                      <div className="flex-1">
+                        <label 
+                          htmlFor={officer.id} 
+                          className={`text-sm ${isAlreadyShareholder ? 'line-through' : ''}`}
+                        >
+                          {officer.title} {officer.forenames} {officer.surname}
+                        </label>
+                        {isAlreadyShareholder && (
+                          <p className="text-xs text-gray-500">Already a shareholder</p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            
+            <div className="flex gap-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setIsCopyDialogOpen(false)}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleCopyOfficers}
+                disabled={selectedOfficers.length === 0}
+                className="flex-1"
+              >
+                Copy Selected ({selectedOfficers.length})
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+      
       <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
         <DialogContent>
           <DialogTitle>
