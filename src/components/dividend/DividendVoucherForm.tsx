@@ -157,11 +157,32 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
 
   // Generate preview (temporary, doesn't count against limits)
   const handleGeneratePreview = (data: DividendVoucherData) => {
-    setPreviewData({
-      ...data,
+    // Map form data to PDF data format with proper defaults
+    const mappedData: DividendVoucherData = {
+      companyName: data.companyName || '',
+      registrationNumber: data.companyRegNumber || '',
+      registeredAddress: data.companyAddress || '',
+      shareholderName: data.shareholderName || '',
+      shareholderAddress: data.shareholderAddress || '',
+      shareClass: 'Ordinary',
+      paymentDate: data.paymentDate || '',
+      amountPerShare: data.dividendAmount ? (data.dividendAmount / (data.sharesHeld || 1)).toFixed(4) : '0.0000',
+      totalAmount: data.dividendAmount?.toString() || '0',
+      voucherNumber: Math.floor(Math.random() * 1000000),
+      holdings: data.sharesHeld?.toString() || '0',
+      financialYearEnding: data.paymentDate || new Date().toISOString().split('T')[0], // Use payment date as fallback
+      templateStyle: data.templateStyle,
       logoUrl: profile?.logo_url || undefined,
-      accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined
-    });
+      accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
+      // Keep original data for backwards compatibility
+      companyAddress: data.companyAddress,
+      companyRegNumber: data.companyRegNumber,
+      sharesHeld: data.sharesHeld,
+      dividendAmount: data.dividendAmount,
+      shareholdersAsAtDate: data.shareholdersAsAtDate
+    };
+    
+    setPreviewData(mappedData);
   };
 
 
