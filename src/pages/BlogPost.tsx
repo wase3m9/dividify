@@ -264,118 +264,98 @@ const sampleBlogPosts = [
   {
     id: '7',
     title: '5 Dividend Mistakes UK Directors Still Make in 2025 (and how to fix them)',
-    content: `For limited company directors, dividends can be wonderfully tax-efficient — until they're not. Here's how to stay compliant, tidy, and stress-free.
+    content: `<h1>5 Dividend Mistakes UK Directors Still Make in 2025 (and how to fix them)</h1>
 
-**Table of contents**
+<p>For limited company directors, dividends can be tax-efficient, but only if done correctly. Here are the common pitfalls and how to avoid them in 2025.</p>
 
-1. [Why this matters to UK company directors](#why-this-matters)
-2. [Mistake #1: Paying dividends without distributable profits](#mistake-1)
-3. [Mistake #2: Missing paperwork (vouchers & board minutes)](#mistake-2)
-4. [Mistake #3: "What's in the bank?" withdrawals](#mistake-3)
-5. [Mistake #4: Forgetting to plan for the personal tax bill](#mistake-4)
-6. [Mistake #5: Unequal dividends without the right share structure](#mistake-5)
-7. [Best-practice checklist for 2025/26](#checklist)
-8. [FAQs](#faqs)
+<h2>Table of contents</h2>
+<ol>
+  <li>Why this matters to UK company directors</li>
+  <li>Mistake 1: Paying dividends without distributable profits</li>
+  <li>Mistake 2: Missing paperwork</li>
+  <li>Mistake 3: Treating bank balance as profit</li>
+  <li>Mistake 4: Forgetting the personal tax bill</li>
+  <li>Mistake 5: Unequal dividends without the right share structure</li>
+  <li>Best practice checklist</li>
+  <li>FAQs</li>
+</ol>
 
-## Why this matters to UK company directors {#why-this-matters}
+<h2>Why this matters to UK company directors</h2>
+<p>Dividends are distributions of post-tax profits. If handled correctly, they are usually more tax-efficient than salary. If handled incorrectly, directors risk an overdrawn loan account, HMRC reclassifying drawings as salary, or unexpected tax bills.</p>
+<p>Having the right paperwork and process in place protects directors and makes life easier if HMRC ever asks for evidence.</p>
 
-Dividends are **distributions of post-tax profits**. Get them right and you'll usually take home more after tax than via pure salary. Get them wrong and you could face:
+<h2>Mistake 1: Paying dividends without distributable profits</h2>
+<p>It is not enough to have cash in the bank. Dividends can only be paid from accumulated post-tax profits. Loans, VAT funds, or supplier payments do not count as profit.</p>
+<ul>
+  <li>Check monthly profit and loss reports</li>
+  <li>Set aside corporation tax before declaring dividends</li>
+  <li>Only declare dividends supported by retained profits</li>
+</ul>
 
-- **Overdrawn director's loan account** (and potential extra charges/tax).
-- **Reclassification** of drawings as salary by HMRC if records are poor.
-- **Cashflow shocks** when the personal tax bill lands.
+<h2>Mistake 2: Missing paperwork</h2>
+<p>HMRC can challenge dividends if there are no supporting records. Each dividend should be backed by:</p>
+<ul>
+  <li>Board minutes authorising the dividend</li>
+  <li>A dividend voucher showing the date, shareholder and amount</li>
+</ul>
+<p>Without these, HMRC may argue the payments were salary rather than dividends.</p>
 
-Dividify helps you prevent this by producing **proper dividend vouchers and board minutes** in seconds — branded for your firm or your client's company.
+<h2>Mistake 3: Treating bank balance as profit</h2>
+<p>Some directors withdraw ad hoc amounts based on cash in the bank. This makes it difficult to track drawings and can result in an overdrawn loan account.</p>
+<ul>
+  <li>Set a regular dividend, monthly or quarterly, that is sustainable</li>
+  <li>Use a standing order for discipline</li>
+  <li>Pay any extra as a separate dividend with paperwork in place</li>
+</ul>
 
-## Mistake #1: Paying dividends without distributable profits {#mistake-1}
+<h2>Mistake 4: Forgetting the personal tax bill</h2>
+<p>Dividends are paid gross. The tax is usually due later via Self Assessment. If directors do not plan for this, they may need to declare another dividend just to cover the tax.</p>
+<ul>
+  <li>Put aside a percentage of each dividend for future tax</li>
+  <li>Review the amount each quarter</li>
+  <li>Ask your accountant to estimate your effective tax rate</li>
+</ul>
 
-**The issue:** Seeing cash in the bank and assuming a dividend is fine. It isn't. Dividends must come from **accumulated, post-tax profits** (per Companies Act rules). Loans, VAT money, or supplier funds ≠ profit.
+<h2>Mistake 5: Unequal dividends without the right share structure</h2>
+<p>Dividends must be paid equally per share within the same class. Paying different amounts to shareholders without the right structure can cause problems.</p>
+<ul>
+  <li>Use alphabet shares (A, B, etc.) if you need flexibility</li>
+  <li>Consider a formal dividend waiver if one shareholder should not receive a payment</li>
+  <li>Keep share registers and records updated</li>
+</ul>
 
-**Symptoms:**
-- Big drawings during the year; year-end shows profit wasn't enough.
-- **Director's Loan Account (DLA)** goes overdrawn.
+<h2>Best practice checklist</h2>
+<ul>
+  <li>Confirm retained profits before declaring dividends</li>
+  <li>Ring-fence corporation tax estimates</li>
+  <li>Pay dividends regularly rather than ad hoc</li>
+  <li>Keep vouchers and minutes for every dividend</li>
+  <li>Set aside money for personal tax</li>
+  <li>Use the correct share structure for different payouts</li>
+  <li>Keep records neat and accessible</li>
+</ul>
 
-**Risks:**
-- Extra corporation tax charges/benefit-in-kind complications if treated as a loan.
-- You personally owe the company money — messy if the company struggles.
+<h2>FAQs</h2>
 
-**Fix:**
-- **Monthly profit check:** Run a quick P&L and confirm retained profits.
-- **Ring-fence CT:** Park an estimate of corporation tax so you don't overstate profits.
-- **Only declare** what profits genuinely support.
+<h3>Can I pay a dividend if the bank balance is healthy but profits are low?</h3>
+<p>No. Dividends can only be paid from distributable profits, not just available cash.</p>
 
-## Mistake #2: Missing paperwork (vouchers & board minutes) {#mistake-2}
+<h3>Do I need board minutes for every dividend?</h3>
+<p>Yes. Each dividend requires minutes and a voucher. This is quick to produce and keeps you compliant.</p>
 
-**The issue:** HMRC can challenge "dividends" without **supporting documentation**. Every declaration should have:
+<h3>Should dividends be paid monthly or quarterly?</h3>
+<p>Either is fine, provided the company has sufficient profits. Monthly dividends are common for predictable cashflow.</p>
 
-- **Board minutes** authorising the dividend.
-- **Dividend voucher** stating the amount, date, shareholder, and share class.
+<h3>Can spouses receive different dividend amounts?</h3>
+<p>Only if you have alphabet shares or a valid waiver. Otherwise, dividends must be paid equally per share.</p>
 
-**Fix:**
-- Use Dividify to generate **clean, compliant PDFs** (board minutes + vouchers) with your firm's branding.
-- Store them alongside your management accounts for audit-ready records.
+<h3>What if dividends were over-declared?</h3>
+<p>Speak to your accountant as soon as possible. Options may include repaying the drawings or addressing the loan account.</p>
 
-## Mistake #3: "What's in the bank?" withdrawals {#mistake-3}
+<h2>Try Dividify free</h2>
+<p>Create branded dividend vouchers and board minutes in under a minute. Stay compliant, save time, and reduce admin stress for directors and accountants.</p>`
 
-**The issue:** Irregular amounts taken ad hoc ("I'll just transfer £2k this month"). This makes you lose track of what you've actually drawn and risks an overdrawn DLA if profits dip.
-
-**Fix:**
-- **Set a fixed dividend** (monthly or quarterly) that the numbers comfortably support.
-- Use a **standing order** so it's disciplined and predictable.
-- If the year goes brilliantly, pay a **separate one-off bonus dividend** — with the paperwork — rather than constantly changing your regular amount.
-
-## Mistake #4: Forgetting to plan for the personal tax bill {#mistake-4}
-
-**The issue:** Dividends are paid **gross**. The personal tax on those dividends usually arrives much later (via Self Assessment and possibly payments on account). If you haven't planned, you may need an extra dividend at the worst time.
-
-**Fix:**
-- **"Tax yourself" on payday:** When the dividend lands, move a % into a savings pot for your future tax bill.
-- Ask your accountant to estimate your **blended effective rate** based on your total income and the current dividend allowance/bands.
-- Review the pot each quarter and top up if profits — or your drawings — have changed.
-
-## Mistake #5: Unequal dividends without the right share structure {#mistake-5}
-
-**The issue:** Want to pay different amounts to different shareholders (e.g., spouse or co-founder)? With ordinary shares of the same class, **dividends must be paid per share, equally**. Paying unevenly without the right paperwork/share classes can create problems.
-
-**Fix:**
-- Speak to your accountant about **alphabet shares** (A, B, etc.) or formal **dividend waivers** where appropriate — and ensure the minutes reflect the decision.
-- Keep company registers and share certificates **up to date** so your paperwork matches reality.
-
-## Best-practice checklist for 2025/26 {#checklist}
-
-- ✅ Confirm **accumulated, post-tax profits** before you declare.
-- ✅ **Ring-fence CT** estimates each month so profits are realistic.
-- ✅ **Fix a regular dividend**; avoid impulse transfers.
-- ✅ Generate **board minutes + vouchers** every time (Dividify makes this 60-second work).
-- ✅ **Set aside** a portion of each dividend for your personal tax.
-- ✅ If paying shareholders differently, **use the right share structure** and record it properly.
-- ✅ Store everything neatly — if HMRC asks, you can show the full trail in minutes.
-
-## FAQs {#faqs}
-
-### Can I pay a dividend if the bank account is healthy but last year's accounts show small profits?
-
-Not unless you have **current and retained profits** to cover it. Bank balance isn't the test; distributable profits are.
-
-### Do I need board minutes for every dividend?
-
-Yes — plus a **dividend voucher**. The admin is light with Dividify and protects you if asked for evidence.
-
-### How often should I pay dividends — monthly or quarterly?
-
-Either is fine. The key is that the amount is **sustainable** and supported by profits. Many directors prefer monthly for cashflow predictability.
-
-### We want different payouts between spouses. Is that allowed?
-
-Only with the **correct share structure** (e.g., alphabet shares) or a properly executed **waiver**. Get advice before paying.
-
-### What if we accidentally over-declared this year?
-
-Speak to your accountant quickly. Options exist (e.g., repaying drawings, reclassifying, or dealing with a DLA), but the earlier you act, the cheaper it is.
-
-## Try Dividify free
-
-Create **branded dividend vouchers and board minutes** in under a minute, keep your clients compliant, and save hours of admin each month.`,
+    },
     slug: '5-dividend-mistakes-uk-directors-still-make-in-2025-and-how-to-fix-them',
     published_at: new Date().toISOString()
   },
