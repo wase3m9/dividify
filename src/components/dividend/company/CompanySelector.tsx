@@ -28,9 +28,10 @@ import { useState } from "react";
 interface CompanySelectorProps {
   onSelect: (companyId: string) => void;
   selectedCompanyId?: string;
+  restrictToCompany?: string; // When set, only show this company
 }
 
-export const CompanySelector = ({ onSelect, selectedCompanyId }: CompanySelectorProps) => {
+export const CompanySelector = ({ onSelect, selectedCompanyId, restrictToCompany }: CompanySelectorProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -60,10 +61,17 @@ export const CompanySelector = ({ onSelect, selectedCompanyId }: CompanySelector
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
+      let query = supabase
         .from('companies')
         .select('id, name')
         .eq('user_id', user.id);
+      
+      // If restrictToCompany is set, only fetch that specific company
+      if (restrictToCompany) {
+        query = query.eq('id', restrictToCompany);
+      }
+
+      const { data, error } = await query;
       
       if (error) {
         toast({

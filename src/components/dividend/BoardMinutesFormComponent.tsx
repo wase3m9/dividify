@@ -32,19 +32,25 @@ type BoardMinutesFormData = Omit<BoardMinutesData, 'directorsPresent'>;
 
 interface BoardMinutesFormProps {
   initialData?: Partial<BoardMinutesData>;
+  companyId?: string; // When set, restrict to this specific company
 }
 
-export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ initialData }) => {
+export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ initialData, companyId }) => {
   const [previewData, setPreviewData] = useState<BoardMinutesData | null>(null);
   const [directorsInput, setDirectorsInput] = useState('');
-  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>(companyId || '');
   const [isSaving, setIsSaving] = useState(false);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const logActivity = useLogActivity();
 
-  const getPlanLimits = (plan: string) => {
+  const getPlanLimits = (plan: string, userType?: string) => {
+    // Accountants should have unlimited access regardless of their subscription plan
+    if (userType === 'accountant') {
+      return { minutes: Infinity };
+    }
+    
     switch (plan) {
       case 'professional':
         return { minutes: 10 };
@@ -159,7 +165,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
     setIsSaving(true);
     try {
       const plan = usage?.plan || 'trial';
-      const limits = getPlanLimits(plan);
+      const limits = getPlanLimits(plan, profile?.user_type);
 
       // Always re-check usage with fresh counts to prevent stale cache allowing overage
       const { data: auth } = await supabase.auth.getUser();
@@ -188,22 +194,25 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
         periodEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
       }
 
-      const { count: freshMinutesCount, error: minutesCountError } = await supabase
-        .from('minutes')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .gte('created_at', periodStart.toISOString())
-        .lt('created_at', periodEnd.toISOString());
-      if (minutesCountError) throw minutesCountError;
+      // Check current usage (skip for accountants)
+      if (profile?.user_type !== 'accountant') {
+        const { count: freshMinutesCount, error: minutesCountError } = await supabase
+          .from('minutes')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .gte('created_at', periodStart.toISOString())
+          .lt('created_at', periodEnd.toISOString());
+        if (minutesCountError) throw minutesCountError;
 
-      const current = freshMinutesCount || 0;
-      if (limits.minutes !== Infinity && current >= limits.minutes) {
-        toast({
-          variant: 'destructive',
-          title: 'Monthly limit reached',
-          description: `You have reached your monthly board minutes limit (${limits.minutes}). Upgrade to create more.`,
-        });
-        return;
+        const current = freshMinutesCount || 0;
+        if (limits.minutes !== Infinity && current >= limits.minutes) {
+          toast({
+            variant: 'destructive',
+            title: 'Monthly limit reached',
+            description: `You have reached your monthly board minutes limit (${limits.minutes}). Upgrade to create more.`,
+          });
+          return;
+        }
       }
 
       if (!selectedCompanyId) {
@@ -286,6 +295,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
           <CompanySelector
             onSelect={setSelectedCompanyId}
             selectedCompanyId={selectedCompanyId}
+            restrictToCompany={companyId}
           />
           {selectedCompanyId && companyData && (
             <div className="text-sm text-green-600 bg-green-50 p-2 rounded">

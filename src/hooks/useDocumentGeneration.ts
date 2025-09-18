@@ -23,7 +23,12 @@ export const useDocumentGeneration = () => {
   const { subscriptionData } = useSubscriptionStatus();
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const getPlanLimits = (plan: string): UsageLimits => {
+  const getPlanLimits = (plan: string, userType?: string): UsageLimits => {
+    // Accountants should have unlimited access regardless of their subscription plan
+    if (userType === 'accountant') {
+      return { dividends: 0, minutes: 0, isUnlimited: true };
+    }
+    
     switch (plan?.toLowerCase()) {
       case 'trial':
       case 'starter':
@@ -42,14 +47,14 @@ export const useDocumentGeneration = () => {
     try {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('current_month_dividends, current_month_minutes, subscription_plan')
+        .select('current_month_dividends, current_month_minutes, subscription_plan, user_type')
         .eq('id', user?.id)
         .single();
 
       if (!profile) return false;
 
       const currentPlan = subscriptionData?.subscription_tier || profile.subscription_plan;
-      const limits = getPlanLimits(currentPlan);
+      const limits = getPlanLimits(currentPlan, profile.user_type);
 
       if (limits.isUnlimited) return true;
 

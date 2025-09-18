@@ -33,18 +33,24 @@ const dividendVoucherSchema = z.object({
 
 interface DividendVoucherFormProps {
   initialData?: Partial<DividendVoucherData>;
+  companyId?: string; // When set, restrict to this specific company
 }
 
-export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = ({ initialData }) => {
+export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = ({ initialData, companyId }) => {
   const [previewData, setPreviewData] = useState<DividendVoucherData | null>(null);
-  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>(companyId || '');
   const [selectedShareholderId, setSelectedShareholderId] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const getPlanLimits = (plan: string) => {
+  const getPlanLimits = (plan: string, userType?: string) => {
+    // Accountants should have unlimited access regardless of their subscription plan
+    if (userType === 'accountant') {
+      return { dividends: Infinity };
+    }
+    
     switch (plan) {
       case 'professional':
         return { dividends: 10 };
@@ -166,7 +172,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     setIsSaving(true);
     try {
       const plan = usage?.plan || 'trial';
-      const limits = getPlanLimits(plan);
+      const limits = getPlanLimits(plan, profile?.user_type);
 
       const { data: auth } = await supabase.auth.getUser();
       const user = auth.user;
@@ -194,22 +200,24 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         periodEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0));
       }
 
-      // Check current usage from profile counters
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('current_month_dividends')
-        .eq('id', user.id)
-        .single();
-      if (profileError) throw profileError;
+      // Check current usage from profile counters (skip for accountants)
+      if (profile?.user_type !== 'accountant') {
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('current_month_dividends')
+          .eq('id', user.id)
+          .single();
+        if (profileError) throw profileError;
 
-      const current = profile?.current_month_dividends || 0;
-      if (limits.dividends !== Infinity && current >= limits.dividends) {
-        toast({
-          variant: 'destructive',
-          title: 'Monthly limit reached',
-          description: `You have reached your monthly dividend voucher limit (${limits.dividends}). Upgrade to create more.`,
-        });
-        return;
+        const current = profileData?.current_month_dividends || 0;
+        if (limits.dividends !== Infinity && current >= limits.dividends) {
+          toast({
+            variant: 'destructive',
+            title: 'Monthly limit reached',
+            description: `You have reached your monthly dividend voucher limit (${limits.dividends}). Upgrade to create more.`,
+          });
+          return;
+        }
       }
 
       if (!selectedCompanyId) {
@@ -283,6 +291,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             <CompanySelector
               onSelect={setSelectedCompanyId}
               selectedCompanyId={selectedCompanyId}
+              restrictToCompany={companyId}
             />
           </div>
           

@@ -59,14 +59,12 @@ export const TipsSection = () => {
 
         {/* Export Feature */}
         <div className="pt-2 border-t">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Download className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm font-medium">Export to Accounting Software</span>
-            </div>
+          <div className="flex items-center gap-2 mb-1">
+            <Download className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm font-medium">Export to Accounting Software</span>
             <Badge variant="secondary" className="text-xs">Coming Soon</Badge>
           </div>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-muted-foreground">
             Export journal entries to QuickBooks, Xero, and other platforms
           </p>
         </div>
