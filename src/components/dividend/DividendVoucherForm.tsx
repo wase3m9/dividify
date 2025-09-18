@@ -28,7 +28,7 @@ const dividendVoucherSchema = z.object({
   shareholdersAsAtDate: z.string().min(1, 'Shareholders as at date is required'),
   sharesHeld: z.number().min(1, 'Number of shares must be greater than 0'),
   dividendAmount: z.number().min(0.01, 'Dividend amount must be greater than 0'),
-  templateStyle: z.enum(['classic', 'modern', 'green', 'executive', 'legal', 'corporateElite']).optional(),
+  templateStyle: z.enum(['classic', 'modern', 'green', 'executive', 'legal', 'corporateElite', 'royal', 'elite', 'platinum', 'ornate', 'magistrate']).optional(),
 });
 
 interface DividendVoucherFormProps {
@@ -461,9 +461,14 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
                   <div className="px-2 py-1 text-xs font-medium text-amber-600 border-t mt-1">
                     Premium Templates
                   </div>
-                  <SelectItem value="executive">Executive Premium (Dark & Gold)</SelectItem>
+                  <SelectItem value="executive">Executive Premium (Elegant Gray & Gold)</SelectItem>
                   <SelectItem value="legal">Legal Professional (Traditional)</SelectItem>
                   <SelectItem value="corporateElite">Corporate Elite (Modern Blue)</SelectItem>
+                  <SelectItem value="royal">Royal Collection (Navy & Red)</SelectItem>
+                  <SelectItem value="elite">Elite Emerald (Luxury Green)</SelectItem>
+                  <SelectItem value="platinum">Platinum Series (Refined Gray)</SelectItem>
+                  <SelectItem value="ornate">Ornate Classic (Traditional Green)</SelectItem>
+                  <SelectItem value="magistrate">Magistrate Bronze (Formal Brown)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

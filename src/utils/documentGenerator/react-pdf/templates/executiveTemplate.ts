@@ -2,9 +2,9 @@ import { TemplateConfig } from '../types';
 
 export const executiveTemplate: TemplateConfig = {
   colors: {
-    primary: '#1A1A1A',
-    secondary: '#F5F5F5',
-    text: '#2D2D2D',
+    primary: '#374151',
+    secondary: '#F9FAFB',
+    text: '#1F2937',
     accent: '#D4AF37'
   },
   fonts: {

@@ -25,7 +25,7 @@ const boardMinutesSchema = z.object({
   dividendPerShare: z.number().min(0.0001, 'Dividend per share must be greater than 0'),
   totalDividend: z.number().min(0.01, 'Total dividend must be greater than 0'),
   paymentDate: z.string().min(1, 'Payment date is required'),
-  templateStyle: z.enum(['classic', 'modern', 'green', 'executive', 'legal', 'corporateElite']).optional(),
+  templateStyle: z.enum(['classic', 'modern', 'green', 'executive', 'legal', 'corporateElite', 'royal', 'elite', 'platinum', 'ornate', 'magistrate']).optional(),
 });
 
 type BoardMinutesFormData = Omit<BoardMinutesData, 'directorsPresent'>;
@@ -406,9 +406,14 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
                   <div className="px-2 py-1 text-xs font-medium text-amber-600 border-t mt-1">
                     Premium Templates
                   </div>
-                  <SelectItem value="executive">Executive Premium (Dark & Gold)</SelectItem>
+                  <SelectItem value="executive">Executive Premium (Elegant Gray & Gold)</SelectItem>
                   <SelectItem value="legal">Legal Professional (Traditional)</SelectItem>
                   <SelectItem value="corporateElite">Corporate Elite (Modern Blue)</SelectItem>
+                  <SelectItem value="royal">Royal Collection (Navy & Red)</SelectItem>
+                  <SelectItem value="elite">Elite Emerald (Luxury Green)</SelectItem>
+                  <SelectItem value="platinum">Platinum Series (Refined Gray)</SelectItem>
+                  <SelectItem value="ornate">Ornate Classic (Traditional Green)</SelectItem>
+                  <SelectItem value="magistrate">Magistrate Bronze (Formal Brown)</SelectItem>
                 </SelectContent>
               </Select>
             </div>

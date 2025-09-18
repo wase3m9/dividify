@@ -4,6 +4,11 @@ import { greenTemplate } from './greenTemplate';
 import { executiveTemplate } from './executiveTemplate';
 import { legalTemplate } from './legalTemplate';
 import { corporateEliteTemplate } from './corporateEliteTemplate';
+import { royalTemplate } from './royalTemplate';
+import { eliteTemplate } from './eliteTemplate';
+import { platinumTemplate } from './platinumTemplate';
+import { ornateTemplate } from './ornateTemplate';
+import { magistrateTemplate } from './magistrateTemplate';
 
 export const templates = {
   classic: classicTemplate,
@@ -11,7 +16,12 @@ export const templates = {
   green: greenTemplate,
   executive: executiveTemplate,
   legal: legalTemplate,
-  corporateElite: corporateEliteTemplate
+  corporateElite: corporateEliteTemplate,
+  royal: royalTemplate,
+  elite: eliteTemplate,
+  platinum: platinumTemplate,
+  ornate: ornateTemplate,
+  magistrate: magistrateTemplate
 };
 
 export const getTemplate = (templateId: string = 'classic') => {
@@ -24,3 +34,8 @@ export * from './greenTemplate';
 export * from './executiveTemplate';
 export * from './legalTemplate';
 export * from './corporateEliteTemplate';
+export * from './royalTemplate';
+export * from './eliteTemplate';
+export * from './platinumTemplate';
+export * from './ornateTemplate';
+export * from './magistrateTemplate';
