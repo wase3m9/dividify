@@ -156,33 +156,56 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
   const templateStyle = watch('templateStyle') || 'classic';
 
   // Generate preview (temporary, doesn't count against limits)
-  const handleGeneratePreview = (data: DividendVoucherData) => {
-    // Map form data to PDF data format with proper defaults
-    const mappedData: DividendVoucherData = {
-      companyName: data.companyName || '',
-      registrationNumber: data.companyRegNumber || '',
-      registeredAddress: data.companyAddress || '',
-      shareholderName: data.shareholderName || '',
-      shareholderAddress: data.shareholderAddress || '',
-      shareClass: 'Ordinary',
-      paymentDate: data.paymentDate || '',
-      amountPerShare: data.dividendAmount ? (data.dividendAmount / (data.sharesHeld || 1)).toFixed(4) : '0.0000',
-      totalAmount: data.dividendAmount?.toString() || '0',
-      voucherNumber: Math.floor(Math.random() * 1000000),
-      holdings: data.sharesHeld?.toString() || '0',
-      financialYearEnding: data.paymentDate || new Date().toISOString().split('T')[0], // Use payment date as fallback
-      templateStyle: data.templateStyle,
-      logoUrl: profile?.logo_url || undefined,
-      accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
-      // Keep original data for backwards compatibility
-      companyAddress: data.companyAddress,
-      companyRegNumber: data.companyRegNumber,
-      sharesHeld: data.sharesHeld,
-      dividendAmount: data.dividendAmount,
-      shareholdersAsAtDate: data.shareholdersAsAtDate
-    };
-    
-    setPreviewData(mappedData);
+  const handleGeneratePreview = async (data: DividendVoucherData) => {
+    if (!selectedCompanyId) {
+      toast({ variant: 'destructive', title: 'Select a company', description: 'Please select a company first.' });
+      return;
+    }
+
+    try {
+      // Get the next sequential voucher number for this company (for preview)
+      const { data: voucherNumber, error: voucherError } = await supabase
+        .rpc('get_next_voucher_number', { company_id_param: selectedCompanyId });
+
+      if (voucherError) {
+        console.error('Error getting voucher number:', voucherError);
+        toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate voucher number' });
+        return;
+      }
+
+      // Format voucher number as 4-digit string (0001, 0002, etc.)
+      const formattedVoucherNumber = String(voucherNumber).padStart(4, '0');
+
+      // Map form data to PDF data format with proper defaults
+      const mappedData: DividendVoucherData = {
+        companyName: data.companyName || '',
+        registrationNumber: data.companyRegNumber || '',
+        registeredAddress: data.companyAddress || '',
+        shareholderName: data.shareholderName || '',
+        shareholderAddress: data.shareholderAddress || '',
+        shareClass: 'Ordinary',
+        paymentDate: data.paymentDate || '',
+        amountPerShare: data.dividendAmount ? (data.dividendAmount / (data.sharesHeld || 1)).toFixed(4) : '0.0000',
+        totalAmount: data.dividendAmount?.toString() || '0',
+        voucherNumber: formattedVoucherNumber,
+        holdings: data.sharesHeld?.toString() || '0',
+        financialYearEnding: data.paymentDate || new Date().toISOString().split('T')[0], // Use payment date as fallback
+        templateStyle: data.templateStyle,
+        logoUrl: profile?.logo_url || undefined,
+        accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
+        // Keep original data for backwards compatibility
+        companyAddress: data.companyAddress,
+        companyRegNumber: data.companyRegNumber,
+        sharesHeld: data.sharesHeld,
+        dividendAmount: data.dividendAmount,
+        shareholdersAsAtDate: data.shareholdersAsAtDate
+      };
+      
+      setPreviewData(mappedData);
+    } catch (error: any) {
+      console.error('Error generating preview:', error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to generate preview' });
+    }
   };
 
 

@@ -110,6 +110,23 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
         return;
       }
 
+      // Get the next sequential voucher number for this company
+      const { data: voucherNumber, error: voucherError } = await supabase
+        .rpc('get_next_voucher_number', { company_id_param: company.id });
+
+      if (voucherError) {
+        console.error('Error getting voucher number:', voucherError);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to generate voucher number",
+        });
+        return;
+      }
+
+      // Format voucher number as 4-digit string (0001, 0002, etc.)
+      const formattedVoucherNumber = String(voucherNumber).padStart(4, '0');
+
       // Get user's logo URL
       const { data: profile } = await supabase
         .from('profiles')
@@ -127,7 +144,7 @@ export const useTemplateActions = (company: Company | null, formData: any) => {
         paymentDate: formData.paymentDate || new Date().toISOString(),
         amountPerShare: formData.amountPerShare?.toString() || '0',
         totalAmount: formData.totalAmount?.toString() || '0',
-        voucherNumber: 1,
+        voucherNumber: formattedVoucherNumber,
         financialYearEnding: formData.financialYearEnd || new Date().toISOString(),
         holdings: formData.shareholdings?.toString() || '',
         logoUrl: profile?.logo_url || undefined,

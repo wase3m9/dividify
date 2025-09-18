@@ -159,6 +159,7 @@ export type Database = {
           id: string
           incorporation_date: string | null
           name: string
+          next_voucher_number: number
           place_of_registration: string | null
           registered_address: string | null
           registered_email: string | null
@@ -176,6 +177,7 @@ export type Database = {
           id?: string
           incorporation_date?: string | null
           name: string
+          next_voucher_number?: number
           place_of_registration?: string | null
           registered_address?: string | null
           registered_email?: string | null
@@ -193,6 +195,7 @@ export type Database = {
           id?: string
           incorporation_date?: string | null
           name?: string
+          next_voucher_number?: number
           place_of_registration?: string | null
           registered_address?: string | null
           registered_email?: string | null
@@ -562,6 +565,10 @@ export type Database = {
       check_and_reset_monthly_counters: {
         Args: { user_id_param: string }
         Returns: undefined
+      }
+      get_next_voucher_number: {
+        Args: { company_id_param: string }
+        Returns: number
       }
       has_role: {
         Args: {

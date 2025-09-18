@@ -11,7 +11,7 @@ export interface DividendVoucherData {
   paymentDate: string;
   amountPerShare: string;
   totalAmount: string;
-  voucherNumber: number;
+  voucherNumber: string;
   holdings?: string;
   financialYearEnding: string;
   templateStyle?: string;
