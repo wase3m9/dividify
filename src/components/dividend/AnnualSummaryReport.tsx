@@ -111,15 +111,46 @@ export const AnnualSummaryReport: FC<AnnualSummaryReportProps> = ({ companyId })
     const selectedDirectorData = directors?.find(d => d.id === selectedDirector);
     const directorName = selectedDirectorData?.computed_full_name;
 
-    const filteredRecords = dividendRecords?.filter(
+    console.log('Debug info:', {
+      selectedDirectorData,
+      directorName,
+      selectedTaxYear,
+      allDividendRecords: dividendRecords,
+      availableShareholderNames: dividendRecords?.map(r => r.shareholder_name),
+      availableTaxYears: dividendRecords?.map(r => r.tax_year)
+    });
+
+    // Try different matching strategies
+    let filteredRecords = dividendRecords?.filter(
       record => record.shareholder_name === directorName && record.tax_year === selectedTaxYear
     ) || [];
+
+    // If no exact match, try partial matching
+    if (filteredRecords.length === 0 && directorName) {
+      // Try matching with different name formats
+      const nameParts = directorName.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts[nameParts.length - 1];
+      
+      filteredRecords = dividendRecords?.filter(record => {
+        const recordName = record.shareholder_name.toLowerCase();
+        const searchName = directorName.toLowerCase();
+        return (recordName.includes(firstName.toLowerCase()) && recordName.includes(lastName.toLowerCase())) &&
+               record.tax_year === selectedTaxYear;
+      }) || [];
+      
+      if (filteredRecords.length > 0) {
+        console.log('Found records with partial name matching:', filteredRecords);
+      }
+    }
+
+    console.log('Filtered records:', filteredRecords);
 
     if (filteredRecords.length === 0) {
       toast({
         variant: "destructive",
         title: "No Data",
-        description: "No dividend records found for the selected director and tax year",
+        description: `No dividend records found for "${directorName}" in tax year ${selectedTaxYear}. Available shareholders: ${dividendRecords?.map(r => r.shareholder_name).join(', ')}`,
       });
       return null;
     }
