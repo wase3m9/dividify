@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
+import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { CompanySection } from "@/components/dividend/CompanySection";
 import { RecentActivity } from "@/components/dividend/RecentActivity";
 import { useToast } from "@/hooks/use-toast";
@@ -253,7 +254,10 @@ const CompanyDashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navigation />
-        <div className="container mx-auto px-4 py-24">
+        <div className="container mx-auto px-4 pt-24 pb-4">
+          <SiteBreadcrumbs />
+        </div>
+        <div className="container mx-auto px-4 pb-24">
           <div className="max-w-md mx-auto">
             <Card className="p-8 text-center border-red-200 bg-red-50">
               <CreditCard className="h-12 w-12 text-red-600 mx-auto mb-4" />
@@ -278,7 +282,10 @@ const CompanyDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <div className="container mx-auto px-4 py-24">
+      <div className="container mx-auto px-4 pt-24 pb-4">
+        <SiteBreadcrumbs />
+      </div>
+      <div className="container mx-auto px-4 pb-24">
         <div className="max-w-5xl mx-auto space-y-12">
         <PaymentSetupBanner />
         <TrialBanner />

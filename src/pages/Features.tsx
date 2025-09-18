@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { Footer } from "@/components/landing/Footer";
 import { Helmet } from "react-helmet";
@@ -17,7 +18,11 @@ const Features = () => {
       
       <Navigation />
       
-      <main className="container mx-auto px-4 pt-24">
+      <div className="container mx-auto px-4 pt-24 pb-4">
+        <SiteBreadcrumbs />
+      </div>
+      
+      <main className="container mx-auto px-4">
         {/* Hero Section */}
         <section className="py-16 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">

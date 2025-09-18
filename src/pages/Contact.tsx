@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { Footer } from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -131,7 +132,10 @@ const Contact = () => {
       </Helmet>
       
       <Navigation />
-      <main className="container mx-auto px-4 pt-24 pb-16">
+      <div className="container mx-auto px-4 pt-24 pb-4">
+        <SiteBreadcrumbs />
+      </div>
+      <main className="container mx-auto px-4 pb-16">
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
             <div>

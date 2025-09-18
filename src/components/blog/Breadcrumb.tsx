@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
+import { BreadcrumbStructuredData } from "@/components/seo/BreadcrumbStructuredData";
 
 interface BreadcrumbProps {
   items: Array<{
@@ -9,8 +10,12 @@ interface BreadcrumbProps {
 }
 
 export const Breadcrumb = ({ items }: BreadcrumbProps) => {
+  const breadcrumbsWithHome = [{ label: "Home", href: "/" }, ...items];
+  
   return (
-    <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
+    <>
+      <BreadcrumbStructuredData breadcrumbs={breadcrumbsWithHome} />
+      <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
       <Link to="/" className="flex items-center hover:text-[#9b87f5] transition-colors">
         <Home className="w-4 h-4" />
       </Link>
@@ -26,6 +31,7 @@ export const Breadcrumb = ({ items }: BreadcrumbProps) => {
           )}
         </div>
       ))}
-    </nav>
+      </nav>
+    </>
   );
 };

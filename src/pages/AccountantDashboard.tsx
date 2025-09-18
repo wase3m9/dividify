@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
+import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { AuthCheck } from "@/components/dashboard/AuthCheck";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { CompanySelectorSection } from "@/components/dividend/dashboard/CompanySelector";
@@ -80,7 +81,10 @@ const AccountantDashboard = () => {
     <div className="min-h-screen bg-white">
       <AuthCheck />
       <Navigation />
-      <main className="container mx-auto px-4 pt-20">
+      <div className="container mx-auto px-4 pt-20 pb-4">
+        <SiteBreadcrumbs />
+      </div>
+      <main className="container mx-auto px-4">
         <div className="flex flex-col space-y-8">
         <PaymentSetupBanner />
         <TrialBanner />

@@ -1,0 +1,1 @@
+export { BreadcrumbStructuredData } from './BreadcrumbStructuredData';

@@ -1,5 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
+import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -35,7 +36,10 @@ const BoardMinutesForm = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <div className="container mx-auto px-4 py-24">
+      <div className="container mx-auto px-4 pt-24 pb-4">
+        <SiteBreadcrumbs />
+      </div>
+      <div className="container mx-auto px-4 pb-24">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="mb-6">
             <Button 
