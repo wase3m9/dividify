@@ -355,9 +355,6 @@ const sampleBlogPosts = [
 <h2>Try Dividify free</h2>
 <p>Create branded dividend vouchers and board minutes in under a minute. Stay compliant, save time, and reduce admin stress for directors and accountants.</p>`
 
-    },
-    slug: '5-dividend-mistakes-uk-directors-still-make-in-2025-and-how-to-fix-them',
-    published_at: new Date().toISOString()
   },
   {
     id: '6',
