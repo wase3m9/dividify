@@ -67,13 +67,14 @@ const AuthCallback = () => {
         }
 
         toast({
-          title: "Welcome!",
-          description: "Your account has been confirmed successfully.",
+          title: "Email Verified!",
+          description: "Your email has been confirmed successfully.",
         });
 
-        // Redirect to dashboard router which will handle user type detection
-        console.log("AuthCallback - Redirecting to dashboard router");
-        navigate("/dashboard");
+        // Sign out the user for security and redirect to confirmation page
+        await supabase.auth.signOut();
+        console.log("AuthCallback - Email verified, redirecting to confirmation page");
+        navigate("/email-verified");
       } catch (error) {
         console.error("AuthCallback - Unexpected error:", error);
         toast({

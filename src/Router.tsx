@@ -25,6 +25,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
 import JournalEntries from "@/pages/JournalEntries";
+import EmailVerified from "@/pages/EmailVerified";
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 
 export const router = createBrowserRouter([
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
   {
     path: "/auth-callback",
     element: <AuthCallback />,
+  },
+  {
+    path: "/email-verified",
+    element: <EmailVerified />,
   },
   {
     path: "/signup",
