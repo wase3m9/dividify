@@ -20,6 +20,13 @@ const EmailVerified = () => {
     navigate("/auth");
   };
 
+  const handleSetupPayment = () => {
+    const selectedPlan = localStorage.getItem('selectedPlan') || 'professional';
+    navigate(`/signup?plan=${selectedPlan}&from=pricing`);
+  };
+
+  const needsPaymentSetup = localStorage.getItem('needsPaymentSetup') === 'true';
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
@@ -29,20 +36,51 @@ const EmailVerified = () => {
           </div>
           <CardTitle className="text-2xl font-bold">Email Verified!</CardTitle>
           <CardDescription>
-            Thank you for verifying your email address. Your account is now confirmed.
+            {needsPaymentSetup 
+              ? "Your email is confirmed. Now add your payment method to start your 7-day trial."
+              : "Thank you for verifying your email address. Your account is now confirmed."
+            }
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-center text-sm text-muted-foreground">
-            Please log in with your credentials to access your dashboard.
-          </p>
-          <Button 
-            onClick={handleLoginClick}
-            className="w-full"
-            size="lg"
-          >
-            Login to Dashboard
-          </Button>
+          {needsPaymentSetup ? (
+            <>
+              <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-800 text-center">
+                  💳 Add payment method • 7-day trial • No charge until trial ends
+                </p>
+              </div>
+              <Button 
+                onClick={handleSetupPayment}
+                className="w-full"
+                size="lg"
+              >
+                Add Payment & Start Trial
+              </Button>
+              <div className="text-center">
+                <Button 
+                  variant="ghost" 
+                  onClick={handleLoginClick}
+                  className="text-sm"
+                >
+                  or Login if you already have payment setup
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-center text-sm text-muted-foreground">
+                Please log in with your credentials to access your dashboard.
+              </p>
+              <Button 
+                onClick={handleLoginClick}
+                className="w-full"
+                size="lg"
+              >
+                Login to Dashboard
+              </Button>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>

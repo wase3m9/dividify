@@ -27,6 +27,7 @@ import CookiePolicy from "@/pages/CookiePolicy";
 import JournalEntries from "@/pages/JournalEntries";
 import EmailVerified from "@/pages/EmailVerified";
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
+import { PaymentRequiredGate } from "@/components/dashboard/PaymentRequiredGate";
 
 export const router = createBrowserRouter([
   {
@@ -59,7 +60,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/company-dashboard",
-    element: <CompanyDashboard />,
+    element: (
+      <PaymentRequiredGate>
+        <CompanyDashboard />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/profile",
@@ -71,7 +76,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/accountant-dashboard",
-    element: <AccountantDashboard />,
+    element: (
+      <PaymentRequiredGate>
+        <AccountantDashboard />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/get-started",
@@ -79,27 +88,51 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dividend-voucher-form",
-    element: <DividendVoucherForm />,
+    element: (
+      <PaymentRequiredGate>
+        <DividendVoucherForm />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/dividend-amount-form",
-    element: <DividendAmountForm />,
+    element: (
+      <PaymentRequiredGate>
+        <DividendAmountForm />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/dividend-template",
-    element: <DividendTemplate />,
+    element: (
+      <PaymentRequiredGate>
+        <DividendTemplate />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/board-minutes-form",
-    element: <BoardMinutesForm />,
+    element: (
+      <PaymentRequiredGate>
+        <BoardMinutesForm />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/board-minutes-template",
-    element: <BoardMinutesTemplate />,
+    element: (
+      <PaymentRequiredGate>
+        <BoardMinutesTemplate />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/board-minutes-preview",
-    element: <BoardMinutesPreview />,
+    element: (
+      <PaymentRequiredGate>
+        <BoardMinutesPreview />
+      </PaymentRequiredGate>
+    ),
   },
   {
     path: "/dividend-waivers",

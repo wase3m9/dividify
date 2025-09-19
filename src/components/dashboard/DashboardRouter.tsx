@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
+import { PaymentRequiredGate } from "./PaymentRequiredGate";
 import { Loader2 } from "lucide-react";
 
 export const DashboardRouter = () => {
@@ -23,13 +24,10 @@ export const DashboardRouter = () => {
         // Refresh subscription status when routing to dashboard
         refreshSubscriptionStatus();
         
-        if (profile.user_type === 'accountant') {
-          console.log("DashboardRouter - Redirecting to accountant dashboard");
-          navigate('/accountant-dashboard');
-        } else {
-          console.log("DashboardRouter - Redirecting to company dashboard");
-          navigate('/company-dashboard');
-        }
+        // Wrap dashboard routing with payment gate
+        const targetRoute = profile.user_type === 'accountant' ? '/accountant-dashboard' : '/company-dashboard';
+        console.log("DashboardRouter - Redirecting to", targetRoute);
+        navigate(targetRoute);
       }
     }
   }, [isLoading, profile, navigate, refreshSubscriptionStatus]);

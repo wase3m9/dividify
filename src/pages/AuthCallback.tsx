@@ -71,9 +71,17 @@ const AuthCallback = () => {
           description: "Your email has been confirmed successfully.",
         });
 
-        // Sign out the user for security and redirect to confirmation page
+        // Sign out the user for security and redirect to payment setup
         await supabase.auth.signOut();
-        console.log("AuthCallback - Email verified, redirecting to confirmation page");
+        console.log("AuthCallback - Email verified, redirecting to payment setup");
+        
+        // Check if user came from pricing flow
+        const signupPlan = session.user.user_metadata?.signup_plan;
+        if (signupPlan) {
+          localStorage.setItem('selectedPlan', signupPlan);
+          localStorage.setItem('needsPaymentSetup', 'true');
+        }
+        
         navigate("/email-verified");
       } catch (error) {
         console.error("AuthCallback - Unexpected error:", error);
