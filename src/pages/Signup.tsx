@@ -99,6 +99,7 @@ const Signup = () => {
         toast({
           title: "Check your email",
           description: "We've sent you a confirmation link. Please check your email and click the link to activate your account.",
+          className: "bg-primary text-primary-foreground border-primary/20",
         });
         navigate("/auth");
       } else if (data.user && data.session) {
