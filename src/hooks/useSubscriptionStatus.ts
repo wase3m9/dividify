@@ -51,6 +51,7 @@ export const useSubscriptionStatus = () => {
     refreshSubscriptionStatus,
     isSubscribed: data?.subscribed || false,
     subscriptionPlan: data?.subscription_plan || 'trial',
-    userType: data?.user_type || 'individual'
+    userType: data?.user_type || 'individual',
+    hasPaymentMethod: data?.has_payment_method || false
   };
 };

@@ -77,6 +77,15 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     logStep("Found Stripe customer", { customerId });
 
+    // Check if customer has payment methods
+    const paymentMethods = await stripe.paymentMethods.list({
+      customer: customerId,
+      type: 'card',
+    });
+
+    const hasPaymentMethod = paymentMethods.data.length > 0;
+    logStep("Payment method check", { hasPaymentMethod, paymentMethodCount: paymentMethods.data.length });
+
     // Get active subscriptions (including trialing)
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
@@ -93,12 +102,13 @@ serve(async (req) => {
     let userType = 'individual';
     let isTrialing = false;
     
-    if (activeSubscriptions.length > 0) {
+    // Only update to paid plans if there's a payment method AND active subscription
+    if (activeSubscriptions.length > 0 && hasPaymentMethod) {
       const subscription = activeSubscriptions[0];
       const priceId = subscription.items.data[0].price.id;
       isTrialing = subscription.status === 'trialing';
       
-      logStep("Active subscription found", { subscriptionId: subscription.id, priceId });
+      logStep("Active subscription found with payment method", { subscriptionId: subscription.id, priceId });
 
       // Map price IDs to plans and user types - using the same mapping as create-checkout
       const priceMapping: { [key: string]: { plan: string; userType: string } } = {
@@ -119,7 +129,13 @@ serve(async (req) => {
 
       logStep("Determined plan from subscription", { subscriptionPlan, userType });
     } else {
-      logStep("No active subscription found");
+      logStep("No active subscription found or no payment method", { 
+        hasActiveSubscription: activeSubscriptions.length > 0,
+        hasPaymentMethod 
+      });
+      // Keep user on trial if no payment method, even if they have a subscription
+      subscriptionPlan = 'trial';
+      userType = 'individual';
     }
 
     // Update user profile with current subscription status
@@ -135,10 +151,11 @@ serve(async (req) => {
     logStep("Updated user profile", { subscriptionPlan, userType });
 
     return new Response(JSON.stringify({
-      subscribed: activeSubscriptions.length > 0,
+      subscribed: activeSubscriptions.length > 0 && hasPaymentMethod,
       subscription_plan: subscriptionPlan,
       user_type: userType,
-      is_trialing: isTrialing,
+      is_trialing: isTrialing && hasPaymentMethod,
+      has_payment_method: hasPaymentMethod,
       trial_end: isTrialing ? activeSubscriptions[0].trial_end : null,
       message: "Subscription status updated successfully"
     }), {

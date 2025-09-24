@@ -17,8 +17,9 @@ export const PaymentRequiredGate = ({ children }: PaymentRequiredGateProps) => {
 
   useEffect(() => {
     if (!isLoading && subscriptionData) {
-      // User has payment method if they are subscribed OR on a trial with payment method
-      const hasPayment = subscriptionData.subscribed || subscriptionData.is_trialing;
+      // User has access only if they have an active subscription OR are trialing WITH a payment method
+      const hasPayment = subscriptionData.subscribed || 
+                         (subscriptionData.is_trialing && subscriptionData.has_payment_method);
       setHasPaymentMethod(hasPayment);
     }
   }, [subscriptionData, isLoading]);
