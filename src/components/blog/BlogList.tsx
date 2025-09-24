@@ -8,6 +8,7 @@ import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jp
 import dividendTax2025Image from "@/assets/dividend-tax-2025-26.jpg";
 import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-header-2025.jpg";
 import dividendVoucherDeskImage from "@/assets/dividend-voucher-desk-2025.jpg";
+import dividendMistakes2025 from "@/assets/dividend-mistakes-2025-new.jpg";
 
 interface BlogPost {
   id: string;
@@ -42,6 +43,8 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
                   ? dividendWaiversImage
                    : post.slug === "dividend-voucher-templates-what-uk-directors-need-to-know-in-2025"
                    ? dividendVoucherTemplatesImage
+                   : post.slug === "dividend-mistakes-2025"
+                   ? dividendMistakes2025
                    : dividendWaiversImage}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"

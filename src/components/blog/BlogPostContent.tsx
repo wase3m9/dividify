@@ -5,7 +5,7 @@ import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
 import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-header-2025.jpg";
-import dividendMistakes2025 from "@/assets/dividend-mistakes-2025.jpg";
+import dividendMistakes2025 from "@/assets/dividend-mistakes-2025-new.jpg";
 
 interface BlogPostContentProps {
   content: string;
