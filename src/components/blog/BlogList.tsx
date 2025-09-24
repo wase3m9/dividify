@@ -24,11 +24,20 @@ interface BlogListProps {
 }
 
 export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
+  const handleCardClick = (slug: string) => {
+    console.log('Card clicked:', slug);
+    window.location.href = `/blog/${slug}`;
+  };
+
   return (
     <div className="grid gap-8">
       {posts.map((post) => (
-        <Link key={post.id} to={`/blog/${post.slug}`} className="block">
-          <Card className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer">
+        <div 
+          key={post.id} 
+          onClick={() => handleCardClick(post.slug)}
+          className="block cursor-pointer"
+        >
+          <Card className="hover:shadow-lg transition-shadow overflow-hidden">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/3 p-4">
               <img
@@ -83,7 +92,7 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
             </div>
           </div>
           </Card>
-        </Link>
+        </div>
       ))}
     </div>
   );
