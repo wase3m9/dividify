@@ -27,7 +27,8 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
   return (
     <div className="grid gap-8">
       {posts.map((post) => (
-        <Card key={post.id} className="hover:shadow-lg transition-shadow overflow-hidden">
+        <Link key={post.id} to={`/blog/${post.slug}`} className="block">
+          <Card className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/3 p-4">
               <img
@@ -53,12 +54,9 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
             <div className="md:w-2/3 p-6">
               <CardHeader className="p-0">
                 <CardTitle>
-                  <Link 
-                    to={`/blog/${post.slug}`}
-                    className="text-2xl font-semibold text-[#9b87f5] hover:text-[#8b77e5] transition-colors text-left"
-                  >
+                  <span className="text-2xl font-semibold text-[#9b87f5] hover:text-[#8b77e5] transition-colors text-left">
                     {post.title}
-                  </Link>
+                  </span>
                 </CardTitle>
                 <div className="flex items-center gap-4 text-sm text-gray-600 mt-2">
                   <div className="flex items-center gap-2">
@@ -78,16 +76,14 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
                 <p className="text-gray-700 line-clamp-3 text-left">
                   {post.content.substring(0, 200)}...
                 </p>
-                <Link 
-                  to={`/blog/${post.slug}`}
-                  className="inline-block mt-4 text-[#9b87f5] hover:text-[#8b77e5] transition-colors font-medium text-left"
-                >
+                <span className="inline-block mt-4 text-[#9b87f5] hover:text-[#8b77e5] transition-colors font-medium text-left">
                   Read more →
-                </Link>
+                </span>
               </CardContent>
             </div>
           </div>
-        </Card>
+          </Card>
+        </Link>
       ))}
     </div>
   );
