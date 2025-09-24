@@ -5,6 +5,7 @@ import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
 import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-header-2025.jpg";
+import dividendMistakes2025 from "@/assets/dividend-mistakes-2025.jpg";
 
 interface BlogPostContentProps {
   content: string;
@@ -204,6 +205,8 @@ export const BlogPostContent = ({
         return dividendWaiversImage;
       case 'dividend-voucher-templates-what-uk-directors-need-to-know-in-2025':
         return dividendVoucherTemplatesImage;
+      case 'dividend-mistakes-2025':
+        return dividendMistakes2025;
       default:
         return "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png";
     }

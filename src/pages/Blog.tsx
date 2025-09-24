@@ -114,6 +114,122 @@ const Blog = () => {
 // Sample blog posts to show when the database is unavailable
 const sampleBlogPosts = [
   {
+    id: '7',
+    title: '5 Dividend Mistakes UK Directors Still Make in 2025 (and how to fix them)',
+    content: `For limited company directors, dividends can be wonderfully tax-efficient — until they're not. Here's how to stay compliant, tidy, and stress-free.
+
+** Table of contents **
+1. Why this matters to UK company directors
+2. Mistake #1: Paying dividends without distributable profits
+3. Mistake #2: Missing paperwork (vouchers & board minutes)
+4. Mistake #3: "What's in the bank?" withdrawals
+5. Mistake #4: Forgetting to plan for the personal tax bill
+6. Mistake #5: Unequal dividends without the right share structure
+7. Best-practice checklist for 2025/26
+8. FAQs
+
+** Why this matters to UK company directors **
+
+Dividends are distributions of post-tax profits. Get them right and you'll usually take home more after tax than via pure salary. Get them wrong and you could face:
+
+- Overdrawn director's loan account (and potential extra charges/tax).
+- Reclassification of drawings as salary by HMRC if records are poor.
+- Cashflow shocks when the personal tax bill lands.
+
+Dividify helps you prevent this by producing proper dividend vouchers and board minutes in seconds — branded for your firm or your client's company.
+
+** Mistake #1: Paying dividends without distributable profits **
+
+The issue: Seeing cash in the bank and assuming a dividend is fine. It isn't. Dividends must come from accumulated, post-tax profits (per Companies Act rules). Loans, VAT money, or supplier funds ≠ profit.
+
+Symptoms:
+- Big drawings during the year; year-end shows profit wasn't enough.
+- Director's Loan Account (DLA) goes overdrawn.
+
+Risks:
+- Extra corporation tax charges/benefit-in-kind complications if treated as a loan.
+- You personally owe the company money — messy if the company struggles.
+
+Fix:
+- Monthly profit check: Run a quick P&L and confirm retained profits.
+- Ring-fence CT: Park an estimate of corporation tax so you don't overstate profits.
+- Only declare what profits genuinely support.
+
+** Mistake #2: Missing paperwork (vouchers & board minutes) **
+
+The issue: HMRC can challenge "dividends" without supporting documentation. Every declaration should have:
+
+- Board minutes authorising the dividend.
+- Dividend voucher stating the amount, date, shareholder, and share class.
+
+Fix:
+- Use Dividify to generate clean, compliant PDFs (board minutes + vouchers) with your firm's branding. Store them alongside your management accounts for audit-ready records.
+
+** Mistake #3: "What's in the bank?" withdrawals **
+
+The issue: Irregular amounts taken ad hoc ("I'll just transfer £2k this month"). This makes you lose track of what you've actually drawn and risks an overdrawn DLA if profits dip.
+
+Fix:
+- Set a fixed dividend (monthly or quarterly) that the numbers comfortably support.
+- Use a standing order so it's disciplined and predictable.
+- If the year goes brilliantly, pay a separate one-off bonus dividend — with the paperwork — rather than constantly changing your regular amount.
+
+** Mistake #4: Forgetting to plan for the personal tax bill **
+
+The issue: Dividends are paid gross. The personal tax on those dividends usually arrives much later (via Self Assessment and possibly payments on account). If you haven't planned, you may need an extra dividend at the worst time.
+
+Fix:
+- "Tax yourself" on payday: When the dividend lands, move a % into a savings pot for your future tax bill.
+- Ask your accountant to estimate your blended effective rate based on your total income and the current dividend allowance/bands.
+- Review the pot each quarter and top up if profits — or your drawings — have changed.
+
+** Mistake #5: Unequal dividends without the right share structure **
+
+The issue: Want to pay different amounts to different shareholders (e.g., spouse or co-founder)? With ordinary shares of the same class, dividends must be paid per share, equally. Paying unevenly without the right paperwork/share classes can create problems.
+
+Fix:
+- Speak to your accountant about alphabet shares (A, B, etc.) or formal dividend waivers where appropriate — and ensure the minutes reflect the decision.
+- Keep company registers and share certificates up to date so your paperwork matches reality.
+
+** Best-practice checklist for 2025/26 **
+
+- ✅ Confirm accumulated, post-tax profits before you declare.
+- ✅ Ring-fence CT estimates each month so profits are realistic.
+- ✅ Fix a regular dividend; avoid impulse transfers.
+- ✅ Generate board minutes + vouchers every time (Dividify makes this 60-second work).
+- ✅ Set aside a portion of each dividend for your personal tax.
+- ✅ If paying shareholders differently, use the right share structure and record it properly.
+- ✅ Store everything neatly — if HMRC asks, you can show the full trail in minutes.
+
+** FAQs **
+
+1) Can I pay a dividend if the bank account is healthy but last year's accounts show small profits?
+
+Not unless you have current and retained profits to cover it. Bank balance isn't the test; distributable profits are.
+
+2) Do I need board minutes for every dividend?
+
+Yes — plus a dividend voucher. The admin is light with Dividify and protects you if asked for evidence.
+
+3) How often should I pay dividends — monthly or quarterly?
+
+Either is fine. The key is that the amount is sustainable and supported by profits. Many directors prefer monthly for cashflow predictability.
+
+4) We want different payouts between spouses. Is that allowed?
+
+Only with the correct share structure (e.g., alphabet shares) or a properly executed waiver. Get advice before paying.
+
+5) What if we accidentally over-declared this year?
+
+Speak to your accountant quickly. Options exist (e.g., repaying drawings, reclassifying, or dealing with a DLA), but the earlier you act, the cheaper it is.
+
+** Try Dividify free **
+
+Create branded dividend vouchers and board minutes in under a minute, keep yourself compliant, and save hours of admin each month.`,
+    slug: 'dividend-mistakes-2025',
+    published_at: '2024-12-20T09:00:00Z'
+  },
+  {
     id: '6',
     title: 'Dividend Voucher Templates: What UK Directors Need to Know in 2025',
     content: 'If you run a UK limited company, dividends are often the most tax-efficient way to reward yourself and other shareholders. Instead of paying yourself a large salary, which attracts income tax and National Insurance, dividends can be distributed from company profits at lower tax rates.\n\nHowever, many directors don\'t realise that dividends must be supported by proper paperwork. HMRC expects companies to keep clear records proving that dividends were legally declared and correctly distributed.\n\nThat\'s where a dividend voucher comes in. It\'s not just a formality – it\'s legal evidence that the dividend was authorised, paid, and recorded correctly. Without it, HMRC could argue that the payment was an illegal distribution or even treat it as salary, leading to higher tax bills and penalties.\n\n**Table of Contents:**\n• Why dividend vouchers matter for UK company directors\n• Dividend voucher requirements explained\n• Different dividend voucher template options (PDF, Word, Excel)\n• Step-by-step: How to produce dividend vouchers\n• Dividend voucher example (what it looks like)\n• Common mistakes directors make with dividend vouchers\n• Best practice tips for 2025/26\n• FAQs\n________________________________________\n\n**Why Dividend Vouchers Matter for UK Company Directors**\n\nIf you run a UK limited company, dividends are often the most tax-efficient way to reward yourself and other shareholders. Instead of paying yourself a large salary, which attracts income tax and National Insurance, dividends can be distributed from company profits at lower tax rates.\n\nHowever, many directors don\'t realise that dividends must be supported by proper paperwork. HMRC expects companies to keep clear records proving that dividends were legally declared and correctly distributed.\n\nThat\'s where a dividend voucher comes in. It\'s not just a formality – it\'s legal evidence that the dividend was authorised, paid, and recorded correctly. Without it, HMRC could argue that the payment was an illegal distribution or even treat it as salary, leading to higher tax bills and penalties.\n\n**Dividend Voucher Requirements Explained**\n\nHMRC doesn\'t provide an official form, but every dividend voucher must include specific details to be valid. These are the dividend voucher requirements:\n\n• **Company name** – e.g., "XYZ Consulting Ltd"\n• **Date of payment** – the exact date the dividend was declared\n• **Name of shareholder** – the individual or company receiving the dividend\n• **Number of shares held** – to show entitlement\n• **Dividend per share** – the rate applied\n• **Total dividend amount** – the final payment to the shareholder\n• **Signature of director** – confirming authorisation\n\n**👉 Without all of these, the voucher could be deemed invalid.**\n\n**Different Dividend Voucher Template Options**\n\nMost directors don\'t want to create vouchers from scratch. Instead, they rely on ready-made dividend voucher templates that can be adapted quickly.\n\nHere are the most common formats:\n\n**Dividend voucher template PDF** – best for a professional, final version you can print and file. Easy to distribute to shareholders.\n\n**Dividend voucher template Word** – flexible for editing names, dates, and amounts. Great if you want a simple, editable format.\n\n**Dividend voucher template Excel** – perfect if you have multiple shareholders. You can automate calculations and reduce errors.\n\nAt Dividify, we make it simple: you can produce dividend vouchers in any of these formats instantly, ensuring you\'re always compliant.\n\n**Step-by-Step: How to Produce Dividend Vouchers**\n\nHere\'s a straightforward process for directors:\n\n1. **Check your profits** – You can only pay dividends from distributable profits (retained earnings).\n2. **Hold a board meeting** – Even if you\'re the only director, you must document the decision in board minutes.\n3. **Agree the dividend** – Decide the per-share dividend amount and confirm the total payable.\n4. **Prepare the paperwork** – Draft the board minutes and create the dividend vouchers for each shareholder.\n5. **Sign and distribute** – Issue the vouchers to shareholders and keep a copy for your records.\n6. **Pay the dividend** – Transfer funds to shareholders (usually by bank transfer).\n\nUsing a ready-made dividend voucher template removes the guesswork and ensures you don\'t miss important details.\n\n**Dividend Voucher Example**\n\nHere\'s what a simple dividend voucher example might look like:\n\n**Company:** ABC Consulting Ltd\n**Date:** 1 June 2025\n**Shareholder:** John Smith\n**Number of Shares:** 100\n**Dividend Per Share:** £1.50\n**Total Dividend:** £150.00\n**Authorised by:** [Director Signature]\n\nThis straightforward layout meets the dividend voucher requirements and would be acceptable to HMRC.\n\n**Common Mistakes Directors Make with Dividend Vouchers**\n\nMany small business owners and directors get caught out by these errors:\n\n• **Not producing dividend vouchers at all** – paying money without paperwork.\n• **Confusing dividends with salary** – leading to unnecessary National Insurance costs.\n• **Paying dividends with no profits** – illegal and could lead to personal liability.\n• **Forgetting board minutes** – HMRC expects both board minutes and vouchers.\n• **Using inconsistent templates** – one year in Word, another in Excel, with missing details.\n\nAvoiding these mistakes is key to staying compliant and stress-free during an HMRC enquiry.\n\n**Best Practice Tips for 2025/26**\n\nTo stay compliant and organised, consider these best practice steps:\n\n• Always issue a dividend voucher template PDF on the date of declaration.\n• Keep both digital and physical copies for at least six years.\n• Use a consistent template across all dividends.\n• Check profits before declaring dividends – don\'t guess.\n• If you have multiple shareholders, use a dividend voucher template Excel to avoid manual errors.\n• Store vouchers with your annual accounts and board minutes – they may be requested by accountants, banks, or HMRC.\n\nPlatforms like Dividify make this seamless by letting you create, store, and track all dividend paperwork in one place.\n\n**FAQs**\n\n**Q: Do I need a dividend voucher for every payment?**\nA: Yes – each dividend payment must be backed by its own voucher.\n\n**Q: Can I use Word or Excel templates?**\nA: Yes, a dividend voucher template Word or Excel version is fine, but always save a PDF version for filing.\n\n**Q: Are dividend vouchers sent to HMRC?**\nA: No, they are for your records. However, HMRC may request them during an investigation.\n\n**Q: Can I pay myself dividends without vouchers?**\nA: Technically, you could transfer money, but it wouldn\'t be legally recognised as a dividend. Without a voucher, HMRC may reclassify the payment.\n\n**Q: Where can I get a free dividend voucher template?**\nA: You can find free versions online, but they\'re often basic. With Dividify, you can instantly generate professional vouchers in PDF, Word, or Excel formats.',
