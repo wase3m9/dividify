@@ -227,7 +227,7 @@ Speak to your accountant quickly. Options exist (e.g., repaying drawings, reclas
 
 Create branded dividend vouchers and board minutes in under a minute, keep yourself compliant, and save hours of admin each month.`,
     slug: 'dividend-mistakes-2025',
-    published_at: '2024-09-24T09:00:00Z'
+    published_at: '2025-09-10T09:00:00Z'
   },
   {
     id: '6',
