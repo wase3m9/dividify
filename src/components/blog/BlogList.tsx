@@ -73,11 +73,7 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
                     {calculateReadingTime(post.content)} min read
                   </div>
                   <span>
-                    {new Date(post.published_at).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
+                    24 September 2025
                   </span>
                 </div>
               </CardHeader>
