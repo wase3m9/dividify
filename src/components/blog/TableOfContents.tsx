@@ -47,19 +47,19 @@ export const TableOfContents = ({ slug }: TableOfContentsProps) => {
 
   return (
     <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4 border-b border-gray-300 pb-2">
-        Table of Contents
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-400">
+        Table of contents
       </h2>
       <nav>
-        <ol className="space-y-2">
+        <ol className="space-y-3">
           {tocItems.map((item, index) => (
             <li key={item.id}>
               <button
                 onClick={() => scrollToSection(item.id)}
-                className="text-left text-primary hover:text-primary/80 hover:underline transition-colors text-sm leading-relaxed"
+                className="text-left text-primary hover:text-primary/80 hover:underline transition-colors text-sm leading-relaxed w-full text-left"
               >
-                <span className="text-gray-600 mr-2">{index + 1}.</span>
-                {item.title}
+                <span className="text-gray-700 mr-2">{index + 1}.</span>
+                <span className="text-primary">{item.title}</span>
               </button>
             </li>
           ))}
