@@ -41,6 +41,7 @@ serve(async (req) => {
     if (insertError) throw insertError
 
     // Send email using Resend
+    console.log('Attempting to send email via Resend...');
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -63,7 +64,9 @@ serve(async (req) => {
       }),
     })
 
+    console.log('Resend API response status:', res.status);
     const data = await res.json()
+    console.log('Resend API response:', data);
 
     return new Response(JSON.stringify(data), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
