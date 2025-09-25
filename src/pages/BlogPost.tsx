@@ -2,6 +2,8 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet";
 import { BlogPostHeader } from "@/components/blog/BlogPostHeader";
 import { BlogPostContent } from "@/components/blog/BlogPostContent";
@@ -195,6 +197,18 @@ const BlogPost = () => {
             { label: "Blog", href: "/blog" },
             { label: post?.title || "Article" }
           ]} />
+
+          {/* Back Button */}
+          <div className="mb-6">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate('/blog')}
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 px-0"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Blog
+            </Button>
+          </div>
 
           {/* Article Card Container */}
           <article className="bg-white rounded-xl shadow-lg border overflow-hidden">
