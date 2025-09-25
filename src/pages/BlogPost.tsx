@@ -276,15 +276,15 @@ const sampleBlogPosts = [
     title: '5 Dividend Mistakes UK Directors Still Make in 2025 (and how to fix them)',
     content: `For limited company directors, dividends can be wonderfully tax-efficient — until they're not. Here's how to stay compliant, tidy, and stress-free.
 
-** Table of contents **
-1. Why this matters to UK company directors
-2. Mistake #1: Paying dividends without distributable profits
-3. Mistake #2: Missing paperwork (vouchers & board minutes)
-4. Mistake #3: "What's in the bank?" withdrawals
-5. Mistake #4: Forgetting to plan for the personal tax bill
-6. Mistake #5: Unequal dividends without the right share structure
-7. Best-practice checklist for 2025/26
-8. FAQs
+**Table of Contents:**
+• Why this matters to UK company directors
+• Mistake #1: Paying dividends without distributable profits
+• Mistake #2: Missing paperwork (vouchers & board minutes)
+• Mistake #3: "What's in the bank?" withdrawals
+• Mistake #4: Forgetting to plan for the personal tax bill
+• Mistake #5: Unequal dividends without the right share structure
+• Best-practice checklist for 2025/26
+• FAQs
 
 ** Why this matters to UK company directors **
 

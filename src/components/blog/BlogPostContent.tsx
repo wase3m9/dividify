@@ -24,13 +24,13 @@ export const BlogPostContent = ({
         // Table of Contents - make it clickable
         if (paragraph.trim().startsWith('**Table of Contents:**')) {
           return <div key={pIndex} className="bg-gray-50 p-6 rounded-lg mb-8">
-                <h3 className="text-lg font-bold text-[#9b87f5] mb-4">Table of Contents</h3>
-                <ul className="space-y-2">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h3>
+                <ul className="space-y-3">
                   {section.split('\n').filter(line => line.trim().startsWith('•')).map((tocItem, tocIndex) => {
                 const text = tocItem.replace('•', '').trim();
                 const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
                 return <li key={tocIndex}>
-                          <a href={`#${anchor}`} className="text-[#9b87f5] hover:text-[#7E69AB] cursor-pointer" onClick={e => {
+                          <a href={`#${anchor}`} className="text-[#9b87f5] hover:text-[#7E69AB] transition-colors duration-200 cursor-pointer text-sm" onClick={e => {
                     e.preventDefault();
                     const element = document.getElementById(anchor);
                     if (element) {
