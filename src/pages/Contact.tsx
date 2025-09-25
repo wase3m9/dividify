@@ -91,7 +91,7 @@ const Contact = () => {
                 },
                 {
                   "@type": "ContactPoint",
-                  "email": "hello@dividify.co.uk",
+                  "email": "info@dividify.co.uk",
                   "contactType": "customer service",
                   "areaServed": "GB"
                 }
@@ -115,7 +115,7 @@ const Contact = () => {
       <div className="min-h-screen bg-white">
       <Helmet>
         <title>Contact Dividify | UK Dividend Software Support | London</title>
-        <meta name="description" content="Contact Dividify for support with dividend vouchers and board minutes software. Located in London, UK. Email hello@dividify.co.uk or call +44 20 7946 0958" />
+        <meta name="description" content="Contact Dividify for support with dividend vouchers and board minutes software. Located in London, UK. Email info@dividify.co.uk or call +44 20 7946 0958" />
         <meta name="keywords" content="contact dividify, dividend software support, UK accounting software, London business contact, HMRC compliance support" />
         <meta name="geo.region" content="GB" />
         <meta name="geo.country" content="UK" />
@@ -151,7 +151,7 @@ const Contact = () => {
                   </div>
                   <div className="text-left">
                     <h3 className="font-semibold text-left">For support, contact:</h3>
-                    <p className="text-gray-600 text-left">hello@dividify.co.uk</p>
+                    <p className="text-gray-600 text-left">info@dividify.co.uk</p>
                   </div>
                 </div>
                 
