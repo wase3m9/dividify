@@ -22,9 +22,13 @@ const Contact = () => {
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
+    console.log("Form submit handler called");
+    console.log("Form data:", formData);
+    
     // Client-side validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       e.preventDefault();
+      console.log("Form validation failed - empty fields");
       toast({
         title: "Please fill in all fields",
         description: "All fields are required.",
@@ -35,6 +39,7 @@ const Contact = () => {
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       e.preventDefault();
+      console.log("Form validation failed - invalid email");
       toast({
         title: "Invalid email address",
         description: "Please enter a valid email address.",
@@ -43,15 +48,14 @@ const Contact = () => {
       return;
     }
 
+    console.log("Form validation passed, submitting to Formsubmit");
     setIsSubmitting(true);
     
-    // Don't prevent default - let the form submit to Formsubmit
+    // Let form submit naturally - don't prevent default
     toast({
       title: "Sending message...",
       description: "Submitting to Formsubmit...",
     });
-    
-    // Form will now submit naturally to Formsubmit
   };
 
   return (
