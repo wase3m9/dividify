@@ -11,8 +11,6 @@ import { Breadcrumb } from "@/components/blog/Breadcrumb";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { ArticleMetadata } from "@/components/blog/ArticleMetadata";
 import { TagList } from "@/components/blog/TagList";
-import { BackButton } from "@/components/blog/BackButton";
-import { TableOfContents } from "@/components/blog/TableOfContents";
 import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
 import salaryVsDividendsImage from "@/assets/salary-vs-dividends-2025.jpg";
 import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
@@ -192,9 +190,6 @@ const BlogPost = () => {
       
       <main className="container mx-auto px-4 pt-8 pb-16">
         <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
-          <BackButton />
-          
           {/* Breadcrumb Navigation */}
           <Breadcrumb items={[
             { label: "Blog", href: "/blog" },
@@ -221,9 +216,6 @@ const BlogPost = () => {
 
             {/* Article Content */}
             <div className="px-8 pb-8">
-              {/* Table of Contents */}
-              <TableOfContents slug={slug || ''} />
-              
               <BlogPostContent content={post?.content} slug={slug || ''} />
 
 

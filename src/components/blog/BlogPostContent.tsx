@@ -21,8 +21,34 @@ export const BlogPostContent = ({
         // Skip empty paragraphs
         if (!paragraph.trim()) return null;
 
+        // Table of Contents - make it clickable
+        if (paragraph.trim().startsWith('**Table of Contents:**')) {
+          return <div key={pIndex} className="bg-gray-50 p-6 rounded-lg mb-8">
+                <h3 className="text-lg font-bold text-[#9b87f5] mb-4">Table of Contents</h3>
+                <ul className="space-y-2">
+                  {section.split('\n').filter(line => line.trim().startsWith('•')).map((tocItem, tocIndex) => {
+                const text = tocItem.replace('•', '').trim();
+                const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+                return <li key={tocIndex}>
+                          <a href={`#${anchor}`} className="text-[#9b87f5] hover:text-[#7E69AB] cursor-pointer" onClick={e => {
+                    e.preventDefault();
+                    const element = document.getElementById(anchor);
+                    if (element) {
+                      element.scrollIntoView({
+                        behavior: 'smooth'
+                      });
+                    }
+                  }}>
+                            {text}
+                          </a>
+                        </li>;
+              })}
+                </ul>
+              </div>;
+        }
+
         // Skip TOC items when not in TOC section
-        if (paragraph.trim().startsWith('•') || paragraph.trim().startsWith('**Table of Contents:**')) {
+        if (paragraph.trim().startsWith('•')) {
           return null;
         }
 
@@ -41,31 +67,7 @@ export const BlogPostContent = ({
              !paragraph.startsWith('When ') &&
              !paragraph.startsWith('While '))) {
           const headerText = paragraph.replace(/\*\*/g, '').trim();
-          let headerId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
-          
-          // Map specific headers to expected IDs for table of contents
-          const headerMap: Record<string, string> = {
-            'why-dividend-vouchers-matter-for-uk-company-directors': 'why-dividend-vouchers-matter',
-            'dividend-voucher-requirements-explained': 'dividend-voucher-requirements',
-            'different-dividend-voucher-template-options-pdf-word-excel': 'template-options',
-            'step-by-step-how-to-produce-dividend-vouchers': 'step-by-step',
-            'dividend-voucher-example-what-it-looks-like': 'dividend-voucher-example',
-            'common-mistakes-directors-make-with-dividend-vouchers': 'common-mistakes',
-            'best-practice-tips-for-2025-26': 'best-practice-tips',
-            'why-this-matters-to-uk-company-directors': 'why-this-matters',
-            'mistake-1-paying-dividends-without-distributable-profits': 'mistake-1',
-            'mistake-2-missing-paperwork-vouchers--board-minutes': 'mistake-2',
-            'mistake-3-whats-in-the-bank-withdrawals': 'mistake-3',
-            'mistake-4-forgetting-to-plan-for-the-personal-tax-bill': 'mistake-4',
-            'mistake-5-unequal-dividends-without-the-right-share-structure': 'mistake-5',
-            'best-practice-checklist-for-2025-26': 'best-practice',
-            'faqs': 'faqs'
-          };
-          
-          if (headerMap[headerId]) {
-            headerId = headerMap[headerId];
-          }
-          
+          const headerId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
           return <h2 key={pIndex} id={headerId} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4">
                 {headerText}
               </h2>;
