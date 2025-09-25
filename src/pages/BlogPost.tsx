@@ -97,6 +97,8 @@ const BlogPost = () => {
         return dividendTax2025Image;
       case 'dividend-voucher-templates-what-uk-directors-need-to-know-in-2025':
         return dividendVoucherDeskImage;
+      case 'dividend-mistakes-2025':
+        return '/lovable-uploads/e948c1c5-5d27-4a63-ab9b-d3f01bb49147.png';
       default:
         return '/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png';
     }
@@ -258,6 +260,198 @@ const BlogPost = () => {
 
 // Sample blog posts data
 const sampleBlogPosts = [
+  {
+    id: '7',
+    title: '5 Dividend Mistakes UK Directors Still Make in 2025 (and how to fix them)',
+    content: `For limited company directors, dividends can be wonderfully tax-efficient — until they're not. Here's how to stay compliant, tidy, and stress-free.
+
+** Table of contents **
+1. Why this matters to UK company directors
+2. Mistake #1: Paying dividends without distributable profits
+3. Mistake #2: Missing paperwork (vouchers & board minutes)
+4. Mistake #3: "What's in the bank?" withdrawals
+5. Mistake #4: Forgetting to plan for the personal tax bill
+6. Mistake #5: Unequal dividends without the right share structure
+7. Best-practice checklist for 2025/26
+8. FAQs
+
+** Why this matters to UK company directors **
+
+Dividends are distributions of post-tax profits. Get them right and you'll usually take home more after tax than via pure salary. Get them wrong and you could face:
+
+• **Hefty HMRC fines** for non-compliance
+• **Unexpected personal tax bills** when your dividend tax liability comes due
+• **Cashflow chaos** if you've spent money that should have been saved for taxes
+• **Director disqualification** in extreme cases of illegal distributions
+
+The good news? Most dividend mistakes are easy to prevent once you know what to look for.
+
+** Mistake #1: Paying dividends without distributable profits **
+
+**The problem:**
+Many directors simply check the company bank balance and think: "We've got £20k in the bank, so I'll take £15k as a dividend."
+
+That's dangerous thinking.
+
+**Why it matters:**
+Dividends must only be paid from distributable profits (usually retained earnings on your balance sheet). Paying dividends without sufficient profits is illegal under the Companies Act 2006.
+
+**The consequences:**
+• The dividend becomes an "illegal distribution"
+• You may have to repay the money to the company
+• HMRC could treat it as salary, triggering income tax and National Insurance
+• In serious cases, director disqualification
+
+**How to fix it:**
+• Always check your latest accounts before declaring dividends
+• Look at "retained earnings" or "profit and loss account reserve"
+• If in doubt, ask your accountant
+• Keep some profits in reserve for unexpected expenses
+
+**Quick check:** If your company has never made a profit or has accumulated losses, you probably can't pay dividends. Get professional advice first.
+
+** Mistake #2: Missing paperwork (vouchers & board minutes) **
+
+**The problem:**
+"I'll just transfer some money to myself and call it a dividend."
+
+This is how many small company directors operate, but it's risky. HMRC expects proper documentation for every dividend payment.
+
+**Why it matters:**
+Without correct paperwork, HMRC may not accept that a dividend was properly declared. They could reclassify the payment as salary, leading to income tax, National Insurance, and penalties.
+
+**What you need:**
+1. **Board minutes** - documenting the decision to pay dividends
+2. **Dividend vouchers** - issued to each shareholder
+3. **Proper records** - showing the calculation and payment
+
+**How to fix it:**
+• Use a simple template for board minutes and dividend vouchers
+• Date everything properly
+• Keep digital and physical copies
+• Issue vouchers on the same day you declare the dividend
+• Sign the vouchers as evidence of authorization
+
+**Pro tip:** Platforms like Dividify automatically generate all the paperwork you need in seconds.
+
+** Mistake #3: "What's in the bank?" withdrawals **
+
+**The problem:**
+Directors often blur the line between personal and company money. They'll withdraw funds "as needed" without documenting whether it's salary, dividend, loan, or expense repayment.
+
+**Why it matters:**
+HMRC will investigate large, unexplained withdrawals. If you can't prove what the payment was for, they may:
+• Treat it as salary (attracting income tax and National Insurance)
+• Apply benefit-in-kind rules
+• Impose penalties for poor record-keeping
+
+**How to fix it:**
+• Decide what each payment is before you make it
+• Document everything: salary, dividend, loan, expense repayment
+• Keep personal and business finances separate
+• Use proper bank references (e.g., "Dividend - Jan 2025")
+• Never use company money for personal expenses without proper documentation
+
+**Warning signs you're doing this wrong:**
+• Multiple round-number transfers (£500, £1000, £2000) with no explanation
+• Regular "cash" withdrawals from the company account
+• Company debit card used for personal shopping
+• No paper trail for what you've taken
+
+** Mistake #4: Forgetting to plan for the personal tax bill **
+
+**The problem:**
+Many directors assume dividends are "tax-free" because the company has already paid corporation tax on the profits.
+
+**The reality:**
+While dividends are more tax-efficient than salary, you still owe personal tax if your total income exceeds certain thresholds.
+
+**Tax rates for 2025/26:**
+• **£0 - £1,000:** Tax-free dividend allowance
+• **£1,001 - £37,700:** 8.75% tax rate (basic rate band)
+• **£37,701 - £125,140:** 33.75% tax rate (higher rate band)
+• **£125,141+:** 39.35% tax rate (additional rate band)
+
+**How to fix it:**
+• Calculate your total income (salary + dividends)
+• Set aside money for the tax bill
+• Make payments on account if your tax bill exceeds £1,000
+• Consider spreading dividends across tax years
+• Don't spend the whole dividend - save 30-40% for taxes if you're a higher-rate taxpayer
+
+**Example:**
+If you take £40,000 in dividends, you'll owe:
+• First £1,000: Tax-free
+• Next £36,700: £3,211 tax (8.75%)
+• Remaining £2,300: £776 tax (33.75%)
+• **Total tax: £3,987**
+
+Many directors forget this and get a nasty shock when their self-assessment is due.
+
+** Mistake #5: Unequal dividends without the right share structure **
+
+**The problem:**
+Some directors want to pay themselves more dividends than other shareholders, often to optimize their personal tax position.
+
+**Why it's problematic:**
+Unless you have different classes of shares, all shareholders of the same class must receive the same dividend per share. Paying unequal dividends to equal shareholders is illegal.
+
+**Example of the problem:**
+• Company has 100 shares: 50 to Director A, 50 to Director B
+• Director A wants to take £10,000, Director B wants £5,000
+• This isn't allowed if they hold the same class of shares
+
+**How to fix it:**
+1. **Option 1:** Pay equal dividends per share
+2. **Option 2:** Create different share classes (e.g., A shares and B shares)
+3. **Option 3:** Use a mix of salary and dividends to achieve the desired result
+
+**Setting up share classes:**
+• Requires shareholder approval
+• Usually involves legal costs
+• Must be documented at Companies House
+• Each class can have different dividend rights
+
+**Simpler alternative:**
+Pay one director extra salary instead of trying to manipulate dividend payments.
+
+** Best-practice checklist for 2025/26 **
+
+Before paying any dividend, run through this quick checklist:
+
+✅ **Check profits:** Do we have sufficient distributable profits?
+✅ **Board meeting:** Have we documented the decision in board minutes?
+✅ **Dividend vouchers:** Have we prepared vouchers for each shareholder?
+✅ **Equal treatment:** Are we paying the same per share to all shareholders of the same class?
+✅ **Tax planning:** Have we calculated and saved money for the personal tax bill?
+✅ **Documentation:** Are all papers signed, dated, and filed properly?
+✅ **Bank transfer:** Have we used clear references when making payments?
+
+If you can tick all these boxes, you're in great shape.
+
+** FAQs **
+
+**Q: Can I pay dividends monthly?**
+A: Yes, but you need board minutes and vouchers for each payment. Many directors find quarterly payments more practical.
+
+**Q: What if I discover I've overpaid dividends?**
+A: You may need to repay the excess to the company. Get professional advice immediately.
+
+**Q: Do I need to pay corporation tax before paying dividends?**
+A: No, but you must have sufficient distributable profits. Corporation tax is due 9 months after your year-end.
+
+**Q: Can I backdate dividend vouchers?**
+A: No, dividends should be documented on the date they're declared, not when you remember to do the paperwork.
+
+**Q: What's the minimum documentation I need?**
+A: Board minutes and dividend vouchers. Keep both for at least 6 years.
+
+The key to successful dividend planning is getting the basics right. Focus on proper documentation, check your profits, and always plan for the personal tax bill.
+
+For directors who want to streamline this process, tools like Dividify handle all the paperwork automatically, ensuring you stay compliant while maximizing your tax efficiency.`,
+    slug: 'dividend-mistakes-2025',
+    published_at: '2025-09-10T00:00:00.000Z'
+  },
   {
     id: '6',
     title: 'Dividend Voucher Templates: What UK Directors Need to Know in 2025',
