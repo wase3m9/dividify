@@ -45,11 +45,13 @@ const Contact = () => {
 
     setIsSubmitting(true);
     
-    // Show success message since form will submit to Formsubmit
+    // Don't prevent default - let the form submit to Formsubmit
     toast({
       title: "Sending message...",
-      description: "You'll be redirected shortly.",
+      description: "Submitting to Formsubmit...",
     });
+    
+    // Form will now submit naturally to Formsubmit
   };
 
   return (
@@ -188,11 +190,9 @@ const Contact = () => {
             onSubmit={handleSubmit} 
             className="space-y-6"
           >
-            {/* Formsubmit configuration */}
-            <input type="hidden" name="_next" value="https://dividify.co.uk/contact?success=true" />
-            <input type="hidden" name="_subject" value="New contact form submission from Dividify" />
+            {/* Formsubmit configuration - simplified for testing */}
+            <input type="hidden" name="_subject" value="Contact Form - Dividify Website" />
             <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_captcha" value="false" />
             
             <div>
               <Label htmlFor="name" className="text-left block">Name</Label>
