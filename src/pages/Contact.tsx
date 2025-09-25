@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+
 import { Helmet } from "react-helmet";
 import { Mail, Phone, MapPin } from "lucide-react";
 import ChatNotification from "@/components/chat/ChatNotification";
@@ -21,33 +21,35 @@ const Contact = () => {
   });
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const { error } = await supabase.functions.invoke('contact-form', {
-        body: formData
-      });
-
-      if (error) throw error;
-
+  const handleSubmit = (e: React.FormEvent) => {
+    // Client-side validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      e.preventDefault();
       toast({
-        title: "Message sent successfully",
-        description: "We'll get back to you as soon as possible.",
-      });
-
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error('Error sending message:', error);
-      toast({
+        title: "Please fill in all fields",
+        description: "All fields are required.",
         variant: "destructive",
-        title: "Error sending message",
-        description: "Please try again later.",
       });
-    } finally {
-      setIsSubmitting(false);
+      return;
     }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      e.preventDefault();
+      toast({
+        title: "Invalid email address",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    // Show success message since form will submit to Formsubmit
+    toast({
+      title: "Sending message...",
+      description: "You'll be redirected shortly.",
+    });
   };
 
   return (
@@ -180,11 +182,23 @@ const Contact = () => {
             <div>
               <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
           
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form 
+            action="https://formsubmit.co/info@dividify.co.uk" 
+            method="POST"
+            onSubmit={handleSubmit} 
+            className="space-y-6"
+          >
+            {/* Formsubmit configuration */}
+            <input type="hidden" name="_next" value={`${window.location.origin}/contact?success=true`} />
+            <input type="hidden" name="_subject" value="New contact form submission from Dividify" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="true" />
+            
             <div>
               <Label htmlFor="name" className="text-left block">Name</Label>
               <Input
                 id="name"
+                name="name"
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 required
@@ -195,6 +209,7 @@ const Contact = () => {
               <Label htmlFor="email" className="text-left block">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
@@ -206,6 +221,7 @@ const Contact = () => {
               <Label htmlFor="message" className="text-left block">Message</Label>
               <Textarea
                 id="message"
+                name="message"
                 value={formData.message}
                 onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                 className="min-h-[150px]"
