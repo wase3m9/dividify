@@ -14,6 +14,7 @@ import ChatNotification from "@/components/chat/ChatNotification";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,13 +22,13 @@ const Contact = () => {
   });
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log("Form submit handler called");
     console.log("Form data:", formData);
     
     // Client-side validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      e.preventDefault();
       console.log("Form validation failed - empty fields");
       toast({
         title: "Please fill in all fields",
@@ -38,7 +39,6 @@ const Contact = () => {
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      e.preventDefault();
       console.log("Form validation failed - invalid email");
       toast({
         title: "Invalid email address",
@@ -51,11 +51,43 @@ const Contact = () => {
     console.log("Form validation passed, submitting to Formsubmit");
     setIsSubmitting(true);
     
-    // Let form submit naturally - don't prevent default
-    toast({
-      title: "Sending message...",
-      description: "Submitting to Formsubmit...",
-    });
+    try {
+      // Create form data for submission
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('email', formData.email);
+      submitData.append('message', formData.message);
+      submitData.append('_subject', 'Contact Form - Dividify Website');
+      submitData.append('_template', 'table');
+      submitData.append('_captcha', 'true');
+
+      const response = await fetch('https://formsubmit.co/info@dividify.co.uk', {
+        method: 'POST',
+        body: submitData
+      });
+
+      console.log("Formsubmit response:", response.status, response.statusText);
+      
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+        toast({
+          title: "Message sent successfully!",
+          description: "We'll get back to you as soon as possible.",
+        });
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again later or email us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -188,59 +220,79 @@ const Contact = () => {
             <div>
               <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
           
-          <form 
-            action="https://formsubmit.co/info@dividify.co.uk" 
-            method="POST"
-            onSubmit={handleSubmit} 
-            className="space-y-6"
-          >
-            {/* Formsubmit configuration - simplified for testing */}
-            <input type="hidden" name="_subject" value="Contact Form - Dividify Website" />
-            <input type="hidden" name="_template" value="table" />
+            {isSubmitted ? (
+              // Success state
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
+                <p className="text-gray-600 mb-6">
+                  Thank you for contacting us. We'll get back to you as soon as possible.
+                </p>
+                <Button 
+                  onClick={() => setIsSubmitted(false)}
+                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
+                >
+                  Send Another Message
+                </Button>
+              </div>
+            ) : (
+              // Form state
+              <>
+                <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
             
-            <div>
-              <Label htmlFor="name" className="text-left block">Name</Label>
-              <Input
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                required
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="email" className="text-left block">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                required
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="message" className="text-left block">Message</Label>
-              <Textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
-                className="min-h-[150px]"
-                required
-              />
-            </div>
-            
-              <Button 
-                type="submit" 
-                className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </Button>
-            </form>
+                <form 
+                  onSubmit={handleSubmit} 
+                  className="space-y-6"
+                >
+                  <div>
+                    <Label htmlFor="name" className="text-left block">Name</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="email" className="text-left block">Email</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="message" className="text-left block">Message</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                      className="min-h-[150px]"
+                      required
+                    />
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </>
+            )}
             </div>
           </div>
         </div>
