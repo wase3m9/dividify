@@ -20,6 +20,11 @@ serve(async (req) => {
 
   try {
     const formData: ContactFormData = await req.json()
+    console.log('Processing contact form submission:', formData);
+    
+    // Check if RESEND_API_KEY is configured
+    const resendApiKey = Deno.env.get('RESEND_API_KEY');
+    console.log('RESEND_API_KEY configured:', !!resendApiKey);
     
     // Initialize Supabase client
     const supabaseClient = createClient(
@@ -39,6 +44,11 @@ serve(async (req) => {
       ])
 
     if (insertError) throw insertError
+
+    if (!resendApiKey) {
+      console.error('RESEND_API_KEY not configured');
+      throw new Error('Email service not configured');
+    }
 
     // Send email using Resend
     console.log('Attempting to send email via Resend...');
