@@ -67,7 +67,31 @@ export const BlogPostContent = ({
              !paragraph.startsWith('When ') &&
              !paragraph.startsWith('While '))) {
           const headerText = paragraph.replace(/\*\*/g, '').trim();
-          const headerId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+          let headerId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+          
+          // Map specific headers to expected IDs for table of contents
+          const headerMap: Record<string, string> = {
+            'why-dividend-vouchers-matter-for-uk-company-directors': 'why-dividend-vouchers-matter',
+            'dividend-voucher-requirements-explained': 'dividend-voucher-requirements',
+            'different-dividend-voucher-template-options-pdf-word-excel': 'template-options',
+            'step-by-step-how-to-produce-dividend-vouchers': 'step-by-step',
+            'dividend-voucher-example-what-it-looks-like': 'dividend-voucher-example',
+            'common-mistakes-directors-make-with-dividend-vouchers': 'common-mistakes',
+            'best-practice-tips-for-2025-26': 'best-practice-tips',
+            'why-this-matters-to-uk-company-directors': 'why-this-matters',
+            'mistake-1-paying-dividends-without-distributable-profits': 'mistake-1',
+            'mistake-2-missing-paperwork-vouchers--board-minutes': 'mistake-2',
+            'mistake-3-whats-in-the-bank-withdrawals': 'mistake-3',
+            'mistake-4-forgetting-to-plan-for-the-personal-tax-bill': 'mistake-4',
+            'mistake-5-unequal-dividends-without-the-right-share-structure': 'mistake-5',
+            'best-practice-checklist-for-2025-26': 'best-practice',
+            'faqs': 'faqs'
+          };
+          
+          if (headerMap[headerId]) {
+            headerId = headerMap[headerId];
+          }
+          
           return <h2 key={pIndex} id={headerId} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4">
                 {headerText}
               </h2>;
