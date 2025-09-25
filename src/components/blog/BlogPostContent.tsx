@@ -23,10 +23,30 @@ export const BlogPostContent = ({
 
         // Table of Contents - make it clickable
         if (paragraph.trim().startsWith('**Table of Contents:**')) {
+          const tocLines = [];
+          const lines = section.split('\n');
+          const tocStartIndex = lines.findIndex(line => line.trim().startsWith('**Table of Contents:**'));
+          
+          // Look for bullet points only in the lines immediately following the TOC header
+          for (let i = tocStartIndex + 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line.startsWith('•')) {
+              tocLines.push(line);
+            } else if (line.startsWith('**') || line === '') {
+              // Stop when we hit the next section or empty line after TOC items
+              if (tocLines.length > 0 && line.startsWith('**')) break;
+              if (line === '' && tocLines.length > 0) {
+                // Check if the next non-empty line is a section header
+                const nextNonEmpty = lines.slice(i + 1).find(l => l.trim() !== '');
+                if (nextNonEmpty && nextNonEmpty.trim().startsWith('**')) break;
+              }
+            }
+          }
+
           return <div key={pIndex} className="bg-gray-50 p-6 rounded-lg mb-8">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h3>
                 <ul className="space-y-3">
-                  {section.split('\n').filter(line => line.trim().startsWith('•')).map((tocItem, tocIndex) => {
+                  {tocLines.map((tocItem, tocIndex) => {
                 const text = tocItem.replace('•', '').trim();
                 const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
                 return <li key={tocIndex}>
