@@ -212,9 +212,6 @@ const BlogPost = () => {
                 readTime={readingTime}
               />
 
-              <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                {getExcerpt(post?.content || "")}
-              </p>
             </div>
 
             {/* Article Content */}
