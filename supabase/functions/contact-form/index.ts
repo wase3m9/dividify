@@ -48,14 +48,17 @@ serve(async (req) => {
         'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
       },
       body: JSON.stringify({
-        from: 'Dividify <info@dividify.co.uk>',
+        from: 'Dividify <onboarding@resend.dev>',
         to: ['info@dividify.co.uk'],
-        subject: 'New Contact Form Submission',
+        subject: 'New Contact Form Submission - Dividify',
         html: `
-          <h2>New Contact Form Submission</h2>
+          <h2>New Contact Form Submission from Dividify</h2>
           <p><strong>Name:</strong> ${formData.name}</p>
           <p><strong>Email:</strong> ${formData.email}</p>
-          <p><strong>Message:</strong> ${formData.message}</p>
+          <p><strong>Message:</strong></p>
+          <p>${formData.message}</p>
+          <hr>
+          <p><small>This message was sent via the Dividify contact form.</small></p>
         `,
       }),
     })
