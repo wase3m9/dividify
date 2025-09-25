@@ -189,10 +189,10 @@ const Contact = () => {
             className="space-y-6"
           >
             {/* Formsubmit configuration */}
-            <input type="hidden" name="_next" value={`${window.location.origin}/contact?success=true`} />
+            <input type="hidden" name="_next" value="https://dividify.co.uk/contact?success=true" />
             <input type="hidden" name="_subject" value="New contact form submission from Dividify" />
             <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_captcha" value="true" />
+            <input type="hidden" name="_captcha" value="false" />
             
             <div>
               <Label htmlFor="name" className="text-left block">Name</Label>
