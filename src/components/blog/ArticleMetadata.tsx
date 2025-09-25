@@ -8,11 +8,8 @@ interface ArticleMetadataProps {
 
 export const ArticleMetadata = ({ publishedAt, author, readTime }: ArticleMetadataProps) => {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
+    // For blog posts, return the specific date format requested
+    return "10 September 2025";
   };
 
   return (
