@@ -461,7 +461,7 @@ The key to successful dividend planning is getting the basics right. Focus on pr
 
 For directors who want to streamline this process, tools like Dividify handle all the paperwork automatically, ensuring you stay compliant while maximizing your tax efficiency.`,
     slug: 'dividend-mistakes-2025',
-    published_at: '2025-09-24T00:00:00.000Z'
+    published_at: '2025-09-10T00:00:00.000Z'
   },
   {
     id: '6',
