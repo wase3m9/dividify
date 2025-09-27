@@ -27,7 +27,7 @@ import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
 import JournalEntries from "@/pages/JournalEntries";
 import EmailVerified from "@/pages/EmailVerified";
-import AdminSetup from "@/pages/AdminSetup";
+
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 import { PaymentRequiredGate } from "@/components/dashboard/PaymentRequiredGate";
 
@@ -55,10 +55,6 @@ export const router = createBrowserRouter([
   {
     path: "/email-verified",
     element: <EmailVerified />,
-  },
-  {
-    path: "/admin-setup",
-    element: <AdminSetup />,
   },
   {
     path: "/signup",
