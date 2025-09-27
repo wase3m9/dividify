@@ -119,11 +119,12 @@ serve(async (req) => {
         console.log(`Successfully set up admin account for ${account.email}`);
         
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
         console.error(`Error setting up ${account.email}:`, error);
         results.push({
           email: account.email,
           success: false,
-          error: error.message
+          error: errorMessage
         });
       }
     }
@@ -137,9 +138,10 @@ serve(async (req) => {
     });
 
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     console.error('Error in setup-admin-accounts function:', error);
     return new Response(JSON.stringify({ 
-      error: error.message,
+      error: errorMessage,
       success: false 
     }), {
       status: 500,

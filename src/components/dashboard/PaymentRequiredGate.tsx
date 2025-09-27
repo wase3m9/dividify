@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, Shield, Clock } from "lucide-react";
@@ -13,6 +14,7 @@ interface PaymentRequiredGateProps {
 export const PaymentRequiredGate = ({ children }: PaymentRequiredGateProps) => {
   const navigate = useNavigate();
   const { subscriptionData, isLoading } = useSubscriptionStatus();
+  const { isAdmin, isLoading: isLoadingAdmin } = useAdminCheck();
   const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
 
   useEffect(() => {
@@ -29,8 +31,8 @@ export const PaymentRequiredGate = ({ children }: PaymentRequiredGateProps) => {
     navigate(`/profile?openPlans=1&plan=${selectedPlan}`);
   };
 
-  // Show loading while checking subscription status
-  if (isLoading) {
+  // Show loading while checking subscription status and admin status
+  if (isLoading || isLoadingAdmin) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background to-muted flex items-center justify-center">
         <div className="text-center">
@@ -39,6 +41,11 @@ export const PaymentRequiredGate = ({ children }: PaymentRequiredGateProps) => {
         </div>
       </div>
     );
+  }
+
+  // Admin users bypass payment requirements
+  if (isAdmin) {
+    return <>{children}</>;
   }
 
   // If user has payment method, show the children (dashboard)

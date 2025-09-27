@@ -37,6 +37,40 @@ serve(async (req) => {
 
     logStep("User authenticated", { userId: user.id, email: user.email });
 
+    // Check if user is an admin first
+    const { data: adminCheck } = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .eq('role', 'admin')
+      .single();
+
+    if (adminCheck) {
+      logStep("Admin user detected, granting full access");
+      
+      // Update profile to ensure admin has full access
+      await supabaseClient
+        .from('profiles')
+        .update({
+          subscription_plan: 'enterprise',
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+
+      return new Response(JSON.stringify({
+        subscribed: true,
+        subscription_plan: 'enterprise',
+        user_type: 'individual',
+        is_trialing: false,
+        has_payment_method: true,
+        is_admin: true,
+        message: "Admin access granted"
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
     const stripeSecretKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeSecretKey) {
       throw new Error("STRIPE_SECRET_KEY environment variable is not set");
