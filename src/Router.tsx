@@ -4,6 +4,7 @@ import Index from "@/pages/Index";
 import Features from "@/pages/Features";
 import Auth from "@/pages/Auth";
 import AuthCallback from "@/pages/AuthCallback";
+import ResetPassword from "@/pages/ResetPassword";
 import Signup from "@/pages/Signup";
 import CompanyDashboard from "@/pages/CompanyDashboard";
 import Profile from "@/pages/Profile";
@@ -26,6 +27,7 @@ import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
 import JournalEntries from "@/pages/JournalEntries";
 import EmailVerified from "@/pages/EmailVerified";
+import AdminSetup from "@/pages/AdminSetup";
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 import { PaymentRequiredGate } from "@/components/dashboard/PaymentRequiredGate";
 
@@ -43,12 +45,20 @@ export const router = createBrowserRouter([
     element: <Auth />,
   },
   {
+    path: "/reset-password",
+    element: <ResetPassword />,
+  },
+  {
     path: "/auth-callback",
     element: <AuthCallback />,
   },
   {
     path: "/email-verified",
     element: <EmailVerified />,
+  },
+  {
+    path: "/admin-setup",
+    element: <AdminSetup />,
   },
   {
     path: "/signup",
