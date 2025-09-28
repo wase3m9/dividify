@@ -84,8 +84,8 @@ export const HeroBanner = ({
             onClick={handleStartFreeTrial}
             className="w-30 h-10 rounded-3xl flex justify-center items-center gap-2 bg-[#1C1A1C] cursor-pointer transition-all duration-[450ms] ease-in-out hover:bg-gradient-to-t hover:from-[#A47CF3] hover:to-[#683FEA] hover:-translate-y-0.5 hover:shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.4),inset_0px_-4px_0px_0px_rgba(0,0,0,0.2),0px_0px_0px_4px_rgba(255,255,255,0.2),0px_0px_180px_0px_#9917FF] group animate-fade-in"
           >
-            <Sparkles className="w-4 h-4 text-[#AAAAAA] transition-all duration-[800ms] ease group-hover:text-white group-hover:scale-110" />
-            <span className="font-semibold text-[#AAAAAA] text-sm transition-all duration-[450ms] ease group-hover:text-white">
+            <Zap className="w-4 h-4 text-[#AAAAAA] transition-all duration-[800ms] ease group-hover:text-white group-hover:scale-110" />
+            <span className="font-semibold text-[#AAAAAA] text-base transition-all duration-[450ms] ease group-hover:text-white">
               Start Free Trial
             </span>
           </button>
