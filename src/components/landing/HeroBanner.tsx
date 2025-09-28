@@ -80,10 +80,17 @@ export const HeroBanner = ({
             </span>
           </div>
 
-          <Button size="lg" className="bg-brand-purple text-white hover:bg-brand-purple/90 hover-lift shadow-lg px-10 py-7 text-base animate-fade-in font-semibold" onClick={handleStartFreeTrial}>
-            Start Free Trial
-            <ArrowRight className="ml-3 h-6 w-6" />
-          </Button>
+          <button 
+            onClick={handleStartFreeTrial}
+            className="w-60 h-20 rounded-3xl flex justify-center items-center gap-3 bg-[#1C1A1C] cursor-pointer transition-all duration-[450ms] ease-in-out hover:bg-gradient-to-t hover:from-[#A47CF3] hover:to-[#683FEA] hover:-translate-y-0.5 hover:shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.4),inset_0px_-4px_0px_0px_rgba(0,0,0,0.2),0px_0px_0px_4px_rgba(255,255,255,0.2),0px_0px_180px_0px_#9917FF] group animate-fade-in"
+          >
+            <svg className="w-6 h-6 fill-[#AAAAAA] transition-all duration-[800ms] ease group-hover:fill-white group-hover:scale-110" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <span className="font-semibold text-[#AAAAAA] text-base transition-all duration-[450ms] ease group-hover:text-white">
+              Start Free Trial
+            </span>
+          </button>
 
           <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 text-sm text-gray-600">
             <span className="flex items-center gap-2">
