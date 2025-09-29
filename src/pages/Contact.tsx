@@ -218,7 +218,6 @@ const Contact = () => {
             </div>
             
             <div>
-              <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
           
             {isSubmitted ? (
               // Success state
