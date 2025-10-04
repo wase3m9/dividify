@@ -247,13 +247,15 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <Helmet>
         <title>Dividend Vouchers & Board Minutes Generator | UK Limited Companies | Dividify</title>
-        <meta name="description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance, from £6/month. Start your free trial today." />
+        <meta name="description" content="Generate professional dividend vouchers and board minutes for UK limited companies quickly and compliantly. HMRC-ready templates from £15/month. Start free trial." />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow" />
         <meta name="keywords" content="dividend vouchers UK, board minutes generator, UK limited company compliance, HMRC dividend compliance, accountants London, small business accounting UK, tax return service UK, corporate secretary services" />
         <meta name="geo.region" content="GB" />
         <meta name="geo.country" content="UK" />
         <meta name="geo.placename" content="London" />
         <meta property="og:title" content="Dividend Vouchers & Board Minutes Generator | UK Limited Companies | Dividify" />
-        <meta property="og:description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance, from £6/month." />
+        <meta property="og:description" content="Generate professional dividend vouchers and board minutes for UK limited companies quickly and compliantly. HMRC-ready templates from £15/month. Start free trial." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
@@ -263,7 +265,7 @@ const Index = () => {
         <meta property="og:site_name" content="Dividify" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Dividend Vouchers & Board Minutes Generator | UK Limited Companies" />
-        <meta name="twitter:description" content="Generate compliant dividend vouchers and board minutes for UK limited companies. Professional templates, HMRC compliance." />
+        <meta name="twitter:description" content="Generate professional dividend vouchers and board minutes for UK limited companies quickly and compliantly. HMRC-ready templates from £15/month." />
         <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <link rel="canonical" href={window.location.origin} />
         <script type="application/ld+json">
