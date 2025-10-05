@@ -10,17 +10,19 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Clock, CreditCard, Check, RefreshCw, Loader2 } from "lucide-react";
+import { Clock, CreditCard, Check, RefreshCw, Loader2, Crown } from "lucide-react";
 import { BrandingUploader } from "@/components/profile/BrandingUploader";
 import { TeamAccess } from "@/components/profile/TeamAccess";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { RecentActivityProfile } from "@/components/profile/RecentActivityProfile";
+import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
 
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { refreshSubscriptionStatus, isLoading: subscriptionLoading } = useSubscriptionStatus();
+  const { data: monthlyUsage } = useMonthlyUsage();
   const [isUpgrading, setIsUpgrading] = useState(false);
   const [showPlanSelection, setShowPlanSelection] = useState(false);
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
@@ -296,6 +298,62 @@ const Profile = () => {
                 </Button>
               </CardContent>
             </Card>
+
+            {/* Plan Usage Card - Moved from Dashboard */}
+            {profile?.subscription_plan && profile.subscription_plan !== 'trial' && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Crown className="h-5 w-5 text-[#9b87f5]" />
+                    {profile.subscription_plan === 'starter' && 'Starter Plan'}
+                    {profile.subscription_plan === 'professional' && 'Professional Plan'}
+                    {profile.subscription_plan === 'enterprise' && 'Enterprise Plan'}
+                    {profile.subscription_plan === 'accountant' && 'Accountant Plan'}
+                  </CardTitle>
+                  <CardDescription>Your current usage and limits</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Companies</span>
+                      <span className="font-medium">
+                        {monthlyUsage?.companiesCount || 0} / {
+                          profile.subscription_plan === 'starter' ? '1' :
+                          profile.subscription_plan === 'professional' ? '3' :
+                          'Unlimited'
+                        }
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Monthly Dividends</span>
+                      <span className="font-medium">
+                        {monthlyUsage?.dividendsCount || 0} / {
+                          profile.subscription_plan === 'starter' ? '2' :
+                          profile.subscription_plan === 'professional' ? '10' :
+                          'Unlimited'
+                        }
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Monthly Minutes</span>
+                      <span className="font-medium">
+                        {monthlyUsage?.minutesCount || 0} / {
+                          profile.subscription_plan === 'starter' ? '2' :
+                          profile.subscription_plan === 'professional' ? '10' :
+                          'Unlimited'
+                        }
+                      </span>
+                    </div>
+                  </div>
+                  <div className="pt-3 border-t">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Clock className="h-3 w-3" />
+                      <span>Next reset: {new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Custom Branding Section */}
             <BrandingUploader 
