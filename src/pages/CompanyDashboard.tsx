@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { CompanySection } from "@/components/dividend/CompanySection";
-import { RecentActivity } from "@/components/dividend/RecentActivity";
 import { useToast } from "@/hooks/use-toast";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
 import { Header } from "@/components/dividend/board/Header";
@@ -402,7 +401,6 @@ const CompanyDashboard = () => {
                         minutes: monthlyUsage?.minutesCount || 0
                       }}
                     />
-                    {company && <RecentActivity companyId={company.id} />}
                   </div>
                 </div>
               </div>

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Navigation } from "@/components/Navigation";
 import { CompanySection } from "@/components/dividend/CompanySection";
-import { RecentActivity } from "@/components/dividend/RecentActivity";
 import { useToast } from "@/hooks/use-toast";
 import { Header } from "@/components/dividend/board/Header";
 import { DirectorsSection } from "@/components/dividend/board/DirectorsSection";
@@ -383,7 +382,6 @@ const DividendBoard = () => {
                         minutes: userProfile?.current_month_minutes || 0
                       }}
                     />
-                    {company && <RecentActivity companyId={company.id} />}
                   </div>
                 </div>
               </div>
