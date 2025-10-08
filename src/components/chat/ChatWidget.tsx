@@ -147,9 +147,11 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
           title: "Authentication Required",
           description: "Please log in to send messages.",
         });
+        setIsLoading(false);
         return;
       }
       
+      // Insert user message
       const { error } = await supabase
         .from('chat_messages')
         .insert([{
@@ -164,30 +166,102 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         throw error;
       }
 
-      // Send AI auto-response
-      setTimeout(async () => {
-        const aiResponse = getAIResponse(messageText);
-        const responseMessage = aiResponse || 
-          "Thank you for your message! Our support team will get back to you within 24-48 hours. For urgent matters, please email us directly at info@cloud-keepers.co.uk.";
+      // Prepare messages for AI
+      const allMessages = messages.map(m => ({
+        role: m.sender_type === 'user' ? 'user' : 'assistant',
+        content: m.message
+      }));
+      
+      // Add current user message
+      allMessages.push({ role: 'user', content: messageText });
 
-        // AI responses should be linked to the authenticated user's conversation
-        const { error: responseError } = await supabase
+      // Call AI edge function with streaming
+      const CHAT_URL = `https://vkllrotescxmqwogfamo.supabase.co/functions/v1/chat-support`;
+      const resp = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ messages: allMessages }),
+      });
+
+      if (!resp.ok || !resp.body) {
+        throw new Error('Failed to get AI response');
+      }
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let textBuffer = "";
+      let streamDone = false;
+      let aiResponseText = "";
+
+      // Create AI message placeholder
+      const aiMessageId = crypto.randomUUID();
+      
+      while (!streamDone) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        textBuffer += decoder.decode(value, { stream: true });
+
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
+
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (line.startsWith(":") || line.trim() === "") continue;
+          if (!line.startsWith("data: ")) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === "[DONE]") {
+            streamDone = true;
+            break;
+          }
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) {
+              aiResponseText += content;
+              // Update messages in real-time
+              setMessages(prev => {
+                const existing = prev.find(m => m.id === aiMessageId);
+                if (existing) {
+                  return prev.map(m => 
+                    m.id === aiMessageId ? { ...m, message: aiResponseText } : m
+                  );
+                } else {
+                  return [...prev, {
+                    id: aiMessageId,
+                    message: aiResponseText,
+                    sender_type: 'admin' as const,
+                    created_at: new Date().toISOString(),
+                  }];
+                }
+              });
+            }
+          } catch {
+            textBuffer = line + "\n" + textBuffer;
+            break;
+          }
+        }
+      }
+
+      // Save AI response to database
+      if (aiResponseText) {
+        await supabase
           .from('chat_messages')
-          .insert([{
+          .insert({
             conversation_id: conversation.id,
             user_id: session.user.id,
+            message: aiResponseText,
             sender_type: 'admin',
-            message: responseMessage
-          }]);
-
-        if (responseError) {
-          console.error('Error sending auto-response:', responseError);
-        }
-      }, 1000);
-
+          });
+      }
     } catch (error) {
       console.error('Error sending message:', error);
-      setNewMessage(messageText); // Restore message on error
+      setNewMessage(messageText);
       toast({
         variant: "destructive",
         title: "Error",
