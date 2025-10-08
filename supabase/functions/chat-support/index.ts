@@ -10,8 +10,14 @@ serve(async (req) => {
 
   try {
     const { messages } = await req.json();
+    
+    console.log('Chat support request received with', messages?.length, 'messages');
+    
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    if (!LOVABLE_API_KEY) {
+      console.error('LOVABLE_API_KEY not configured');
+      throw new Error("LOVABLE_API_KEY is not configured");
+    }
 
     const systemPrompt = `You are a helpful customer support assistant for Dividify, a UK dividend voucher and board minutes generation platform.
 

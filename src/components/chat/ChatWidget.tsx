@@ -55,66 +55,54 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
       setIsLoading(true);
       const { data: { session } } = await supabase.auth.getSession();
       
-      // Only allow authenticated users to create conversations
-      if (!session?.user?.id) {
-        toast({
-          variant: "destructive",
-          title: "Authentication Required",
-          description: "Please log in to use the chat feature.",
-        });
-        return;
-      }
-      
-      const userId = session.user.id;
-      
-      const { data: newConversation, error: createError } = await supabase
-        .from('chat_conversations')
-        .insert([{
-          user_id: userId,
-          title: 'Support Chat',
-          status: 'open'
-        }])
-        .select()
-        .single();
-      
-      if (createError) {
-        console.error('Error creating conversation:', createError);
-        throw createError;
-      }
-      
-      if (newConversation) {
-        setConversation(newConversation);
+      // For authenticated users, create a conversation in the database
+      if (session?.user?.id) {
+        const userId = session.user.id;
         
-        // Subscribe to new messages for this conversation
-        const channel = supabase
-          .channel(`chat-messages-${newConversation.id}`)
-          .on(
-            'postgres_changes',
-            {
-              event: 'INSERT',
-              schema: 'public',
-              table: 'chat_messages',
-              filter: `conversation_id=eq.${newConversation.id}`
-            },
-            (payload) => {
-              console.log('New message received:', payload.new);
-              setMessages(prev => [...prev, payload.new as Message]);
-            }
-          )
-          .subscribe();
+        const { data: newConversation, error: createError } = await supabase
+          .from('chat_conversations')
+          .insert([{
+            user_id: userId,
+            title: 'Support Chat',
+            status: 'open'
+          }])
+          .select()
+          .single();
+        
+        if (createError) {
+          console.error('Error creating conversation:', createError);
+        } else if (newConversation) {
+          setConversation(newConversation);
+          
+          // Subscribe to new messages for this conversation
+          const channel = supabase
+            .channel(`chat-messages-${newConversation.id}`)
+            .on(
+              'postgres_changes',
+              {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'chat_messages',
+                filter: `conversation_id=eq.${newConversation.id}`
+              },
+              (payload) => {
+                console.log('New message received:', payload.new);
+                setMessages(prev => [...prev, payload.new as Message]);
+              }
+            )
+            .subscribe();
 
-        setIsInitialized(true);
-        return () => {
-          supabase.removeChannel(channel);
-        };
+          setIsInitialized(true);
+          return () => {
+            supabase.removeChannel(channel);
+          };
+        }
       }
+      
+      // For non-authenticated users, just mark as initialized
+      setIsInitialized(true);
     } catch (error) {
       console.error('Error initializing chat:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to initialize chat. Please try again.",
-      });
     } finally {
       setIsLoading(false);
     }
@@ -127,11 +115,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
     setShowWelcome(false);
 
     // Initialize chat if not already done
-    if (!conversation && !isInitialized) {
+    if (!isInitialized) {
       await initializeChat();
     }
-
-    if (!conversation) return;
 
     setIsLoading(true);
     const messageText = newMessage;
@@ -140,30 +126,26 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
-      // Ensure user is authenticated
-      if (!session?.user?.id) {
-        toast({
-          variant: "destructive", 
-          title: "Authentication Required",
-          description: "Please log in to send messages.",
-        });
-        setIsLoading(false);
-        return;
-      }
+      // Add user message to UI immediately
+      const userMessageId = crypto.randomUUID();
+      const userMessage: Message = {
+        id: userMessageId,
+        message: messageText,
+        sender_type: 'user',
+        created_at: new Date().toISOString(),
+      };
+      setMessages(prev => [...prev, userMessage]);
       
-      // Insert user message
-      const { error } = await supabase
-        .from('chat_messages')
-        .insert([{
-          conversation_id: conversation.id,
-          user_id: session.user.id,
-          sender_type: 'user',
-          message: messageText
-        }]);
-
-      if (error) {
-        console.error('Error sending message:', error);
-        throw error;
+      // Save to database if authenticated
+      if (session?.user?.id && conversation) {
+        await supabase
+          .from('chat_messages')
+          .insert([{
+            conversation_id: conversation.id,
+            user_id: session.user.id,
+            sender_type: 'user',
+            message: messageText
+          }]);
       }
 
       // Prepare messages for AI
@@ -181,7 +163,6 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({ messages: allMessages }),
       });
@@ -248,8 +229,8 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         }
       }
 
-      // Save AI response to database
-      if (aiResponseText) {
+      // Save AI response to database if authenticated
+      if (aiResponseText && session?.user?.id && conversation) {
         await supabase
           .from('chat_messages')
           .insert({
