@@ -583,7 +583,19 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      security_events: {
+        Row: {
+          action: string | null
+          created_at: string | null
+          description: string | null
+          full_name: string | null
+          id: string | null
+          metadata: Json | null
+          user_id: string | null
+          user_type: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       check_and_reset_monthly_counters: {
