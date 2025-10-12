@@ -294,17 +294,17 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
     <>
       {/* Notification Popup */}
       {showNotification && !isOpen && (
-        <div className="fixed bottom-20 right-4 z-50 animate-fade-in">
-          <div className="bg-white rounded-lg shadow-lg border p-4 max-w-xs relative">
+        <div className="fixed bottom-20 right-2 sm:right-4 z-50 animate-fade-in max-w-[calc(100vw-1rem)] sm:max-w-xs">
+          <div className="bg-white rounded-lg shadow-lg border p-4 relative">
             <button
               onClick={onCloseNotification}
-              className="absolute -top-2 -left-2 bg-muted rounded-full p-1 hover:bg-muted/80"
+              className="absolute -top-2 -left-2 bg-muted rounded-full p-1.5 hover:bg-muted/80 touch-target"
             >
               <X className="h-4 w-4" />
             </button>
             <button
               onClick={handleNotificationClick}
-              className="text-left w-full hover:bg-muted/50 rounded p-2 transition-colors"
+              className="text-left w-full hover:bg-muted/50 rounded p-2 transition-colors touch-target"
             >
               <p className="text-sm font-medium text-foreground">
                 Welcome to Dividify! How can I help you?
@@ -315,15 +315,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
       )}
 
       {/* Chat Widget */}
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed bottom-2 right-2 sm:bottom-4 sm:right-4 z-50">
         {!isOpen ? (
           <div className="relative">
             <Button
               onClick={handleChatOpen}
-              className="rounded-full w-14 h-14 bg-[#9b87f5] hover:bg-[#8b77e5] shadow-lg animate-scale-in"
+              className="rounded-full w-12 h-12 sm:w-14 sm:h-14 bg-[#9b87f5] hover:bg-[#8b77e5] shadow-lg animate-scale-in touch-target"
               size="icon"
             >
-              <MessageCircle className="h-7 w-7" />
+              <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" />
             </Button>
             {messages.filter(m => m.sender_type === 'admin').length > 0 && (
               <div className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-medium">
@@ -332,25 +332,25 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
             )}
           </div>
         ) : (
-          <Card className="w-80 h-96 flex flex-col shadow-xl animate-scale-in">
-            <div className="flex items-center justify-between p-4 bg-[#9b87f5] text-white rounded-t-lg">
+          <Card className="w-[calc(100vw-1rem)] sm:w-80 h-[calc(100vh-5rem)] sm:h-96 flex flex-col shadow-xl animate-scale-in">
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-[#9b87f5] text-white rounded-t-lg">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-white/20 rounded-full flex items-center justify-center">
                   <MessageCircle className="h-4 w-4" />
                 </div>
-                <h3 className="font-semibold">Dividify AI</h3>
+                <h3 className="font-semibold text-sm sm:text-base">Dividify AI</h3>
               </div>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleChatClose}
-                className="text-white hover:bg-white/20"
+                className="text-white hover:bg-white/20 touch-target h-8 w-8 sm:h-9 sm:w-9 p-0"
               >
                 <X className="h-4 w-4" />
               </Button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted/10">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 bg-muted/10">
               {showWelcome && messages.length === 0 && !isLoading ? (
                 <div className="space-y-3">
                   <div className="flex justify-start">
@@ -428,7 +428,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
               <div ref={messagesEndRef} />
             </div>
             
-            <div className="p-4 border-t bg-background">
+            <div className="p-3 sm:p-4 border-t bg-background">
               <div className="flex gap-2 items-center">
                 <Input
                   value={newMessage}
@@ -436,12 +436,12 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
                   onKeyPress={handleKeyPress}
                   placeholder="Write a reply..."
                   disabled={isLoading}
-                  className="flex-1"
+                  className="flex-1 text-sm sm:text-base h-9 sm:h-10"
                 />
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground touch-target h-9 w-9 sm:h-10 sm:w-10 p-0"
                   onClick={() => {
                     // Basic emoji picker functionality
                     const emojis = ['😊', '👍', '❤️', '😄', '🎉', '✅'];
@@ -455,7 +455,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
                   onClick={sendMessage}
                   disabled={!newMessage.trim() || isLoading}
                   size="sm"
-                  className="bg-[#9b87f5] hover:bg-[#8b77e5]"
+                  className="bg-[#9b87f5] hover:bg-[#8b77e5] touch-target h-9 sm:h-10 px-3"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
