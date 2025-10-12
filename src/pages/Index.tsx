@@ -275,27 +275,27 @@ const Index = () => {
       
       <Navigation />
       
-      <main className="container mx-auto px-4 pt-16">
+      <main className="container mx-auto px-3 sm:px-4 pt-14 sm:pt-16">
         <HeroBanner onStartFreeTrial={handleStartFreeTrial} />
         <HowItWorksSection />
         
         {/* Connect Dividify Section */}
-        <section className="py-24 bg-gray-50">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-16 bg-gray-100 py-10 px-6 rounded-lg border border-gray-200">
-              <div className="flex justify-center items-center gap-2 mb-3">
-                <h2 className="text-4xl font-bold text-gray-500">
+        <section className="py-12 sm:py-16 md:py-24 bg-gray-50">
+          <div className="max-w-6xl mx-auto px-3 sm:px-4">
+            <div className="text-center mb-8 sm:mb-12 md:mb-16 bg-gray-100 py-6 sm:py-8 md:py-10 px-4 sm:px-6 rounded-lg border border-gray-200">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-2 mb-3">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-500 text-center">
                   Connect <span className="text-gray-400">Dividify</span> with your accounting software
                 </h2>
-                <div className="bg-gray-300 hover:bg-gray-300 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">
+                <div className="bg-gray-300 hover:bg-gray-300 text-gray-600 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
                   Coming Soon
                 </div>
               </div>
               <div className="flex items-center justify-center gap-2 mb-4">
-                <div className="h-5 w-5 text-gray-500">⏱️</div>
-                <p className="text-gray-500 font-medium">Integration Launching Q1 2026</p>
+                <div className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500">⏱️</div>
+                <p className="text-sm sm:text-base text-gray-500 font-medium">Integration Launching Q1 2026</p>
               </div>
-              <p className="text-gray-500 max-w-3xl mx-auto">
+              <p className="text-sm sm:text-base text-gray-500 max-w-3xl mx-auto">
                 We're working on seamless connections with your accounting software to simplify your workflows. 
                 Soon Dividify will connect with leading platforms like QuickBooks, Xero, and others, 
                 allowing you to manage dividends and board meeting compliance effortlessly. 
@@ -303,17 +303,17 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-1 items-center justify-items-center max-w-3xl mx-auto opacity-50">
-              <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-1 items-center justify-items-center max-w-3xl mx-auto opacity-50">
+              <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-44 md:h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-4 sm:p-6 md:p-8 grayscale">
                 <img src="/lovable-uploads/58de35bd-d003-4898-8f07-85bf2be09dcc.png" alt="Xero accounting software integration coming soon" className="w-full h-full object-contain" />
               </div>
-              <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
+              <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-44 md:h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-4 sm:p-6 md:p-8 grayscale">
                 <img src="/lovable-uploads/6e4d2ac7-689c-4885-9add-bca9ca9301bf.png" alt="QuickBooks accounting software integration coming soon" className="w-full h-full object-contain" />
               </div>
-              <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
+              <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-44 md:h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-4 sm:p-6 md:p-8 grayscale">
                 <img src="/lovable-uploads/3e1037ec-3005-442d-bf0a-1e05d952c398.png" alt="Sage accounting software integration coming soon" className="w-full h-full object-contain" />
               </div>
-              <div className="w-44 h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-8 grayscale">
+              <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-44 md:h-44 flex items-center justify-center bg-gray-100 rounded-[20px] shadow-sm p-4 sm:p-6 md:p-8 grayscale">
                 <img src="/lovable-uploads/34e012d6-fb00-448c-ab2c-25b5b6f564a5.png" alt="FreeAgent accounting software integration coming soon" className="w-full h-full object-contain" />
               </div>
             </div>

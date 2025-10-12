@@ -114,28 +114,28 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                     </span>
                   </div>
                 )}
-                <CardHeader className="text-center pb-4">
-                  <CardTitle className="text-2xl text-gray-900 flex items-center justify-center gap-2">
-                    <IconComponent className="w-6 h-6 text-brand-purple" />
+                <CardHeader className="text-center pb-3 sm:pb-4">
+                  <CardTitle className="text-xl sm:text-2xl text-gray-900 flex items-center justify-center gap-2">
+                    <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-brand-purple" />
                     {plan.name}
                   </CardTitle>
-                  <CardDescription className="text-gray-600">{plan.description}</CardDescription>
-                  <div className="mt-6">
-                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-600">/month</span>
+                  <CardDescription className="text-sm sm:text-base text-gray-600">{plan.description}</CardDescription>
+                  <div className="mt-4 sm:mt-6">
+                    <span className="text-3xl sm:text-4xl font-bold text-gray-900">{plan.price}</span>
+                    <span className="text-sm sm:text-base text-gray-600">/month</span>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-4 mb-8">
+                <CardContent className="px-4 sm:px-6">
+                  <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                     {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center">
-                        <Check className="h-5 w-5 text-brand-purple mr-3 flex-shrink-0" />
+                      <li key={featureIndex} className="flex items-center text-sm sm:text-base">
+                        <Check className="h-4 w-4 sm:h-5 sm:w-5 text-brand-purple mr-2 sm:mr-3 flex-shrink-0" />
                         <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}
                   </ul>
                    <Button 
-                    className={`w-full transition-colors ${
+                    className={`w-full transition-colors touch-target text-sm sm:text-base py-5 sm:py-6 ${
                       plan.isPopular 
                         ? 'bg-brand-purple hover:bg-brand-purple/90 text-brand-purple-foreground' 
                         : 'bg-brand-purple hover:bg-brand-purple/90 text-brand-purple-foreground'
