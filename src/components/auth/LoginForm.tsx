@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,10 @@ import { AuthError } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
 import { XCircle } from "lucide-react";
 import { cleanupAuthState } from "@/utils/authCleanup";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
+// Replace with your hCaptcha site key from Supabase dashboard
+const HCAPTCHA_SITE_KEY = "YOUR_HCAPTCHA_SITE_KEY";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -18,6 +22,8 @@ export const LoginForm = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef<HCaptcha>(null);
 
   const getErrorMessage = (error: AuthError) => {
     console.error("Authentication error details:", error);
@@ -82,6 +88,9 @@ export const LoginForm = () => {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
+        options: {
+          captchaToken: captchaToken
+        }
       });
 
       console.log("Login response:", { data, error });
@@ -104,6 +113,8 @@ export const LoginForm = () => {
     } catch (error: any) {
       console.error("Login error:", error);
       setError(getErrorMessage(error));
+      setCaptchaToken("");
+      captchaRef.current?.resetCaptcha();
       toast({
         variant: "destructive",
         title: "Login failed",
@@ -153,10 +164,20 @@ export const LoginForm = () => {
           />
         </div>
 
+        <div className="flex justify-center">
+          <HCaptcha
+            sitekey={HCAPTCHA_SITE_KEY}
+            onVerify={(token) => setCaptchaToken(token)}
+            onExpire={() => setCaptchaToken("")}
+            onError={() => setCaptchaToken("")}
+            ref={captchaRef}
+          />
+        </div>
+
         <Button
           type="submit"
           className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white py-3 rounded-lg font-medium"
-          disabled={isLoading}
+          disabled={isLoading || !captchaToken}
         >
           {isLoading ? "Logging in..." : "Login"}
         </Button>

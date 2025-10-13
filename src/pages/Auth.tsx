@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Home, LogIn } from "lucide-react";
@@ -15,6 +15,10 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/authCleanup";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
+// Replace with your hCaptcha site key from Supabase dashboard
+const HCAPTCHA_SITE_KEY = "YOUR_HCAPTCHA_SITE_KEY";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -24,6 +28,10 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [resetCaptchaToken, setResetCaptchaToken] = useState("");
+  const captchaRef = useRef<HCaptcha>(null);
+  const resetCaptchaRef = useRef<HCaptcha>(null);
   const { toast } = useToast();
 
   const validateInputs = () => {
@@ -124,6 +132,9 @@ const Auth = () => {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password.trim(),
+        options: {
+          captchaToken: captchaToken
+        }
       });
 
       if (error) throw error;
@@ -136,6 +147,8 @@ const Auth = () => {
       }
     } catch (error) {
       console.error("Sign in error:", error);
+      setCaptchaToken("");
+      captchaRef.current?.resetCaptcha();
       if (error instanceof AuthError) {
         setError(getErrorMessage(error));
       } else if (error instanceof Error) {
@@ -154,6 +167,7 @@ const Auth = () => {
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail.trim(), {
         redirectTo: `${window.location.origin}/reset-password`,
+        captchaToken: resetCaptchaToken
       });
       
       if (error) throw error;
@@ -163,8 +177,13 @@ const Auth = () => {
         description: "Please check your email for the password reset link.",
       });
       setIsResetDialogOpen(false);
+      setResetEmail("");
+      setResetCaptchaToken("");
+      resetCaptchaRef.current?.resetCaptcha();
     } catch (error) {
       console.error("Password reset error:", error);
+      setResetCaptchaToken("");
+      resetCaptchaRef.current?.resetCaptcha();
       if (error instanceof AuthError) {
         toast({
           variant: "destructive",
@@ -237,6 +256,16 @@ const Auth = () => {
               />
             </div>
 
+            <div className="flex justify-center">
+              <HCaptcha
+                sitekey={HCAPTCHA_SITE_KEY}
+                onVerify={(token) => setCaptchaToken(token)}
+                onExpire={() => setCaptchaToken("")}
+                onError={() => setCaptchaToken("")}
+                ref={captchaRef}
+              />
+            </div>
+
             <div className="flex items-center justify-end">
               <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
                 <DialogTrigger asChild>
@@ -260,10 +289,19 @@ const Auth = () => {
                       onChange={(e) => setResetEmail(e.target.value)}
                       required
                     />
+                    <div className="flex justify-center">
+                      <HCaptcha
+                        sitekey={HCAPTCHA_SITE_KEY}
+                        onVerify={(token) => setResetCaptchaToken(token)}
+                        onExpire={() => setResetCaptchaToken("")}
+                        onError={() => setResetCaptchaToken("")}
+                        ref={resetCaptchaRef}
+                      />
+                    </div>
                     <Button 
                       type="submit"
                       className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-                      disabled={isLoading}
+                      disabled={isLoading || !resetCaptchaToken}
                     >
                       {isLoading ? "Sending..." : "Send Reset Link"}
                     </Button>
@@ -275,7 +313,7 @@ const Auth = () => {
             <Button 
               type="submit" 
               className="w-full bg-[#9b87f5] hover:bg-[#8b77e5]"
-              disabled={isLoading}
+              disabled={isLoading || !captchaToken}
             >
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
