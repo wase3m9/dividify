@@ -5,6 +5,8 @@ import { Check, Star, Rocket, Building } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 interface PricingSectionProps {
   onStartFreeTrial: () => void;
@@ -13,6 +15,30 @@ interface PricingSectionProps {
 export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { ref, isVisible } = useScrollAnimation(0.2);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.4, 0, 0.2, 1] as [number, number, number, number]
+      }
+    }
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -84,23 +110,33 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section ref={ref as any} className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Simple, Transparent Pricing
           </h2>
           <p className="text-xl text-gray-600">
             7-day trial with payment method required • No charge until trial ends
           </p>
-        </div>
+        </motion.div>
         
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+          className="grid md:grid-cols-3 gap-8 mb-12"
+        >
           {plans.map((plan, index) => {
             const IconComponent = plan.icon;
             return (
-              <Card 
-                key={index} 
+              <motion.div key={index} variants={itemVariants}>
+                <Card
                 className={`relative transition-all duration-200 hover:shadow-lg hover:animate-jiggle ${
                   plan.isPopular 
                     ? 'border-brand-purple shadow-lg bg-white' 
@@ -145,10 +181,11 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
                     Start 7-Day Trial
                   </Button>
                 </CardContent>
-              </Card>
+                </Card>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
         
         <div className="text-center">
           <Card className="inline-block p-6 bg-green-50 border-green-200">

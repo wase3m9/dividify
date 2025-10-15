@@ -4,6 +4,7 @@ import { useTypewriter } from "@/hooks/use-typewriter";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { FlickeringGrid } from "@/components/ui/flickering-grid";
+import { motion } from "framer-motion";
 interface HeroBannerProps {
   onStartFreeTrial: () => void;
 }
@@ -40,11 +41,21 @@ export const HeroBanner = ({
       {/* Content container */}
       <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6 grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center min-h-[90vh] py-2 pt-4 sm:pt-6 md:pt-8">
         {/* Left Content */}
-        <div className="space-y-4 sm:space-y-6 md:space-y-8 text-left flex flex-col items-center">
-          <div className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full bg-white/80 text-gray-700 text-[10px] sm:text-xs animate-fade-in backdrop-blur-sm">
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+          className="space-y-4 sm:space-y-6 md:space-y-8 text-left flex flex-col items-center"
+        >
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full bg-white/80 text-gray-700 text-[10px] sm:text-xs backdrop-blur-sm"
+          >
             <CheckCircle className="h-3 w-3 text-green-600 flex-shrink-0" />
             <span className="whitespace-nowrap">Built for Directors legal compliance</span>
-          </div>
+          </motion.div>
 
           <h1 
             className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[120px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[190px] text-gray-900 text-center lg:text-left px-2 sm:px-0"
@@ -80,10 +91,16 @@ export const HeroBanner = ({
             </span>
           </div>
 
-          <Button size="lg" className="bg-brand-purple text-white hover:bg-brand-purple/90 hover-lift shadow-lg px-6 sm:px-8 md:px-10 py-5 sm:py-6 md:py-7 text-sm sm:text-base animate-fade-in font-semibold touch-target" onClick={handleStartFreeTrial}>
-            Start Free Trial
-            <ArrowRight className="ml-2 sm:ml-3 h-5 w-5 sm:h-6 sm:w-6" />
-          </Button>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <Button size="lg" className="bg-brand-purple text-white hover:bg-brand-purple/90 hover-lift shadow-lg px-6 sm:px-8 md:px-10 py-5 sm:py-6 md:py-7 text-sm sm:text-base font-semibold touch-target" onClick={handleStartFreeTrial}>
+              Start Free Trial
+              <ArrowRight className="ml-2 sm:ml-3 h-5 w-5 sm:h-6 sm:w-6" />
+            </Button>
+          </motion.div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 md:gap-8 text-xs sm:text-sm text-gray-600 px-2 sm:px-0">
             <span className="flex items-center gap-1.5 sm:gap-2">
@@ -100,18 +117,27 @@ export const HeroBanner = ({
             </span>
           </div>
 
-        </div>
+        </motion.div>
 
         {/* Right Product Showcase */}
-        <div className="relative flex items-center justify-center lg:justify-end lg:pr-0 px-2 sm:px-0">
-          <div className="relative max-w-2xl w-full">
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          className="relative flex items-center justify-center lg:justify-end lg:pr-0 px-2 sm:px-0"
+        >
+          <motion.div 
+            className="relative max-w-2xl w-full"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.3 }}
+          >
             <img 
               src="/lovable-uploads/da06b819-4dab-46ea-af98-3ed9bfde0abe.png" 
               alt="Professional dividend vouchers and board minutes templates preview"
-              className="w-full h-auto drop-shadow-2xl animate-fade-in scale-[1.008]"
+              className="w-full h-auto drop-shadow-2xl scale-[1.008]"
             />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
       
     </div>
