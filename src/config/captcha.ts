@@ -7,4 +7,4 @@
  * 3. Find your hCaptcha Site Key (this is safe to use in client-side code)
  * 4. Replace the value below with your actual site key
  */
-export const HCAPTCHA_SITE_KEY = "ES_2785572c492f40528859d6496fd5e233";
+export const HCAPTCHA_SITE_KEY = "9be08476-1c34-4646-bb16-3530ddc852f0";
