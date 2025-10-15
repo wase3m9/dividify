@@ -11,9 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { XCircle } from "lucide-react";
 import { cleanupAuthState } from "@/utils/authCleanup";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-
-// Replace with your hCaptcha site key from Supabase dashboard
-const HCAPTCHA_SITE_KEY = "YOUR_HCAPTCHA_SITE_KEY";
+import { HCAPTCHA_SITE_KEY } from "@/config/captcha";
 
 export const LoginForm = () => {
   const navigate = useNavigate();

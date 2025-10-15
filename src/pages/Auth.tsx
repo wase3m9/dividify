@@ -16,9 +16,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/authCleanup";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-
-// Replace with your hCaptcha site key from Supabase dashboard
-const HCAPTCHA_SITE_KEY = "YOUR_HCAPTCHA_SITE_KEY";
+import { HCAPTCHA_SITE_KEY } from "@/config/captcha";
 
 const Auth = () => {
   const navigate = useNavigate();
