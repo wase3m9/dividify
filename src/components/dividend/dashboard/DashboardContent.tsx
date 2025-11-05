@@ -6,6 +6,7 @@ import { FileText, Clock, CheckCircle, Building } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { TipsSection } from "./TipsSection";
+import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 
 interface DashboardContentProps {
   selectedCompanyId?: string;
@@ -16,6 +17,11 @@ export const DashboardContent: FC<DashboardContentProps> = ({ selectedCompanyId 
 
   return (
     <div className="grid gap-6">
+      {/* Dividend Analytics */}
+      {selectedCompanyId && (
+        <DividendAnalyticsSection companyId={selectedCompanyId} />
+      )}
+      
       {/* Quick Actions */}
       <QuickActions 
         onCreateVoucher={() => navigate("/dividend-voucher-form")}

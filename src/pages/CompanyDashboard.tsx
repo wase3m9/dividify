@@ -22,6 +22,7 @@ import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
 import { TrialBanner } from "@/components/dashboard/TrialBanner";
 import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
+import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 
 
 
@@ -306,6 +307,12 @@ const CompanyDashboard = () => {
           ) : (
             <>
               <Header companyName={company?.name} />
+              
+              <DividendAnalyticsSection 
+                companyId={company.id} 
+                title={`Dividend Analytics - ${company.name}`}
+              />
+              
               <div className="bg-white rounded-lg shadow-sm overflow-hidden">
                 <Tabs defaultValue="company" className="w-full">
                   <TabsList className="w-full justify-between bg-white border-b rounded-none h-12 p-0">

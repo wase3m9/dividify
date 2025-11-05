@@ -13,6 +13,7 @@ import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm
 import { TrialBanner } from "@/components/dashboard/TrialBanner";
 import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
 import { supabase } from "@/integrations/supabase/client";
+import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 
 const AccountantDashboard = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
@@ -102,6 +103,11 @@ const AccountantDashboard = () => {
 
           {selectedCompanyId && (
             <>
+              <DividendAnalyticsSection 
+                companyId={selectedCompanyId}
+                title={`Dividend Analytics - ${selectedCompany?.name || 'Company'}`}
+              />
+              
               <CompanyTabs
                 selectedCompany={selectedCompany}
                 directors={directors || []}
