@@ -3,11 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Users, Plus, Mail, Trash2, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Users, Plus, Mail, Trash2, CheckCircle2, XCircle, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,34 +18,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
 
 interface TeamAccessProps {
   userId: string;
 }
 
-interface TeamInvitation {
-  id: string;
-  invitee_email: string;
-  status: 'pending' | 'accepted' | 'rejected' | 'cancelled';
-  role: 'member' | 'admin';
-  created_at: string;
-  expires_at: string;
-}
-
-interface TeamMember {
-  id: string;
-  member_id: string;
-  role: 'member' | 'admin';
-  created_at: string;
-  profiles: {
-    full_name: string;
-    email: string;
-  };
-}
-
 export const TeamAccess = ({ userId }: TeamAccessProps) => {
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState<'member' | 'admin'>('member');
+  const [isInviting, setIsInviting] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -64,7 +44,8 @@ export const TeamAccess = ({ userId }: TeamAccessProps) => {
     },
   });
 
-  const { data: invitations, isLoading: invitationsLoading } = useQuery({
+  // Fetch sent invitations
+  const { data: invitations = [], isLoading: invitationsLoading } = useQuery({
     queryKey: ['team-invitations', userId],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -74,143 +55,139 @@ export const TeamAccess = ({ userId }: TeamAccessProps) => {
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      return data as TeamInvitation[];
+      return data;
     },
     enabled: !!userId,
   });
 
-  const { data: teamMembers, isLoading: membersLoading } = useQuery({
+  // Fetch team members
+  const { data: teamMembers = [], isLoading: membersLoading } = useQuery({
     queryKey: ['team-members', userId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('team_members')
-        .select('id, member_id, role, created_at')
+        .select('*')
         .eq('owner_id', userId);
       
       if (error) throw error;
-      if (!data) return [];
-      
-      // Get profile and email for each member
-      const membersWithDetails = await Promise.all(
-        data.map(async (member) => {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('full_name')
-            .eq('id', member.member_id)
-            .single();
-          
-          const { data: userData } = await supabase.auth.admin.getUserById(member.member_id);
-          
-          return {
-            ...member,
-            profiles: {
-              full_name: profile?.full_name || 'Unknown',
-              email: userData?.user?.email || 'N/A'
-            }
-          };
-        })
-      );
-      
-      return membersWithDetails as TeamMember[];
+      return data;
     },
     enabled: !!userId,
-  });
-
-  const inviteMutation = useMutation({
-    mutationFn: async ({ email, role }: { email: string; role: 'member' | 'admin' }) => {
-      const { error } = await supabase
-        .from('team_invitations')
-        .insert({
-          inviter_id: userId,
-          invitee_email: email.toLowerCase().trim(),
-          role,
-          status: 'pending'
-        });
-      
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['team-invitations', userId] });
-      toast({
-        title: "Invitation sent",
-        description: "Team member invitation has been sent successfully.",
-      });
-      setEmail("");
-    },
-    onError: (error: any) => {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to send invitation",
-      });
-    },
-  });
-
-  const cancelInvitationMutation = useMutation({
-    mutationFn: async (invitationId: string) => {
-      const { error } = await supabase
-        .from('team_invitations')
-        .update({ status: 'cancelled' })
-        .eq('id', invitationId);
-      
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['team-invitations', userId] });
-      toast({
-        title: "Invitation cancelled",
-        description: "The invitation has been cancelled.",
-      });
-    },
-  });
-
-  const removeMemberMutation = useMutation({
-    mutationFn: async (memberId: string) => {
-      const { error } = await supabase
-        .from('team_members')
-        .delete()
-        .eq('id', memberId);
-      
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['team-members', userId] });
-      toast({
-        title: "Member removed",
-        description: "Team member has been removed successfully.",
-      });
-    },
   });
 
   const isEligibleForTeamAccess = userProfile?.user_type === 'accountant' || 
     ['professional', 'enterprise', 'accountant'].includes(userProfile?.subscription_plan || '');
 
-  const handleInvite = () => {
+  const handleInvite = async () => {
     if (!email.trim()) return;
-    
+
+    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast({
         variant: "destructive",
-        title: "Invalid email",
+        title: "Invalid Email",
         description: "Please enter a valid email address.",
       });
       return;
     }
 
-    inviteMutation.mutate({ email, role });
+    setIsInviting(true);
+    try {
+      const { error } = await supabase
+        .from('team_invitations')
+        .insert({
+          inviter_id: userId,
+          invitee_email: email.toLowerCase().trim(),
+          role: 'member',
+          status: 'pending'
+        });
+
+      if (error) {
+        if (error.code === '23505') {
+          toast({
+            variant: "destructive",
+            title: "Invitation Already Sent",
+            description: "An invitation has already been sent to this email address.",
+          });
+        } else {
+          throw error;
+        }
+      } else {
+        toast({
+          title: "Invitation Sent",
+          description: `An invitation has been sent to ${email}`,
+        });
+        setEmail("");
+        queryClient.invalidateQueries({ queryKey: ['team-invitations', userId] });
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    } finally {
+      setIsInviting(false);
+    }
+  };
+
+  const handleCancelInvitation = async (invitationId: string) => {
+    try {
+      const { error } = await supabase
+        .from('team_invitations')
+        .update({ status: 'cancelled' })
+        .eq('id', invitationId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Invitation Cancelled",
+        description: "The invitation has been cancelled.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['team-invitations', userId] });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
+  };
+
+  const handleRemoveMember = async (memberId: string) => {
+    try {
+      const { error } = await supabase
+        .from('team_members')
+        .delete()
+        .eq('id', memberId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Member Removed",
+        description: "The team member has been removed.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['team-members', userId] });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    }
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
+        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-300"><Clock className="h-3 w-3 mr-1" />Pending</Badge>;
       case 'accepted':
-        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200"><CheckCircle className="h-3 w-3 mr-1" />Accepted</Badge>;
+        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300"><CheckCircle2 className="h-3 w-3 mr-1" />Accepted</Badge>;
       case 'rejected':
-        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200"><XCircle className="h-3 w-3 mr-1" />Rejected</Badge>;
+        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-300"><XCircle className="h-3 w-3 mr-1" />Rejected</Badge>;
       case 'cancelled':
-        return <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200"><XCircle className="h-3 w-3 mr-1" />Cancelled</Badge>;
+        return <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-300"><XCircle className="h-3 w-3 mr-1" />Cancelled</Badge>;
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
@@ -247,97 +224,73 @@ export const TeamAccess = ({ userId }: TeamAccessProps) => {
           Team Access
         </CardTitle>
         <CardDescription>
-          Invite team members to access your dashboard and collaborate
+          Invite team members to access your dashboard and data
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Invite Form */}
+        {/* Invitation Form */}
         <div className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-[1fr_auto_auto]">
-            <div>
+          <div className="flex gap-4">
+            <div className="flex-1">
               <Label htmlFor="email">Email Address</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="colleague@example.com"
+                placeholder="Enter team member's email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleInvite()}
               />
             </div>
-            <div>
-              <Label htmlFor="role">Role</Label>
-              <select
-                id="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value as 'member' | 'admin')}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-              >
-                <option value="member">Member</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
             <div className="flex items-end">
               <Button 
                 onClick={handleInvite}
-                disabled={!email.trim() || inviteMutation.isPending}
-                className="w-full sm:w-auto"
+                disabled={!email.trim() || isInviting}
               >
                 <Plus className="h-4 w-4 mr-2" />
-                {inviteMutation.isPending ? 'Sending...' : 'Invite'}
+                {isInviting ? 'Inviting...' : 'Invite'}
               </Button>
             </div>
           </div>
         </div>
 
         {/* Active Team Members */}
-        {!membersLoading && teamMembers && teamMembers.length > 0 && (
+        {teamMembers.length > 0 && (
           <div className="space-y-3">
             <h4 className="text-sm font-medium">Active Team Members</h4>
             <div className="space-y-2">
               {teamMembers.map((member) => (
-                <div
-                  key={member.id}
-                  className="flex items-center justify-between p-3 border rounded-lg bg-white"
-                >
+                <div key={member.id} className="flex items-center justify-between p-3 border rounded-lg bg-green-50/50">
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Users className="h-4 w-4 text-primary" />
-                    </div>
+                    <CheckCircle2 className="h-4 w-4 text-green-600" />
                     <div>
-                      <p className="text-sm font-medium">{member.profiles?.full_name || 'Unknown'}</p>
-                      <p className="text-xs text-muted-foreground">{member.profiles?.email}</p>
+                      <p className="text-sm font-medium">Member ID: {member.member_id.slice(0, 8)}...</p>
+                      <p className="text-xs text-muted-foreground">
+                        Joined {new Date(member.created_at).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="text-xs">
-                      {member.role}
-                    </Badge>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Remove team member?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This will revoke {member.profiles?.full_name}'s access to your dashboard and data. This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => removeMemberMutation.mutate(member.id)}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                          >
-                            Remove
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </div>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <Trash2 className="h-4 w-4 text-red-600" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Remove Team Member</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to remove this team member? They will lose access to your account immediately.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => handleRemoveMember(member.id)}>
+                          Remove
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               ))}
             </div>
@@ -345,17 +298,62 @@ export const TeamAccess = ({ userId }: TeamAccessProps) => {
         )}
 
         {/* Pending Invitations */}
-        {!invitationsLoading && invitations && invitations.filter(i => i.status === 'pending').length > 0 && (
+        {invitations.filter(inv => inv.status === 'pending').length > 0 && (
           <div className="space-y-3">
             <h4 className="text-sm font-medium">Pending Invitations</h4>
             <div className="space-y-2">
               {invitations
                 .filter(inv => inv.status === 'pending')
                 .map((invitation) => (
-                  <div
-                    key={invitation.id}
-                    className="flex items-center justify-between p-3 border rounded-lg bg-yellow-50/50"
-                  >
+                  <div key={invitation.id} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <div>
+                        <p className="text-sm font-medium">{invitation.invitee_email}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Sent {new Date(invitation.created_at).toLocaleDateString()} • Expires {new Date(invitation.expires_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {getStatusBadge(invitation.status)}
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="ghost" size="sm">
+                            <XCircle className="h-4 w-4 text-red-600" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Cancel Invitation</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to cancel this invitation? The recipient will no longer be able to accept it.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>No, Keep It</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleCancelInvitation(invitation.id)}>
+                              Yes, Cancel
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
+        {/* Past Invitations */}
+        {invitations.filter(inv => ['accepted', 'rejected', 'cancelled'].includes(inv.status)).length > 0 && (
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium">Past Invitations</h4>
+            <div className="space-y-2 max-h-48 overflow-y-auto">
+              {invitations
+                .filter(inv => ['accepted', 'rejected', 'cancelled'].includes(inv.status))
+                .map((invitation) => (
+                  <div key={invitation.id} className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
                     <div className="flex items-center gap-3">
                       <Mail className="h-4 w-4 text-muted-foreground" />
                       <div>
@@ -365,18 +363,7 @@ export const TeamAccess = ({ userId }: TeamAccessProps) => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      {getStatusBadge(invitation.status)}
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => cancelInvitationMutation.mutate(invitation.id)}
-                        disabled={cancelInvitationMutation.isPending}
-                      >
-                        <XCircle className="h-4 w-4 text-muted-foreground" />
-                      </Button>
-                    </div>
+                    {getStatusBadge(invitation.status)}
                   </div>
                 ))}
             </div>
@@ -384,12 +371,12 @@ export const TeamAccess = ({ userId }: TeamAccessProps) => {
         )}
 
         <div className="text-xs text-muted-foreground bg-blue-50 p-3 rounded-lg">
-          <p className="font-medium mb-1">Team Access Permissions:</p>
+          <p className="font-medium mb-1">Team Access Features:</p>
           <ul className="space-y-1">
-            <li>• <strong>Members</strong> can view and create documents for shared companies</li>
-            <li>• <strong>Admins</strong> have full access to manage companies and team members</li>
-            <li>• All team activity counts toward your subscription limits</li>
-            <li>• Invitations expire after 7 days if not accepted</li>
+            <li>• Access to all company data and documents</li>
+            <li>• Ability to create dividend vouchers and board minutes</li>
+            <li>• View and download all generated documents</li>
+            <li>• Shared usage limits under your subscription</li>
           </ul>
         </div>
       </CardContent>
