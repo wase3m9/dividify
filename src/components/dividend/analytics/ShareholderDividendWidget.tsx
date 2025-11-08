@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { ShareholderDividendSummary } from './types';
 import { formatCurrency, getAmountTier } from '@/utils/dividendCalculations';
 
@@ -14,6 +16,8 @@ export const ShareholderDividendWidget: FC<ShareholderDividendWidgetProps> = ({
   shareholders,
   maxAmount 
 }) => {
+  const [isExpanded, setIsExpanded] = useState(true);
+  
   if (shareholders.length === 0) {
     return (
       <Card>
@@ -40,9 +44,24 @@ export const ShareholderDividendWidget: FC<ShareholderDividendWidgetProps> = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Shareholder Breakdown</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle>Shareholder Breakdown</CardTitle>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="h-8 w-8 p-0"
+          >
+            {isExpanded ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      {isExpanded && (
+        <CardContent className="space-y-4">
         {shareholders.map((shareholder, index) => {
           const percentage = maxAmount > 0 ? (shareholder.totalAmount / maxAmount) * 100 : 0;
           const tier = getAmountTier(shareholder.totalAmount);
@@ -75,7 +94,8 @@ export const ShareholderDividendWidget: FC<ShareholderDividendWidgetProps> = ({
             </div>
           );
         })}
-      </CardContent>
+        </CardContent>
+      )}
     </Card>
   );
 };

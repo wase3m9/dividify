@@ -8,6 +8,7 @@ interface DividendSummaryCardProps {
   value: string | number;
   icon: 'total' | 'count' | 'shareholders' | 'average';
   subtitle?: string;
+  formatAsCurrency?: boolean;
 }
 
 const iconMap = {
@@ -21,9 +22,14 @@ export const DividendSummaryCard: FC<DividendSummaryCardProps> = ({
   title, 
   value, 
   icon,
-  subtitle 
+  subtitle,
+  formatAsCurrency = true
 }) => {
   const Icon = iconMap[icon];
+  
+  const displayValue = typeof value === 'number' 
+    ? (formatAsCurrency ? formatCurrency(value) : value.toFixed(2))
+    : value;
   
   return (
     <Card>
@@ -33,7 +39,7 @@ export const DividendSummaryCard: FC<DividendSummaryCardProps> = ({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">
-          {typeof value === 'number' ? formatCurrency(value) : value}
+          {displayValue}
         </div>
         {subtitle && (
           <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>

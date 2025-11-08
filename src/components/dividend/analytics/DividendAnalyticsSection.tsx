@@ -103,24 +103,28 @@ export const DividendAnalyticsSection: FC<DividendAnalyticsSectionProps> = ({
           value={analytics?.totalAmount || 0}
           icon="total"
           subtitle="Total paid in period"
+          formatAsCurrency={true}
         />
         <DividendSummaryCard
           title="Total Payments"
           value={analytics?.dividendCount || 0}
           icon="count"
           subtitle="Number of dividend vouchers"
+          formatAsCurrency={false}
         />
         <DividendSummaryCard
           title="Shareholders"
           value={uniqueShareholders}
           icon="shareholders"
           subtitle="Unique shareholders paid"
+          formatAsCurrency={false}
         />
         <DividendSummaryCard
           title="Average Payment"
           value={analytics?.dividendCount ? analytics.totalAmount / analytics.dividendCount : 0}
           icon="average"
           subtitle="Per dividend voucher"
+          formatAsCurrency={true}
         />
       </div>
 
