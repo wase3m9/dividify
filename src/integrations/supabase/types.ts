@@ -557,6 +557,66 @@ export type Database = {
         }
         Relationships: []
       }
+      team_invitations: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          invitee_email: string
+          inviter_id: string
+          role: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          invitee_email: string
+          inviter_id: string
+          role?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          invitee_email?: string
+          inviter_id?: string
+          role?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          created_at: string
+          id: string
+          member_id: string
+          owner_id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_id: string
+          owner_id: string
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_id?: string
+          owner_id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -598,6 +658,10 @@ export type Database = {
       }
     }
     Functions: {
+      accept_team_invitation: {
+        Args: { invitation_id: string }
+        Returns: undefined
+      }
       check_and_reset_monthly_counters: {
         Args: { user_id_param: string }
         Returns: undefined
@@ -635,10 +699,7 @@ export type Database = {
         Args: { action_type: string; details?: Json; target_user_id?: string }
         Returns: undefined
       }
-      reset_monthly_counters: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      reset_monthly_counters: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user"
