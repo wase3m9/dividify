@@ -56,6 +56,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         "Up to 1 company",
         "Up to 2 Dividend Vouchers",
         "Up to 2 Board Minutes",
+        "Dividend tracker",
         "Basic document templates",
         "Email support"
       ],
@@ -71,6 +72,8 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         "Up to 3 companies",
         "Up to 10 Dividend Vouchers",
          "Up to 10 Board Minutes",
+         "Dividend tracker",
+         "Add users/team members",
          "Custom branding",
          "Premium templates",
          "Priority support"
@@ -87,6 +90,8 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
          "Unlimited companies",
          "Unlimited Dividend Vouchers",
          "Unlimited Board Minutes",
+         "Dividend tracker",
+         "Add users/team members",
          "Custom branding",
          "Premium templates",
          "24/7 support"

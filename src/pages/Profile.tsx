@@ -511,6 +511,10 @@ const Profile = () => {
                         </li>
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
+                          Dividend tracker
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
                           Basic templates
                         </li>
                       </ul>
@@ -548,6 +552,14 @@ const Profile = () => {
                         </li>
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
+                          Dividend tracker
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Add users/team members
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
                           Custom branding
                         </li>
                         <li className="flex items-center gap-2 text-sm">
@@ -576,6 +588,14 @@ const Profile = () => {
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />
                           Unlimited documents
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Dividend tracker
+                        </li>
+                        <li className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-green-500" />
+                          Add users/team members
                         </li>
                         <li className="flex items-center gap-2 text-sm">
                           <Check className="h-4 w-4 text-green-500" />

@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { CheckCircle, Building2, MessageSquareQuote, Timer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { AccountantsHowItWorksSection } from "@/components/landing/AccountantsHowItWorksSection";
@@ -106,9 +106,10 @@ const Accountants = () => {
               "Unlimited companies management",
               "Unlimited dividend vouchers",
               "Unlimited board minutes",
+              "Dividend tracker",
+              "Add users/team members",
               "Custom templates",
-              "24/7 support",
-              "API access"
+              "24/7 support"
             ],
             "screenshot": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
             "aggregateRating": {
@@ -170,15 +171,19 @@ const Accountants = () => {
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Dividend tracker</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
+                <span>Add users/team members</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
                 <span>Custom templates</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
                 <span>24/7 support</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>API access</span>
               </li>
             </ul>
             <Button 
