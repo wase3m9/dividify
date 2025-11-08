@@ -253,9 +253,6 @@ const CompanyDashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navigation />
-        <div className="container mx-auto px-4 pt-24 pb-4">
-          <SiteBreadcrumbs />
-        </div>
         <div className="container mx-auto px-4 pb-24">
           <div className="max-w-md mx-auto">
             <Card className="p-8 text-center border-red-200 bg-red-50">
@@ -281,10 +278,7 @@ const CompanyDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <div className="container mx-auto px-4 pt-24 pb-4">
-        <SiteBreadcrumbs />
-      </div>
-      <div className="container mx-auto px-4 pb-24">
+      <div className="container mx-auto px-4 pt-24 pb-24">
         <div className="max-w-5xl mx-auto space-y-12">
         <PaymentSetupBanner />
         <TrialBanner />

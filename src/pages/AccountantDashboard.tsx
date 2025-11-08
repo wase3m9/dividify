@@ -82,10 +82,7 @@ const AccountantDashboard = () => {
     <div className="min-h-screen bg-white">
       <AuthCheck />
       <Navigation />
-      <div className="container mx-auto px-4 pt-20 pb-4">
-        <SiteBreadcrumbs />
-      </div>
-      <main className="container mx-auto px-4">
+      <main className="container mx-auto px-4 pt-20">
         <div className="flex flex-col space-y-8">
         <PaymentSetupBanner />
         <TrialBanner />
