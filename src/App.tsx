@@ -11,7 +11,6 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Toaster />
     </QueryClientProvider>
   );
 }
