@@ -51,9 +51,9 @@ export const HeroBanner = ({
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full bg-white/80 text-gray-700 text-[10px] sm:text-xs backdrop-blur-sm"
+            className="inline-flex items-center gap-1.5 px-3 sm:px-5 py-1.5 rounded-full bg-white/80 text-gray-700 text-xs sm:text-sm backdrop-blur-sm"
           >
-            <CheckCircle className="h-3 w-3 text-green-600 flex-shrink-0" />
+            <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
             <span className="whitespace-nowrap">Built for Directors legal compliance</span>
           </motion.div>
 
