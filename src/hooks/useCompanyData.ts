@@ -121,6 +121,23 @@ export const useCompanyData = (selectedCompanyId?: string) => {
     queryClient.invalidateQueries({ queryKey: ['company', selectedCompanyId] });
   };
 
+  // Get display name - check if full_name is actually a name or just an email
+  const getDisplayName = () => {
+    if (!profile?.full_name) {
+      return user?.email?.split('@')[0] || '';
+    }
+    
+    // Check if full_name looks like an email address
+    const isEmail = profile.full_name.includes('@') && profile.full_name.includes('.');
+    
+    // If full_name is an email, use the email username part instead
+    if (isEmail) {
+      return user?.email?.split('@')[0] || '';
+    }
+    
+    return profile.full_name;
+  };
+
   return {
     user,
     profile,
@@ -133,6 +150,6 @@ export const useCompanyData = (selectedCompanyId?: string) => {
     refetchShareholders,
     refetchShareClasses,
     handleCompanyUpdate,
-    displayName: profile?.full_name || user?.email?.split('@')[0] || '',
+    displayName: getDisplayName(),
   };
 };
