@@ -7,12 +7,12 @@ export const TipsSection = () => {
   return (
     <Card className="p-6">
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center justify-center gap-2">
           <Lightbulb className="h-5 w-5 text-yellow-500" />
           Tips & Resources
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 max-w-2xl mx-auto">
         {/* Tips */}
         <div className="space-y-3">
           <div className="flex items-start gap-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
