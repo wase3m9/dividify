@@ -46,17 +46,18 @@ export const useDividendAnalytics = ({ companyId, period = 'current-tax-year' }:
       const totalAmount = records.reduce((sum, r) => sum + Number(r.total_dividend), 0);
       const dividendCount = records.length;
 
-      // Group by shareholder
+      // Group by shareholder (case-insensitive)
       const shareholderMap = new Map<string, ShareholderDividendSummary>();
 
       for (const record of records) {
-        const key = `${record.shareholder_name}-${record.share_class}`;
+        // Create case-insensitive key for grouping
+        const key = `${record.shareholder_name.toLowerCase()}-${record.share_class.toLowerCase()}`;
         const amount = Number(record.total_dividend);
         const paymentDate = new Date(record.payment_date);
 
         if (!shareholderMap.has(key)) {
           shareholderMap.set(key, {
-            shareholderName: record.shareholder_name,
+            shareholderName: record.shareholder_name, // Use first occurrence's capitalization
             shareClass: record.share_class,
             totalAmount: 0,
             dividendCount: 0,
