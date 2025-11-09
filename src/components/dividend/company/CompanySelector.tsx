@@ -20,9 +20,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 interface CompanySelectorProps {
@@ -35,6 +35,9 @@ export const CompanySelector = ({ onSelect, selectedCompanyId, restrictToCompany
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deletingCompanyId, setDeletingCompanyId] = useState<string | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [confirmationText, setConfirmationText] = useState("");
 
   const { data: profile } = useQuery({
     queryKey: ['profile-subscription'],
@@ -86,18 +89,53 @@ export const CompanySelector = ({ onSelect, selectedCompanyId, restrictToCompany
     },
   });
 
-  const handleDeleteCompany = async (companyId: string) => {
+  const handleDeleteCompany = async () => {
+    if (confirmationText !== "YES") {
+      toast({
+        variant: "destructive",
+        title: "Invalid Confirmation",
+        description: "Please type YES in capital letters to confirm deletion",
+      });
+      return;
+    }
+
+    if (!deletingCompanyId) return;
+
     try {
       setIsDeleting(true);
+      
+      // Delete all related data
+      const { error: officersError } = await supabase
+        .from('officers')
+        .delete()
+        .eq('company_id', deletingCompanyId);
+      
+      const { error: shareholdersError } = await supabase
+        .from('shareholders')
+        .delete()
+        .eq('company_id', deletingCompanyId);
+      
+      const { error: dividendsError } = await supabase
+        .from('dividend_records')
+        .delete()
+        .eq('company_id', deletingCompanyId);
+      
+      const { error: minutesError } = await supabase
+        .from('minutes')
+        .delete()
+        .eq('company_id', deletingCompanyId);
+
       const { error } = await supabase
         .from('companies')
         .delete()
-        .eq('id', companyId);
+        .eq('id', deletingCompanyId);
 
-      if (error) throw error;
+      if (error || officersError || shareholdersError || dividendsError || minutesError) {
+        throw error || officersError || shareholdersError || dividendsError || minutesError;
+      }
 
       // If the deleted company was selected, clear the selection
-      if (selectedCompanyId === companyId) {
+      if (selectedCompanyId === deletingCompanyId) {
         onSelect('');
       }
 
@@ -106,8 +144,12 @@ export const CompanySelector = ({ onSelect, selectedCompanyId, restrictToCompany
 
       toast({
         title: "Success",
-        description: "Company deleted successfully",
+        description: "Company and all related data deleted successfully",
       });
+
+      setShowDeleteDialog(false);
+      setConfirmationText("");
+      setDeletingCompanyId(null);
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -141,17 +183,77 @@ export const CompanySelector = ({ onSelect, selectedCompanyId, restrictToCompany
   }
 
   return (
-    <Select onValueChange={onSelect} defaultValue={selectedCompanyId}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder="Select a company" />
-      </SelectTrigger>
-      <SelectContent>
-        {companies?.map((company) => (
-          <SelectItem key={company.id} value={company.id}>
-            {company.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <>
+      <div className="flex gap-2">
+        <Select onValueChange={onSelect} defaultValue={selectedCompanyId} value={selectedCompanyId}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a company" />
+          </SelectTrigger>
+          <SelectContent>
+            {companies?.map((company) => (
+              <SelectItem key={company.id} value={company.id}>
+                {company.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {selectedCompanyId && (
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => {
+              setDeletingCompanyId(selectedCompanyId);
+              setShowDeleteDialog(true);
+            }}
+            disabled={isDeleting}
+            className="hover:bg-destructive hover:text-destructive-foreground"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Company</AlertDialogTitle>
+            <AlertDialogDescription className="space-y-4">
+              <p className="text-destructive font-semibold">
+                Warning: This will permanently delete all data associated with this company including:
+              </p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>All dividend vouchers</li>
+                <li>All board minutes</li>
+                <li>All officers</li>
+                <li>All shareholders</li>
+              </ul>
+              <div className="space-y-2">
+                <p className="font-semibold">
+                  Type <span className="text-destructive">YES</span> in capital letters to confirm:
+                </p>
+                <Input
+                  value={confirmationText}
+                  onChange={(e) => setConfirmationText(e.target.value)}
+                  placeholder="Type YES to confirm"
+                />
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => {
+              setConfirmationText("");
+              setDeletingCompanyId(null);
+            }}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteCompany}
+              disabled={confirmationText !== "YES" || isDeleting}
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              {isDeleting ? "Deleting..." : "Delete Company"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };

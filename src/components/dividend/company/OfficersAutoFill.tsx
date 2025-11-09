@@ -68,6 +68,12 @@ export const OfficersAutoFill = ({ companyNumber, companyId, onOfficersImported 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
+      // Fetch existing officers for this company
+      const { data: existingOfficers } = await supabase
+        .from('officers')
+        .select('computed_full_name, forenames, surname')
+        .eq('company_id', companyId);
+
       const officersToInsert = officers.map(officer => {
         // Split name into forenames and surname
         const nameParts = officer.name.split(',').map(part => part.trim());
@@ -132,15 +138,48 @@ export const OfficersAutoFill = ({ companyNumber, companyId, onOfficersImported 
         };
       });
 
+      // Filter out duplicates by checking name match
+      const duplicates: string[] = [];
+      const uniqueOfficers = officersToInsert.filter(officer => {
+        const isDuplicate = existingOfficers?.some(existing => {
+          const existingNameLower = (existing.computed_full_name || `${existing.forenames} ${existing.surname}`).toLowerCase().trim();
+          const newNameLower = officer.computed_full_name.toLowerCase().trim();
+          return existingNameLower === newNameLower;
+        });
+        
+        if (isDuplicate) {
+          duplicates.push(officer.computed_full_name);
+        }
+        return !isDuplicate;
+      });
+
+      if (duplicates.length > 0) {
+        toast({
+          variant: "destructive",
+          title: "Duplicate Officers Detected",
+          description: `${duplicates.length} officer(s) already exist: ${duplicates.join(', ')}`,
+        });
+      }
+
+      if (uniqueOfficers.length === 0) {
+        toast({
+          title: "No New Officers",
+          description: "All officers already exist in the system",
+        });
+        setOfficers([]);
+        setIsImporting(false);
+        return;
+      }
+
       const { error } = await supabase
         .from('officers')
-        .insert(officersToInsert);
+        .insert(uniqueOfficers);
 
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: `Imported ${officers.length} officers successfully`,
+        description: `Imported ${uniqueOfficers.length} new officer(s)${duplicates.length > 0 ? `. Skipped ${duplicates.length} duplicate(s)` : ''}`,
       });
       
       setOfficers([]);
