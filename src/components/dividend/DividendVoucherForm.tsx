@@ -354,7 +354,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         
         <div className="space-y-4 mb-6">
           <div>
-            <Label className="text-left block">Select Company</Label>
+            <Label className="text-left block mb-2">Select Company</Label>
             <CompanySelector
               onSelect={setSelectedCompanyId}
               selectedCompanyId={selectedCompanyId}
@@ -364,7 +364,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
           
           {shareholders && shareholders.length > 0 && (
             <div>
-              <Label className="text-left block">Select Shareholder</Label>
+              <Label className="text-left block mb-2">Select Shareholder</Label>
               <Select value={selectedShareholderId} onValueChange={setSelectedShareholderId}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a shareholder" />
@@ -395,7 +395,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         <form onSubmit={handleSubmit(handleGeneratePreview)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="companyName" className="text-left block">Company Name</Label>
+              <Label htmlFor="companyName" className="text-left block mb-2">Company Name</Label>
               <Input
                 id="companyName"
                 {...register('companyName')}
@@ -407,7 +407,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="companyRegNumber" className="text-left block">Registration Number</Label>
+              <Label htmlFor="companyRegNumber" className="text-left block mb-2">Registration Number</Label>
               <Input
                 id="companyRegNumber"
                 {...register('companyRegNumber')}
@@ -419,7 +419,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div className="md:col-span-2">
-              <Label htmlFor="companyAddress" className="text-left block">Company Address</Label>
+              <Label htmlFor="companyAddress" className="text-left block mb-2">Company Address</Label>
               <Textarea
                 id="companyAddress"
                 {...register('companyAddress')}
@@ -433,7 +433,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="shareholderName" className="text-left block">Shareholder Name</Label>
+              <Label htmlFor="shareholderName" className="text-left block mb-2">Shareholder Name</Label>
               <Input
                 id="shareholderName"
                 {...register('shareholderName')}
@@ -445,7 +445,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div className="md:col-span-2">
-              <Label htmlFor="shareholderAddress" className="text-left block">Shareholder Address</Label>
+              <Label htmlFor="shareholderAddress" className="text-left block mb-2">Shareholder Address</Label>
               <Textarea
                 id="shareholderAddress"
                 {...register('shareholderAddress')}
@@ -461,7 +461,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             {/* Add some spacing */}
             <div className="md:col-span-2 pt-4">
               <div className="border-t border-gray-200 pt-4">
-                <Label htmlFor="voucherNumber" className="text-left block">Dividend Voucher Number</Label>
+                <Label htmlFor="voucherNumber" className="text-left block mb-2">Dividend Voucher Number</Label>
                 <Input
                   id="voucherNumber"
                   {...register('voucherNumber')}
@@ -474,7 +474,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="sharesHeld" className="text-left block">Number of Shares</Label>
+              <Label htmlFor="sharesHeld" className="text-left block mb-2">Number of Shares</Label>
               <Input
                 id="sharesHeld"
                 type="number"
@@ -487,7 +487,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="dividendAmount" className="text-left block">Dividend Amount (£)</Label>
+              <Label htmlFor="dividendAmount" className="text-left block mb-2">Dividend Amount (£)</Label>
               <Input
                 id="dividendAmount"
                 type="number"
@@ -501,7 +501,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="shareholdersAsAtDate" className="text-left block">Shareholders as at Date</Label>
+              <Label htmlFor="shareholdersAsAtDate" className="text-left block mb-2">Shareholders as at Date</Label>
               <Input
                 id="shareholdersAsAtDate"
                 type="date"
@@ -513,7 +513,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="paymentDate" className="text-left block">Payment Date</Label>
+              <Label htmlFor="paymentDate" className="text-left block mb-2">Payment Date</Label>
               <Input
                 id="paymentDate"
                 type="date"
@@ -525,7 +525,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="yearEndDate" className="text-left block">Year End Date</Label>
+              <Label htmlFor="yearEndDate" className="text-left block mb-2">Year End Date</Label>
               <Input
                 id="yearEndDate"
                 type="date"
@@ -538,7 +538,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="dividendType" className="text-left block">Dividend Type</Label>
+              <Label htmlFor="dividendType" className="text-left block mb-2">Dividend Type</Label>
               <select
                 id="dividendType"
                 {...register('dividendType')}
