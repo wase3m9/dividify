@@ -539,15 +539,18 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
 
             <div>
               <Label htmlFor="dividendType" className="text-left block mb-2">Dividend Type</Label>
-              <select
-                id="dividendType"
-                {...register('dividendType')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              <Select 
+                value={watch('dividendType')} 
+                onValueChange={(value) => setValue('dividendType', value as 'Final' | 'Interim')}
               >
-                <option value="">Select dividend type</option>
-                <option value="Final">Final</option>
-                <option value="Interim">Interim</option>
-              </select>
+                <SelectTrigger className="bg-background">
+                  <SelectValue placeholder="Select dividend type" />
+                </SelectTrigger>
+                <SelectContent className="bg-background border-border">
+                  <SelectItem value="Final">Final</SelectItem>
+                  <SelectItem value="Interim">Interim</SelectItem>
+                </SelectContent>
+              </Select>
               {errors.dividendType && (
                 <p className="text-sm text-red-600 mt-1">{errors.dividendType.message}</p>
               )}
