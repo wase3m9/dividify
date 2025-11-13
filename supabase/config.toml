@@ -2,3 +2,6 @@ project_id = "vkllrotescxmqwogfamo"
 
 [functions.chat-support]
 verify_jwt = false
+
+[functions.companies-house]
+verify_jwt = true
