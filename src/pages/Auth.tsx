@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cleanupAuthState } from "@/utils/authCleanup";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { HCAPTCHA_SITE_KEY } from "@/config/captcha";
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -222,6 +223,21 @@ const Auth = () => {
             <h2 className="text-2xl font-bold text-gray-900">
               Sign in to your account
             </h2>
+          </div>
+
+          {/* Google Sign-In */}
+          <GoogleSignInButton mode="signin" />
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-2 text-gray-500">
+                or continue with email
+              </span>
+            </div>
           </div>
 
           {error && (

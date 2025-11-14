@@ -12,6 +12,7 @@ import { Home } from "lucide-react";
 import { cleanupAuthState } from "@/utils/authCleanup";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { HCAPTCHA_SITE_KEY } from "@/config/captcha";
+import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -201,6 +202,25 @@ const Signup = () => {
                 </p>
               </div>
             )}
+          </div>
+
+          {/* Google Sign-Up */}
+          <GoogleSignInButton 
+            mode="signup" 
+            isAccountant={isAccountant}
+            signupPlan={selectedPlan}
+          />
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-2 text-gray-500">
+                or continue with email
+              </span>
+            </div>
           </div>
 
           {error && (
