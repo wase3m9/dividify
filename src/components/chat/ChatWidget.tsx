@@ -163,6 +163,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${session?.access_token || ''}`,
         },
         body: JSON.stringify({ messages: allMessages }),
       });
@@ -407,9 +408,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ showNotification = false, onClo
                           : 'bg-background border'
                       }`}
                     >
-                      <div dangerouslySetInnerHTML={{ 
-                        __html: message.message.replace(/\n/g, '<br/>') 
-                      }} />
+                      <div className="whitespace-pre-wrap">
+                        {message.message}
+                      </div>
                     </div>
                   </div>
                 ))
