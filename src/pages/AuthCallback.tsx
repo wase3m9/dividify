@@ -36,53 +36,128 @@ const AuthCallback = () => {
 
         console.log("AuthCallback - Session found for user:", session.user.id);
 
-        // Check if profile exists, create if needed
-        let { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('user_type')
-          .eq('id', session.user.id)
-          .single();
+        // Check if this is an OAuth callback (Google login)
+        // OAuth users will have a session immediately, email/password users won't until they verify
+        const isOAuthCallback = session.user.app_metadata.provider === 'google';
+        
+        console.log("AuthCallback - Is OAuth callback:", isOAuthCallback);
 
-        if (profileError || !profile) {
-          console.log("AuthCallback - Creating profile for user");
+        if (isOAuthCallback) {
+          // Handle OAuth (Google) callback - user is already authenticated
+          console.log("AuthCallback - Handling OAuth callback");
           
-          // Extract user_type from user metadata
-          const userType = session.user.user_metadata?.user_type || 'individual';
-          const fullName = session.user.user_metadata?.full_name || session.user.email;
+          // Get user preferences from localStorage
+          const oauthUserType = localStorage.getItem('oauth_user_type') || 'individual';
+          const oauthSignupPlan = localStorage.getItem('oauth_signup_plan');
           
-          const { error: insertError } = await supabase
+          console.log("AuthCallback - OAuth preferences:", { oauthUserType, oauthSignupPlan });
+          
+          // Check if profile exists
+          let { data: profile, error: profileError } = await supabase
             .from('profiles')
-            .insert({
-              id: session.user.id,
-              full_name: fullName,
-              user_type: userType,
-              subscription_plan: 'trial'
-            });
+            .select('user_type, full_name')
+            .eq('id', session.user.id)
+            .single();
 
-          if (insertError) {
-            console.error("AuthCallback - Profile creation error:", insertError);
-          } else {
-            profile = { user_type: userType };
+          if (profileError || !profile) {
+            console.log("AuthCallback - Creating profile for OAuth user");
+            
+            // Create profile with OAuth data
+            const fullName = session.user.user_metadata?.full_name || 
+                            session.user.user_metadata?.name || 
+                            session.user.email?.split('@')[0] || 
+                            'User';
+            
+            const { error: insertError } = await supabase
+              .from('profiles')
+              .insert({
+                id: session.user.id,
+                full_name: fullName,
+                user_type: oauthUserType,
+                subscription_plan: 'trial'
+              });
+
+            if (insertError) {
+              console.error("AuthCallback - Profile creation error:", insertError);
+            } else {
+              profile = { user_type: oauthUserType, full_name: fullName };
+            }
           }
-        }
+          
+          // Clean up localStorage
+          localStorage.removeItem('oauth_user_type');
+          localStorage.removeItem('oauth_signup_plan');
+          
+          // Handle signup plan if present
+          if (oauthSignupPlan) {
+            localStorage.setItem('selectedPlan', oauthSignupPlan);
+            localStorage.setItem('needsPaymentSetup', 'true');
+          }
+          
+          toast({
+            title: "Welcome!",
+            description: "You've successfully signed in with Google.",
+          });
+          
+          // Redirect to appropriate dashboard
+          console.log("AuthCallback - Redirecting OAuth user to dashboard");
+          if (profile?.user_type === 'accountant') {
+            navigate("/accountant-dashboard");
+          } else {
+            navigate("/company-dashboard");
+          }
+        } else {
+          // Handle email verification callback - traditional email/password flow
+          console.log("AuthCallback - Handling email verification callback");
+          
+          // Check if profile exists, create if needed
+          let { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('user_type')
+            .eq('id', session.user.id)
+            .single();
 
-        toast({
-          title: "Email Verified!",
-          description: "Your email has been confirmed successfully.",
-        });
+          if (profileError || !profile) {
+            console.log("AuthCallback - Creating profile for user");
+            
+            // Extract user_type from user metadata
+            const userType = session.user.user_metadata?.user_type || 'individual';
+            const fullName = session.user.user_metadata?.full_name || session.user.email;
+            
+            const { error: insertError } = await supabase
+              .from('profiles')
+              .insert({
+                id: session.user.id,
+                full_name: fullName,
+                user_type: userType,
+                subscription_plan: 'trial'
+              });
 
-        // Sign out the user for security and redirect to payment setup
-        await supabase.auth.signOut();
-        console.log("AuthCallback - Email verified, redirecting to payment setup");
-        
-        // Check if user came from pricing flow
-        const signupPlan = session.user.user_metadata?.signup_plan;
-        if (signupPlan) {
-          localStorage.setItem('selectedPlan', signupPlan);
-          localStorage.setItem('needsPaymentSetup', 'true');
+            if (insertError) {
+              console.error("AuthCallback - Profile creation error:", insertError);
+            } else {
+              profile = { user_type: userType };
+            }
+          }
+
+          toast({
+            title: "Email Verified!",
+            description: "Your email has been confirmed successfully.",
+          });
+
+          // Sign out the user for security and redirect to payment setup
+          await supabase.auth.signOut();
+          console.log("AuthCallback - Email verified, redirecting to payment setup");
+          
+          // Check if user came from pricing flow
+          const signupPlan = session.user.user_metadata?.signup_plan;
+          if (signupPlan) {
+            localStorage.setItem('selectedPlan', signupPlan);
+            localStorage.setItem('needsPaymentSetup', 'true');
+          }
+          
+          navigate("/email-verified");
         }
-        
-        navigate("/email-verified");
       } catch (error) {
         console.error("AuthCallback - Unexpected error:", error);
         toast({
