@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://dividify.lovable.app/</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/</loc>
+    <lastmod>2024-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/accountants</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/accountants</loc>
+    <lastmod>2024-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/blog</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/blog</loc>
+    <lastmod>2024-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/blog/retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/blog/retained-profits-vs-dividend-payouts-how-uk-directors-should-decide-in-2025-26</loc>
+    <lastmod>2024-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>https://dividify.lovable.app/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png</image:loc>
+      <image:loc>https://dividify.co.uk/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png</image:loc>
       <image:title>Retained Profits vs Dividend Payouts - UK Directors Guide 2025</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/blog/director-loan-accounts-tax-implications-and-common-pitfalls-in-2025</loc>
-    <lastmod>2025-07-15</lastmod>
+    <loc>https://dividify.co.uk/blog/director-loan-accounts-tax-implications-and-common-pitfalls-in-2025</loc>
+    <lastmod>2024-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/blog/salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26</loc>
-    <lastmod>2025-07-10</lastmod>
+    <loc>https://dividify.co.uk/blog/salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26</loc>
+    <lastmod>2024-09-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/blog/understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025</loc>
-    <lastmod>2025-07-05</lastmod>
+    <loc>https://dividify.co.uk/blog/understanding-dividend-taxation-in-the-uk-a-comprehensive-guide-for-2025</loc>
+    <lastmod>2024-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/blog/dividend-waivers-understanding-the-legal-and-tax-implications-for-uk-directors-in-2025</loc>
-    <lastmod>2025-06-30</lastmod>
+    <loc>https://dividify.co.uk/blog/dividend-waivers-understanding-the-legal-and-tax-implications-for-uk-directors-in-2025</loc>
+    <lastmod>2024-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/contact</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/contact</loc>
+    <lastmod>2024-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/api</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/api</loc>
+    <lastmod>2024-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/privacy</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/privacy</loc>
+    <lastmod>2024-11-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/terms</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/terms</loc>
+    <lastmod>2024-11-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://dividify.lovable.app/cookies</loc>
-    <lastmod>2025-08-13</lastmod>
+    <loc>https://dividify.co.uk/cookies</loc>
+    <lastmod>2024-11-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

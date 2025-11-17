@@ -16,7 +16,6 @@ Disallow: /get-started
 
 # Block old URL patterns
 Disallow: /blog?q=
-Disallow: /*?q=*
 
 # Sitemap location
-Sitemap: https://dividify.lovable.app/sitemap.xml
+Sitemap: https://dividify.co.uk/sitemap.xml
