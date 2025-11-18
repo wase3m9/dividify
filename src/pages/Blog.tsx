@@ -81,14 +81,14 @@ const Blog = () => {
         <meta property="og:title" content="UK Dividend Tax & Compliance Blog | Expert Insights for Directors" />
         <meta property="og:description" content="Expert insights on UK dividend taxation, HMRC compliance, and board meeting requirements for limited company directors." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
+        <meta property="og:url" content={`${window.location.origin}/blog`} />
         <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <meta property="og:locale" content="en_GB" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="UK Dividend Tax & Compliance Blog" />
         <meta name="twitter:description" content="Expert insights on UK dividend taxation and HMRC compliance for limited company directors." />
         <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
-        <link rel="canonical" href={window.location.href} />
+        <link rel="canonical" href={`${window.location.origin}/blog`} />
         <script type="application/ld+json">
           {JSON.stringify(generateBlogListSchema())}
         </script>

@@ -167,7 +167,7 @@ const BlogPost = () => {
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={window.location.href} />
+        <meta property="og:url" content={`${window.location.origin}/blog/${slug}`} />
         <meta property="og:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
         <meta property="og:locale" content="en_GB" />
         <meta property="article:published_time" content={post?.published_at} />
@@ -180,7 +180,7 @@ const BlogPost = () => {
         <meta name="twitter:title" content={post?.title} />
         <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
-        <link rel="canonical" href={window.location.href} />
+        <link rel="canonical" href={`${window.location.origin}/blog/${slug}`} />
         <script type="application/ld+json">
           {JSON.stringify(generateArticleSchema())}
         </script>

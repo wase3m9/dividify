@@ -102,12 +102,12 @@ const Contact = () => {
         <meta property="og:title" content="Contact Dividify - Expert Support for UK Limited Companies" />
         <meta property="og:description" content="Get expert help with dividend vouchers, board minutes, and HMRC compliance from our UK company law specialists." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
+        <meta property="og:url" content={`${window.location.origin}/contact`} />
         <meta property="og:locale" content="en_GB" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Contact Dividify | UK Support" />
         <meta name="twitter:description" content="Get expert help with dividend vouchers and HMRC compliance from our UK specialists." />
-        <link rel="canonical" href={window.location.href} />
+        <link rel="canonical" href={`${window.location.origin}/contact`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
