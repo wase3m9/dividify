@@ -143,7 +143,7 @@ const AdminDashboard = () => {
                             tick={{ fontSize: 12 }}
                             tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                           />
-                          <YAxis />
+                          <YAxis allowDecimals={false} />
                           <Tooltip 
                             labelFormatter={(value) => new Date(value).toLocaleDateString()}
                           />
@@ -189,7 +189,7 @@ const AdminDashboard = () => {
                             tick={{ fontSize: 12 }}
                             tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                           />
-                          <YAxis />
+                          <YAxis allowDecimals={false} />
                           <Tooltip 
                             labelFormatter={(value) => new Date(value).toLocaleDateString()}
                           />
