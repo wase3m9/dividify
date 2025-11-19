@@ -676,6 +676,14 @@ export type Database = {
         Args: { invitation_id: string }
         Returns: undefined
       }
+      admin_cancel_subscription: {
+        Args: { reason?: string; subscription_id_param: string }
+        Returns: undefined
+      }
+      admin_reactivate_subscription: {
+        Args: { extend_days?: number; subscription_id_param: string }
+        Returns: undefined
+      }
       admin_update_user_profile: {
         Args: {
           new_full_name?: string
@@ -704,6 +712,66 @@ export type Database = {
       get_next_voucher_number: {
         Args: { company_id_param: string }
         Returns: number
+      }
+      get_subscription_details: {
+        Args: { subscription_id_param: string }
+        Returns: {
+          company_count: number
+          created_at: string
+          current_month_dividends: number
+          current_month_minutes: number
+          current_period_end: string
+          current_period_start: string
+          email: string
+          full_name: string
+          id: string
+          logo_url: string
+          monthly_amount: number
+          plan_code: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at: string
+          user_id: string
+          user_type: string
+        }[]
+      }
+      get_subscription_metrics: {
+        Args: never
+        Returns: {
+          active_subscriptions_count: number
+          canceled_this_month: number
+          enterprise_count: number
+          past_due_count: number
+          professional_count: number
+          starter_count: number
+          total_mrr: number
+          trial_conversions_this_month: number
+          trial_subscriptions_count: number
+        }[]
+      }
+      get_subscriptions_list: {
+        Args: {
+          filter_plan?: string
+          filter_status?: string
+          page_number?: number
+          page_size?: number
+          search_term?: string
+        }
+        Returns: {
+          created_at: string
+          current_period_end: string
+          current_period_start: string
+          email: string
+          full_name: string
+          id: string
+          monthly_amount: number
+          plan_code: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          user_id: string
+        }[]
       }
       get_user_details: {
         Args: { user_id_param: string }
