@@ -121,37 +121,19 @@ const BlogPost = () => {
       "author": {
         "@type": "Person",
         "name": "James Wilson",
-        "jobTitle": "Tax Specialist",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Dividify"
-        }
+        "jobTitle": "Senior Tax Advisor"
       },
       "publisher": {
         "@type": "Organization",
         "name": "Dividify",
         "logo": {
           "@type": "ImageObject",
-          "url": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`
+          "url": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`
         }
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": window.location.href
-      },
-      "wordCount": wordCount,
-      "timeRequired": `PT${Math.ceil(wordCount / 200)}M`,
-      "keywords": "UK Taxation, Company Law, HMRC Compliance, Dividends",
-      "articleSection": "UK Tax & Compliance",
-      "isPartOf": {
-        "@type": "Blog",
-        "name": "Dividify Blog",
-        "url": `${window.location.origin}/blog`
-      },
-      "inLanguage": "en-GB",
-      "copyrightHolder": {
-        "@type": "Organization",
-        "name": "Dividify"
+        "@id": `${window.location.origin}/blog/${post.slug}`
       }
     };
   };
