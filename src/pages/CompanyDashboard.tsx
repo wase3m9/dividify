@@ -304,7 +304,7 @@ const CompanyDashboard = () => {
               
               <DividendAnalyticsSection 
                 companyId={company.id} 
-                title={`Dividend Analytics - ${company.name}`}
+                title={`Dividend Tracker - ${company.name}`}
               />
               
               <div className="bg-white rounded-lg shadow-sm overflow-hidden">
