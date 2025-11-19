@@ -19,10 +19,16 @@ const Blog = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        // For now, just use sample posts until blog_posts table is added to types
-        setPosts(sampleBlogPosts);
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .order('published_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        setPosts(data || sampleBlogPosts);
       } catch (err) {
-        console.error('Error:', err);
+        console.error('Error fetching blog posts:', err);
         setPosts(sampleBlogPosts);
       } finally {
         setLoading(false);
