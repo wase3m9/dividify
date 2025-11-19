@@ -102,7 +102,7 @@ const AccountantDashboard = () => {
             <>
               <DividendAnalyticsSection 
                 companyId={selectedCompanyId}
-                title={`Dividend Analytics - ${selectedCompany?.name || 'Company'}`}
+                title={`Dividend Tracker - ${selectedCompany?.name || 'Company'}`}
               />
               
               <CompanyTabs
