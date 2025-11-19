@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AdminGuard } from "@/components/admin/AdminGuard";
 import { MetricsCard } from "@/components/admin/MetricsCard";
 import { UserManagement } from "@/components/admin/UserManagement";
+import { SubscriptionManagement } from "@/components/admin/subscription/SubscriptionManagement";
 import { useAdminMetrics, useUserGrowth, useDocumentStats } from "@/hooks/useAdminMetrics";
 import { 
   Users, 
@@ -108,11 +109,12 @@ const AdminDashboard = () => {
           </div>
 
           {/* Tabs for Different Sections */}
-          <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="users">User Management</TabsTrigger>
-            </TabsList>
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="users">User Management</TabsTrigger>
+            <TabsTrigger value="subscriptions">Subscriptions & Payments</TabsTrigger>
+          </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
               {/* Charts Section */}
@@ -214,13 +216,17 @@ const AdminDashboard = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="users">
-              <UserManagement />
-            </TabsContent>
-          </Tabs>
-        </div>
+          <TabsContent value="users">
+            <UserManagement />
+          </TabsContent>
+
+          <TabsContent value="subscriptions">
+            <SubscriptionManagement />
+          </TabsContent>
+        </Tabs>
       </div>
-    </AdminGuard>
+    </div>
+  </AdminGuard>
   );
 };
 
