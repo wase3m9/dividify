@@ -17,12 +17,12 @@ const Api = () => {
         <meta property="og:title" content="Dividify API Documentation | Integrate Dividend Software" />
         <meta property="og:description" content="Integrate Dividify's dividend voucher and board minutes generation into your applications." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
+        <meta property="og:url" content={`${window.location.origin}/api`} />
         <meta property="og:locale" content="en_GB" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Dividify API Documentation" />
         <meta name="twitter:description" content="Integrate dividend voucher generation into your applications with our comprehensive API." />
-        <link rel="canonical" href={window.location.href} />
+        <link rel="canonical" href={`${window.location.origin}/api`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",

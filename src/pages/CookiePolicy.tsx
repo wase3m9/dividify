@@ -1,9 +1,20 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { Helmet } from "react-helmet";
 
 const CookiePolicy = () => {
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Cookie Policy | Dividify - How We Use Cookies</title>
+        <meta name="description" content="Learn how Dividify uses cookies to improve your experience and comply with UK regulations." />
+        <link rel="canonical" href={`${window.location.origin}/cookies`} />
+        <meta property="og:title" content="Cookie Policy | Dividify" />
+        <meta property="og:description" content="How we use cookies and comply with UK regulations" />
+        <meta property="og:url" content={`${window.location.origin}/cookies`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
+      </Helmet>
       <Navigation />
       <main className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-3xl mx-auto text-left">

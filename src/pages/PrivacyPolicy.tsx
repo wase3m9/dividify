@@ -1,9 +1,20 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
+import { Helmet } from "react-helmet";
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>Privacy Policy | Dividify - UK Dividend Management</title>
+        <meta name="description" content="Learn how Dividify protects your company data and maintains GDPR compliance for UK dividend records." />
+        <link rel="canonical" href={`${window.location.origin}/privacy`} />
+        <meta property="og:title" content="Privacy Policy | Dividify" />
+        <meta property="og:description" content="How we protect your data and maintain GDPR compliance" />
+        <meta property="og:url" content={`${window.location.origin}/privacy`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
+      </Helmet>
       <Navigation />
       <main className="container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-3xl mx-auto text-left">
