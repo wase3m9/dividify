@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock } from "lucide-react";
 import directorsLoanImage from "@/assets/directors-loan-accounts-2025.jpg";
@@ -24,9 +24,11 @@ interface BlogListProps {
 }
 
 export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
+  const navigate = useNavigate();
+
   const handleCardClick = (slug: string) => {
     console.log('Card clicked:', slug);
-    window.location.href = `/blog/${slug}`;
+    navigate(`/blog/${slug}`);
   };
 
   return (
