@@ -643,6 +643,20 @@ export type Database = {
       }
     }
     Views: {
+      admin_dashboard_metrics: {
+        Row: {
+          accountant_users: number | null
+          active_subscriptions: number | null
+          dividends_this_month: number | null
+          individual_users: number | null
+          minutes_this_month: number | null
+          total_companies: number | null
+          total_users: number | null
+          trial_users: number | null
+          trials_expiring_soon: number | null
+        }
+        Relationships: []
+      }
       security_events: {
         Row: {
           action: string | null
@@ -666,9 +680,24 @@ export type Database = {
         Args: { user_id_param: string }
         Returns: undefined
       }
+      get_document_stats: {
+        Args: { days_back?: number }
+        Returns: {
+          date: string
+          minutes: number
+          vouchers: number
+        }[]
+      }
       get_next_voucher_number: {
         Args: { company_id_param: string }
         Returns: number
+      }
+      get_user_growth: {
+        Args: { days_back?: number }
+        Returns: {
+          date: string
+          new_users: number
+        }[]
       }
       has_role: {
         Args: {

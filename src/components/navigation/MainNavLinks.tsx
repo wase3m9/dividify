@@ -1,7 +1,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { Home, Grid, User } from "lucide-react";
+import { Home, Grid, User, Shield } from "lucide-react";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 
 interface MainNavLinksProps {
   user: any;
@@ -11,6 +12,7 @@ interface MainNavLinksProps {
 export const MainNavLinks = ({ user, scrollToTop }: MainNavLinksProps) => {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
+  const { isAdmin } = useAdminCheck();
 
   const handleHomeClick = () => {
     if (user) {
@@ -42,6 +44,14 @@ export const MainNavLinks = ({ user, scrollToTop }: MainNavLinksProps) => {
               Dashboard
             </Link>
           </Button>
+          {isAdmin && (
+            <Button variant="ghost" asChild className="flex items-center gap-2 w-full">
+              <Link to="/admin">
+                <Shield className="h-4 w-4" />
+                Admin
+              </Link>
+            </Button>
+          )}
           <Button variant="ghost" asChild className="flex items-center gap-2 w-full">
             <Link to="/profile">
               <User className="h-4 w-4" />

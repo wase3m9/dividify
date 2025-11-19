@@ -28,6 +28,7 @@ import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
 import JournalEntries from "@/pages/JournalEntries";
 import EmailVerified from "@/pages/EmailVerified";
+import AdminDashboard from "@/pages/AdminDashboard";
 
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 import { PaymentRequiredGate } from "@/components/dashboard/PaymentRequiredGate";
@@ -67,6 +68,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <DashboardRouter />,
+      },
+      {
+        path: "/admin",
+        element: <AdminDashboard />,
       },
       {
         path: "/company-dashboard",
