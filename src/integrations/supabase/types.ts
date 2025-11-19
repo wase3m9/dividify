@@ -702,7 +702,7 @@ export type Database = {
       reset_monthly_counters: { Args: never; Returns: undefined }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "owner" | "support"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -830,7 +830,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "owner", "support"],
     },
   },
 } as const
