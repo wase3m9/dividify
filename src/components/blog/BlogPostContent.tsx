@@ -6,6 +6,7 @@ import dividendWaiversImage from "@/assets/dividend-waivers-2025.jpg";
 import retainedProfitsImage from "@/assets/retained-profits-vs-dividends-2025.jpg";
 import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-header-2025.jpg";
 import dividendMistakes2025 from "@/assets/dividend-mistakes-2025-new.jpg";
+import createDividendVoucherGuide from "@/assets/create-dividend-voucher-guide-2025.jpg";
 
 interface BlogPostContentProps {
   content: string;
@@ -224,6 +225,8 @@ export const BlogPostContent = ({
         return dividendVoucherTemplatesImage;
       case 'dividend-mistakes-2025':
         return dividendMistakes2025;
+      case 'how-to-create-dividend-voucher-step-by-step-guide':
+        return createDividendVoucherGuide;
       default:
         return "/lovable-uploads/20da9f82-d7d7-4f38-8d8e-3ed01fa2a06c.png";
     }
