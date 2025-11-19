@@ -676,8 +676,21 @@ export type Database = {
         Args: { invitation_id: string }
         Returns: undefined
       }
+      admin_update_user_profile: {
+        Args: {
+          new_full_name?: string
+          new_subscription_plan?: string
+          new_user_type?: string
+          user_id_param: string
+        }
+        Returns: undefined
+      }
       check_and_reset_monthly_counters: {
         Args: { user_id_param: string }
+        Returns: undefined
+      }
+      extend_user_trial: {
+        Args: { days_to_extend: number; user_id_param: string }
         Returns: undefined
       }
       get_document_stats: {
@@ -692,11 +705,53 @@ export type Database = {
         Args: { company_id_param: string }
         Returns: number
       }
+      get_user_details: {
+        Args: { user_id_param: string }
+        Returns: {
+          created_at: string
+          current_month_dividends: number
+          current_month_minutes: number
+          current_period_end: string
+          current_period_start: string
+          email: string
+          full_name: string
+          id: string
+          logo_url: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          subscription_id: string
+          subscription_plan: string
+          subscription_status: string
+          user_type: string
+        }[]
+      }
       get_user_growth: {
         Args: { days_back?: number }
         Returns: {
           date: string
           new_users: number
+        }[]
+      }
+      get_users_list: {
+        Args: {
+          filter_subscription_status?: string
+          filter_user_type?: string
+          page_number?: number
+          page_size?: number
+          search_term?: string
+        }
+        Returns: {
+          company_count: number
+          created_at: string
+          current_month_dividends: number
+          current_month_minutes: number
+          current_period_end: string
+          email: string
+          full_name: string
+          id: string
+          subscription_plan: string
+          subscription_status: string
+          user_type: string
         }[]
       }
       has_role: {
