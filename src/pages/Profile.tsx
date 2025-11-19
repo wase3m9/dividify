@@ -16,6 +16,7 @@ import { TeamAccess } from "@/components/profile/TeamAccess";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 import { RecentActivityProfile } from "@/components/profile/RecentActivityProfile";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
+import { PasswordChange } from "@/components/profile/PasswordChange";
 
 const Profile = () => {
   const { toast } = useToast();
@@ -360,6 +361,9 @@ const Profile = () => {
 
             {/* Team Access Section */}
             <TeamAccess userId={user?.id || ''} />
+
+            {/* Password Change Section */}
+            <PasswordChange />
 
             {/* Recent Activity Section */}
             <Card>
