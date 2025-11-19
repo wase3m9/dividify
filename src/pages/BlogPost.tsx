@@ -34,21 +34,43 @@ const BlogPost = () => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        // For now, just use sample posts until blog_posts table is added to types
-        const samplePost = sampleBlogPosts.find(post => post.slug === slug);
+        // Fetch the current post by slug
+        const { data: currentPost, error: postError } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('slug', slug)
+          .single();
         
-        if (samplePost) {
-          setPost(samplePost);
-          setRelatedPosts(sampleBlogPosts.filter(p => p.slug !== slug));
-          
-          // Create navigation
-          const currentIndex = sampleBlogPosts.findIndex(p => p.slug === slug);
-          setNavigation({
-            prev: currentIndex > 0 ? sampleBlogPosts[currentIndex - 1] : null,
-            next: currentIndex < sampleBlogPosts.length - 1 ? sampleBlogPosts[currentIndex + 1] : null
-          });
-        } else {
+        if (postError || !currentPost) {
+          console.error('Error fetching post:', postError);
           navigate('/blog');
+          return;
+        }
+        
+        setPost(currentPost);
+        
+        // Fetch related posts (excluding current post, limit to 3)
+        const { data: related } = await supabase
+          .from('blog_posts')
+          .select('id, slug, title')
+          .neq('slug', slug)
+          .order('published_at', { ascending: false })
+          .limit(3);
+        
+        setRelatedPosts(related || []);
+        
+        // Fetch navigation posts (previous and next based on published_at)
+        const { data: allPosts } = await supabase
+          .from('blog_posts')
+          .select('slug, title, published_at')
+          .order('published_at', { ascending: false });
+        
+        if (allPosts) {
+          const currentIndex = allPosts.findIndex(p => p.slug === slug);
+          setNavigation({
+            prev: currentIndex > 0 ? allPosts[currentIndex - 1] : null,
+            next: currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
+          });
         }
       } catch (err) {
         console.error('Error fetching post:', err);
