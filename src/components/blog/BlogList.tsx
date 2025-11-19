@@ -9,6 +9,7 @@ import dividendTax2025Image from "@/assets/dividend-tax-2025-26.jpg";
 import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-header-2025.jpg";
 import dividendVoucherDeskImage from "@/assets/dividend-voucher-desk-2025.jpg";
 import dividendMistakes2025 from "@/assets/dividend-mistakes-2025-new.jpg";
+import createDividendVoucherGuide from "@/assets/create-dividend-voucher-guide-2025.jpg";
 
 interface BlogPost {
   id: string;
@@ -57,6 +58,8 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
                    ? dividendVoucherTemplatesImage
                    : post.slug === "dividend-mistakes-2025"
                    ? dividendMistakes2025
+                   : post.slug === "how-to-create-dividend-voucher-step-by-step-guide"
+                   ? createDividendVoucherGuide
                    : dividendWaiversImage}
                 alt="Blog post illustration"
                 className="w-full h-48 object-cover rounded-lg"
