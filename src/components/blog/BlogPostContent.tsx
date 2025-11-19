@@ -23,15 +23,15 @@ export const BlogPostContent = ({
         if (!paragraph.trim()) return null;
 
         // Table of Contents - make it clickable
-        if (paragraph.trim().startsWith('**Table of Contents:**')) {
+        if (paragraph.trim().startsWith('**Table of Contents**')) {
           const tocLines = [];
           const lines = section.split('\n');
-          const tocStartIndex = lines.findIndex(line => line.trim().startsWith('**Table of Contents:**'));
+          const tocStartIndex = lines.findIndex(line => line.trim().startsWith('**Table of Contents**'));
           
           // Look for bullet points only in the lines immediately following the TOC header
           for (let i = tocStartIndex + 1; i < lines.length; i++) {
             const line = lines[i].trim();
-            if (line.startsWith('•')) {
+            if (line.startsWith('-')) {
               tocLines.push(line);
             } else if (line.startsWith('**') || line === '') {
               // Stop when we hit the next section or empty line after TOC items
@@ -48,7 +48,7 @@ export const BlogPostContent = ({
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h3>
                 <ul className="space-y-3">
                   {tocLines.map((tocItem, tocIndex) => {
-                const text = tocItem.replace('•', '').trim();
+                const text = tocItem.replace('-', '').trim();
                 const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
                 return <li key={tocIndex}>
                           <a href={`#${anchor}`} className="text-[#9b87f5] hover:text-[#7E69AB] transition-colors duration-200 cursor-pointer text-sm" onClick={e => {
@@ -69,29 +69,28 @@ export const BlogPostContent = ({
         }
 
         // Skip TOC items when not in TOC section
-        if (paragraph.trim().startsWith('•')) {
+        if (paragraph.trim().startsWith('-') && !paragraph.includes('**')) {
           return null;
         }
 
-        // Headers with purple color and IDs for navigation - improved detection
-        if ((paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**') && !paragraph.includes('Table of Contents')) ||
-            // Also detect headers that are standalone without asterisks but are actual section headers
-            (paragraph.trim().match(/^[A-Z][A-Za-z\s:?''""-]+$/) && 
-             paragraph.trim().length < 80 && 
-             !paragraph.includes('.') && 
-             !paragraph.includes('•') &&
-             !paragraph.startsWith('A ') &&
-             !paragraph.startsWith('The ') &&
-             !paragraph.startsWith('In ') &&
-             !paragraph.startsWith('For ') &&
-             !paragraph.startsWith('With ') &&
-             !paragraph.startsWith('When ') &&
-             !paragraph.startsWith('While '))) {
+        // STEP HEADERS with lilac color
+        if (paragraph.includes('**STEP_HEADER**') && paragraph.includes('**STEP_HEADER_END**')) {
+          const headerText = paragraph.replace('**STEP_HEADER**', '').replace('**STEP_HEADER_END**', '').trim();
+          const anchorId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+          
+          return <h2 key={pIndex} id={anchorId} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4 pb-2 border-b-2 border-[#9b87f5]/20 scroll-mt-20">
+                  {headerText}
+                </h2>;
+        }
+
+        // Regular bold headers (without STEP_HEADER markers)
+        if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**') && !paragraph.includes('Table of Contents')) {
           const headerText = paragraph.replace(/\*\*/g, '').trim();
-          const headerId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
-          return <h2 key={pIndex} id={headerId} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4">
-                {headerText}
-              </h2>;
+          const anchorId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+          
+          return <h2 key={pIndex} id={anchorId} className="text-2xl font-bold text-gray-900 mt-8 mb-4 pb-2 border-b-2 border-brand-purple scroll-mt-20">
+                  {headerText}
+                </h2>;
         }
 
 
@@ -136,6 +135,18 @@ export const BlogPostContent = ({
         }
 
         // Regular paragraphs with formatted content
+        // Convert plain "Dividify" text to link to homepage
+        if (paragraph.includes('Dividify makes creating professional')) {
+          const parts = paragraph.split('Dividify');
+          return <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed">
+                  {formatTextContent(parts[0])}
+                  <Link to="/" className="text-[#9b87f5] hover:text-[#7E69AB] font-semibold">
+                    Dividify
+                  </Link>
+                  {formatTextContent(parts[1])}
+                </p>;
+        }
+        
         return <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed">
               {formatTextContent(paragraph)}
             </p>;
