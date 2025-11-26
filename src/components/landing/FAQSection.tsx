@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { Helmet } from "react-helmet";
 
 export const FAQSection = () => {
   const { ref, isVisible } = useScrollAnimation(0.2);
@@ -35,48 +34,6 @@ export const FAQSection = () => {
 
   return (
     <section ref={ref as any} className="py-24" id="faq">
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "How does the free trial work?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Our free trial gives you full access to all features for 7 days. No credit card required. You can upgrade to a paid plan at any time during or after the trial."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Are the documents legally compliant?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes, all our templates are designed to meet UK legal requirements for dividend documentation and board meeting minutes. They are regularly reviewed by legal professionals."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Can I cancel my subscription anytime?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your current billing period."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Do you offer customer support?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes, we provide email support for all plans. Professional and Enterprise plans include priority support with faster response times."
-                }
-              }
-            ]
-          })}
-        </script>
-      </Helmet>
       <div className="max-w-3xl mx-auto">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
