@@ -180,6 +180,17 @@ export const LoginForm = () => {
           {isLoading ? "Logging in..." : "Login"}
         </Button>
 
+        <p className="text-xs text-center text-gray-500">
+          By signing in, you agree to our{" "}
+          <Link to="/terms-of-service" className="text-[#7C3AED] hover:underline">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link to="/privacy-policy" className="text-[#7C3AED] hover:underline">
+            Privacy Policy
+          </Link>
+        </p>
+
         <div className="space-y-3 text-center text-sm">
           <div className="text-gray-600">
             Don't have an account?{" "}

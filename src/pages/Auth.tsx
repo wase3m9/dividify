@@ -332,6 +332,17 @@ const Auth = () => {
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
 
+            <p className="text-xs text-center text-gray-500">
+              By signing in, you agree to our{" "}
+              <Link to="/terms-of-service" className="text-[#9b87f5] hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link to="/privacy-policy" className="text-[#9b87f5] hover:underline">
+                Privacy Policy
+              </Link>
+            </p>
+
             <div className="text-center text-sm">
               <span className="text-gray-500">Don't have an account? </span>
               <Link to="/signup" className="text-[#9b87f5] hover:underline">
