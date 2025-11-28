@@ -281,6 +281,17 @@ const Signup = () => {
               {isLoading ? "Creating account..." : "Create Account"}
             </Button>
 
+            <p className="text-xs text-center text-gray-500">
+              By signing in, you agree to our{" "}
+              <Link to="/terms-of-service" className="text-[#9b87f5] hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link to="/privacy-policy" className="text-[#9b87f5] hover:underline">
+                Privacy Policy
+              </Link>
+            </p>
+
             <div className="text-center text-sm">
               <span className="text-gray-500">Already have an account? </span>
               <Link to="/auth" className="text-[#9b87f5] hover:underline">
