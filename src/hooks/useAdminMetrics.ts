@@ -29,8 +29,7 @@ export const useAdminMetrics = () => {
     queryKey: ['admin-metrics'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('admin_dashboard_metrics')
-        .select('*')
+        .rpc('get_admin_dashboard_metrics')
         .single();
       
       if (error) throw error;
