@@ -643,20 +643,6 @@ export type Database = {
       }
     }
     Views: {
-      admin_dashboard_metrics: {
-        Row: {
-          accountant_users: number | null
-          active_subscriptions: number | null
-          dividends_this_month: number | null
-          individual_users: number | null
-          minutes_this_month: number | null
-          total_companies: number | null
-          total_users: number | null
-          trial_users: number | null
-          trials_expiring_soon: number | null
-        }
-        Relationships: []
-      }
       security_events: {
         Row: {
           action: string | null
@@ -700,6 +686,20 @@ export type Database = {
       extend_user_trial: {
         Args: { days_to_extend: number; user_id_param: string }
         Returns: undefined
+      }
+      get_admin_dashboard_metrics: {
+        Args: never
+        Returns: {
+          accountant_users: number
+          active_subscriptions: number
+          dividends_this_month: number
+          individual_users: number
+          minutes_this_month: number
+          total_companies: number
+          total_users: number
+          trial_users: number
+          trials_expiring_soon: number
+        }[]
       }
       get_document_stats: {
         Args: { days_back?: number }
