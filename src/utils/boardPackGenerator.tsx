@@ -23,7 +23,7 @@ export const generateBoardPack = async (
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authenticated');
 
-  // Fetch shareholders
+  // Fetch shareholders for cap table
   onProgress?.({ step: 'Fetching data...', current: 0, total: 5 });
   
   const { data: shareholders, error: shareholdersError } = await supabase
@@ -46,8 +46,9 @@ export const generateBoardPack = async (
     (officers || []).map(o => `${o.forenames} ${o.surname}`.toLowerCase())
   );
 
-  const shareholderCount = shareholders?.length || 0;
+  const shareholderCount = config.selectedDividendRecords.length;
   const totalShares = shareholders?.reduce((sum, s) => sum + s.number_of_shares, 0) || 0;
+  const totalDividendAmount = config.selectedDividendRecords.reduce((sum, d) => sum + d.total_dividend, 0);
 
   // 1. Generate Cover Page
   onProgress?.({ step: 'Generating cover page...', current: 1, total: 5 });
@@ -66,26 +67,29 @@ export const generateBoardPack = async (
   const coverPageBlob = await pdf(<CoverPagePDF data={coverPageData} />).toBlob();
   zip.file('01-Cover-Page.pdf', coverPageBlob);
 
-  // 2. Generate Board Minutes
+  // 2. Generate Board Minutes from selected minutes
   onProgress?.({ step: 'Generating board minutes...', current: 2, total: 5 });
+  
+  const selectedMinutes = config.selectedBoardMinutes;
+  const formData = selectedMinutes?.form_data as any;
   
   const boardMinutesData: BoardMinutesData = {
     companyName: config.companyName,
     registrationNumber: config.companyNumber,
     registeredAddress: config.registeredAddress,
-    meetingDate: config.boardMinutesDate,
+    meetingDate: selectedMinutes?.meeting_date || '',
     meetingAddress: config.registeredAddress,
     directors: (officers || []).map(o => ({ name: `${o.forenames} ${o.surname}` })),
-    paymentDate: config.dividendDate,
-    amount: '0',
-    shareClassName: 'Ordinary',
-    dividendType: 'Interim',
+    paymentDate: config.selectedDividendRecords[0]?.payment_date || '',
+    amount: totalDividendAmount.toFixed(2),
+    shareClassName: config.selectedDividendRecords[0]?.share_class || 'Ordinary',
+    dividendType: formData?.dividendType || 'Interim',
     nominalValue: '1.00',
     financialYearEnd: config.yearEndDate,
-    boardDate: config.boardMinutesDate,
-    directorsPresent: (officers || []).map(o => `${o.forenames} ${o.surname}`),
-    dividendPerShare: 0,
-    totalDividend: 0,
+    boardDate: selectedMinutes?.meeting_date || '',
+    directorsPresent: selectedMinutes?.attendees || (officers || []).map(o => `${o.forenames} ${o.surname}`),
+    dividendPerShare: config.selectedDividendRecords[0]?.dividend_per_share || 0,
+    totalDividend: totalDividendAmount,
     templateStyle: config.templateStyle,
     logoUrl: config.logoUrl,
     accountantFirmName: config.accountantFirmName,
@@ -129,35 +133,41 @@ export const generateBoardPack = async (
     zip.file('03-Cap-Table-Snapshot.pdf', capTableBlob);
   }
 
-  // 4. Generate Dividend Vouchers
+  // 4. Generate Dividend Vouchers from selected records
   onProgress?.({ step: 'Generating dividend vouchers...', current: 4, total: 5 });
   
   const vouchersFolder = zip.folder('Dividend-Vouchers');
   
-  for (let i = 0; i < (shareholders || []).length; i++) {
-    const shareholder = shareholders![i];
+  for (let i = 0; i < config.selectedDividendRecords.length; i++) {
+    const dividend = config.selectedDividendRecords[i];
+    const dividendFormData = dividend.form_data as any;
+    
+    // Find shareholder address from shareholders table
+    const shareholder = shareholders?.find(
+      s => s.shareholder_name?.toLowerCase() === dividend.shareholder_name.toLowerCase()
+    );
     
     const voucherData: DividendVoucherData = {
       companyName: config.companyName,
       registrationNumber: config.companyNumber,
       registeredAddress: config.registeredAddress,
-      shareholderName: shareholder.shareholder_name || 'Unknown',
-      shareholderAddress: shareholder.address || '',
-      shareClass: shareholder.share_class,
-      paymentDate: config.dividendDate,
-      amountPerShare: '0.00',
-      totalAmount: '0.00',
-      voucherNumber: `V${String(i + 1).padStart(4, '0')}`,
-      holdings: String(shareholder.number_of_shares),
+      shareholderName: dividend.shareholder_name,
+      shareholderAddress: shareholder?.address || dividendFormData?.shareholderAddress || '',
+      shareClass: dividend.share_class,
+      paymentDate: dividend.payment_date,
+      amountPerShare: dividend.dividend_per_share.toFixed(4),
+      totalAmount: dividend.total_dividend.toFixed(2),
+      voucherNumber: dividendFormData?.voucherNumber || `V${String(i + 1).padStart(4, '0')}`,
+      holdings: String(dividend.number_of_shares),
       financialYearEnding: config.yearEndDate,
-      dividendType: 'Interim',
-      templateStyle: config.templateStyle,
+      dividendType: dividendFormData?.dividendType || 'Interim',
+      templateStyle: config.templateStyle || dividendFormData?.templateStyle,
       logoUrl: config.logoUrl,
       accountantFirmName: config.accountantFirmName,
     };
 
     const voucherBlob = await pdf(<DividendVoucherPDF data={voucherData} />).toBlob();
-    const safeName = (shareholder.shareholder_name || 'Unknown')
+    const safeName = dividend.shareholder_name
       .replace(/[^a-zA-Z0-9]/g, '-')
       .replace(/-+/g, '-');
     vouchersFolder?.file(`Dividend-Voucher-${safeName}.pdf`, voucherBlob);
@@ -177,10 +187,11 @@ export const generateBoardPack = async (
       company_id_param: config.companyId,
       metadata_param: {
         yearEndDate: config.yearEndDate,
-        dividendDate: config.dividendDate,
-        boardMinutesDate: config.boardMinutesDate,
+        dividendRecordIds: config.selectedDividendRecords.map(d => d.id),
+        boardMinutesId: config.selectedBoardMinutes?.id,
         includeCapTable: config.includeCapTable,
         shareholderCount,
+        totalDividendAmount,
       },
     });
   } catch (e) {
