@@ -4,12 +4,33 @@ export interface BoardPackConfig {
   companyNumber: string;
   registeredAddress: string;
   yearEndDate: string;
-  dividendDate: string;
-  boardMinutesDate: string;
   includeCapTable: boolean;
   logoUrl?: string;
   accountantFirmName?: string;
   templateStyle?: string;
+  // Selected existing records
+  selectedDividendRecords: SelectedDividendRecord[];
+  selectedBoardMinutes: SelectedBoardMinutes | null;
+}
+
+export interface SelectedDividendRecord {
+  id: string;
+  shareholder_name: string;
+  share_class: string;
+  number_of_shares: number;
+  dividend_per_share: number;
+  total_dividend: number;
+  payment_date: string;
+  form_data?: any;
+}
+
+export interface SelectedBoardMinutes {
+  id: string;
+  meeting_date: string;
+  meeting_type: string;
+  attendees: string[];
+  resolutions: string[];
+  form_data?: any;
 }
 
 export interface CapTableEntry {
