@@ -22,6 +22,7 @@ import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
 import { TrialBanner } from "@/components/dashboard/TrialBanner";
 import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
+import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMinutesBanner";
 import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 
 
@@ -282,6 +283,7 @@ const CompanyDashboard = () => {
         <div className="max-w-5xl mx-auto space-y-12">
         <PaymentSetupBanner />
         <TrialBanner />
+        {company && <MissingBoardMinutesBanner companyId={company.id} />}
           {!company ? (
             <div className="text-center py-12">
               <h2 className="text-2xl font-semibold mb-4">Welcome to Dividify!</h2>

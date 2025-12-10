@@ -14,6 +14,7 @@ import { TrialBanner } from "@/components/dashboard/TrialBanner";
 import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
+import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMinutesBanner";
 
 const AccountantDashboard = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
@@ -86,6 +87,7 @@ const AccountantDashboard = () => {
         <div className="flex flex-col space-y-8">
         <PaymentSetupBanner />
         <TrialBanner />
+        <MissingBoardMinutesBanner companyId={selectedCompanyId} />
           <DashboardHeader
             displayName={displayName}
             isDialogOpen={isDialogOpen}
