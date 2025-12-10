@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -61,6 +62,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const logActivity = useLogActivity();
+  const navigate = useNavigate();
 
   const getPlanLimits = (plan: string, userType?: string) => {
     // Accountants should have unlimited access regardless of their subscription plan
@@ -326,6 +328,12 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
 
       downloadPDF(blob, filename);
       toast({ title: 'Saved & Generated', description: 'Board minutes saved to history and downloaded.' });
+      
+      // Navigate back to the appropriate dashboard with the company selected
+      const dashboardPath = profile?.user_type === 'accountant' 
+        ? `/accountant-dashboard?company=${selectedCompanyId}`
+        : `/company-dashboard?company=${selectedCompanyId}`;
+      navigate(dashboardPath);
     } catch (error: any) {
       console.error('Error generating/saving PDF:', error);
       toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to generate document.' });
