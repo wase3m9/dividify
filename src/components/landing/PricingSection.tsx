@@ -76,7 +76,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         "Add users/team members",
         "Custom branding",
         "Premium templates",
-        "Create Board Pack",
+        "Create Board Packs",
         "Priority support"
       ],
       buttonText: "Subscribe Now",
@@ -95,7 +95,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         "Add users/team members",
         "Custom branding",
         "Premium templates",
-        "Create Board Pack",
+        "Create Board Packs",
         "24/7 support"
       ],
       buttonText: "Subscribe Now",
@@ -199,7 +199,7 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
             <div className="flex items-center justify-center space-x-4">
               <div>
                 <h3 className="text-xl font-semibold text-green-900">Accountants & Agents</h3>
-                <p className="text-green-700">Manage unlimited companies for £30/month</p>
+                <p className="text-green-700">£30 managing multiple clients • Create Board Packs included</p>
               </div>
               <Button 
                 className="bg-green-600 hover:bg-green-700" 
