@@ -71,12 +71,13 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       features: [
         "Up to 3 companies",
         "Up to 10 Dividend Vouchers",
-         "Up to 10 Board Minutes",
-         "Dividend tracker",
-         "Add users/team members",
-         "Custom branding",
-         "Premium templates",
-         "Priority support"
+        "Up to 10 Board Minutes",
+        "Dividend tracker",
+        "Add users/team members",
+        "Custom branding",
+        "Premium templates",
+        "Create Board Pack",
+        "Priority support"
       ],
       buttonText: "Subscribe Now",
       isPopular: true,
@@ -87,14 +88,15 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
       description: "For established businesses",
       icon: Building,
       features: [
-         "Unlimited companies",
-         "Unlimited Dividend Vouchers",
-         "Unlimited Board Minutes",
-         "Dividend tracker",
-         "Add users/team members",
-         "Custom branding",
-         "Premium templates",
-         "24/7 support"
+        "Unlimited companies",
+        "Unlimited Dividend Vouchers",
+        "Unlimited Board Minutes",
+        "Dividend tracker",
+        "Add users/team members",
+        "Custom branding",
+        "Premium templates",
+        "Create Board Pack",
+        "24/7 support"
       ],
       buttonText: "Subscribe Now",
       isPopular: false,
