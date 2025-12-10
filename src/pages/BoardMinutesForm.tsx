@@ -1,22 +1,30 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { DividendFormHeader } from "@/components/dividend/DividendFormHeader";
-import { BoardMinutesFormComponent } from "@/components/dividend/BoardMinutesFormComponent";
-import { CompanySelector } from "@/components/dividend/company/CompanySelector";
+import { BoardMinutesFormComponent, PrefillFromDividend } from "@/components/dividend/BoardMinutesFormComponent";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useSubscriptionStatus } from "@/hooks/useSubscriptionStatus";
 
+interface LocationState {
+  prefillFromDividend?: PrefillFromDividend;
+}
+
 const BoardMinutesForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const companyId = searchParams.get('companyId');
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
   const { toast } = useToast();
   const { userType } = useSubscriptionStatus();
+
+  // Get prefill data from navigation state
+  const locationState = location.state as LocationState | null;
+  const prefillFromDividend = locationState?.prefillFromDividend;
 
   const handleCompanySelect = (companyId: string) => {
     setSelectedCompanyId(companyId);
@@ -49,12 +57,15 @@ const BoardMinutesForm = () => {
           </div>
           <DividendFormHeader
             title="Create Board Minutes"
-            description="Record the details of your board meeting."
+            description={prefillFromDividend ? "Pre-filled from your dividend voucher. Review and adjust as needed." : "Record the details of your board meeting."}
             progress={100}
           />
 
           <Card className="p-6">
-            <BoardMinutesFormComponent companyId={companyId || undefined} />
+            <BoardMinutesFormComponent 
+              companyId={companyId || prefillFromDividend?.companyId || undefined}
+              prefillFromDividend={prefillFromDividend}
+            />
           </Card>
         </div>
       </div>
