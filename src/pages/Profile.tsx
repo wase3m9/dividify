@@ -57,7 +57,7 @@ const Profile = () => {
       if (!user?.id) return null;
       const { data, error } = await supabase
         .from('profiles')
-        .select('full_name, subscription_plan, created_at, logo_url')
+        .select('full_name, subscription_plan, created_at, logo_url, board_minutes_preference')
         .eq('id', user.id)
         .single();
       
@@ -361,6 +361,60 @@ const Profile = () => {
 
             {/* Team Access Section */}
             <TeamAccess userId={user?.id || ''} />
+
+            {/* Document Generation Preferences */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Document Generation Preferences</CardTitle>
+                <CardDescription>Control how documents are created</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium mb-3 block">After generating a dividend voucher:</Label>
+                  <div className="space-y-2">
+                    {[
+                      { value: 'dont_prompt', label: "Don't prompt for board minutes" },
+                      { value: 'ask', label: 'Ask if I want to create board minutes' },
+                      { value: 'auto_draft', label: 'Automatically open board minutes form' },
+                    ].map((option) => (
+                      <div key={option.value} className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id={option.value}
+                          name="boardMinutesPreference"
+                          value={option.value}
+                          checked={(profile?.board_minutes_preference || 'ask') === option.value}
+                          onChange={async (e) => {
+                            const newValue = e.target.value;
+                            try {
+                              await supabase
+                                .from('profiles')
+                                .update({ board_minutes_preference: newValue })
+                                .eq('id', user?.id);
+                              queryClient.invalidateQueries({ queryKey: ['profile'] });
+                              toast({
+                                title: 'Preference saved',
+                                description: 'Your document generation preference has been updated.',
+                              });
+                            } catch (error) {
+                              toast({
+                                variant: 'destructive',
+                                title: 'Error',
+                                description: 'Failed to save preference.',
+                              });
+                            }
+                          }}
+                          className="h-4 w-4 text-primary focus:ring-primary"
+                        />
+                        <Label htmlFor={option.value} className="text-sm cursor-pointer">
+                          {option.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Password Change Section */}
             <PasswordChange />

@@ -11,7 +11,8 @@ import {
   UserCheck, 
   ImageIcon,
   CreditCard,
-  Settings
+  Settings,
+  Link as LinkIcon
 } from "lucide-react";
 
 const getActivityIcon = (action: string) => {
@@ -39,6 +40,14 @@ const getActivityDescription = (action: string, description: string, metadata: a
   }
   if (metadata?.shareholder_name) {
     lines.push(metadata.shareholder_name);
+  }
+  
+  // Show linked document info
+  if (metadata?.linkedDividendId) {
+    lines.push('Linked to dividend voucher');
+  }
+  if (metadata?.linkedMinutesId) {
+    lines.push('Linked to board minutes');
   }
   
   return lines;
@@ -90,6 +99,13 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
                         {format(new Date(activity.created_at), 'MMM d')}
                       </p>
                     </div>
+                    {/* Show linked document indicator */}
+                    {(activity.metadata?.linkedDividendId || activity.metadata?.linkedMinutesId) && (
+                      <div className="flex items-center gap-1 mt-1">
+                        <LinkIcon className="h-3 w-3 text-primary" />
+                        <span className="text-xs text-primary">Linked document</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 

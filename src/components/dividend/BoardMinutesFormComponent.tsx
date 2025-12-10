@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CompanySelector } from '@/components/dividend/company/CompanySelector';
 import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
@@ -18,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useMonthlyUsage } from '@/hooks/useMonthlyUsage';
 import { useQueryClient } from '@tanstack/react-query';
 import { useLogActivity } from '@/hooks/useActivityLog';
+import { Link } from 'lucide-react';
 
 const boardMinutesSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -30,16 +32,31 @@ const boardMinutesSchema = z.object({
 
 type BoardMinutesFormData = Omit<BoardMinutesData, 'directorsPresent'>;
 
+export interface PrefillFromDividend {
+  linkedDividendId: string;
+  companyId: string;
+  companyName: string;
+  paymentDate: string;
+  totalDividend: number;
+  dividendPerShare: number;
+  shareholderName: string;
+  yearEndDate: string;
+  templateStyle: string;
+  boardDate: string;
+}
+
 interface BoardMinutesFormProps {
   initialData?: Partial<BoardMinutesData>;
   companyId?: string; // When set, restrict to this specific company
+  prefillFromDividend?: PrefillFromDividend; // Pre-fill data from dividend voucher
 }
 
-export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ initialData, companyId }) => {
+export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ initialData, companyId, prefillFromDividend }) => {
   const [previewData, setPreviewData] = useState<BoardMinutesData | null>(null);
   const [directorsInput, setDirectorsInput] = useState('');
-  const [selectedCompanyId, setSelectedCompanyId] = useState<string>(companyId || '');
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>(companyId || prefillFromDividend?.companyId || '');
   const [isSaving, setIsSaving] = useState(false);
+  const [linkedDividendId, setLinkedDividendId] = useState<string | null>(prefillFromDividend?.linkedDividendId || null);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -138,6 +155,19 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       setDirectorsInput(directorNames);
     }
   }, [officers]);
+
+  // Pre-fill from dividend voucher data
+  useEffect(() => {
+    if (prefillFromDividend) {
+      setValue('companyName', prefillFromDividend.companyName);
+      setValue('boardDate', prefillFromDividend.boardDate);
+      setValue('paymentDate', prefillFromDividend.paymentDate);
+      setValue('dividendPerShare', prefillFromDividend.dividendPerShare);
+      setValue('totalDividend', prefillFromDividend.totalDividend);
+      setValue('templateStyle', prefillFromDividend.templateStyle as any);
+      setLinkedDividendId(prefillFromDividend.linkedDividendId);
+    }
+  }, [prefillFromDividend, setValue]);
 
   const templateStyle = watch('templateStyle') || 'classic';
 
@@ -244,7 +274,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
         `Payment date: ${previewData.paymentDate}`,
       ];
 
-      const { error: insertError } = await supabase.from('minutes').insert({
+      const { data: insertData, error: insertError } = await supabase.from('minutes').insert({
         user_id: user.id,
         company_id: selectedCompanyId,
         meeting_date: previewData.boardDate,
@@ -252,8 +282,19 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
         attendees,
         resolutions,
         file_path: uploadData.path,
-      });
+        linked_dividend_id: linkedDividendId,
+      }).select('id').single();
       if (insertError) throw insertError;
+
+      const newMinutesId = insertData?.id;
+
+      // Update the dividend record with the linked minutes ID
+      if (linkedDividendId && newMinutesId) {
+        await supabase
+          .from('dividend_records')
+          .update({ linked_minutes_id: newMinutesId })
+          .eq('id', linkedDividendId);
+      }
 
       // Increment the monthly minutes counter using existing RPC function
       const { error: profileError } = await supabase.rpc('increment_monthly_minutes', { 
@@ -274,7 +315,8 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
           meetingDate: previewData.boardDate,
           dividendPerShare: previewData.dividendPerShare,
           totalDividend: previewData.totalDividend,
-          directorsCount: previewData.directorsPresent.length
+          directorsCount: previewData.directorsPresent.length,
+          linkedDividendId: linkedDividendId,
         }
       });
 
@@ -296,12 +338,22 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       <Card className="p-6">
         <h2 className="text-xl font-semibold mb-4">Board Minutes Generator</h2>
         
+        {/* Pre-fill indicator */}
+        {prefillFromDividend && (
+          <Alert className="mb-4 border-primary/20 bg-primary/5">
+            <Link className="h-4 w-4" />
+            <AlertDescription>
+              Pre-filled from dividend voucher for {prefillFromDividend.shareholderName}. You can edit the meeting date and other details before saving.
+            </AlertDescription>
+          </Alert>
+        )}
+        
         <div className="space-y-4 mb-6">
           <Label className="mb-2">Select Company</Label>
           <CompanySelector
             onSelect={setSelectedCompanyId}
             selectedCompanyId={selectedCompanyId}
-            restrictToCompany={companyId}
+            restrictToCompany={companyId || prefillFromDividend?.companyId}
           />
           {selectedCompanyId && companyData && (
             <div className="text-sm text-green-600 bg-green-50 p-2 rounded">

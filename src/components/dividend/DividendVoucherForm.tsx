@@ -17,6 +17,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useMonthlyUsage } from '@/hooks/useMonthlyUsage';
 import { useQueryClient } from '@tanstack/react-query';
+import { BoardMinutesPrompt, DividendDataForMinutes } from '@/components/dividend/BoardMinutesPrompt';
+import { useNavigate } from 'react-router-dom';
 
 const dividendVoucherSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -44,9 +46,12 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>(companyId || '');
   const [selectedShareholderId, setSelectedShareholderId] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
+  const [showBoardMinutesPrompt, setShowBoardMinutesPrompt] = useState(false);
+  const [savedDividendData, setSavedDividendData] = useState<DividendDataForMinutes | null>(null);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const getPlanLimits = (plan: string, userType?: string) => {
     // Accountants should have unlimited access regardless of their subscription plan
@@ -64,7 +69,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
     }
   };
 
-  // Get user profile for logo
+  // Get user profile for logo and board_minutes_preference
   const { data: profile } = useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
@@ -73,7 +78,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
       
       const { data, error } = await supabase
         .from('profiles')
-        .select('logo_url, full_name, user_type')
+        .select('logo_url, full_name, user_type, board_minutes_preference')
         .eq('id', user.id)
         .single();
       
@@ -307,7 +312,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
       const number_of_shares = previewData.sharesHeld || 1;
       const dividend_per_share = Number(number_of_shares) ? total_dividend / number_of_shares : total_dividend;
 
-      const { error: insertError } = await supabase.from('dividend_records').insert({
+      const { data: insertData, error: insertError } = await supabase.from('dividend_records').insert({
         company_id: selectedCompanyId,
         user_id: user.id,
         shareholder_name: previewData.shareholderName,
@@ -319,8 +324,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         number_of_shares,
         file_path: uploadData.path,
         form_data: JSON.stringify(previewData)
-      });
+      }).select('id').single();
       if (insertError) throw insertError;
+
+      const dividendRecordId = insertData?.id;
 
       // Increment the monthly dividend counter
       const { error: counterError } = await supabase.rpc('increment_monthly_dividends', {
@@ -339,6 +346,44 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
       downloadPDF(blob, filename);
 
       toast({ title: 'Saved & Generated', description: 'Dividend voucher saved to history and downloaded.' });
+
+      // Check user's board minutes preference and show prompt if needed
+      const preference = profile?.board_minutes_preference || 'ask';
+      
+      if (preference === 'ask' && dividendRecordId) {
+        const dividendDataForMinutes: DividendDataForMinutes = {
+          companyId: selectedCompanyId,
+          companyName: previewData.companyName,
+          dividendRecordId,
+          paymentDate: previewData.paymentDate,
+          totalDividend: total_dividend,
+          dividendPerShare: dividend_per_share,
+          shareholderName: previewData.shareholderName,
+          yearEndDate: previewData.yearEndDate || previewData.financialYearEnding || '',
+          templateStyle: previewData.templateStyle || 'classic',
+          shareholdersAsAtDate: previewData.shareholdersAsAtDate,
+        };
+        setSavedDividendData(dividendDataForMinutes);
+        setShowBoardMinutesPrompt(true);
+      } else if (preference === 'auto_draft' && dividendRecordId) {
+        // Auto-navigate to board minutes with prefilled data
+        navigate(`/board-minutes-form?companyId=${selectedCompanyId}`, {
+          state: {
+            prefillFromDividend: {
+              linkedDividendId: dividendRecordId,
+              companyId: selectedCompanyId,
+              companyName: previewData.companyName,
+              paymentDate: previewData.paymentDate,
+              totalDividend: total_dividend,
+              dividendPerShare: dividend_per_share,
+              shareholderName: previewData.shareholderName,
+              yearEndDate: previewData.yearEndDate || previewData.financialYearEnding || '',
+              templateStyle: previewData.templateStyle || 'classic',
+              boardDate: previewData.paymentDate,
+            }
+          }
+        });
+      }
     } catch (error: any) {
       console.error('Error generating/saving PDF:', error);
       toast({ variant: 'destructive', title: 'Error', description: error.message || 'Failed to generate document.' });
@@ -603,6 +648,15 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             const sanitizedCompanyName = previewData.companyName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
             return `${sanitizedCompanyName} - Dividend Voucher - ${formattedDate}.pdf`;
           })()}
+        />
+      )}
+
+      {/* Board Minutes Prompt - shown after successful save */}
+      {showBoardMinutesPrompt && savedDividendData && (
+        <BoardMinutesPrompt
+          dividendData={savedDividendData}
+          onSkip={() => setShowBoardMinutesPrompt(false)}
+          onCreateMinutes={() => setShowBoardMinutesPrompt(false)}
         />
       )}
     </div>

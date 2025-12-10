@@ -247,6 +247,7 @@ export type Database = {
           file_path: string | null
           form_data: Json | null
           id: string
+          linked_minutes_id: string | null
           number_of_shares: number
           payment_date: string
           share_class: string
@@ -263,6 +264,7 @@ export type Database = {
           file_path?: string | null
           form_data?: Json | null
           id?: string
+          linked_minutes_id?: string | null
           number_of_shares: number
           payment_date: string
           share_class: string
@@ -279,6 +281,7 @@ export type Database = {
           file_path?: string | null
           form_data?: Json | null
           id?: string
+          linked_minutes_id?: string | null
           number_of_shares?: number
           payment_date?: string
           share_class?: string
@@ -294,6 +297,13 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dividend_records_linked_minutes_id_fkey"
+            columns: ["linked_minutes_id"]
+            isOneToOne: false
+            referencedRelation: "minutes"
             referencedColumns: ["id"]
           },
           {
@@ -313,6 +323,7 @@ export type Database = {
           file_path: string | null
           form_data: Json | null
           id: string
+          linked_dividend_id: string | null
           meeting_date: string
           meeting_type: string
           resolutions: string[]
@@ -326,6 +337,7 @@ export type Database = {
           file_path?: string | null
           form_data?: Json | null
           id?: string
+          linked_dividend_id?: string | null
           meeting_date: string
           meeting_type: string
           resolutions: string[]
@@ -339,6 +351,7 @@ export type Database = {
           file_path?: string | null
           form_data?: Json | null
           id?: string
+          linked_dividend_id?: string | null
           meeting_date?: string
           meeting_type?: string
           resolutions?: string[]
@@ -351,6 +364,13 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "minutes_linked_dividend_id_fkey"
+            columns: ["linked_dividend_id"]
+            isOneToOne: false
+            referencedRelation: "dividend_records"
             referencedColumns: ["id"]
           },
           {
@@ -427,6 +447,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          board_minutes_preference: string | null
           created_at: string | null
           current_month_dividends: number | null
           current_month_minutes: number | null
@@ -438,6 +459,7 @@ export type Database = {
           user_type: string | null
         }
         Insert: {
+          board_minutes_preference?: string | null
           created_at?: string | null
           current_month_dividends?: number | null
           current_month_minutes?: number | null
@@ -449,6 +471,7 @@ export type Database = {
           user_type?: string | null
         }
         Update: {
+          board_minutes_preference?: string | null
           created_at?: string | null
           current_month_dividends?: number | null
           current_month_minutes?: number | null
