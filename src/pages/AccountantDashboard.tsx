@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
@@ -15,6 +14,9 @@ import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
 import { supabase } from "@/integrations/supabase/client";
 import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMinutesBanner";
+import { CreateBoardPackButton } from "@/components/dividend/boardpack/CreateBoardPackButton";
+import { Card } from "@/components/ui/card";
+import { Package } from "lucide-react";
 
 const AccountantDashboard = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
@@ -100,8 +102,30 @@ const AccountantDashboard = () => {
             selectedCompanyId={selectedCompanyId}
           />
 
-          {selectedCompanyId && (
+          {selectedCompanyId && selectedCompany && (
             <>
+              {/* Board Pack Generator Card */}
+              <Card className="p-6 border-primary/20 bg-primary/5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Package className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Board Pack Generator</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Generate a complete board pack with minutes, vouchers, and cap table for {selectedCompany.name}
+                      </p>
+                    </div>
+                  </div>
+                  <CreateBoardPackButton
+                    company={selectedCompany}
+                    logoUrl={profile?.logo_url || undefined}
+                    accountantFirmName={profile?.full_name || undefined}
+                  />
+                </div>
+              </Card>
+
               <DividendAnalyticsSection 
                 companyId={selectedCompanyId}
                 title={`Dividend Tracker - ${selectedCompany?.name || 'Company'}`}
