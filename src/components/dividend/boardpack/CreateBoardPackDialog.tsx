@@ -297,6 +297,7 @@ export const CreateBoardPackDialog = ({
       setProgress({ step: "Sending email...", current: 6, total: 6 });
       
       console.log("Sending board pack email with merged PDF:", filename);
+      console.log("Base64 length:", base64?.length || 0);
       
       const requestBody = {
         companyId: company.id,
@@ -309,6 +310,10 @@ export const CreateBoardPackDialog = ({
         filename,
         base64,
       };
+      
+      console.log("Request body keys:", Object.keys(requestBody));
+      console.log("Filename in body:", requestBody.filename);
+      console.log("Base64 present:", !!requestBody.base64);
       
       const response = await fetch(
         'https://vkllrotescxmqwogfamo.supabase.co/functions/v1/send-boardpack-email',
