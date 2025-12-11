@@ -120,10 +120,8 @@ const handler = async (req: Request): Promise<Response> => {
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:640px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 20px rgba(15,23,42,0.08);">
             <!-- Header -->
             <tr>
-              <td style="background:#6f4df6; padding:22px 26px; color:#ffffff; text-align:left;">
-                <div style="font-size:24px; font-weight:700; letter-spacing:0.02em; margin-bottom:4px;">
-                  Dividify
-                </div>
+              <td style="background:#6f4df6; padding:18px 26px; color:#ffffff; text-align:left;">
+                <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" style="height:32px; margin-bottom:8px;" />
                 <div style="font-size:16px; opacity:0.98;">
                   Dividend documentation for ${companyName}
                 </div>
@@ -151,8 +149,8 @@ ${message.replace(/\n/g, "<br>")}
                   </tr>
                 </table>
 
-                <p style="margin:0 0 24px 0; font-size:14px;">
-                  <strong>Dividify</strong>
+                <p style="margin:0 0 24px 0;">
+                  <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/Image%20logo.png" alt="Dividify" style="height:28px;" />
                 </p>
               </td>
             </tr>
