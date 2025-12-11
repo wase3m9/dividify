@@ -3,6 +3,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import Index from "@/pages/Index";
 import Features from "@/pages/Features";
+import DividendVouchersFeature from "@/pages/features/DividendVouchers";
+import BoardMinutesFeature from "@/pages/features/BoardMinutes";
+import DividendTrackerFeature from "@/pages/features/DividendTracker";
+import BoardPacksFeature from "@/pages/features/BoardPacks";
 import Auth from "@/pages/Auth";
 import AuthCallback from "@/pages/AuthCallback";
 import ResetPassword from "@/pages/ResetPassword";
@@ -44,6 +48,22 @@ export const router = createBrowserRouter([
       {
         path: "/features",
         element: <Features />,
+      },
+      {
+        path: "/features/dividend-vouchers",
+        element: <DividendVouchersFeature />,
+      },
+      {
+        path: "/features/board-minutes",
+        element: <BoardMinutesFeature />,
+      },
+      {
+        path: "/features/dividend-tracker",
+        element: <DividendTrackerFeature />,
+      },
+      {
+        path: "/features/board-packs",
+        element: <BoardPacksFeature />,
       },
       {
         path: "/auth",
