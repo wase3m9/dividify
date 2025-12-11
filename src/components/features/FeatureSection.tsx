@@ -23,12 +23,12 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
           <div className="flex-shrink-0 w-full lg:w-1/2 flex justify-center">
             {displayImages.length > 0 ? (
               hasMultipleImages ? (
-                <div className="relative w-full max-w-lg h-[400px] md:h-[450px]">
+                <div className="relative w-full max-w-lg h-[400px] md:h-[450px] group/stack">
                   <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
                   {/* Back image - rotated left */}
                   {displayImages[2] && (
-                    <div className="absolute top-4 left-0 w-[75%] transform -rotate-6 origin-bottom-left z-10">
-                      <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                    <div className="absolute top-4 left-0 w-[75%] transform -rotate-6 origin-bottom-left z-10 transition-all duration-500 ease-out group-hover/stack:-rotate-12 group-hover/stack:-translate-x-4 group-hover/stack:scale-95">
+                      <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 transition-shadow duration-500 group-hover/stack:shadow-xl">
                         <img 
                           src={displayImages[2]} 
                           alt={`${title} - 3`}
@@ -39,8 +39,8 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
                   )}
                   {/* Middle image - rotated right */}
                   {displayImages[1] && (
-                    <div className="absolute top-8 right-0 w-[75%] transform rotate-6 origin-bottom-right z-20">
-                      <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                    <div className="absolute top-8 right-0 w-[75%] transform rotate-6 origin-bottom-right z-20 transition-all duration-500 ease-out group-hover/stack:rotate-12 group-hover/stack:translate-x-4 group-hover/stack:scale-95">
+                      <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 transition-shadow duration-500 group-hover/stack:shadow-xl">
                         <img 
                           src={displayImages[1]} 
                           alt={`${title} - 2`}
@@ -50,8 +50,8 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
                     </div>
                   )}
                   {/* Front image - centered */}
-                  <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-[80%] z-30">
-                    <div className="relative bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100">
+                  <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-[80%] z-30 transition-all duration-500 ease-out group-hover/stack:scale-105 group-hover/stack:-translate-y-2">
+                    <div className="relative bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100 transition-shadow duration-500 group-hover/stack:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
                       <img 
                         src={displayImages[0]} 
                         alt={`${title} - 1`}
@@ -61,9 +61,9 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
                   </div>
                 </div>
               ) : (
-                <div className="relative max-w-sm w-full">
-                  <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
-                  <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                <div className="relative max-w-sm w-full group">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl transition-all duration-300 group-hover:from-brand-purple/15" />
+                  <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 transition-all duration-300 group-hover:shadow-2xl group-hover:scale-[1.02]">
                     <img 
                       src={displayImages[0]} 
                       alt={title}
