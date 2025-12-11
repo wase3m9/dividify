@@ -120,9 +120,9 @@ const handler = async (req: Request): Promise<Response> => {
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:640px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 20px rgba(15,23,42,0.08);">
             <!-- Header -->
             <tr>
-              <td style="background:#ffffff; padding:18px 26px; text-align:left; border-bottom:1px solid #e5e7eb;">
-                <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" style="height:32px; margin-bottom:8px;" />
-                <div style="font-size:16px; color:#4c1d95;">
+              <td style="background:#f0f4ff; padding:24px 26px; text-align:left; border-bottom:1px solid #e5e7eb;">
+                <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" style="height:64px; margin-bottom:10px;" />
+                <div style="font-size:16px; color:#111827;">
                   Dividend documentation for ${companyName}
                 </div>
               </td>
@@ -151,10 +151,6 @@ ${message.replace(/\n/g, "<br>")}
 
                 <p style="margin:0 0 12px 0; font-size:13px; color:#4b5563;">
                   <em>These documents were created automatically in Dividify on behalf of your accountant for your records and compliance.</em>
-                </p>
-
-                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
-                  <em>Please do not reply to this message.</em>
                 </p>
 
                 <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
