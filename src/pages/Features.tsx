@@ -17,6 +17,7 @@ import brandingImg from "@/assets/features/branding-templates.jpg";
 import boardPackButtonImg from "@/assets/features/board-pack-button.jpg";
 import boardPackDialogImg from "@/assets/features/board-pack-dialog.jpg";
 import exportsImg from "@/assets/features/exports-integrations.jpg";
+import capTableImg from "@/assets/features/cap-table-snapshot.jpg";
 
 const featureSections = [
   {
@@ -80,7 +81,8 @@ const featureSections = [
       "One-page view of shareholders, share class, shares held and percentage ownership.",
       "Generated from your saved shareholder records and attached to your board pack.",
       "Shows the \"shareholders as at\" date used to approve the dividend."
-    ]
+    ],
+    image: capTableImg
   },
   {
     id: "bulk-tools",
