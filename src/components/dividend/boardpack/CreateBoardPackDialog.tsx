@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Package, FileText, Table2, FileCheck, Loader2, AlertCircle, Download, Mail } from "lucide-react";
-import { generateBoardPack, downloadBoardPack, GenerationProgress, generateBoardPackPDFs, blobToBase64 } from "@/utils/boardPackGenerator";
+import { generateBoardPack, downloadBoardPack, GenerationProgress, generateMergedBoardPackPDF, blobToBase64 } from "@/utils/boardPackGenerator";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { format, parseISO } from "date-fns";
@@ -259,7 +259,7 @@ export const CreateBoardPackDialog = ({
         form_data: selectedMinutes!.form_data,
       };
 
-      const pdfs = await generateBoardPackPDFs(
+      const mergedPdfBlob = await generateMergedBoardPackPDF(
         {
           companyId: company.id,
           companyName: company.name,
@@ -275,14 +275,17 @@ export const CreateBoardPackDialog = ({
         setProgress
       );
       
-      // Convert PDFs to base64
-      setProgress({ step: "Preparing attachments...", current: 4, total: 5 });
-      const attachments = await Promise.all(
-        pdfs.map(async (pdf) => ({
-          filename: pdf.filename,
-          base64: await blobToBase64(pdf.blob),
-        }))
-      );
+      // Convert merged PDF to base64
+      setProgress({ step: "Preparing attachment...", current: 5, total: 6 });
+      const base64 = await blobToBase64(mergedPdfBlob);
+      
+      // Create filename for the merged PDF
+      const safeName = company.name.replace(/[^a-zA-Z0-9]/g, '-').replace(/-+/g, '-');
+      let formattedDate = yearEndDate;
+      try {
+        formattedDate = format(parseISO(yearEndDate), 'yyyy-MM-dd');
+      } catch {}
+      const filename = `Board-Pack-${safeName}-YE-${formattedDate}.pdf`;
 
       // Get auth token
       const { data: { session } } = await supabase.auth.getSession();
@@ -291,10 +294,9 @@ export const CreateBoardPackDialog = ({
       }
 
       // Send via edge function
-      setProgress({ step: "Sending email...", current: 5, total: 5 });
+      setProgress({ step: "Sending email...", current: 6, total: 6 });
       
-      console.log("Sending board pack email with attachments:", attachments.length);
-      console.log("Attachment filenames:", attachments.map(a => a.filename));
+      console.log("Sending board pack email with merged PDF:", filename);
       
       const requestBody = {
         companyId: company.id,
@@ -304,10 +306,9 @@ export const CreateBoardPackDialog = ({
         cc: emailCc || undefined,
         subject: emailSubject,
         message: emailMessage,
-        attachments,
+        filename,
+        base64,
       };
-      
-      console.log("Request body keys:", Object.keys(requestBody));
       
       const response = await fetch(
         'https://vkllrotescxmqwogfamo.supabase.co/functions/v1/send-boardpack-email',

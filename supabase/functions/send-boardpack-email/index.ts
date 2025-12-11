@@ -9,11 +9,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface PDFAttachment {
-  filename: string;
-  base64: string;
-}
-
 interface BoardPackEmailRequest {
   companyId: string;
   companyName: string;
@@ -22,7 +17,8 @@ interface BoardPackEmailRequest {
   cc?: string;
   subject: string;
   message: string;
-  attachments: PDFAttachment[];
+  filename: string;
+  base64: string;
 }
 
 serve(async (req: Request): Promise<Response> => {
@@ -65,28 +61,23 @@ serve(async (req: Request): Promise<Response> => {
 
     // Parse request body
     const body: BoardPackEmailRequest = await req.json();
-    const { companyId, companyName, yearEndDate, to, cc, subject, message, attachments } = body;
+    const { companyId, companyName, yearEndDate, to, cc, subject, message, filename, base64 } = body;
 
     console.log(`Processing board pack email for company: ${companyName}`);
     console.log(`Sending to: ${to}`);
-    console.log(`Request body keys: ${Object.keys(body).join(', ')}`);
+    console.log(`Filename: ${filename}`);
     
-    // Validate attachments
-    if (!attachments || !Array.isArray(attachments)) {
-      console.error("Attachments missing or invalid:", typeof attachments);
+    // Validate attachment
+    if (!filename || !base64) {
+      console.error("Missing filename or base64 content");
       return new Response(
-        JSON.stringify({ error: "No attachments provided" }),
+        JSON.stringify({ error: "No attachment provided" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-    
-    console.log(`Number of PDF attachments: ${attachments.length}`);
 
     // Build HTML email
     const htmlMessage = message.replace(/\n/g, '<br>');
-    
-    // Build attachments list for display
-    const attachmentsList = attachments.map(a => `<li style="margin:4px 0; color:#374151;">${a.filename}</li>`).join('');
     
     const html = `
       <!DOCTYPE html>
@@ -116,14 +107,15 @@ serve(async (req: Request): Promise<Response> => {
                       ${htmlMessage}
                     </p>
                     
-                    <!-- Attachments Info -->
+                    <!-- Attachment Info -->
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:16px; margin:20px 0;">
                       <div style="font-weight:600; color:#1e293b; font-size:14px; margin-bottom:8px;">
-                        📎 Attached Documents (${attachments.length} files)
+                        📎 Attached Document
                       </div>
-                      <ul style="margin:0; padding-left:20px; font-size:13px;">
-                        ${attachmentsList}
-                      </ul>
+                      <p style="margin:0; font-size:13px; color:#374151;">${filename}</p>
+                      <p style="margin:8px 0 0; font-size:12px; color:#6b7280;">
+                        This combined PDF contains your Cover Page, Board Minutes, Dividend Vouchers${yearEndDate ? ', and Cap Table Snapshot' : ''}.
+                      </p>
                     </div>
                   </td>
                 </tr>
@@ -134,7 +126,7 @@ serve(async (req: Request): Promise<Response> => {
                       This board pack was generated automatically in Dividify on behalf of your accountant for your records and compliance.
                     </p>
                     <p style="margin:0 0 8px; color:#6b7280; font-size:12px; font-style:italic;">
-                      Please save these files somewhere secure. You may need them for mortgage applications, lender checks or your Self Assessment tax return.
+                      Please save this file somewhere secure. You may need it for mortgage applications, lender checks or your Self Assessment tax return.
                     </p>
                     <p style="margin:0 0 8px; color:#6b7280; font-size:12px; font-style:italic;">
                       This email was sent from an unattended address. If you have any questions, please contact your accountant directly.
@@ -156,13 +148,7 @@ serve(async (req: Request): Promise<Response> => {
     const toEmails = to.split(',').map(e => e.trim()).filter(Boolean);
     const ccEmails = cc ? cc.split(',').map(e => e.trim()).filter(Boolean) : undefined;
 
-    // Convert base64 PDFs to attachments - use base64 strings directly like in send-dividify-email
-    const emailAttachments = attachments.map(attachment => ({
-      filename: attachment.filename,
-      content: attachment.base64,
-    }));
-
-    console.log(`Sending email with ${emailAttachments.length} PDF attachments`);
+    console.log(`Sending email with merged PDF attachment: ${filename}`);
 
     // Send email with Resend
     const emailResponse = await resend.emails.send({
@@ -171,7 +157,12 @@ serve(async (req: Request): Promise<Response> => {
       cc: ccEmails,
       subject: subject,
       html: html,
-      attachments: emailAttachments,
+      attachments: [
+        {
+          filename: filename,
+          content: base64,
+        },
+      ],
     });
 
     console.log("Email sent successfully:", emailResponse);
@@ -186,7 +177,7 @@ serve(async (req: Request): Promise<Response> => {
         subject: subject,
         message: message,
         related_type: 'board_pack',
-        related_ids: { yearEndDate, attachmentCount: attachments.length },
+        related_ids: { yearEndDate, filename },
         status: 'sent',
       });
     } catch (logError) {

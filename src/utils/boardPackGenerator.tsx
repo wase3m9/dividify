@@ -1,5 +1,6 @@
 import { pdf } from '@react-pdf/renderer';
 import JSZip from 'jszip';
+import { PDFDocument } from 'pdf-lib';
 import { supabase } from '@/integrations/supabase/client';
 import { BoardPackConfig, CapTableData, CoverPageData, CapTableEntry } from './documentGenerator/react-pdf/types/boardPackTypes';
 import { CoverPagePDF } from './documentGenerator/react-pdf/components/CoverPagePDF';
@@ -98,43 +99,8 @@ export const generateBoardPack = async (
   const boardMinutesBlob = await pdf(<BoardMinutesPDF data={boardMinutesData} />).toBlob();
   zip.file('02-Board-Minutes.pdf', boardMinutesBlob);
 
-  // 3. Generate Cap Table (if included)
-  if (config.includeCapTable) {
-    onProgress?.({ step: 'Generating cap table...', current: 3, total: 5 });
-    
-    const shareClasses = [...new Set(shareholders?.map(s => s.share_class) || [])];
-    
-    const capTableEntries: CapTableEntry[] = (shareholders || []).map(s => {
-      const isDirector = directorNames.has(s.shareholder_name?.toLowerCase() || '');
-      return {
-        shareholderName: s.shareholder_name || 'Unknown',
-        role: isDirector ? 'Director' : 'Non-director',
-        shareClass: s.share_class,
-        sharesHeld: s.number_of_shares,
-        percentageOwnership: totalShares > 0 ? (s.number_of_shares / totalShares) * 100 : 0,
-        votingRights: '1 vote/share',
-        notes: s.number_of_shares / totalShares < 0.25 ? 'Minority shareholder' : undefined,
-      };
-    });
-
-    const capTableData: CapTableData = {
-      companyName: config.companyName,
-      companyNumber: config.companyNumber,
-      snapshotDate: config.yearEndDate,
-      shareClassIncluded: shareClasses.length > 1 ? 'All classes' : shareClasses[0] || 'Ordinary',
-      totalIssuedShares: totalShares,
-      nominalValuePerShare: 1,
-      entries: capTableEntries,
-      logoUrl: config.logoUrl,
-      accountantFirmName: config.accountantFirmName,
-    };
-
-    const capTableBlob = await pdf(<CapTablePDF data={capTableData} />).toBlob();
-    zip.file('03-Cap-Table-Snapshot.pdf', capTableBlob);
-  }
-
-  // 4. Generate Dividend Vouchers from selected records
-  onProgress?.({ step: 'Generating dividend vouchers...', current: 4, total: 5 });
+  // 3. Generate Dividend Vouchers from selected records
+  onProgress?.({ step: 'Generating dividend vouchers...', current: 3, total: 5 });
   
   const vouchersFolder = zip.folder('Dividend-Vouchers');
   
@@ -171,6 +137,41 @@ export const generateBoardPack = async (
       .replace(/[^a-zA-Z0-9]/g, '-')
       .replace(/-+/g, '-');
     vouchersFolder?.file(`Dividend-Voucher-${safeName}.pdf`, voucherBlob);
+  }
+
+  // 4. Generate Cap Table (if included) - always last
+  if (config.includeCapTable) {
+    onProgress?.({ step: 'Generating cap table...', current: 4, total: 5 });
+    
+    const shareClasses = [...new Set(shareholders?.map(s => s.share_class) || [])];
+    
+    const capTableEntries: CapTableEntry[] = (shareholders || []).map(s => {
+      const isDirector = directorNames.has(s.shareholder_name?.toLowerCase() || '');
+      return {
+        shareholderName: s.shareholder_name || 'Unknown',
+        role: isDirector ? 'Director' : 'Non-director',
+        shareClass: s.share_class,
+        sharesHeld: s.number_of_shares,
+        percentageOwnership: totalShares > 0 ? (s.number_of_shares / totalShares) * 100 : 0,
+        votingRights: '1 vote/share',
+        notes: s.number_of_shares / totalShares < 0.25 ? 'Minority shareholder' : undefined,
+      };
+    });
+
+    const capTableData: CapTableData = {
+      companyName: config.companyName,
+      companyNumber: config.companyNumber,
+      snapshotDate: config.yearEndDate,
+      shareClassIncluded: shareClasses.length > 1 ? 'All classes' : shareClasses[0] || 'Ordinary',
+      totalIssuedShares: totalShares,
+      nominalValuePerShare: 1,
+      entries: capTableEntries,
+      logoUrl: config.logoUrl,
+      accountantFirmName: config.accountantFirmName,
+    };
+
+    const capTableBlob = await pdf(<CapTablePDF data={capTableData} />).toBlob();
+    zip.file('04-Cap-Table-Snapshot.pdf', capTableBlob);
   }
 
   // 5. Generate ZIP
@@ -309,43 +310,8 @@ export const generateBoardPackPDFs = async (
   const boardMinutesBlob = await pdf(<BoardMinutesPDF data={boardMinutesData} />).toBlob();
   pdfs.push({ filename: '02-Board-Minutes.pdf', blob: boardMinutesBlob });
 
-  // 3. Generate Cap Table (if included)
-  if (config.includeCapTable) {
-    onProgress?.({ step: 'Generating cap table...', current: 3, total: 5 });
-    
-    const shareClasses = [...new Set(shareholders?.map(s => s.share_class) || [])];
-    
-    const capTableEntries: CapTableEntry[] = (shareholders || []).map(s => {
-      const isDirector = directorNames.has(s.shareholder_name?.toLowerCase() || '');
-      return {
-        shareholderName: s.shareholder_name || 'Unknown',
-        role: isDirector ? 'Director' : 'Non-director',
-        shareClass: s.share_class,
-        sharesHeld: s.number_of_shares,
-        percentageOwnership: totalShares > 0 ? (s.number_of_shares / totalShares) * 100 : 0,
-        votingRights: '1 vote/share',
-        notes: s.number_of_shares / totalShares < 0.25 ? 'Minority shareholder' : undefined,
-      };
-    });
-
-    const capTableData: CapTableData = {
-      companyName: config.companyName,
-      companyNumber: config.companyNumber,
-      snapshotDate: config.yearEndDate,
-      shareClassIncluded: shareClasses.length > 1 ? 'All classes' : shareClasses[0] || 'Ordinary',
-      totalIssuedShares: totalShares,
-      nominalValuePerShare: 1,
-      entries: capTableEntries,
-      logoUrl: config.logoUrl,
-      accountantFirmName: config.accountantFirmName,
-    };
-
-    const capTableBlob = await pdf(<CapTablePDF data={capTableData} />).toBlob();
-    pdfs.push({ filename: '03-Cap-Table-Snapshot.pdf', blob: capTableBlob });
-  }
-
-  // 4. Generate Dividend Vouchers from selected records
-  onProgress?.({ step: 'Generating dividend vouchers...', current: 4, total: 5 });
+  // 3. Generate Dividend Vouchers from selected records
+  onProgress?.({ step: 'Generating dividend vouchers...', current: 3, total: 5 });
   
   for (let i = 0; i < config.selectedDividendRecords.length; i++) {
     const dividend = config.selectedDividendRecords[i];
@@ -379,7 +345,42 @@ export const generateBoardPackPDFs = async (
     const safeName = dividend.shareholder_name
       .replace(/[^a-zA-Z0-9]/g, '-')
       .replace(/-+/g, '-');
-    pdfs.push({ filename: `04-Dividend-Voucher-${safeName}.pdf`, blob: voucherBlob });
+    pdfs.push({ filename: `03-Dividend-Voucher-${safeName}.pdf`, blob: voucherBlob });
+  }
+
+  // 4. Generate Cap Table (if included) - always last
+  if (config.includeCapTable) {
+    onProgress?.({ step: 'Generating cap table...', current: 4, total: 5 });
+    
+    const shareClasses = [...new Set(shareholders?.map(s => s.share_class) || [])];
+    
+    const capTableEntries: CapTableEntry[] = (shareholders || []).map(s => {
+      const isDirector = directorNames.has(s.shareholder_name?.toLowerCase() || '');
+      return {
+        shareholderName: s.shareholder_name || 'Unknown',
+        role: isDirector ? 'Director' : 'Non-director',
+        shareClass: s.share_class,
+        sharesHeld: s.number_of_shares,
+        percentageOwnership: totalShares > 0 ? (s.number_of_shares / totalShares) * 100 : 0,
+        votingRights: '1 vote/share',
+        notes: s.number_of_shares / totalShares < 0.25 ? 'Minority shareholder' : undefined,
+      };
+    });
+
+    const capTableData: CapTableData = {
+      companyName: config.companyName,
+      companyNumber: config.companyNumber,
+      snapshotDate: config.yearEndDate,
+      shareClassIncluded: shareClasses.length > 1 ? 'All classes' : shareClasses[0] || 'Ordinary',
+      totalIssuedShares: totalShares,
+      nominalValuePerShare: 1,
+      entries: capTableEntries,
+      logoUrl: config.logoUrl,
+      accountantFirmName: config.accountantFirmName,
+    };
+
+    const capTableBlob = await pdf(<CapTablePDF data={capTableData} />).toBlob();
+    pdfs.push({ filename: '04-Cap-Table-Snapshot.pdf', blob: capTableBlob });
   }
 
   onProgress?.({ step: 'Finalizing...', current: 5, total: 5 });
@@ -421,4 +422,41 @@ export const blobToBase64 = (blob: Blob): Promise<string> => {
     reader.onerror = reject;
     reader.readAsDataURL(blob);
   });
+};
+
+// Merge multiple PDF blobs into a single PDF
+export const mergePDFs = async (pdfBlobs: Blob[]): Promise<Blob> => {
+  const mergedPdf = await PDFDocument.create();
+
+  for (const pdfBlob of pdfBlobs) {
+    const arrayBuffer = await pdfBlob.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(arrayBuffer);
+    const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+    pages.forEach(page => mergedPdf.addPage(page));
+  }
+
+  const mergedBytes = await mergedPdf.save();
+  // Use slice to ensure we have a proper ArrayBuffer
+  return new Blob([new Uint8Array(mergedBytes)], { type: 'application/pdf' });
+};
+
+// Generate a single merged board pack PDF
+export const generateMergedBoardPackPDF = async (
+  config: BoardPackConfig,
+  onProgress?: (progress: GenerationProgress) => void
+): Promise<Blob> => {
+  // Generate all individual PDFs
+  const pdfs = await generateBoardPackPDFs(config, onProgress);
+  
+  onProgress?.({ step: 'Merging PDFs...', current: 5, total: 6 });
+  
+  // Extract blobs in order (they're already sorted correctly)
+  const pdfBlobs = pdfs.map(p => p.blob);
+  
+  // Merge into single PDF
+  const mergedBlob = await mergePDFs(pdfBlobs);
+  
+  onProgress?.({ step: 'Complete', current: 6, total: 6 });
+  
+  return mergedBlob;
 };
