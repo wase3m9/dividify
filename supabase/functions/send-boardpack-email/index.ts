@@ -156,14 +156,11 @@ serve(async (req: Request): Promise<Response> => {
     const toEmails = to.split(',').map(e => e.trim()).filter(Boolean);
     const ccEmails = cc ? cc.split(',').map(e => e.trim()).filter(Boolean) : undefined;
 
-    // Convert base64 PDFs to attachments
-    const emailAttachments = attachments.map(attachment => {
-      const buffer = Uint8Array.from(atob(attachment.base64), c => c.charCodeAt(0));
-      return {
-        filename: attachment.filename,
-        content: buffer,
-      };
-    });
+    // Convert base64 PDFs to attachments - use base64 strings directly like in send-dividify-email
+    const emailAttachments = attachments.map(attachment => ({
+      filename: attachment.filename,
+      content: attachment.base64,
+    }));
 
     console.log(`Sending email with ${emailAttachments.length} PDF attachments`);
 
