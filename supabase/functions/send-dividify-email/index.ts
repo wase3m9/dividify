@@ -131,14 +131,18 @@ const handler = async (req: Request): Promise<Response> => {
             <!-- Body -->
             <tr>
               <td style="padding:24px 24px 8px 24px; color:#111827; font-size:14px; line-height:1.6;">
-                <div style="white-space: pre-wrap; margin:0 0 16px 0;">
-${message.replace(/\n/g, "<br>")}
-                </div>
+                <p style="margin:0 0 12px 0; font-size:13px; color:#4b5563;">
+                  <em>These documents were created automatically in Dividify on behalf of your accountant for your records and compliance.</em>
+                </p>
+
+                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
+                  Please do not reply to this message.
+                </p>
 
                 <!-- Attachment summary card -->
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:8px 0 16px 0;">
                   <tr>
-                    <td style="background:#f3f0ff; border-radius:10px; padding:14px 16px;">
+                    <td style="background:#faf9fc; border:1px solid #e5e7eb; border-radius:10px; padding:14px 16px;">
                       <div style="font-size:13px; font-weight:600; color:#4c1d95; margin-bottom:6px;">
                         Attached documents
                       </div>
@@ -149,7 +153,15 @@ ${message.replace(/\n/g, "<br>")}
                   </tr>
                 </table>
 
-                <p style="margin:0 0 24px 0;">
+                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
+                  Please save these files somewhere secure. You may need them for mortgage applications, lender checks or your Self Assessment tax return.
+                </p>
+
+                <p style="margin:0 0 24px 0; font-size:13px; color:#4b5563;">
+                  This email was sent from an unattended address. If you have any questions, please contact your accountant directly.
+                </p>
+
+                <p style="margin:0 0 24px 0; text-align:center;">
                   <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/Image%20logo.png" alt="Dividify" style="height:28px;" />
                 </p>
               </td>
