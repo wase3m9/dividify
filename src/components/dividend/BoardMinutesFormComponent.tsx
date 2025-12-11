@@ -21,6 +21,7 @@ import { useMonthlyUsage } from '@/hooks/useMonthlyUsage';
 import { useQueryClient } from '@tanstack/react-query';
 import { useLogActivity } from '@/hooks/useActivityLog';
 import { Link } from 'lucide-react';
+import { HelpTooltip } from '@/components/ui/help-tooltip';
 
 const boardMinutesSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -414,7 +415,10 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="dividendPerShare" className="text-left block mb-2">Dividend per Share (£)</Label>
+              <Label htmlFor="dividendPerShare" className="text-left block mb-2">
+                Dividend per Share (£)
+                <HelpTooltip content="The amount paid per share. Calculate by dividing total dividend by number of shares in that class. All shares of the same class must receive the same rate." />
+              </Label>
               <Input
                 id="dividendPerShare"
                 type="number"
@@ -428,7 +432,10 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="totalDividend" className="text-left block mb-2">Total Dividend (£)</Label>
+              <Label htmlFor="totalDividend" className="text-left block mb-2">
+                Total Dividend (£)
+                <HelpTooltip content="The total amount being distributed as dividends across all shareholders. This must not exceed the company's available distributable reserves (retained profits)." />
+              </Label>
               <Input
                 id="totalDividend"
                 type="number"
@@ -442,7 +449,10 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
             </div>
 
             <div>
-              <Label htmlFor="paymentDate" className="text-left block mb-2">Payment Date</Label>
+              <Label htmlFor="paymentDate" className="text-left block mb-2">
+                Payment Date
+                <HelpTooltip content="The date the dividend will be paid to shareholders. Board minutes must be dated on or before this date. This is when the dividend becomes taxable." />
+              </Label>
               <Input
                 id="paymentDate"
                 type="date"
