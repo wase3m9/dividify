@@ -11,6 +11,8 @@ import dividendVoucherImg from "@/assets/features/dividend-voucher-generator.jpg
 import dividendVoucherFormImg from "@/assets/features/dividend-voucher-form.jpg";
 import dividendVoucherPreviewImg from "@/assets/features/dividend-voucher-preview.jpg";
 import boardMinutesImg from "@/assets/features/board-minutes-generator.jpg";
+import boardMinutesFormImg from "@/assets/features/board-minutes-form.jpg";
+import boardMinutesPreviewImg from "@/assets/features/board-minutes-preview.jpg";
 import dividendTrackerImg from "@/assets/features/dividend-tracker.jpg";
 import annualSummaryImg from "@/assets/features/annual-summary-reports.jpg";
 import companiesHouseImg from "@/assets/features/companies-house-import.jpg";
@@ -36,7 +38,7 @@ const featureSections = [
       "Pick the company and Dividify auto-fills the board details for you – company name, directors present, dates and dividend figures. You just check the wording, choose a template style and hit generate.",
       "Every set of minutes is consistent, compliant and linked back to the underlying dividend. No more editing old Word docs or chasing directors for the right names and dates."
     ],
-    image: boardMinutesImg
+    images: [boardMinutesImg, boardMinutesFormImg, boardMinutesPreviewImg]
   },
   {
     id: "dividend-tracker",
