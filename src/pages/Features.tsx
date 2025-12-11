@@ -17,6 +17,8 @@ import dividendTrackerImg from "@/assets/features/dividend-tracker.jpg";
 import annualSummaryImg from "@/assets/features/annual-summary-reports.jpg";
 import annualSummaryListImg from "@/assets/features/annual-summary-list.jpg";
 import companiesHouseImg from "@/assets/features/companies-house-import.jpg";
+import addShareholdersImg from "@/assets/features/add-shareholders.jpg";
+import addCompanyImg from "@/assets/features/add-company.jpg";
 import brandingImg from "@/assets/features/branding-templates.jpg";
 import boardPackImg from "@/assets/features/board-pack-dialog-new.jpg";
 import exportsImg from "@/assets/features/exports-integrations.jpg";
@@ -75,7 +77,7 @@ const featureSections = [
       "Type in the company number and Dividify fetches the officers from Companies House for you. Directors' names, addresses and appointment dates are pulled in and saved to the client record in one go.",
       "Those details then flow through into your dividend vouchers and board minutes automatically, so you're always using the correct director information without retyping or checking multiple systems."
     ],
-    image: companiesHouseImg
+    images: [companiesHouseImg, addShareholdersImg, addCompanyImg]
   },
   {
     id: "cap-table-snapshot",
