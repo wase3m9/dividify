@@ -16,6 +16,7 @@ import companiesHouseImg from "@/assets/features/companies-house-import.jpg";
 import brandingImg from "@/assets/features/branding-templates.jpg";
 import boardPackButtonImg from "@/assets/features/board-pack-button.jpg";
 import boardPackDialogImg from "@/assets/features/board-pack-dialog.jpg";
+import exportsImg from "@/assets/features/exports-integrations.jpg";
 
 const featureSections = [
   {
@@ -105,7 +106,8 @@ const featureSections = [
     bullets: [
       "Export dividend data to Excel or CSV for your working papers and tax software.",
       "(Coming soon) Connect to tools like Xero, QuickBooks or your practice management system."
-    ]
+    ],
+    image: exportsImg
   }
 ];
 
