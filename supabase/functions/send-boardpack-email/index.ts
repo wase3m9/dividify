@@ -69,6 +69,17 @@ serve(async (req: Request): Promise<Response> => {
 
     console.log(`Processing board pack email for company: ${companyName}`);
     console.log(`Sending to: ${to}`);
+    console.log(`Request body keys: ${Object.keys(body).join(', ')}`);
+    
+    // Validate attachments
+    if (!attachments || !Array.isArray(attachments)) {
+      console.error("Attachments missing or invalid:", typeof attachments);
+      return new Response(
+        JSON.stringify({ error: "No attachments provided" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    
     console.log(`Number of PDF attachments: ${attachments.length}`);
 
     // Build HTML email
