@@ -12,6 +12,7 @@ interface Company {
   name: string;
   registration_number: string | null;
   registered_address: string | null;
+  registered_email: string | null;
 }
 
 interface CompanySectionProps {
@@ -85,6 +86,9 @@ export const CompanySection = ({ company, onCompanyUpdate }: CompanySectionProps
           
           <div className="text-gray-500">Registered Address:</div>
           <div>{company.registered_address}</div>
+          
+          <div className="text-gray-500">Email Address:</div>
+          <div>{company.registered_email || '-'}</div>
         </div>
       ) : (
         <p className="text-gray-500">No company information added yet.</p>

@@ -35,6 +35,7 @@ export const CompanyForm = ({ existingCompany, onSuccess }: CompanyFormProps) =>
       name: existingCompany?.name || "",
       registration_number: existingCompany?.registration_number || "",
       registered_address: existingCompany?.registered_address || "",
+      registered_email: existingCompany?.registered_email || "",
     }
   });
 

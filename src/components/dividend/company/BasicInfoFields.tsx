@@ -51,6 +51,20 @@ export const BasicInfoFields = ({ form }: BasicInfoFieldsProps) => {
           </FormItem>
         )}
       />
+
+      <FormField
+        control={form.control}
+        name="registered_email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email Address</FormLabel>
+            <FormControl>
+              <Input type="email" placeholder="Enter company email" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </>
   );
 };
