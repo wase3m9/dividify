@@ -121,7 +121,7 @@ const handler = async (req: Request): Promise<Response> => {
             <!-- Header -->
             <tr>
               <td style="background:#ffffff; padding:18px 26px; text-align:left; border-bottom:1px solid #e5e7eb;">
-                <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/Image%20logo.png" alt="Dividify" style="height:32px; margin-bottom:8px;" />
+                <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" style="height:32px; margin-bottom:8px;" />
                 <div style="font-size:16px; color:#111827;">
                   Dividend documentation for ${companyName}
                 </div>
@@ -140,7 +140,7 @@ ${message.replace(/\n/g, "<br>")}
                 </p>
 
                 <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
-                  Please do not reply to this message.
+                  <em>Please do not reply to this message.</em>
                 </p>
 
                 <!-- Attachment summary card -->
@@ -158,11 +158,11 @@ ${message.replace(/\n/g, "<br>")}
                 </table>
 
                 <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
-                  Please save these files somewhere secure. You may need them for mortgage applications, lender checks or your Self Assessment tax return.
+                  <em>Please save these files somewhere secure. You may need them for mortgage applications, lender checks or your Self Assessment tax return.</em>
                 </p>
 
                 <p style="margin:0 0 24px 0; font-size:13px; color:#4b5563;">
-                  This email was sent from an unattended address. If you have any questions, please contact your accountant directly.
+                  <em>This email was sent from an unattended address. If you have any questions, please contact your accountant directly.</em>
                 </p>
 
                 <p style="margin:0 0 24px 0; text-align:center;">
