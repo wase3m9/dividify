@@ -121,8 +121,8 @@ const handler = async (req: Request): Promise<Response> => {
             <!-- Header -->
             <tr>
               <td style="background:#f0f4ff; padding:24px 26px; text-align:left; border-bottom:1px solid #e5e7eb;">
-                <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" style="height:64px; margin-bottom:10px;" />
-                <div style="font-size:16px; color:#111827;">
+                <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" style="height:32px; margin-bottom:10px;" />
+                <div style="font-size:16px; color:#111827; font-weight:600;">
                   Dividend documentation for ${companyName}
                 </div>
               </td>
