@@ -105,28 +105,76 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("No documents could be attached to the email");
     }
 
-    // Build HTML email body
+    // Build HTML email body with professional template
     const htmlBody = `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="white-space: pre-wrap; line-height: 1.6; color: #333;">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dividend Documents</title>
+  </head>
+  <body style="margin:0; padding:0; background:#f5f5fb; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td align="center" style="padding:32px 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:640px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 20px rgba(15,23,42,0.08);">
+            <!-- Header -->
+            <tr>
+              <td style="background:#6f4df6; padding:18px 24px; color:#ffffff; text-align:left;">
+                <div style="font-size:18px; font-weight:600; letter-spacing:0.02em;">
+                  Dividify
+                </div>
+                <div style="font-size:13px; opacity:0.9; margin-top:2px;">
+                  Dividend documentation for ${companyName}
+                </div>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding:24px 24px 8px 24px; color:#111827; font-size:14px; line-height:1.6;">
+                <div style="white-space: pre-wrap; margin:0 0 16px 0;">
 ${message.replace(/\n/g, "<br>")}
-        </div>
-        
-        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee;">
-          <p style="color: #666; font-size: 14px; margin-bottom: 8px;">
-            <strong>Attached Documents:</strong>
-          </p>
-          <ul style="color: #666; font-size: 14px; padding-left: 20px;">
-            ${attachments.map(att => `<li>${att.filename}</li>`).join("")}
-          </ul>
-        </div>
-        
-        <div style="margin-top: 32px; padding-top: 16px; border-top: 1px solid #eee;">
-          <p style="color: #999; font-size: 12px;">
-            This email was sent via <a href="https://dividify.co.uk" style="color: #9b87f5;">Dividify</a>.
-          </p>
-        </div>
-      </div>
+                </div>
+
+                <!-- Attachment summary card -->
+                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:8px 0 12px 0;">
+                  <tr>
+                    <td style="background:#f3f0ff; border-radius:10px; padding:14px 16px;">
+                      <div style="font-size:13px; font-weight:600; color:#4c1d95; margin-bottom:6px;">
+                        Attached documents
+                      </div>
+                      <ul style="padding-left:18px; margin:0; font-size:13px; color:#111827;">
+                        ${attachments.map(att => `<li>${att.filename}</li>`).join("")}
+                      </ul>
+                    </td>
+                  </tr>
+                </table>
+
+                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
+                  Please save these files somewhere secure. You may need them for
+                  mortgage applications, lender checks or your Self Assessment tax return.
+                </p>
+
+                <p style="margin:0 0 24px 0; font-size:13px; color:#4b5563;">
+                  This email was sent from an unattended address. If you have any
+                  questions, please contact your accountant directly.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td style="padding:12px 24px 18px 24px; text-align:center; font-size:11px; color:#9ca3af; border-top:1px solid #e5e7eb;">
+                Sent securely via <a href="https://dividify.co.uk" style="color:#6f4df6; font-weight:600; text-decoration:none;">Dividify</a>.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
     `;
 
     console.log(`Sending email to: ${to.join(", ")}`);
