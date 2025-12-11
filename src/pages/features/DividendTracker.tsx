@@ -12,9 +12,39 @@ const DividendTrackerFeature = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>Dividend Tracker, Analytics & Annual Reports | Dividify</title>
-        <meta name="description" content="See total dividends at a glance. Drill down by shareholder, period or tax year. Generate annual summary reports for self assessment." />
+        <title>Dividend Tracker UK | Dividend Analytics & Tax Year Reports | Dividify</title>
+        <meta name="description" content="Track UK company dividends by shareholder, period or tax year. Generate annual dividend summary reports for self assessment. Export dividend data to Excel & CSV." />
+        <meta name="keywords" content="dividend tracker, dividend tracker UK, dividend analytics, dividend tax report, annual dividend summary, dividend record keeping, shareholder dividend tracker, dividend tax year report, self assessment dividends" />
         <link rel="canonical" href="https://dividify.co.uk/features/dividend-tracker" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Dividend Tracker UK | Analytics & Tax Reports | Dividify" />
+        <meta property="og:description" content="Track UK company dividends by shareholder & tax year. Generate annual summary reports for self assessment." />
+        <meta property="og:url" content="https://dividify.co.uk/features/dividend-tracker" />
+        <meta property="og:type" content="website" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Dividend Tracker UK | Dividify" />
+        <meta name="twitter:description" content="Track UK company dividends by shareholder & tax year. Generate annual summary reports." />
+        
+        {/* Schema.org structured data */}
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Dividify Dividend Tracker",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "description": "Track UK company dividends by shareholder and tax year with annual summary reports for self assessment",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "GBP",
+              "description": "Free 7-day trial"
+            }
+          }
+        `}</script>
       </Helmet>
       
       <Navigation />

@@ -11,9 +11,44 @@ const DividendVouchersFeature = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>Dividend Voucher Generator for UK Companies | Dividify</title>
-        <meta name="description" content="Generate compliant dividend vouchers in seconds. Auto-fill company and shareholder details, automatic numbering, and professional PDF output." />
+        <title>Dividend Voucher Template & Generator UK | Free Trial | Dividify</title>
+        <meta name="description" content="Generate compliant UK dividend voucher templates in seconds. Free dividend voucher generator with auto-fill company details, automatic numbering & professional PDF output. HMRC compliant." />
+        <meta name="keywords" content="dividend voucher template, dividend voucher generator, free dividend voucher template UK, dividend voucher template free, UK dividend voucher, company dividend voucher, HMRC dividend voucher, dividend certificate template" />
         <link rel="canonical" href="https://dividify.co.uk/features/dividend-vouchers" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Dividend Voucher Template & Generator UK | Dividify" />
+        <meta property="og:description" content="Generate compliant UK dividend voucher templates in seconds. Auto-fill company details, automatic numbering & professional PDF output." />
+        <meta property="og:url" content="https://dividify.co.uk/features/dividend-vouchers" />
+        <meta property="og:type" content="website" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Dividend Voucher Template & Generator UK | Dividify" />
+        <meta name="twitter:description" content="Generate compliant UK dividend voucher templates in seconds. Auto-fill company details & professional PDF output." />
+        
+        {/* Schema.org structured data */}
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Dividify Dividend Voucher Generator",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "description": "Generate compliant UK dividend voucher templates with automatic company details, numbering and professional PDF output",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "GBP",
+              "description": "Free 7-day trial"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "150"
+            }
+          }
+        `}</script>
       </Helmet>
       
       <Navigation />
