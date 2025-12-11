@@ -8,6 +8,8 @@ import { Shield, Zap, Cloud, Users, Download, Clock } from "lucide-react";
 
 // Import feature images
 import dividendVoucherImg from "@/assets/features/dividend-voucher-generator.jpg";
+import dividendVoucherFormImg from "@/assets/features/dividend-voucher-form.jpg";
+import dividendVoucherPreviewImg from "@/assets/features/dividend-voucher-preview.jpg";
 import boardMinutesImg from "@/assets/features/board-minutes-generator.jpg";
 import dividendTrackerImg from "@/assets/features/dividend-tracker.jpg";
 import annualSummaryImg from "@/assets/features/annual-summary-reports.jpg";
@@ -25,7 +27,7 @@ const featureSections = [
       "Select the company and shareholder, and Dividify auto-fills everything for you – company name, registration number, addresses and shareholdings – straight from your saved records. No more copy-and-paste from old Word templates.",
       "Voucher numbers are assigned automatically and the layout is kept consistent across every client. You just enter the dividend details, click generate, and download a ready-to-send PDF that looks professional every time."
     ],
-    image: dividendVoucherImg
+    images: [dividendVoucherImg, dividendVoucherFormImg, dividendVoucherPreviewImg]
   },
   {
     id: "board-minutes-generator",
