@@ -143,64 +143,44 @@ const Features = () => {
       ))}
 
       {/* Advanced Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Advanced Features</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Shield className="w-12 h-12 mb-4 text-brand-purple" />
-                <CardTitle>Bank-Level Security</CardTitle>
-                <CardDescription>
-                  Your data is encrypted and protected with enterprise-grade security measures
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Zap className="w-12 h-12 mb-4 text-brand-purple" />
-                <CardTitle>Lightning Fast</CardTitle>
-                <CardDescription>
-                  Generate documents in seconds, not hours
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Cloud className="w-12 h-12 mb-4 text-brand-purple" />
-                <CardTitle>Cloud-Based</CardTitle>
-                <CardDescription>
-                  Access your documents from anywhere, on any device
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Users className="w-12 h-12 mb-4 text-brand-purple" />
-                <CardTitle>Team Collaboration</CardTitle>
-                <CardDescription>
-                  Work together with your team on dividend management
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Download className="w-12 h-12 mb-4 text-brand-purple" />
-                <CardTitle>Easy Export</CardTitle>
-                <CardDescription>
-                  Export to PDF, Excel, and CSV formats
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <Clock className="w-12 h-12 mb-4 text-brand-purple" />
-                <CardTitle>24/7 Availability</CardTitle>
-                <CardDescription>
-                  Access Dividify whenever you need it
-                </CardDescription>
-              </CardHeader>
-            </Card>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Advanced Features</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Built for professionals who demand the best
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: Shield, title: "Bank-Level Security", description: "Your data is encrypted and protected with enterprise-grade security measures" },
+              { icon: Zap, title: "Lightning Fast", description: "Generate documents in seconds, not hours" },
+              { icon: Cloud, title: "Cloud-Based", description: "Access your documents from anywhere, on any device" },
+              { icon: Users, title: "Team Collaboration", description: "Work together with your team on dividend management" },
+              { icon: Download, title: "Easy Export", description: "Export to PDF, Excel, and CSV formats" },
+              { icon: Clock, title: "24/7 Availability", description: "Access Dividify whenever you need it" },
+            ].map((feature, index) => (
+              <div
+                key={feature.title}
+                className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-brand-purple/20 transition-all duration-300 hover:-translate-y-1"
+              >
+                {/* Subtle gradient background on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/5 to-purple-100/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Icon container */}
+                <div className="relative inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-purple/10 mb-6 group-hover:bg-brand-purple/15 transition-colors duration-300">
+                  <feature.icon className="w-7 h-7 text-brand-purple" />
+                </div>
+                
+                {/* Text */}
+                <h3 className="relative text-xl font-semibold text-gray-900 mb-3 group-hover:text-brand-purple transition-colors duration-300">
+                  {feature.title}
+                </h3>
+                <p className="relative text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
