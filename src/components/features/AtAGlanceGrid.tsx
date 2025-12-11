@@ -9,7 +9,6 @@ const features = [
   { name: "Annual summary reports (PDF & Excel)", anchor: "#annual-summary-reports", icon: FileSpreadsheet },
   { name: "Companies House officer import", anchor: "#companies-house-import", icon: Building2 },
   { name: "Shareholders & cap table snapshot", anchor: "#cap-table-snapshot", icon: PieChart },
-  { name: "Bulk dividends & bulk minutes", anchor: "#bulk-tools", icon: Layers, comingSoon: true },
   { name: "Branding & templates", anchor: "#branding-templates", icon: Palette },
   { name: "Exports & accounting integrations", anchor: "#exports-integrations", icon: Download },
 ];
@@ -38,9 +37,6 @@ export const AtAGlanceGrid = () => {
               <feature.icon className="w-5 h-5 text-brand-purple flex-shrink-0" />
               <span className="text-gray-700 group-hover:text-brand-purple transition-colors">
                 {feature.name}
-                {feature.comingSoon && (
-                  <span className="ml-2 text-xs text-gray-400">(coming soon)</span>
-                )}
               </span>
             </a>
           ))}

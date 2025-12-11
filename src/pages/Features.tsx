@@ -14,8 +14,7 @@ import dividendTrackerImg from "@/assets/features/dividend-tracker.jpg";
 import annualSummaryImg from "@/assets/features/annual-summary-reports.jpg";
 import companiesHouseImg from "@/assets/features/companies-house-import.jpg";
 import brandingImg from "@/assets/features/branding-templates.jpg";
-import boardPackButtonImg from "@/assets/features/board-pack-button.jpg";
-import boardPackDialogImg from "@/assets/features/board-pack-dialog.jpg";
+import boardPackImg from "@/assets/features/board-pack-dialog-new.jpg";
 import exportsImg from "@/assets/features/exports-integrations.jpg";
 import capTableImg from "@/assets/features/cap-table-snapshot.jpg";
 
@@ -63,7 +62,7 @@ const featureSections = [
       "Turn your work into a polished board pack in seconds. Dividify bundles the board minutes, dividend vouchers and optional cap table snapshot for the selected company into a single, neatly ordered pack.",
       "Everything is branded, consistent and ready to send to directors, lenders or advisers. No more merging PDFs by hand or worrying if you've missed a document from the pack."
     ],
-    images: [boardPackButtonImg, boardPackDialogImg]
+    image: boardPackImg
   },
   {
     id: "companies-house-import",
@@ -83,15 +82,6 @@ const featureSections = [
       "Shows the \"shareholders as at\" date used to approve the dividend."
     ],
     image: capTableImg
-  },
-  {
-    id: "bulk-tools",
-    title: "Bulk dividends and board minutes",
-    bullets: [
-      "Run dividends for multiple companies in one go, with vouchers and minutes created in a single batch.",
-      "Review totals, export to Excel and download all PDFs in one zip file."
-    ],
-    comingSoon: true
   },
   {
     id: "branding-templates",
@@ -147,9 +137,7 @@ const Features = () => {
             title={section.title}
             bullets={section.bullets}
             reversed={index % 2 === 1}
-            comingSoon={section.comingSoon}
             image={section.image}
-            images={section.images}
           />
         </div>
       ))}
