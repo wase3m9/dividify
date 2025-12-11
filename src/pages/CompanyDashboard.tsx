@@ -16,7 +16,7 @@ import { QuickActions } from "@/components/dividend/board/QuickActions";
 import { TipsSection } from "@/components/dividend/dashboard/TipsSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Plus, CreditCard } from "lucide-react";
+import { Plus, CreditCard, Mail } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
@@ -24,6 +24,8 @@ import { TrialBanner } from "@/components/dashboard/TrialBanner";
 import { PaymentSetupBanner } from "@/components/dashboard/PaymentSetupBanner";
 import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMinutesBanner";
 import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
+import { EmailClientDialog } from "@/components/dividend/email/EmailClientDialog";
+import { SentEmailsSection } from "@/components/dividend/email/SentEmailsSection";
 
 
 
@@ -41,6 +43,9 @@ const CompanyDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
   const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [preSelectedVoucherId, setPreSelectedVoucherId] = useState<string>();
+  const [preSelectedMinutesId, setPreSelectedMinutesId] = useState<string>();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -246,6 +251,24 @@ const CompanyDashboard = () => {
     navigate("/#pricing");
   };
 
+  const handleVoucherEmailClick = (recordId: string) => {
+    setPreSelectedVoucherId(recordId);
+    setPreSelectedMinutesId(undefined);
+    setIsEmailDialogOpen(true);
+  };
+
+  const handleMinutesEmailClick = (recordId: string) => {
+    setPreSelectedMinutesId(recordId);
+    setPreSelectedVoucherId(undefined);
+    setIsEmailDialogOpen(true);
+  };
+
+  const openEmailDialog = () => {
+    setPreSelectedVoucherId(undefined);
+    setPreSelectedMinutesId(undefined);
+    setIsEmailDialogOpen(true);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -304,6 +327,27 @@ const CompanyDashboard = () => {
             <>
               <Header companyName={company?.name} />
               
+              {/* Email Client Button */}
+              <Card className="p-4 border-primary/20 bg-primary/5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Mail className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Email Client</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Send dividend vouchers and board minutes directly to clients
+                      </p>
+                    </div>
+                  </div>
+                  <Button onClick={openEmailDialog}>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Email Documents
+                  </Button>
+                </div>
+              </Card>
+              
               <DividendAnalyticsSection 
                 companyId={company.id} 
                 title={`Dividend Tracker - ${company.name}`}
@@ -348,6 +392,12 @@ const CompanyDashboard = () => {
                     >
                       Minutes
                     </TabsTrigger>
+                    <TabsTrigger 
+                      value="emails"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
+                    >
+                      Emails
+                    </TabsTrigger>
                   </TabsList>
                   <div className="p-6">
                     <TabsContent value="company" className="mt-0">
@@ -381,14 +431,34 @@ const CompanyDashboard = () => {
                       />
                     </TabsContent>
                     <TabsContent value="dividends" className="mt-0">
-                      <DividendsSection companyId={company?.id} />
+                      <DividendsSection 
+                        companyId={company?.id} 
+                        onEmailClick={handleVoucherEmailClick}
+                      />
                     </TabsContent>
                     <TabsContent value="minutes" className="mt-0">
-                      <MinutesSection companyId={company?.id} />
+                      <MinutesSection 
+                        companyId={company?.id}
+                        onEmailClick={handleMinutesEmailClick}
+                      />
+                    </TabsContent>
+                    <TabsContent value="emails" className="mt-0">
+                      <SentEmailsSection companyId={company?.id} />
                     </TabsContent>
                   </div>
                 </Tabs>
               </div>
+
+              {/* Email Client Dialog */}
+              <EmailClientDialog
+                open={isEmailDialogOpen}
+                onOpenChange={setIsEmailDialogOpen}
+                companyId={company?.id}
+                companyName={company?.name}
+                companyEmail={company?.registered_email}
+                preSelectedVoucherId={preSelectedVoucherId}
+                preSelectedMinutesId={preSelectedMinutesId}
+              />
             </>
           )}
         </div>

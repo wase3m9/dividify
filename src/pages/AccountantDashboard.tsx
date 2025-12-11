@@ -16,12 +16,17 @@ import { DividendAnalyticsSection } from "@/components/dividend/analytics/Divide
 import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMinutesBanner";
 import { CreateBoardPackButton } from "@/components/dividend/boardpack/CreateBoardPackButton";
 import { Card } from "@/components/ui/card";
-import { Package } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Package, Mail } from "lucide-react";
+import { EmailClientDialog } from "@/components/dividend/email/EmailClientDialog";
 
 const AccountantDashboard = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [preSelectedVoucherId, setPreSelectedVoucherId] = useState<string>();
+  const [preSelectedMinutesId, setPreSelectedMinutesId] = useState<string>();
   const { toast } = useToast();
 
   const {
@@ -81,6 +86,24 @@ const AccountantDashboard = () => {
     }
   };
 
+  const handleVoucherEmailClick = (recordId: string) => {
+    setPreSelectedVoucherId(recordId);
+    setPreSelectedMinutesId(undefined);
+    setIsEmailDialogOpen(true);
+  };
+
+  const handleMinutesEmailClick = (recordId: string) => {
+    setPreSelectedMinutesId(recordId);
+    setPreSelectedVoucherId(undefined);
+    setIsEmailDialogOpen(true);
+  };
+
+  const openEmailDialog = () => {
+    setPreSelectedVoucherId(undefined);
+    setPreSelectedMinutesId(undefined);
+    setIsEmailDialogOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <AuthCheck />
@@ -126,6 +149,27 @@ const AccountantDashboard = () => {
                 </div>
               </Card>
 
+              {/* Email Client Card */}
+              <Card className="p-6 border-primary/20 bg-primary/5">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Mail className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground">Email Client</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Send dividend vouchers and board minutes directly to clients
+                      </p>
+                    </div>
+                  </div>
+                  <Button onClick={openEmailDialog}>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Email Documents
+                  </Button>
+                </div>
+              </Card>
+
               <DividendAnalyticsSection 
                 companyId={selectedCompanyId}
                 title={`Dividend Tracker - ${selectedCompany?.name || 'Company'}`}
@@ -138,9 +182,22 @@ const AccountantDashboard = () => {
                 onShareClassDialogOpenChange={setIsShareClassDialogOpen}
                 onShareClassSubmit={handleShareClassSubmit}
                 onCompanyUpdate={handleCompanyUpdate}
+                onVoucherEmailClick={handleVoucherEmailClick}
+                onMinutesEmailClick={handleMinutesEmailClick}
               />
 
               <DashboardContent selectedCompanyId={selectedCompanyId} />
+
+              {/* Email Client Dialog */}
+              <EmailClientDialog
+                open={isEmailDialogOpen}
+                onOpenChange={setIsEmailDialogOpen}
+                companyId={selectedCompanyId}
+                companyName={selectedCompany?.name}
+                companyEmail={selectedCompany?.registered_email}
+                preSelectedVoucherId={preSelectedVoucherId}
+                preSelectedMinutesId={preSelectedMinutesId}
+              />
             </>
           )}
         </div>

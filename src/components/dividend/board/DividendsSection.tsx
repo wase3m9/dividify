@@ -1,9 +1,9 @@
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { BadgePoundSterling, Plus, Edit, FileText, Trash2 } from "lucide-react";
+import { BadgePoundSterling, Plus, Edit, FileText, Trash2, Mail } from "lucide-react";
 import { useDividends } from "./useDividends";
 import { useNavigate } from "react-router-dom";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
@@ -14,9 +14,10 @@ import type { DividendRecord } from "./types";
 
 interface DividendsSectionProps {
   companyId?: string;
+  onEmailClick?: (recordId: string) => void;
 }
 
-export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
+export const DividendsSection: FC<DividendsSectionProps> = ({ companyId, onEmailClick }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { 
@@ -117,6 +118,16 @@ export const DividendsSection: FC<DividendsSectionProps> = ({ companyId }) => {
                       >
                         <FileText className="h-4 w-4" />
                       </Button>
+                      {onEmailClick && record.file_path && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => onEmailClick(record.id)}
+                          className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10 h-8 w-8"
+                        >
+                          <Mail className="h-4 w-4" />
+                        </Button>
+                      )}
                       <Button
                         variant="ghost"
                         size="icon"

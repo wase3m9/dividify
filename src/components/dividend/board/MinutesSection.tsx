@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { FileText, Plus, Trash2 } from "lucide-react";
+import { FileText, Plus, Trash2, Mail } from "lucide-react";
 import { useMinutes } from "./useMinutes";
 import { useNavigate } from "react-router-dom";
 import { useMonthlyUsage } from "@/hooks/useMonthlyUsage";
@@ -12,9 +12,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 interface MinutesSectionProps {
   companyId?: string;
+  onEmailClick?: (recordId: string) => void;
 }
 
-export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
+export const MinutesSection: FC<MinutesSectionProps> = ({ companyId, onEmailClick }) => {
   const navigate = useNavigate();
   const { minutes, isLoading, handleDownload, handleDelete } = useMinutes(companyId);
   const { data: usage } = useMonthlyUsage();
@@ -87,6 +88,16 @@ export const MinutesSection: FC<MinutesSectionProps> = ({ companyId }) => {
                       >
                         <FileText className="h-4 w-4" />
                       </Button>
+                      {onEmailClick && record.file_path && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => onEmailClick(record.id)}
+                          className="text-[#9b87f5] hover:text-[#9b87f5] hover:bg-[#9b87f5]/10 h-8 w-8"
+                        >
+                          <Mail className="h-4 w-4" />
+                        </Button>
+                      )}
                       <Button
                         variant="ghost"
                         size="icon"
