@@ -8,6 +8,7 @@ import { ShareClassesSection } from "@/components/dividend/board/ShareClassesSec
 import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsSection";
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { AnnualSummaryReport } from "@/components/dividend/AnnualSummaryReport";
+import { SentEmailsSection } from "@/components/dividend/email/SentEmailsSection";
 import { useState } from "react";
 import { useCompanyData } from "@/hooks/useCompanyData";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +21,8 @@ interface CompanyTabsProps {
   onShareClassDialogOpenChange: (open: boolean) => void;
   onShareClassSubmit: (data: ShareholderDetails) => void;
   onCompanyUpdate: () => void;
+  onVoucherEmailClick?: (recordId: string) => void;
+  onMinutesEmailClick?: (recordId: string) => void;
 }
 
 export const CompanyTabs = ({
@@ -29,6 +32,8 @@ export const CompanyTabs = ({
   onShareClassDialogOpenChange,
   onShareClassSubmit,
   onCompanyUpdate,
+  onVoucherEmailClick,
+  onMinutesEmailClick,
 }: CompanyTabsProps) => {
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
   const { shareholders, shareClasses, refetchShareholders, refetchShareClasses } = useCompanyData(selectedCompany?.id);
@@ -90,7 +95,7 @@ export const CompanyTabs = ({
   return (
     <div className="grid grid-cols-1 gap-4">
       <Tabs defaultValue="company" className="w-full">
-        <TabsList className="grid grid-cols-7 gap-2">
+        <TabsList className="grid grid-cols-8 gap-2">
           <TabsTrigger value="company">Company</TabsTrigger>
           <TabsTrigger value="officers">Officers</TabsTrigger>
           <TabsTrigger value="shareholders">Shareholders</TabsTrigger>
@@ -98,6 +103,7 @@ export const CompanyTabs = ({
           <TabsTrigger value="dividends">Dividends</TabsTrigger>
           <TabsTrigger value="meetings">Meetings</TabsTrigger>
           <TabsTrigger value="reports">Reports</TabsTrigger>
+          <TabsTrigger value="emails">Emails</TabsTrigger>
         </TabsList>
 
         <TabsContent value="company">
@@ -135,15 +141,25 @@ export const CompanyTabs = ({
         </TabsContent>
 
         <TabsContent value="dividends">
-          <DividendsSection companyId={selectedCompany?.id} />
+          <DividendsSection 
+            companyId={selectedCompany?.id}
+            onEmailClick={onVoucherEmailClick}
+          />
         </TabsContent>
 
         <TabsContent value="meetings">
-          <MinutesSection companyId={selectedCompany?.id} />
+          <MinutesSection 
+            companyId={selectedCompany?.id}
+            onEmailClick={onMinutesEmailClick}
+          />
         </TabsContent>
 
         <TabsContent value="reports">
           <AnnualSummaryReport companyId={selectedCompany?.id} />
+        </TabsContent>
+
+        <TabsContent value="emails">
+          <SentEmailsSection companyId={selectedCompany?.id} />
         </TabsContent>
       </Tabs>
     </div>

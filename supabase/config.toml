@@ -5,3 +5,6 @@ verify_jwt = true
 
 [functions.companies-house]
 verify_jwt = true
+
+[functions.send-dividify-email]
+verify_jwt = true

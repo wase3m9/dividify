@@ -484,6 +484,59 @@ export type Database = {
         }
         Relationships: []
       }
+      sent_emails: {
+        Row: {
+          cc_emails: string | null
+          company_id: string
+          created_at: string
+          error_message: string | null
+          id: string
+          message: string
+          related_ids: Json
+          related_type: string
+          status: string
+          subject: string
+          to_emails: string
+          user_id: string
+        }
+        Insert: {
+          cc_emails?: string | null
+          company_id: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message: string
+          related_ids?: Json
+          related_type: string
+          status?: string
+          subject: string
+          to_emails: string
+          user_id: string
+        }
+        Update: {
+          cc_emails?: string | null
+          company_id?: string
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message?: string
+          related_ids?: Json
+          related_type?: string
+          status?: string
+          subject?: string
+          to_emails?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sent_emails_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shareholders: {
         Row: {
           address: string | null
