@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Package, FileText, Table2, FileCheck, Loader2, AlertCircle, Download, Mail } from "lucide-react";
-import { generateBoardPack, downloadBoardPack, GenerationProgress, generateMergedBoardPackPDF, blobToBase64 } from "@/utils/boardPackGenerator";
+import { GenerationProgress, generateMergedBoardPackPDF, blobToBase64 } from "@/utils/boardPackGenerator";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { format, parseISO } from "date-fns";
@@ -118,43 +118,7 @@ export const CreateBoardPackDialog = ({
     setEmailMessage(`Please find attached the board pack for ${company.name} for the year ending ${formattedDate}.\n\nThis pack contains:\n- Cover Page\n- Board Minutes\n${includeCapTable ? '- Cap Table Snapshot\n' : ''}- Dividend Vouchers\n\nPlease save these files for your records.`);
   };
 
-  const generatePack = async (): Promise<Blob> => {
-    const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
-      id: d.id,
-      shareholder_name: d.shareholder_name,
-      share_class: d.share_class,
-      number_of_shares: d.number_of_shares,
-      dividend_per_share: Number(d.dividend_per_share),
-      total_dividend: Number(d.total_dividend),
-      payment_date: d.payment_date,
-      form_data: d.form_data,
-    }));
-
-    const minutesForPack: SelectedBoardMinutes = {
-      id: selectedMinutes!.id,
-      meeting_date: selectedMinutes!.meeting_date,
-      meeting_type: selectedMinutes!.meeting_type,
-      attendees: selectedMinutes!.attendees,
-      resolutions: selectedMinutes!.resolutions,
-      form_data: selectedMinutes!.form_data,
-    };
-
-    return await generateBoardPack(
-      {
-        companyId: company.id,
-        companyName: company.name,
-        companyNumber: company.registration_number || "",
-        registeredAddress: company.registered_address || "",
-        yearEndDate,
-        includeCapTable,
-        logoUrl,
-        accountantFirmName,
-        selectedDividendRecords: dividendRecordsForPack,
-        selectedBoardMinutes: minutesForPack,
-      },
-      setProgress
-    );
-  };
+  // generatePack function removed - now using generateMergedBoardPackPDF directly
 
   const validateForm = (): boolean => {
     if (!yearEndDate) {
@@ -191,15 +155,65 @@ export const CreateBoardPackDialog = ({
     if (!validateForm()) return;
 
     setIsGenerating(true);
-    setProgress({ step: "Starting...", current: 0, total: 5 });
+    setProgress({ step: "Starting...", current: 0, total: 6 });
 
     try {
-      const blob = await generatePack();
-      downloadBoardPack(blob, company.name, yearEndDate);
+      const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
+        id: d.id,
+        shareholder_name: d.shareholder_name,
+        share_class: d.share_class,
+        number_of_shares: d.number_of_shares,
+        dividend_per_share: Number(d.dividend_per_share),
+        total_dividend: Number(d.total_dividend),
+        payment_date: d.payment_date,
+        form_data: d.form_data,
+      }));
+
+      const minutesForPack: SelectedBoardMinutes = {
+        id: selectedMinutes!.id,
+        meeting_date: selectedMinutes!.meeting_date,
+        meeting_type: selectedMinutes!.meeting_type,
+        attendees: selectedMinutes!.attendees,
+        resolutions: selectedMinutes!.resolutions,
+        form_data: selectedMinutes!.form_data,
+      };
+
+      const mergedPdfBlob = await generateMergedBoardPackPDF(
+        {
+          companyId: company.id,
+          companyName: company.name,
+          companyNumber: company.registration_number || "",
+          registeredAddress: company.registered_address || "",
+          yearEndDate,
+          includeCapTable,
+          logoUrl,
+          accountantFirmName,
+          selectedDividendRecords: dividendRecordsForPack,
+          selectedBoardMinutes: minutesForPack,
+        },
+        setProgress
+      );
+
+      // Download the merged PDF
+      const safeName = company.name.replace(/[^a-zA-Z0-9]/g, '-').replace(/-+/g, '-');
+      let formattedDate = yearEndDate;
+      try {
+        formattedDate = format(parseISO(yearEndDate), 'yyyy-MM-dd');
+      } catch {}
+      const fileName = `Board-Pack-${safeName}-YE-${formattedDate}.pdf`;
+      
+      const url = URL.createObjectURL(mergedPdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
 
       toast({
         title: "Board pack generated",
-        description: "Your board pack has been downloaded successfully",
+        description: "Your board pack PDF has been downloaded successfully",
       });
 
       onOpenChange(false);
