@@ -19,6 +19,7 @@ import { useMonthlyUsage } from '@/hooks/useMonthlyUsage';
 import { useQueryClient } from '@tanstack/react-query';
 import { BoardMinutesPrompt, DividendDataForMinutes } from '@/components/dividend/BoardMinutesPrompt';
 import { useNavigate } from 'react-router-dom';
+import { HelpTooltip } from '@/components/ui/help-tooltip';
 
 const dividendVoucherSchema = z.object({
   companyName: z.string().min(1, 'Company name is required'),
@@ -519,7 +520,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="sharesHeld" className="text-left block mb-2">Number of Shares</Label>
+              <Label htmlFor="sharesHeld" className="text-left block mb-2">
+                Number of Shares
+                <HelpTooltip content="The total number of shares held by this shareholder. This is used to calculate the dividend per share. Auto-filled from shareholder records if available." />
+              </Label>
               <Input
                 id="sharesHeld"
                 type="number"
@@ -532,7 +536,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="dividendAmount" className="text-left block mb-2">Dividend Amount (£)</Label>
+              <Label htmlFor="dividendAmount" className="text-left block mb-2">
+                Dividend Amount (£)
+                <HelpTooltip content="The total dividend payment to this shareholder. This is the gross amount before any tax. The dividend per share will be calculated automatically." />
+              </Label>
               <Input
                 id="dividendAmount"
                 type="number"
@@ -546,7 +553,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="shareholdersAsAtDate" className="text-left block mb-2">Shareholders as at Date</Label>
+              <Label htmlFor="shareholdersAsAtDate" className="text-left block mb-2">
+                Shareholders as at Date
+                <HelpTooltip content="The date used to determine who qualifies as a shareholder for this dividend. Usually the same as or shortly before the payment date. This is typically the record date." />
+              </Label>
               <Input
                 id="shareholdersAsAtDate"
                 type="date"
@@ -558,7 +568,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="paymentDate" className="text-left block mb-2">Payment Date</Label>
+              <Label htmlFor="paymentDate" className="text-left block mb-2">
+                Payment Date
+                <HelpTooltip content="The date the dividend will be paid to shareholders. This is the date the dividend becomes taxable for the shareholder." />
+              </Label>
               <Input
                 id="paymentDate"
                 type="date"
@@ -570,7 +583,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="yearEndDate" className="text-left block mb-2">Year End Date</Label>
+              <Label htmlFor="yearEndDate" className="text-left block mb-2">
+                Year End Date
+                <HelpTooltip content="Your company's financial year end date. The dividend relates to profits from this accounting period. For example, 31 March 2025 for a March year end." />
+              </Label>
               <Input
                 id="yearEndDate"
                 type="date"
@@ -583,7 +599,10 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
             </div>
 
             <div>
-              <Label htmlFor="dividendType" className="text-left block mb-2">Dividend Type</Label>
+              <Label htmlFor="dividendType" className="text-left block mb-2">
+                Dividend Type
+                <HelpTooltip content="Interim dividends are paid during the financial year before final accounts are prepared. Final dividends are declared after the year end once profits are confirmed." />
+              </Label>
               <Select 
                 value={watch('dividendType')} 
                 onValueChange={(value) => setValue('dividendType', value as 'Final' | 'Interim')}
