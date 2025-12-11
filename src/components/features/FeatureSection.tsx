@@ -36,7 +36,7 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
                   ))}
                 </div>
               ) : (
-                <div className="relative max-w-lg w-full">
+                <div className="relative max-w-sm w-full">
                   <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
                   <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                     <img 
