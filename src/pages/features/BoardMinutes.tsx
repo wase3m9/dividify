@@ -11,9 +11,39 @@ const BoardMinutesFeature = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>Board Minutes Generator | Dividify</title>
-        <meta name="description" content="Generate board minutes that match every dividend. Auto-filled directors, dates and dividend figures. Templates built for UK board approvals." />
+        <title>Board Minutes Template & Generator UK | Dividend Board Minutes | Dividify</title>
+        <meta name="description" content="Generate UK board minutes templates for dividend declarations in seconds. Auto-fill directors, dates & dividend figures. Companies Act compliant board minutes generator." />
+        <meta name="keywords" content="board minutes template, board minutes generator, dividend board minutes, UK board minutes template, company board minutes, directors meeting minutes, board resolution template, dividend declaration minutes" />
         <link rel="canonical" href="https://dividify.co.uk/features/board-minutes" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Board Minutes Template & Generator UK | Dividify" />
+        <meta property="og:description" content="Generate UK board minutes templates for dividend declarations. Auto-fill directors, dates & dividend figures. Companies Act compliant." />
+        <meta property="og:url" content="https://dividify.co.uk/features/board-minutes" />
+        <meta property="og:type" content="website" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Board Minutes Template & Generator UK | Dividify" />
+        <meta name="twitter:description" content="Generate UK board minutes templates for dividend declarations. Auto-fill directors & Companies Act compliant." />
+        
+        {/* Schema.org structured data */}
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Dividify Board Minutes Generator",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "description": "Generate UK board minutes templates for dividend declarations with auto-filled directors and Companies Act compliance",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "GBP",
+              "description": "Free 7-day trial"
+            }
+          }
+        `}</script>
       </Helmet>
       
       <Navigation />

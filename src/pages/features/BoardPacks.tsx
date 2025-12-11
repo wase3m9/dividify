@@ -11,9 +11,39 @@ const BoardPacksFeature = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>Board Pack Generator | Dividify</title>
-        <meta name="description" content="Create a full board pack in one click. Minutes, vouchers and cap table bundled together, branded and ready to send." />
+        <title>Board Pack Generator UK | Dividend Board Pack Template | Dividify</title>
+        <meta name="description" content="Create complete UK board packs in one click. Board minutes, dividend vouchers & cap table bundled together. Professional branded templates for directors & investors." />
+        <meta name="keywords" content="board pack template, board pack generator, dividend board pack, UK board pack, company board pack, investor board pack, directors board pack, board meeting pack template" />
         <link rel="canonical" href="https://dividify.co.uk/features/board-packs" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Board Pack Generator UK | Dividify" />
+        <meta property="og:description" content="Create complete UK board packs in one click. Board minutes, dividend vouchers & cap table bundled together." />
+        <meta property="og:url" content="https://dividify.co.uk/features/board-packs" />
+        <meta property="og:type" content="website" />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Board Pack Generator UK | Dividify" />
+        <meta name="twitter:description" content="Create complete UK board packs in one click. Minutes, vouchers & cap table bundled." />
+        
+        {/* Schema.org structured data */}
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Dividify Board Pack Generator",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "description": "Create complete UK board packs with board minutes, dividend vouchers and cap tables in one click",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "GBP",
+              "description": "Free 7-day trial"
+            }
+          }
+        `}</script>
       </Helmet>
       
       <Navigation />
