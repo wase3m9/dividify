@@ -136,14 +136,14 @@ const DividendTrackerFeature = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-brand-purple to-purple-700">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Start tracking dividends properly</h2>
-          <p className="text-xl text-white/80 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Start tracking dividends properly</h2>
+          <p className="text-xl text-gray-600 mb-8">
             Get a clear picture of every dividend across all your clients.
           </p>
           <Link to="/get-started">
-            <Button size="lg" variant="secondary" className="bg-white text-brand-purple hover:bg-gray-100">
+            <Button size="lg" className="bg-brand-purple hover:bg-brand-purple/90 text-white">
               Start free 7-day trial <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </Link>
