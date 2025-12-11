@@ -20,13 +20,13 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`flex flex-col ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-16`}>
           {/* Image or Decorative Circle */}
-          <div className="flex-shrink-0 w-full lg:w-1/2">
+          <div className="flex-shrink-0 w-full lg:w-1/2 flex justify-center">
             {displayImages.length > 0 ? (
               hasMultipleImages ? (
-                <div className="relative flex flex-col gap-4">
+                <div className="relative flex flex-col gap-3 max-w-md w-full">
                   <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
                   {displayImages.map((img, index) => (
-                    <div key={index} className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    <div key={index} className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
                       <img 
                         src={img} 
                         alt={`${title} - ${index + 1}`}
@@ -36,7 +36,7 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
                   ))}
                 </div>
               ) : (
-                <div className="relative">
+                <div className="relative max-w-lg w-full">
                   <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
                   <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                     <img 
