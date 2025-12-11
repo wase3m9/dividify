@@ -68,36 +68,40 @@ export const generateBoardPack = async (
   const coverPageBlob = await pdf(<CoverPagePDF data={coverPageData} />).toBlob();
   zip.file('01-Cover-Page.pdf', coverPageBlob);
 
-  // 2. Generate Board Minutes from selected minutes
+  // 2. Generate Board Minutes from selected minutes (loop through all selected)
   onProgress?.({ step: 'Generating board minutes...', current: 2, total: 5 });
   
-  const selectedMinutes = config.selectedBoardMinutes;
-  const formData = selectedMinutes?.form_data as any;
-  
-  const boardMinutesData: BoardMinutesData = {
-    companyName: config.companyName,
-    registrationNumber: config.companyNumber,
-    registeredAddress: config.registeredAddress,
-    meetingDate: selectedMinutes?.meeting_date || '',
-    meetingAddress: config.registeredAddress,
-    directors: (officers || []).map(o => ({ name: `${o.forenames} ${o.surname}` })),
-    paymentDate: config.selectedDividendRecords[0]?.payment_date || '',
-    amount: totalDividendAmount.toFixed(2),
-    shareClassName: config.selectedDividendRecords[0]?.share_class || 'Ordinary',
-    dividendType: formData?.dividendType || 'Interim',
-    nominalValue: '1.00',
-    financialYearEnd: config.yearEndDate,
-    boardDate: selectedMinutes?.meeting_date || '',
-    directorsPresent: selectedMinutes?.attendees || (officers || []).map(o => `${o.forenames} ${o.surname}`),
-    dividendPerShare: config.selectedDividendRecords[0]?.dividend_per_share || 0,
-    totalDividend: totalDividendAmount,
-    templateStyle: config.templateStyle,
-    logoUrl: config.logoUrl,
-    accountantFirmName: config.accountantFirmName,
-  };
+  let minutesIndex = 0;
+  for (const selectedMinutes of config.selectedBoardMinutes) {
+    const formData = selectedMinutes?.form_data as any;
+    
+    const boardMinutesData: BoardMinutesData = {
+      companyName: config.companyName,
+      registrationNumber: config.companyNumber,
+      registeredAddress: config.registeredAddress,
+      meetingDate: selectedMinutes?.meeting_date || '',
+      meetingAddress: config.registeredAddress,
+      directors: (officers || []).map(o => ({ name: `${o.forenames} ${o.surname}` })),
+      paymentDate: config.selectedDividendRecords[0]?.payment_date || '',
+      amount: totalDividendAmount.toFixed(2),
+      shareClassName: config.selectedDividendRecords[0]?.share_class || 'Ordinary',
+      dividendType: formData?.dividendType || 'Interim',
+      nominalValue: '1.00',
+      financialYearEnd: config.yearEndDate,
+      boardDate: selectedMinutes?.meeting_date || '',
+      directorsPresent: selectedMinutes?.attendees || (officers || []).map(o => `${o.forenames} ${o.surname}`),
+      dividendPerShare: config.selectedDividendRecords[0]?.dividend_per_share || 0,
+      totalDividend: totalDividendAmount,
+      templateStyle: config.templateStyle,
+      logoUrl: config.logoUrl,
+      accountantFirmName: config.accountantFirmName,
+    };
 
-  const boardMinutesBlob = await pdf(<BoardMinutesPDF data={boardMinutesData} />).toBlob();
-  zip.file('02-Board-Minutes.pdf', boardMinutesBlob);
+    const boardMinutesBlob = await pdf(<BoardMinutesPDF data={boardMinutesData} />).toBlob();
+    const suffix = config.selectedBoardMinutes.length > 1 ? `-${minutesIndex + 1}` : '';
+    zip.file(`02-Board-Minutes${suffix}.pdf`, boardMinutesBlob);
+    minutesIndex++;
+  }
 
   // 3. Generate Dividend Vouchers from selected records
   onProgress?.({ step: 'Generating dividend vouchers...', current: 3, total: 5 });
@@ -189,7 +193,7 @@ export const generateBoardPack = async (
       metadata_param: {
         yearEndDate: config.yearEndDate,
         dividendRecordIds: config.selectedDividendRecords.map(d => d.id),
-        boardMinutesId: config.selectedBoardMinutes?.id,
+        boardMinutesIds: config.selectedBoardMinutes.map(m => m.id),
         includeCapTable: config.includeCapTable,
         shareholderCount,
         totalDividendAmount,
@@ -279,36 +283,40 @@ export const generateBoardPackPDFs = async (
   const coverPageBlob = await pdf(<CoverPagePDF data={coverPageData} />).toBlob();
   pdfs.push({ filename: '01-Cover-Page.pdf', blob: coverPageBlob });
 
-  // 2. Generate Board Minutes from selected minutes
+  // 2. Generate Board Minutes from selected minutes (loop through all selected)
   onProgress?.({ step: 'Generating board minutes...', current: 2, total: 5 });
   
-  const selectedMinutes = config.selectedBoardMinutes;
-  const formData = selectedMinutes?.form_data as any;
-  
-  const boardMinutesData: BoardMinutesData = {
-    companyName: config.companyName,
-    registrationNumber: config.companyNumber,
-    registeredAddress: config.registeredAddress,
-    meetingDate: selectedMinutes?.meeting_date || '',
-    meetingAddress: config.registeredAddress,
-    directors: (officers || []).map(o => ({ name: `${o.forenames} ${o.surname}` })),
-    paymentDate: config.selectedDividendRecords[0]?.payment_date || '',
-    amount: totalDividendAmount.toFixed(2),
-    shareClassName: config.selectedDividendRecords[0]?.share_class || 'Ordinary',
-    dividendType: formData?.dividendType || 'Interim',
-    nominalValue: '1.00',
-    financialYearEnd: config.yearEndDate,
-    boardDate: selectedMinutes?.meeting_date || '',
-    directorsPresent: selectedMinutes?.attendees || (officers || []).map(o => `${o.forenames} ${o.surname}`),
-    dividendPerShare: config.selectedDividendRecords[0]?.dividend_per_share || 0,
-    totalDividend: totalDividendAmount,
-    templateStyle: config.templateStyle,
-    logoUrl: config.logoUrl,
-    accountantFirmName: config.accountantFirmName,
-  };
+  let minutesIndex = 0;
+  for (const selectedMinutes of config.selectedBoardMinutes) {
+    const formData = selectedMinutes?.form_data as any;
+    
+    const boardMinutesData: BoardMinutesData = {
+      companyName: config.companyName,
+      registrationNumber: config.companyNumber,
+      registeredAddress: config.registeredAddress,
+      meetingDate: selectedMinutes?.meeting_date || '',
+      meetingAddress: config.registeredAddress,
+      directors: (officers || []).map(o => ({ name: `${o.forenames} ${o.surname}` })),
+      paymentDate: config.selectedDividendRecords[0]?.payment_date || '',
+      amount: totalDividendAmount.toFixed(2),
+      shareClassName: config.selectedDividendRecords[0]?.share_class || 'Ordinary',
+      dividendType: formData?.dividendType || 'Interim',
+      nominalValue: '1.00',
+      financialYearEnd: config.yearEndDate,
+      boardDate: selectedMinutes?.meeting_date || '',
+      directorsPresent: selectedMinutes?.attendees || (officers || []).map(o => `${o.forenames} ${o.surname}`),
+      dividendPerShare: config.selectedDividendRecords[0]?.dividend_per_share || 0,
+      totalDividend: totalDividendAmount,
+      templateStyle: config.templateStyle,
+      logoUrl: config.logoUrl,
+      accountantFirmName: config.accountantFirmName,
+    };
 
-  const boardMinutesBlob = await pdf(<BoardMinutesPDF data={boardMinutesData} />).toBlob();
-  pdfs.push({ filename: '02-Board-Minutes.pdf', blob: boardMinutesBlob });
+    const boardMinutesBlob = await pdf(<BoardMinutesPDF data={boardMinutesData} />).toBlob();
+    const suffix = config.selectedBoardMinutes.length > 1 ? `-${minutesIndex + 1}` : '';
+    pdfs.push({ filename: `02-Board-Minutes${suffix}.pdf`, blob: boardMinutesBlob });
+    minutesIndex++;
+  }
 
   // 3. Generate Dividend Vouchers from selected records
   onProgress?.({ step: 'Generating dividend vouchers...', current: 3, total: 5 });
@@ -395,7 +403,7 @@ export const generateBoardPackPDFs = async (
       metadata_param: {
         yearEndDate: config.yearEndDate,
         dividendRecordIds: config.selectedDividendRecords.map(d => d.id),
-        boardMinutesId: config.selectedBoardMinutes?.id,
+        boardMinutesIds: config.selectedBoardMinutes.map(m => m.id),
         includeCapTable: config.includeCapTable,
         shareholderCount,
         totalDividendAmount,
