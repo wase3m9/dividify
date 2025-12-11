@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Package, FileText, Table2, FileCheck, Loader2, AlertCircle, Download, Mail } from "lucide-react";
 import { GenerationProgress, generateMergedBoardPackPDF, blobToBase64 } from "@/utils/boardPackGenerator";
 import { useToast } from "@/hooks/use-toast";
@@ -38,8 +38,8 @@ export const CreateBoardPackDialog = ({
   accountantFirmName,
 }: CreateBoardPackDialogProps) => {
   const [yearEndDate, setYearEndDate] = useState("");
-  const [selectedDividendId, setSelectedDividendId] = useState<string>("");
-  const [selectedMinutesId, setSelectedMinutesId] = useState<string>("");
+  const [selectedDividendIds, setSelectedDividendIds] = useState<string[]>([]);
+  const [selectedMinutesIds, setSelectedMinutesIds] = useState<string[]>([]);
   const [includeCapTable, setIncludeCapTable] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState<GenerationProgress | null>(null);
@@ -94,31 +94,33 @@ export const CreateBoardPackDialog = ({
     enabled: open,
   });
 
-  // Group dividend records by payment date for selection
-  const groupedDividends = dividendRecords?.reduce((acc, record) => {
-    const date = record.payment_date;
-    if (!acc[date]) {
-      acc[date] = [];
-    }
-    acc[date].push(record);
-    return acc;
-  }, {} as Record<string, typeof dividendRecords>) || {};
+  const selectedDividends = dividendRecords?.filter(d => selectedDividendIds.includes(d.id)) || [];
+  const selectedMinutes = boardMinutes?.filter(m => selectedMinutesIds.includes(m.id)) || [];
 
-  const dividendDates = Object.keys(groupedDividends).sort((a, b) => 
-    new Date(b).getTime() - new Date(a).getTime()
-  );
+  // Toggle dividend selection
+  const toggleDividend = (id: string) => {
+    setSelectedDividendIds(prev => 
+      prev.includes(id) 
+        ? prev.filter(d => d !== id) 
+        : [...prev, id]
+    );
+  };
 
-  const selectedDividends = selectedDividendId ? groupedDividends[selectedDividendId] : [];
-  const selectedMinutes = boardMinutes?.find(m => m.id === selectedMinutesId);
+  // Toggle minutes selection
+  const toggleMinutes = (id: string) => {
+    setSelectedMinutesIds(prev => 
+      prev.includes(id) 
+        ? prev.filter(m => m !== id) 
+        : [...prev, id]
+    );
+  };
 
   // Update email subject when selections change
   const updateEmailDefaults = () => {
     const formattedDate = yearEndDate ? format(parseISO(yearEndDate), 'dd/MM/yyyy') : '';
     setEmailSubject(`Board Pack - ${company.name} - Year End ${formattedDate}`);
-    setEmailMessage(`Please find attached the board pack for ${company.name} for the year ending ${formattedDate}.\n\nThis pack contains:\n- Cover Page\n- Board Minutes\n${includeCapTable ? '- Cap Table Snapshot\n' : ''}- Dividend Vouchers\n\nPlease save these files for your records.`);
+    setEmailMessage(`Please find attached the board pack for ${company.name} for the year ending ${formattedDate}.\n\nThis pack contains:\n- Cover Page\n- Board Minutes (${selectedMinutes.length})\n${includeCapTable ? '- Cap Table Snapshot\n' : ''}- Dividend Vouchers (${selectedDividends.length})\n\nPlease save these files for your records.`);
   };
-
-  // generatePack function removed - now using generateMergedBoardPackPDF directly
 
   const validateForm = (): boolean => {
     if (!yearEndDate) {
@@ -130,25 +132,49 @@ export const CreateBoardPackDialog = ({
       return false;
     }
 
-    if (!selectedDividendId || selectedDividends.length === 0) {
+    if (selectedDividendIds.length === 0) {
       toast({
         variant: "destructive",
         title: "No dividend vouchers selected",
-        description: "Please select dividend vouchers to include",
+        description: "Please select at least one dividend voucher to include",
       });
       return false;
     }
 
-    if (!selectedMinutesId || !selectedMinutes) {
+    if (selectedMinutesIds.length === 0) {
       toast({
         variant: "destructive",
         title: "No board minutes selected",
-        description: "Please select board minutes to include",
+        description: "Please select at least one board minutes to include",
       });
       return false;
     }
 
     return true;
+  };
+
+  const buildPackData = () => {
+    const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
+      id: d.id,
+      shareholder_name: d.shareholder_name,
+      share_class: d.share_class,
+      number_of_shares: d.number_of_shares,
+      dividend_per_share: Number(d.dividend_per_share),
+      total_dividend: Number(d.total_dividend),
+      payment_date: d.payment_date,
+      form_data: d.form_data,
+    }));
+
+    const minutesForPack: SelectedBoardMinutes[] = selectedMinutes.map(m => ({
+      id: m.id,
+      meeting_date: m.meeting_date,
+      meeting_type: m.meeting_type,
+      attendees: m.attendees,
+      resolutions: m.resolutions,
+      form_data: m.form_data,
+    }));
+
+    return { dividendRecordsForPack, minutesForPack };
   };
 
   const handleDownload = async () => {
@@ -158,25 +184,7 @@ export const CreateBoardPackDialog = ({
     setProgress({ step: "Starting...", current: 0, total: 6 });
 
     try {
-      const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
-        id: d.id,
-        shareholder_name: d.shareholder_name,
-        share_class: d.share_class,
-        number_of_shares: d.number_of_shares,
-        dividend_per_share: Number(d.dividend_per_share),
-        total_dividend: Number(d.total_dividend),
-        payment_date: d.payment_date,
-        form_data: d.form_data,
-      }));
-
-      const minutesForPack: SelectedBoardMinutes = {
-        id: selectedMinutes!.id,
-        meeting_date: selectedMinutes!.meeting_date,
-        meeting_type: selectedMinutes!.meeting_type,
-        attendees: selectedMinutes!.attendees,
-        resolutions: selectedMinutes!.resolutions,
-        form_data: selectedMinutes!.form_data,
-      };
+      const { dividendRecordsForPack, minutesForPack } = buildPackData();
 
       const mergedPdfBlob = await generateMergedBoardPackPDF(
         {
@@ -252,26 +260,7 @@ export const CreateBoardPackDialog = ({
     setProgress({ step: "Generating PDFs...", current: 0, total: 5 });
 
     try {
-      // Generate individual PDFs
-      const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
-        id: d.id,
-        shareholder_name: d.shareholder_name,
-        share_class: d.share_class,
-        number_of_shares: d.number_of_shares,
-        dividend_per_share: Number(d.dividend_per_share),
-        total_dividend: Number(d.total_dividend),
-        payment_date: d.payment_date,
-        form_data: d.form_data,
-      }));
-
-      const minutesForPack: SelectedBoardMinutes = {
-        id: selectedMinutes!.id,
-        meeting_date: selectedMinutes!.meeting_date,
-        meeting_type: selectedMinutes!.meeting_type,
-        attendees: selectedMinutes!.attendees,
-        resolutions: selectedMinutes!.resolutions,
-        form_data: selectedMinutes!.form_data,
-      };
+      const { dividendRecordsForPack, minutesForPack } = buildPackData();
 
       const mergedPdfBlob = await generateMergedBoardPackPDF(
         {
@@ -311,7 +300,6 @@ export const CreateBoardPackDialog = ({
       setProgress({ step: "Sending email...", current: 6, total: 6 });
       
       console.log("Sending board pack email with merged PDF:", filename);
-      console.log("Base64 length:", base64?.length || 0);
       
       const requestBody = {
         companyId: company.id,
@@ -324,10 +312,6 @@ export const CreateBoardPackDialog = ({
         filename,
         base64,
       };
-      
-      console.log("Request body keys:", Object.keys(requestBody));
-      console.log("Filename in body:", requestBody.filename);
-      console.log("Base64 present:", !!requestBody.base64);
       
       const response = await fetch(
         'https://vkllrotescxmqwogfamo.supabase.co/functions/v1/send-boardpack-email',
@@ -369,8 +353,8 @@ export const CreateBoardPackDialog = ({
 
   const resetForm = () => {
     setYearEndDate("");
-    setSelectedDividendId("");
-    setSelectedMinutesId("");
+    setSelectedDividendIds([]);
+    setSelectedMinutesIds([]);
     setIncludeCapTable(true);
     setShowEmailForm(false);
     setEmailTo("");
@@ -389,13 +373,13 @@ export const CreateBoardPackDialog = ({
 
   const progressPercentage = progress ? (progress.current / progress.total) * 100 : 0;
 
-  const hasDividends = dividendDates.length > 0;
+  const hasDividends = (dividendRecords?.length || 0) > 0;
   const hasMinutes = (boardMinutes?.length || 0) > 0;
-  const canGenerate = yearEndDate && selectedDividendId && selectedMinutesId && hasDividends && hasMinutes;
+  const canGenerate = yearEndDate && selectedDividendIds.length > 0 && selectedMinutesIds.length > 0 && hasDividends && hasMinutes;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Package className="h-5 w-5 text-primary" />
@@ -492,31 +476,34 @@ export const CreateBoardPackDialog = ({
             <div className="space-y-2">
               <Label>Select Dividend Vouchers</Label>
               {hasDividends ? (
-                <Select value={selectedDividendId} onValueChange={setSelectedDividendId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select dividend date..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {dividendDates.map((date) => {
-                      const records = groupedDividends[date];
-                      const totalAmount = records.reduce((sum, r) => sum + Number(r.total_dividend), 0);
-                      return (
-                        <SelectItem key={date} value={date}>
-                          {formatDate(date)} - {records.length} voucher(s) - £{totalAmount.toFixed(2)}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
+                <ScrollArea className="h-[140px] rounded-md border p-3">
+                  <div className="space-y-2">
+                    {dividendRecords?.map((record) => (
+                      <div key={record.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`dividend-${record.id}`}
+                          checked={selectedDividendIds.includes(record.id)}
+                          onCheckedChange={() => toggleDividend(record.id)}
+                        />
+                        <label
+                          htmlFor={`dividend-${record.id}`}
+                          className="text-sm cursor-pointer flex-1"
+                        >
+                          {formatDate(record.payment_date)} - {record.shareholder_name} - £{Number(record.total_dividend).toFixed(2)}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               ) : (
                 <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
                   <AlertCircle className="h-4 w-4" />
                   <span>No dividend vouchers found. Create some first.</span>
                 </div>
               )}
-              {selectedDividendId && selectedDividends.length > 0 && (
+              {selectedDividendIds.length > 0 && (
                 <p className="text-xs text-muted-foreground">
-                  {selectedDividends.length} voucher(s) for: {selectedDividends.map(d => d.shareholder_name).join(', ')}
+                  {selectedDividendIds.length} voucher(s) selected
                 </p>
               )}
             </div>
@@ -524,27 +511,34 @@ export const CreateBoardPackDialog = ({
             <div className="space-y-2">
               <Label>Select Board Minutes</Label>
               {hasMinutes ? (
-                <Select value={selectedMinutesId} onValueChange={setSelectedMinutesId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select board minutes..." />
-                  </SelectTrigger>
-                  <SelectContent>
+                <ScrollArea className="h-[140px] rounded-md border p-3">
+                  <div className="space-y-2">
                     {boardMinutes?.map((minutes) => (
-                      <SelectItem key={minutes.id} value={minutes.id}>
-                        {formatDate(minutes.meeting_date)} - {minutes.meeting_type}
-                      </SelectItem>
+                      <div key={minutes.id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`minutes-${minutes.id}`}
+                          checked={selectedMinutesIds.includes(minutes.id)}
+                          onCheckedChange={() => toggleMinutes(minutes.id)}
+                        />
+                        <label
+                          htmlFor={`minutes-${minutes.id}`}
+                          className="text-sm cursor-pointer flex-1"
+                        >
+                          {formatDate(minutes.meeting_date)} - {minutes.meeting_type}
+                        </label>
+                      </div>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </div>
+                </ScrollArea>
               ) : (
                 <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
                   <AlertCircle className="h-4 w-4" />
                   <span>No board minutes found. Create some first.</span>
                 </div>
               )}
-              {selectedMinutes && (
+              {selectedMinutesIds.length > 0 && (
                 <p className="text-xs text-muted-foreground">
-                  Attendees: {selectedMinutes.attendees.join(', ')}
+                  {selectedMinutesIds.length} minutes selected
                 </p>
               )}
             </div>
@@ -568,8 +562,10 @@ export const CreateBoardPackDialog = ({
                   <span>Cover Page</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FileText className={`h-4 w-4 ${selectedMinutesId ? 'text-green-600' : 'text-muted-foreground'}`} />
-                  <span>Board Minutes {selectedMinutes ? `(${formatDate(selectedMinutes.meeting_date)})` : ''}</span>
+                  <FileText className={`h-4 w-4 ${selectedMinutesIds.length > 0 ? 'text-green-600' : 'text-muted-foreground'}`} />
+                  <span>
+                    Board Minutes {selectedMinutesIds.length > 0 ? `(${selectedMinutesIds.length})` : ''}
+                  </span>
                 </div>
                 {includeCapTable && (
                   <div className="flex items-center gap-2">
@@ -578,9 +574,9 @@ export const CreateBoardPackDialog = ({
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                  <FileText className={`h-4 w-4 ${selectedDividendId ? 'text-green-600' : 'text-muted-foreground'}`} />
+                  <FileText className={`h-4 w-4 ${selectedDividendIds.length > 0 ? 'text-green-600' : 'text-muted-foreground'}`} />
                   <span>
-                    Dividend Vouchers {selectedDividends.length > 0 ? `(${selectedDividends.length} voucher${selectedDividends.length > 1 ? 's' : ''})` : ''}
+                    Dividend Vouchers {selectedDividendIds.length > 0 ? `(${selectedDividendIds.length})` : ''}
                   </span>
                 </div>
               </div>

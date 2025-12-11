@@ -10,7 +10,7 @@ export interface BoardPackConfig {
   templateStyle?: string;
   // Selected existing records
   selectedDividendRecords: SelectedDividendRecord[];
-  selectedBoardMinutes: SelectedBoardMinutes | null;
+  selectedBoardMinutes: SelectedBoardMinutes[];
 }
 
 export interface SelectedDividendRecord {
