@@ -159,18 +159,18 @@ export const CoverPagePDF: React.FC<CoverPagePDFProps> = ({ data }) => {
                 <Text style={styles.checkmark}>✓</Text>
                 <Text style={styles.contentText}>Board Minutes</Text>
               </View>
-              {data.includeCapTable && (
-                <View style={styles.contentItem}>
-                  <Text style={styles.checkmark}>✓</Text>
-                  <Text style={styles.contentText}>Cap Table Snapshot</Text>
-                </View>
-              )}
               <View style={styles.contentItem}>
                 <Text style={styles.checkmark}>✓</Text>
                 <Text style={styles.contentText}>
                   Dividend Vouchers ({data.shareholderCount} shareholder{data.shareholderCount !== 1 ? 's' : ''})
                 </Text>
               </View>
+              {data.includeCapTable && (
+                <View style={styles.contentItem}>
+                  <Text style={styles.checkmark}>✓</Text>
+                  <Text style={styles.contentText}>Cap Table Snapshot</Text>
+                </View>
+              )}
             </View>
           </View>
 
