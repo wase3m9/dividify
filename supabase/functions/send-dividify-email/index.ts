@@ -120,11 +120,11 @@ const handler = async (req: Request): Promise<Response> => {
           <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:640px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 20px rgba(15,23,42,0.08);">
             <!-- Header -->
             <tr>
-              <td style="background:#6f4df6; padding:18px 24px; color:#ffffff; text-align:left;">
-                <div style="font-size:18px; font-weight:600; letter-spacing:0.02em;">
+              <td style="background:#6f4df6; padding:22px 26px; color:#ffffff; text-align:left;">
+                <div style="font-size:24px; font-weight:700; letter-spacing:0.02em; margin-bottom:4px;">
                   Dividify
                 </div>
-                <div style="font-size:13px; opacity:0.9; margin-top:2px;">
+                <div style="font-size:16px; opacity:0.98;">
                   Dividend documentation for ${companyName}
                 </div>
               </td>
@@ -133,9 +133,18 @@ const handler = async (req: Request): Promise<Response> => {
             <!-- Body -->
             <tr>
               <td style="padding:24px 24px 8px 24px; color:#111827; font-size:14px; line-height:1.6;">
-                <div style="white-space: pre-wrap; margin:0 0 16px 0;">
+                <div style="white-space: pre-wrap; margin:0 0 12px 0;">
 ${message.replace(/\n/g, "<br>")}
                 </div>
+
+                <p style="margin:0 0 12px 0; font-size:13px; color:#4b5563;">
+                  <em>These documents were created automatically in Dividify on behalf of your
+                  accountant for your records and compliance.</em>
+                </p>
+
+                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
+                  Please do not reply to this message.
+                </p>
 
                 <!-- Attachment summary card -->
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:8px 0 12px 0;">
@@ -160,13 +169,18 @@ ${message.replace(/\n/g, "<br>")}
                   This email was sent from an unattended address. If you have any
                   questions, please contact your accountant directly.
                 </p>
+
+                <p style="margin:0 0 24px 0; font-size:14px;">
+                  Kind regards,<br />
+                  <strong>Dividify</strong>
+                </p>
               </td>
             </tr>
 
             <!-- Footer -->
             <tr>
               <td style="padding:12px 24px 18px 24px; text-align:center; font-size:11px; color:#9ca3af; border-top:1px solid #e5e7eb;">
-                Sent securely via <a href="https://dividify.co.uk" style="color:#6f4df6; font-weight:600; text-decoration:none;">Dividify</a>.
+                Sent securely via <span style="color:#6f4df6; font-weight:600;">Dividify</span>.
               </td>
             </tr>
           </table>
