@@ -139,6 +139,7 @@ const Features = () => {
             bullets={section.bullets}
             reversed={index % 2 === 1}
             image={section.image}
+            images={section.images}
           />
         </div>
       ))}
