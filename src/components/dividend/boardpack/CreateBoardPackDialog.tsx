@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Package, FileText, Table2, FileCheck, Loader2, AlertCircle, Download, Mail } from "lucide-react";
-import { generateBoardPack, downloadBoardPack, GenerationProgress } from "@/utils/boardPackGenerator";
+import { generateBoardPack, downloadBoardPack, GenerationProgress, generateBoardPackPDFs, blobToBase64 } from "@/utils/boardPackGenerator";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { format, parseISO } from "date-fns";
@@ -235,25 +235,54 @@ export const CreateBoardPackDialog = ({
 
     setIsSending(true);
     setIsGenerating(true);
-    setProgress({ step: "Generating board pack...", current: 0, total: 5 });
+    setProgress({ step: "Generating PDFs...", current: 0, total: 5 });
 
     try {
-      // Generate the board pack
-      const blob = await generatePack();
-      
-      // Convert blob to base64
-      setProgress({ step: "Preparing email...", current: 4, total: 5 });
-      const arrayBuffer = await blob.arrayBuffer();
-      const uint8Array = new Uint8Array(arrayBuffer);
-      let binary = '';
-      for (let i = 0; i < uint8Array.length; i++) {
-        binary += String.fromCharCode(uint8Array[i]);
-      }
-      const zipBase64 = btoa(binary);
+      // Generate individual PDFs
+      const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
+        id: d.id,
+        shareholder_name: d.shareholder_name,
+        share_class: d.share_class,
+        number_of_shares: d.number_of_shares,
+        dividend_per_share: Number(d.dividend_per_share),
+        total_dividend: Number(d.total_dividend),
+        payment_date: d.payment_date,
+        form_data: d.form_data,
+      }));
 
-      // Generate filename
-      const formattedDate = yearEndDate.replace(/-/g, '');
-      const fileName = `Board-Pack-${company.name.replace(/[^a-zA-Z0-9]/g, '-')}-${formattedDate}.zip`;
+      const minutesForPack: SelectedBoardMinutes = {
+        id: selectedMinutes!.id,
+        meeting_date: selectedMinutes!.meeting_date,
+        meeting_type: selectedMinutes!.meeting_type,
+        attendees: selectedMinutes!.attendees,
+        resolutions: selectedMinutes!.resolutions,
+        form_data: selectedMinutes!.form_data,
+      };
+
+      const pdfs = await generateBoardPackPDFs(
+        {
+          companyId: company.id,
+          companyName: company.name,
+          companyNumber: company.registration_number || "",
+          registeredAddress: company.registered_address || "",
+          yearEndDate,
+          includeCapTable,
+          logoUrl,
+          accountantFirmName,
+          selectedDividendRecords: dividendRecordsForPack,
+          selectedBoardMinutes: minutesForPack,
+        },
+        setProgress
+      );
+      
+      // Convert PDFs to base64
+      setProgress({ step: "Preparing attachments...", current: 4, total: 5 });
+      const attachments = await Promise.all(
+        pdfs.map(async (pdf) => ({
+          filename: pdf.filename,
+          base64: await blobToBase64(pdf.blob),
+        }))
+      );
 
       // Get auth token
       const { data: { session } } = await supabase.auth.getSession();
@@ -279,8 +308,7 @@ export const CreateBoardPackDialog = ({
             cc: emailCc || undefined,
             subject: emailSubject,
             message: emailMessage,
-            zipBase64,
-            fileName,
+            attachments,
           }),
         }
       );
