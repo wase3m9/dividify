@@ -8,26 +8,45 @@ interface FeatureSectionProps {
   reversed?: boolean;
   comingSoon?: boolean;
   image?: string;
+  images?: string[];
 }
 
-export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoon = false, image }: FeatureSectionProps) => {
+export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoon = false, image, images }: FeatureSectionProps) => {
+  const hasMultipleImages = images && images.length > 1;
+  const displayImages = images || (image ? [image] : []);
+
   return (
     <section id={id} className="py-20 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`flex flex-col ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-16`}>
           {/* Image or Decorative Circle */}
           <div className="flex-shrink-0 w-full lg:w-1/2">
-            {image ? (
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
-                <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-                  <img 
-                    src={image} 
-                    alt={title}
-                    className="w-full h-auto object-cover"
-                  />
+            {displayImages.length > 0 ? (
+              hasMultipleImages ? (
+                <div className="relative flex flex-col gap-4">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
+                  {displayImages.map((img, index) => (
+                    <div key={index} className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                      <img 
+                        src={img} 
+                        alt={`${title} - ${index + 1}`}
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                  ))}
                 </div>
-              </div>
+              ) : (
+                <div className="relative">
+                  <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
+                  <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    <img 
+                      src={displayImages[0]} 
+                      alt={title}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              )
             ) : (
               <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-brand-purple/20 via-brand-purple/10 to-purple-100 flex items-center justify-center mx-auto">
                 <div className="w-48 h-48 md:w-60 md:h-60 rounded-full bg-gradient-to-br from-brand-purple/30 via-brand-purple/15 to-white flex items-center justify-center">

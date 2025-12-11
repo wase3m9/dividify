@@ -14,6 +14,8 @@ import dividendTrackerImg from "@/assets/features/dividend-tracker.jpg";
 import annualSummaryImg from "@/assets/features/annual-summary-reports.jpg";
 import companiesHouseImg from "@/assets/features/companies-house-import.jpg";
 import brandingImg from "@/assets/features/branding-templates.jpg";
+import boardPackButtonImg from "@/assets/features/board-pack-button.jpg";
+import boardPackDialogImg from "@/assets/features/board-pack-dialog.jpg";
 
 const featureSections = [
   {
@@ -58,7 +60,8 @@ const featureSections = [
     bullets: [
       "Turn your work into a polished board pack in seconds. Dividify bundles the board minutes, dividend vouchers and optional cap table snapshot for the selected company into a single, neatly ordered pack.",
       "Everything is branded, consistent and ready to send to directors, lenders or advisers. No more merging PDFs by hand or worrying if you've missed a document from the pack."
-    ]
+    ],
+    images: [boardPackButtonImg, boardPackDialogImg]
   },
   {
     id: "companies-house-import",
@@ -142,6 +145,7 @@ const Features = () => {
             reversed={index % 2 === 1}
             comingSoon={section.comingSoon}
             image={section.image}
+            images={section.images}
           />
         </div>
       ))}
