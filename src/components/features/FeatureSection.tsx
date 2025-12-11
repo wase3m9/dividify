@@ -23,17 +23,42 @@ export const FeatureSection = ({ id, title, bullets, reversed = false, comingSoo
           <div className="flex-shrink-0 w-full lg:w-1/2 flex justify-center">
             {displayImages.length > 0 ? (
               hasMultipleImages ? (
-                <div className="relative flex flex-col gap-3 max-w-md w-full">
+                <div className="relative w-full max-w-lg h-[400px] md:h-[450px]">
                   <div className="absolute -inset-4 bg-gradient-to-br from-brand-purple/10 via-purple-100/50 to-transparent rounded-3xl blur-xl" />
-                  {displayImages.map((img, index) => (
-                    <div key={index} className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                  {/* Back image - rotated left */}
+                  {displayImages[2] && (
+                    <div className="absolute top-4 left-0 w-[75%] transform -rotate-6 origin-bottom-left z-10">
+                      <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                        <img 
+                          src={displayImages[2]} 
+                          alt={`${title} - 3`}
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {/* Middle image - rotated right */}
+                  {displayImages[1] && (
+                    <div className="absolute top-8 right-0 w-[75%] transform rotate-6 origin-bottom-right z-20">
+                      <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                        <img 
+                          src={displayImages[1]} 
+                          alt={`${title} - 2`}
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {/* Front image - centered */}
+                  <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-[80%] z-30">
+                    <div className="relative bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100">
                       <img 
-                        src={img} 
-                        alt={`${title} - ${index + 1}`}
+                        src={displayImages[0]} 
+                        alt={`${title} - 1`}
                         className="w-full h-auto object-cover"
                       />
                     </div>
-                  ))}
+                  </div>
                 </div>
               ) : (
                 <div className="relative max-w-sm w-full">
