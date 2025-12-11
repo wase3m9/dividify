@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Package, FileText, Table2, FileCheck, Loader2, AlertCircle } from "lucide-react";
+import { Package, FileText, Table2, FileCheck, Loader2, AlertCircle, Download, Mail } from "lucide-react";
 import { generateBoardPack, downloadBoardPack, GenerationProgress } from "@/utils/boardPackGenerator";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,6 +43,15 @@ export const CreateBoardPackDialog = ({
   const [includeCapTable, setIncludeCapTable] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState<GenerationProgress | null>(null);
+  
+  // Email state
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [emailTo, setEmailTo] = useState("");
+  const [emailCc, setEmailCc] = useState("");
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  
   const { toast } = useToast();
 
   // Fetch existing dividend records for this company
@@ -101,14 +111,59 @@ export const CreateBoardPackDialog = ({
   const selectedDividends = selectedDividendId ? groupedDividends[selectedDividendId] : [];
   const selectedMinutes = boardMinutes?.find(m => m.id === selectedMinutesId);
 
-  const handleGenerate = async () => {
+  // Update email subject when selections change
+  const updateEmailDefaults = () => {
+    const formattedDate = yearEndDate ? format(parseISO(yearEndDate), 'dd/MM/yyyy') : '';
+    setEmailSubject(`Board Pack - ${company.name} - Year End ${formattedDate}`);
+    setEmailMessage(`Please find attached the board pack for ${company.name} for the year ending ${formattedDate}.\n\nThis pack contains:\n- Cover Page\n- Board Minutes\n${includeCapTable ? '- Cap Table Snapshot\n' : ''}- Dividend Vouchers\n\nPlease save these files for your records.`);
+  };
+
+  const generatePack = async (): Promise<Blob> => {
+    const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
+      id: d.id,
+      shareholder_name: d.shareholder_name,
+      share_class: d.share_class,
+      number_of_shares: d.number_of_shares,
+      dividend_per_share: Number(d.dividend_per_share),
+      total_dividend: Number(d.total_dividend),
+      payment_date: d.payment_date,
+      form_data: d.form_data,
+    }));
+
+    const minutesForPack: SelectedBoardMinutes = {
+      id: selectedMinutes!.id,
+      meeting_date: selectedMinutes!.meeting_date,
+      meeting_type: selectedMinutes!.meeting_type,
+      attendees: selectedMinutes!.attendees,
+      resolutions: selectedMinutes!.resolutions,
+      form_data: selectedMinutes!.form_data,
+    };
+
+    return await generateBoardPack(
+      {
+        companyId: company.id,
+        companyName: company.name,
+        companyNumber: company.registration_number || "",
+        registeredAddress: company.registered_address || "",
+        yearEndDate,
+        includeCapTable,
+        logoUrl,
+        accountantFirmName,
+        selectedDividendRecords: dividendRecordsForPack,
+        selectedBoardMinutes: minutesForPack,
+      },
+      setProgress
+    );
+  };
+
+  const validateForm = (): boolean => {
     if (!yearEndDate) {
       toast({
         variant: "destructive",
         title: "Missing year end date",
         description: "Please enter the year end date",
       });
-      return;
+      return false;
     }
 
     if (!selectedDividendId || selectedDividends.length === 0) {
@@ -117,7 +172,7 @@ export const CreateBoardPackDialog = ({
         title: "No dividend vouchers selected",
         description: "Please select dividend vouchers to include",
       });
-      return;
+      return false;
     }
 
     if (!selectedMinutesId || !selectedMinutes) {
@@ -126,49 +181,20 @@ export const CreateBoardPackDialog = ({
         title: "No board minutes selected",
         description: "Please select board minutes to include",
       });
-      return;
+      return false;
     }
+
+    return true;
+  };
+
+  const handleDownload = async () => {
+    if (!validateForm()) return;
 
     setIsGenerating(true);
     setProgress({ step: "Starting...", current: 0, total: 5 });
 
     try {
-      const dividendRecordsForPack: SelectedDividendRecord[] = selectedDividends.map(d => ({
-        id: d.id,
-        shareholder_name: d.shareholder_name,
-        share_class: d.share_class,
-        number_of_shares: d.number_of_shares,
-        dividend_per_share: Number(d.dividend_per_share),
-        total_dividend: Number(d.total_dividend),
-        payment_date: d.payment_date,
-        form_data: d.form_data,
-      }));
-
-      const minutesForPack: SelectedBoardMinutes = {
-        id: selectedMinutes.id,
-        meeting_date: selectedMinutes.meeting_date,
-        meeting_type: selectedMinutes.meeting_type,
-        attendees: selectedMinutes.attendees,
-        resolutions: selectedMinutes.resolutions,
-        form_data: selectedMinutes.form_data,
-      };
-
-      const blob = await generateBoardPack(
-        {
-          companyId: company.id,
-          companyName: company.name,
-          companyNumber: company.registration_number || "",
-          registeredAddress: company.registered_address || "",
-          yearEndDate,
-          includeCapTable,
-          logoUrl,
-          accountantFirmName,
-          selectedDividendRecords: dividendRecordsForPack,
-          selectedBoardMinutes: minutesForPack,
-        },
-        setProgress
-      );
-
+      const blob = await generatePack();
       downloadBoardPack(blob, company.name, yearEndDate);
 
       toast({
@@ -191,11 +217,110 @@ export const CreateBoardPackDialog = ({
     }
   };
 
+  const handleShowEmailForm = () => {
+    if (!validateForm()) return;
+    updateEmailDefaults();
+    setShowEmailForm(true);
+  };
+
+  const handleSendEmail = async () => {
+    if (!emailTo.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Missing recipient",
+        description: "Please enter an email address",
+      });
+      return;
+    }
+
+    setIsSending(true);
+    setIsGenerating(true);
+    setProgress({ step: "Generating board pack...", current: 0, total: 5 });
+
+    try {
+      // Generate the board pack
+      const blob = await generatePack();
+      
+      // Convert blob to base64
+      setProgress({ step: "Preparing email...", current: 4, total: 5 });
+      const arrayBuffer = await blob.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
+      let binary = '';
+      for (let i = 0; i < uint8Array.length; i++) {
+        binary += String.fromCharCode(uint8Array[i]);
+      }
+      const zipBase64 = btoa(binary);
+
+      // Generate filename
+      const formattedDate = yearEndDate.replace(/-/g, '');
+      const fileName = `Board-Pack-${company.name.replace(/[^a-zA-Z0-9]/g, '-')}-${formattedDate}.zip`;
+
+      // Get auth token
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        throw new Error('Not authenticated');
+      }
+
+      // Send via edge function
+      setProgress({ step: "Sending email...", current: 5, total: 5 });
+      const response = await fetch(
+        'https://vkllrotescxmqwogfamo.supabase.co/functions/v1/send-boardpack-email',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            companyId: company.id,
+            companyName: company.name,
+            yearEndDate,
+            to: emailTo,
+            cc: emailCc || undefined,
+            subject: emailSubject,
+            message: emailMessage,
+            zipBase64,
+            fileName,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send email');
+      }
+
+      toast({
+        title: "Board pack sent",
+        description: `Email sent successfully to ${emailTo}`,
+      });
+
+      onOpenChange(false);
+      resetForm();
+    } catch (error: any) {
+      console.error("Failed to send board pack:", error);
+      toast({
+        variant: "destructive",
+        title: "Send failed",
+        description: error.message || "Failed to send board pack email",
+      });
+    } finally {
+      setIsSending(false);
+      setIsGenerating(false);
+      setProgress(null);
+    }
+  };
+
   const resetForm = () => {
     setYearEndDate("");
     setSelectedDividendId("");
     setSelectedMinutesId("");
     setIncludeCapTable(true);
+    setShowEmailForm(false);
+    setEmailTo("");
+    setEmailCc("");
+    setEmailSubject("");
+    setEmailMessage("");
   };
 
   const formatDate = (dateStr: string) => {
@@ -210,10 +335,11 @@ export const CreateBoardPackDialog = ({
 
   const hasDividends = dividendDates.length > 0;
   const hasMinutes = (boardMinutes?.length || 0) > 0;
+  const canGenerate = yearEndDate && selectedDividendId && selectedMinutesId && hasDividends && hasMinutes;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Package className="h-5 w-5 text-primary" />
@@ -233,6 +359,67 @@ export const CreateBoardPackDialog = ({
             <p className="text-center text-sm text-muted-foreground">
               {progress?.step}
             </p>
+          </div>
+        ) : showEmailForm ? (
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="emailTo">To *</Label>
+              <Input
+                id="emailTo"
+                type="email"
+                placeholder="recipient@example.com"
+                value={emailTo}
+                onChange={(e) => setEmailTo(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="emailCc">CC (optional)</Label>
+              <Input
+                id="emailCc"
+                type="email"
+                placeholder="cc@example.com"
+                value={emailCc}
+                onChange={(e) => setEmailCc(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="emailSubject">Subject</Label>
+              <Input
+                id="emailSubject"
+                value={emailSubject}
+                onChange={(e) => setEmailSubject(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="emailMessage">Message</Label>
+              <Textarea
+                id="emailMessage"
+                rows={5}
+                value={emailMessage}
+                onChange={(e) => setEmailMessage(e.target.value)}
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setShowEmailForm(false)}
+                className="flex-1"
+              >
+                Back
+              </Button>
+              <Button
+                onClick={handleSendEmail}
+                className="flex-1"
+                disabled={!emailTo.trim()}
+              >
+                <Mail className="mr-2 h-4 w-4" />
+                Send Email
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="space-y-4 py-4">
@@ -343,14 +530,25 @@ export const CreateBoardPackDialog = ({
               </div>
             </div>
 
-            <Button
-              onClick={handleGenerate}
-              className="w-full"
-              disabled={!yearEndDate || !selectedDividendId || !selectedMinutesId || !hasDividends || !hasMinutes}
-            >
-              <Package className="mr-2 h-4 w-4" />
-              Generate Board Pack
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={handleDownload}
+                className="flex-1"
+                disabled={!canGenerate}
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Download
+              </Button>
+              <Button
+                onClick={handleShowEmailForm}
+                variant="outline"
+                className="flex-1"
+                disabled={!canGenerate}
+              >
+                <Mail className="mr-2 h-4 w-4" />
+                Send via Email
+              </Button>
+            </div>
           </div>
         )}
       </DialogContent>
