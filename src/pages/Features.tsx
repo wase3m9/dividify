@@ -7,6 +7,14 @@ import { FeatureSection } from "@/components/features/FeatureSection";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Zap, Cloud, Users, Download, Clock } from "lucide-react";
 
+// Import feature images
+import dividendVoucherImg from "@/assets/features/dividend-voucher-generator.jpg";
+import boardMinutesImg from "@/assets/features/board-minutes-generator.jpg";
+import dividendTrackerImg from "@/assets/features/dividend-tracker.jpg";
+import annualSummaryImg from "@/assets/features/annual-summary-reports.jpg";
+import companiesHouseImg from "@/assets/features/companies-house-import.jpg";
+import brandingImg from "@/assets/features/branding-templates.jpg";
+
 const featureSections = [
   {
     id: "dividend-voucher-generator",
@@ -14,7 +22,8 @@ const featureSections = [
     bullets: [
       "Select the company and shareholder, and Dividify auto-fills everything for you – company name, registration number, addresses and shareholdings – straight from your saved records. No more copy-and-paste from old Word templates.",
       "Voucher numbers are assigned automatically and the layout is kept consistent across every client. You just enter the dividend details, click generate, and download a ready-to-send PDF that looks professional every time."
-    ]
+    ],
+    image: dividendVoucherImg
   },
   {
     id: "board-minutes-generator",
@@ -22,7 +31,8 @@ const featureSections = [
     bullets: [
       "Pick the company and Dividify auto-fills the board details for you – company name, directors present, dates and dividend figures. You just check the wording, choose a template style and hit generate.",
       "Every set of minutes is consistent, compliant and linked back to the underlying dividend. No more editing old Word docs or chasing directors for the right names and dates."
-    ]
+    ],
+    image: boardMinutesImg
   },
   {
     id: "dividend-tracker",
@@ -30,7 +40,8 @@ const featureSections = [
     bullets: [
       "See the full history of dividend vouchers for each company at a glance – dates, amounts, number of shares and tax year, all in one clean table. Edit, download or delete vouchers in a couple of clicks when something changes.",
       "Board meetings are tracked in the same way, with meeting dates, attendees and created dates stored against the client. You always have a clear audit trail of what was approved and when, ready for reviews, queries or compliance checks."
-    ]
+    ],
+    image: dividendTrackerImg
   },
   {
     id: "annual-summary-reports",
@@ -38,7 +49,8 @@ const featureSections = [
     bullets: [
       "Choose the director and tax year, and Dividify instantly pulls every dividend voucher for that period into a single report. Download as Excel or PDF and drop it straight into your self assessment working papers.",
       "No more hunting through files or asking clients to resend documents. Every report uses a consistent layout, making it easy to check totals, support your figures and share a clear summary with clients or HMRC if needed."
-    ]
+    ],
+    image: annualSummaryImg
   },
   {
     id: "board-pack-generator",
@@ -54,7 +66,8 @@ const featureSections = [
     bullets: [
       "Type in the company number and Dividify fetches the officers from Companies House for you. Directors' names, addresses and appointment dates are pulled in and saved to the client record in one go.",
       "Those details then flow through into your dividend vouchers and board minutes automatically, so you're always using the correct director information without retyping or checking multiple systems."
-    ]
+    ],
+    image: companiesHouseImg
   },
   {
     id: "cap-table-snapshot",
@@ -80,7 +93,8 @@ const featureSections = [
     bullets: [
       "Add your firm logo and colours once, and they flow through every voucher, minute and board pack.",
       "Choose from multiple template styles (classic, modern, etc.) and set firm or client-level defaults."
-    ]
+    ],
+    image: brandingImg
   },
   {
     id: "exports-integrations",
@@ -127,6 +141,7 @@ const Features = () => {
             bullets={section.bullets}
             reversed={index % 2 === 1}
             comingSoon={section.comingSoon}
+            image={section.image}
           />
         </div>
       ))}
