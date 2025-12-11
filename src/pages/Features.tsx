@@ -4,7 +4,6 @@ import { Footer } from "@/components/landing/Footer";
 import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { AtAGlanceGrid } from "@/components/features/AtAGlanceGrid";
 import { FeatureSection } from "@/components/features/FeatureSection";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Zap, Cloud, Users, Download, Clock } from "lucide-react";
 
 // Import feature images
@@ -186,32 +185,48 @@ const Features = () => {
       </section>
 
       {/* Built for UK Compliance */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Built for UK Compliance</h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-12 h-12 mb-4 bg-brand-purple/10 rounded-full flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-brand-purple" />
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Built for UK Compliance</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Every document meets Companies House and HMRC requirements
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {[
+              { 
+                label: "CH", 
+                title: "Companies House Ready", 
+                description: "All documents follow Companies House requirements for proper corporate record-keeping and dividend declarations." 
+              },
+              { 
+                label: "HMRC", 
+                title: "HMRC Compliant", 
+                description: "Dividend vouchers contain all information required for Self Assessment tax returns and HMRC enquiries." 
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-brand-purple/20 transition-all duration-300 hover:-translate-y-1"
+              >
+                {/* Subtle gradient background on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/5 to-purple-100/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Icon container */}
+                <div className="relative inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-purple/10 mb-6 group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
+                  <span className="text-sm font-bold text-brand-purple group-hover:text-white transition-colors duration-300">{item.label}</span>
                 </div>
-                <CardTitle>Companies House Ready</CardTitle>
-                <CardDescription>
-                  All documents follow Companies House requirements for proper corporate record-keeping and dividend declarations.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="w-12 h-12 mb-4 bg-brand-purple/10 rounded-full flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-brand-purple" />
-                </div>
-                <CardTitle>HMRC Compliant</CardTitle>
-                <CardDescription>
-                  Dividend vouchers contain all information required for Self Assessment tax returns and HMRC enquiries.
-                </CardDescription>
-              </CardHeader>
-            </Card>
+                
+                {/* Text */}
+                <h3 className="relative text-xl font-semibold text-gray-900 mb-3 group-hover:text-brand-purple transition-colors duration-300">
+                  {item.title}
+                </h3>
+                <p className="relative text-gray-600 leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
