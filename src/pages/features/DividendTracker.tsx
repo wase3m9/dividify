@@ -21,7 +21,7 @@ const DividendTrackerFeature = () => {
       <SiteBreadcrumbs />
       
       {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
+      <section className="pt-28 pb-16 md:pt-32 md:pb-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Dividend tracker, analytics and annual reports

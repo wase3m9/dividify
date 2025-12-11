@@ -9,7 +9,7 @@ const GetStarted = () => {
   const navigate = useNavigate();
 
   const handleDirectorPlansClick = () => {
-    navigate('/signup?plan=starter&from=pricing');
+    navigate('/#pricing');
   };
 
   return (
