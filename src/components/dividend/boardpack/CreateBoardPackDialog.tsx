@@ -292,6 +292,23 @@ export const CreateBoardPackDialog = ({
 
       // Send via edge function
       setProgress({ step: "Sending email...", current: 5, total: 5 });
+      
+      console.log("Sending board pack email with attachments:", attachments.length);
+      console.log("Attachment filenames:", attachments.map(a => a.filename));
+      
+      const requestBody = {
+        companyId: company.id,
+        companyName: company.name,
+        yearEndDate,
+        to: emailTo,
+        cc: emailCc || undefined,
+        subject: emailSubject,
+        message: emailMessage,
+        attachments,
+      };
+      
+      console.log("Request body keys:", Object.keys(requestBody));
+      
       const response = await fetch(
         'https://vkllrotescxmqwogfamo.supabase.co/functions/v1/send-boardpack-email',
         {
@@ -300,16 +317,7 @@ export const CreateBoardPackDialog = ({
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({
-            companyId: company.id,
-            companyName: company.name,
-            yearEndDate,
-            to: emailTo,
-            cc: emailCc || undefined,
-            subject: emailSubject,
-            message: emailMessage,
-            attachments,
-          }),
+          body: JSON.stringify(requestBody),
         }
       );
 
