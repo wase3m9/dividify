@@ -15,6 +15,7 @@ import boardMinutesFormImg from "@/assets/features/board-minutes-form.jpg";
 import boardMinutesPreviewImg from "@/assets/features/board-minutes-preview.jpg";
 import dividendTrackerImg from "@/assets/features/dividend-tracker.jpg";
 import annualSummaryImg from "@/assets/features/annual-summary-reports.jpg";
+import annualSummaryListImg from "@/assets/features/annual-summary-list.jpg";
 import companiesHouseImg from "@/assets/features/companies-house-import.jpg";
 import brandingImg from "@/assets/features/branding-templates.jpg";
 import boardPackImg from "@/assets/features/board-pack-dialog-new.jpg";
@@ -56,7 +57,7 @@ const featureSections = [
       "Choose the director and tax year, and Dividify instantly pulls every dividend voucher for that period into a single report. Download as Excel or PDF and drop it straight into your self assessment working papers.",
       "No more hunting through files or asking clients to resend documents. Every report uses a consistent layout, making it easy to check totals, support your figures and share a clear summary with clients or HMRC if needed."
     ],
-    image: annualSummaryImg
+    images: [annualSummaryImg, annualSummaryListImg]
   },
   {
     id: "board-pack-generator",
