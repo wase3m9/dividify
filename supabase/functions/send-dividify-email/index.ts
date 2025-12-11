@@ -122,7 +122,7 @@ const handler = async (req: Request): Promise<Response> => {
             <tr>
               <td style="background:#ffffff; padding:18px 26px; text-align:left; border-bottom:1px solid #e5e7eb;">
                 <img src="https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/public-assets/369eb256-c5f6-4c83-bdbd-985140819b13.png" alt="Dividify" style="height:32px; margin-bottom:8px;" />
-                <div style="font-size:16px; color:#111827;">
+                <div style="font-size:16px; color:#4c1d95;">
                   Dividend documentation for ${companyName}
                 </div>
               </td>
@@ -134,14 +134,6 @@ const handler = async (req: Request): Promise<Response> => {
                 <div style="white-space: pre-wrap; margin:0 0 16px 0;">
 ${message.replace(/\n/g, "<br>")}
                 </div>
-
-                <p style="margin:0 0 12px 0; font-size:13px; color:#4b5563;">
-                  <em>These documents were created automatically in Dividify on behalf of your accountant for your records and compliance.</em>
-                </p>
-
-                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
-                  <em>Please do not reply to this message.</em>
-                </p>
 
                 <!-- Attachment summary card -->
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:8px 0 16px 0;">
@@ -157,12 +149,24 @@ ${message.replace(/\n/g, "<br>")}
                   </tr>
                 </table>
 
+                <p style="margin:0 0 12px 0; font-size:13px; color:#4b5563;">
+                  <em>These documents were created automatically in Dividify on behalf of your accountant for your records and compliance.</em>
+                </p>
+
+                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
+                  <em>Please do not reply to this message.</em>
+                </p>
+
                 <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
                   <em>Please save these files somewhere secure. You may need them for mortgage applications, lender checks or your Self Assessment tax return.</em>
                 </p>
 
-                <p style="margin:0 0 24px 0; font-size:13px; color:#4b5563;">
+                <p style="margin:0 0 16px 0; font-size:13px; color:#4b5563;">
                   <em>This email was sent from an unattended address. If you have any questions, please contact your accountant directly.</em>
+                </p>
+
+                <p style="margin:0 0 24px 0; font-size:13px; color:#4b5563;">
+                  <em>Please do not reply to this message.</em>
                 </p>
 
                 <p style="margin:0 0 24px 0; text-align:center;">
