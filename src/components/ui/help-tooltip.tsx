@@ -21,7 +21,7 @@ export const HelpTooltip: React.FC<HelpTooltipProps> = ({ content, className }) 
           <button
             type="button"
             className={cn(
-              "inline-flex items-center justify-center rounded-full text-muted-foreground hover:text-foreground transition-colors ml-1",
+              "inline-flex items-center justify-center rounded-full text-violet-400 hover:text-violet-500 transition-colors ml-1",
               className
             )}
             aria-label="Help"
