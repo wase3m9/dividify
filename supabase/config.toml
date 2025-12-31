@@ -11,3 +11,6 @@ verify_jwt = true
 
 [functions.send-boardpack-email]
 verify_jwt = true
+
+[functions.feature-request]
+verify_jwt = true

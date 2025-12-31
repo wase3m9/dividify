@@ -19,6 +19,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Package, Mail } from "lucide-react";
 import { EmailClientDialog } from "@/components/dividend/email/EmailClientDialog";
+import { FeatureRequestPopup } from "@/components/dashboard/FeatureRequestPopup";
 
 const AccountantDashboard = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>();
@@ -202,6 +203,7 @@ const AccountantDashboard = () => {
           )}
         </div>
       </main>
+      <FeatureRequestPopup />
     </div>
   );
 };
