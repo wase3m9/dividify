@@ -26,6 +26,7 @@ import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMi
 import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 import { EmailClientDialog } from "@/components/dividend/email/EmailClientDialog";
 import { SentEmailsSection } from "@/components/dividend/email/SentEmailsSection";
+import { FeatureRequestPopup } from "@/components/dashboard/FeatureRequestPopup";
 
 
 
@@ -463,6 +464,7 @@ const CompanyDashboard = () => {
           )}
         </div>
       </div>
+      <FeatureRequestPopup />
     </div>
   );
 };
