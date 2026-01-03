@@ -12,6 +12,27 @@ interface ResourceDownloadRequest {
   resourceName: string;
 }
 
+// HTML escape function to prevent XSS
+function htmlEscape(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// Email validation function
+function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.length <= 255;
+}
+
+// Text validation function
+function isValidText(text: string, maxLength: number): boolean {
+  return typeof text === 'string' && text.trim().length > 0 && text.length <= maxLength;
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -21,8 +42,7 @@ serve(async (req) => {
   try {
     const { email, resourceName }: ResourceDownloadRequest = await req.json();
 
-    console.log(`Resource download request: ${resourceName} for ${email}`);
-
+    // Validate required fields
     if (!email || !resourceName) {
       return new Response(
         JSON.stringify({ error: "Email and resource name are required" }),
@@ -30,8 +50,30 @@ serve(async (req) => {
       );
     }
 
+    // Validate email format
+    if (!isValidEmail(email)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email format" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Validate resource name length
+    if (!isValidText(resourceName, 200)) {
+      return new Response(
+        JSON.stringify({ error: "Resource name is invalid or too long (max 200 characters)" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    console.log(`Resource download request: ${htmlEscape(resourceName)} for ${htmlEscape(email)}`);
+
     // Send notification email to Dividify
     if (RESEND_API_KEY) {
+      // Sanitize inputs before inserting into HTML
+      const safeResourceName = htmlEscape(resourceName);
+      const safeEmail = htmlEscape(email);
+      
       const notificationRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -41,11 +83,11 @@ serve(async (req) => {
         body: JSON.stringify({
           from: "Dividify <noreply@dividify.co.uk>",
           to: ["noreply@dividify.co.uk"],
-          subject: `New Resource Download: ${resourceName}`,
+          subject: `New Resource Download: ${safeResourceName}`,
           html: `
             <h2>New Resource Download</h2>
-            <p><strong>Resource:</strong> ${resourceName}</p>
-            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Resource:</strong> ${safeResourceName}</p>
+            <p><strong>Email:</strong> ${safeEmail}</p>
             <p><strong>Time:</strong> ${new Date().toISOString()}</p>
           `,
         }),
