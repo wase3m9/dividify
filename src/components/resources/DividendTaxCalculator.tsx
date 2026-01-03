@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { PoundSterling, Info, TrendingUp, TrendingDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PoundSterling, Info, TrendingUp, TrendingDown, RotateCcw } from "lucide-react";
 import { calculateDividendTax, compareTaxYears, TAX_YEARS } from "@/utils/taxCalculations";
 
 export const DividendTaxCalculator = () => {
@@ -25,6 +26,12 @@ export const DividendTaxCalculator = () => {
     }).format(value);
   };
 
+  const handleReset = () => {
+    setDividendAmount("");
+    setOtherIncome("");
+    setTaxYear("2025/26");
+  };
+
   const taxYears = Object.keys(TAX_YEARS);
 
   return (
@@ -41,6 +48,17 @@ export const DividendTaxCalculator = () => {
 
       <CardContent className="space-y-6">
         <div className="space-y-4">
+          <div className="flex justify-end">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleReset}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <RotateCcw className="h-4 w-4 mr-1" />
+              Reset
+            </Button>
+          </div>
           <div className="space-y-2">
             <Label htmlFor="div-amount">Dividend Amount (£)</Label>
             <Input

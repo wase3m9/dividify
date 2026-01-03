@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, Info, TrendingUp, TrendingDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calculator, Info, TrendingUp, TrendingDown, RotateCcw } from "lucide-react";
 import { calculateS455Tax, TAX_YEARS } from "@/utils/taxCalculations";
 
 export const S455Calculator = () => {
@@ -19,6 +20,11 @@ export const S455Calculator = () => {
       currency: "GBP",
       minimumFractionDigits: 2,
     }).format(value);
+  };
+
+  const handleReset = () => {
+    setLoanAmount("");
+    setAccountingPeriod("2024/25");
   };
 
   const periods = Object.keys(TAX_YEARS);
@@ -44,6 +50,17 @@ export const S455Calculator = () => {
 
       <CardContent className="space-y-6">
         <div className="space-y-4">
+          <div className="flex justify-end">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleReset}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <RotateCcw className="h-4 w-4 mr-1" />
+              Reset
+            </Button>
+          </div>
           <div className="space-y-2">
             <Label htmlFor="s455-loan">Outstanding Loan Amount (£)</Label>
             <Input
