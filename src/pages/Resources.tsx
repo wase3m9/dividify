@@ -15,7 +15,7 @@ const resources = [
     icon: <FileCheck className="w-6 h-6 text-primary" />,
   },
   {
-    title: "UK Dividend Guide 2025/26",
+    title: "UK Dividend Guide 2025/2026",
     description: "Everything you need to know about paying dividends in the UK, from tax rates to paperwork requirements.",
     pdfPath: "/resources/uk-dividend-guide-2025.pdf",
     icon: <BookOpen className="w-6 h-6 text-primary" />,
