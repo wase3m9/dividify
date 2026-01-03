@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   
   // Header
   header: {
-    marginBottom: 20,
+    marginBottom: 25,
   },
   mainLogo: {
     width: 130,
@@ -52,6 +52,11 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     marginBottom: 15,
   },
+  page2Header: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginBottom: 15,
+  },
   
   // Intro Box
   introBox: {
@@ -66,6 +71,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#555555',
     lineHeight: 1.45,
+  },
+  introNote: {
+    fontSize: 12,
+    color: colors.textMuted,
+    fontStyle: 'italic',
+    marginTop: 4,
   },
   
   // Section Headers
@@ -118,6 +129,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#444444',
     lineHeight: 1.45,
+  },
+  checklistBold: {
+    fontFamily: 'Helvetica-Bold',
   },
   
   // Card Box
@@ -194,23 +208,43 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     lineHeight: 1.4,
   },
+  warningItemBold: {
+    fontFamily: 'Helvetica-Bold',
+  },
   
-  // Tip Items (green checkmarks)
-  tipItem: {
+  // Handy Notes Items
+  noteItem: {
     flexDirection: 'row',
     marginBottom: 8,
   },
-  tipIcon: {
-    width: 16,
-    fontSize: 13,
-    color: colors.successGreen,
-    fontFamily: 'Helvetica-Bold',
-  },
-  tipText: {
+  noteText: {
     flex: 1,
     fontSize: 13,
     color: '#444444',
     lineHeight: 1.45,
+  },
+  noteBold: {
+    fontFamily: 'Helvetica-Bold',
+    color: colors.brandDark,
+  },
+  
+  // CTA Section
+  ctaSection: {
+    alignItems: 'center',
+    marginTop: 'auto',
+    paddingTop: 15,
+  },
+  ctaTitle: {
+    fontSize: 14,
+    fontFamily: 'Helvetica-Bold',
+    color: colors.brandPurple,
+    marginBottom: 6,
+  },
+  ctaSubtitle: {
+    fontSize: 13,
+    color: colors.textColor,
+    textAlign: 'center',
+    marginBottom: 12,
   },
   
   // Footer
@@ -222,6 +256,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#eeeeee',
     paddingTop: 15,
+    paddingBottom: 10,
     alignItems: 'center',
   },
   ctaButton: {
@@ -230,7 +265,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 30,
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 8,
   },
   ctaButtonText: {
     fontSize: 13,
@@ -260,10 +295,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChecklistItem = ({ children }: { children: React.ReactNode }) => (
+const ChecklistItem = ({ title, description }: { title?: string; description: string }) => (
   <View style={styles.checklistItem}>
     <View style={styles.checkbox} />
-    <Text style={styles.checklistText}>{children}</Text>
+    <Text style={styles.checklistText}>
+      {title && <Text style={styles.checklistBold}>{title}: </Text>}
+      {description}
+    </Text>
   </View>
 );
 
@@ -274,17 +312,22 @@ const BulletItem = ({ children }: { children: React.ReactNode }) => (
   </View>
 );
 
-const WarningItem = ({ children }: { children: React.ReactNode }) => (
+const WarningItem = ({ title, description }: { title: string; description: string }) => (
   <View style={styles.warningItem}>
     <Text style={styles.warningItemIcon}>✖</Text>
-    <Text style={styles.warningItemText}>{children}</Text>
+    <Text style={styles.warningItemText}>
+      <Text style={styles.warningItemBold}>{title}: </Text>
+      {description}
+    </Text>
   </View>
 );
 
-const TipItem = ({ children }: { children: React.ReactNode }) => (
-  <View style={styles.tipItem}>
-    <Text style={styles.tipIcon}>✓</Text>
-    <Text style={styles.tipText}>{children}</Text>
+const NoteItem = ({ title, description }: { title: string; description: string }) => (
+  <View style={styles.noteItem}>
+    <Text style={styles.noteText}>
+      <Text style={styles.noteBold}>{title}: </Text>
+      {description}
+    </Text>
   </View>
 );
 
@@ -299,7 +342,7 @@ const SectionHeader = ({ number, title }: { number: string; title: string }) => 
 
 export const DividendComplianceChecklistPDF = () => (
   <Document>
-    {/* Page 1 - Header, Intro, Sections 1 and 2 */}
+    {/* Page 1 */}
     <Page size="A4" style={styles.page}>
       {/* Header */}
       <View style={styles.header}>
@@ -308,57 +351,65 @@ export const DividendComplianceChecklistPDF = () => (
 
       <Text style={styles.title}>Dividend Compliance Checklist</Text>
       <Text style={styles.subtitle}>
-        Your essential guide to paying dividends correctly in 2025/26
+        Management Made Simple for UK Directors
       </Text>
 
       {/* Intro Box */}
       <View style={styles.introBox}>
         <Text style={styles.introText}>
-          This checklist helps UK limited company directors pay dividends legally and with the correct paperwork. 
-          It covers distributable reserves, board minutes, dividend vouchers, and common pitfalls to avoid.
+          <Text style={styles.checklistBold}>Overview:</Text> Follow this compliance flow to ensure your dividends are legal and HMRC-compliant.
         </Text>
+        <Text style={styles.introNote}>Note: This does not constitute tax advice.</Text>
       </View>
 
-      {/* Section 1 */}
+      {/* Section 1 - Before You Declare */}
       <SectionHeader number="1" title="Before You Declare" />
       
-      <ChecklistItem>
-        Confirm the company has distributable reserves (retained profits after tax).
-      </ChecklistItem>
-      <ChecklistItem>
-        Check the Articles of Association and share structure (ordinary vs different classes).
-      </ChecklistItem>
-      <ChecklistItem>
-        Decide whether this is an interim dividend (board decision) or a final dividend (shareholder approval required).
-      </ChecklistItem>
-      <ChecklistItem>
-        Ensure the dividend is correctly allocated across shareholders based on shareholding.
-      </ChecklistItem>
-      <ChecklistItem>
-        If clearing a director's loan account, ensure proper paperwork supports it.
-      </ChecklistItem>
+      <ChecklistItem 
+        title="Confirm Distributable Reserves"
+        description="Ensure the company has retained profits. You generally cannot pay dividends from capital or future income."
+      />
+      <ChecklistItem 
+        title="Check Share Structure"
+        description="Verify ordinary shares vs. different classes in your Articles of Association. Make sure the plan matches rights."
+      />
+      <ChecklistItem 
+        title="Determine Dividend Type"
+        description="Decide if this is an interim (board decision) or final (shareholder approval) dividend."
+      />
+      <ChecklistItem 
+        title="Ensure Fairness"
+        description="Confirm the dividend is correctly allocated. Unequal payments usually require separate share classes or waivers."
+      />
+      <ChecklistItem 
+        title="Director's Loans"
+        description="If clearing an overdrawn DLA, ensure paperwork supports it and profits exist."
+      />
 
-      {/* Section 2 */}
+      {/* Section 2 - Declare It Properly */}
       <SectionHeader number="2" title="Declare It Properly" />
       
-      <ChecklistItem>
-        Hold a directors' meeting and record: dividend type, total amount, amount per share, record date, and payment date.
-      </ChecklistItem>
-      <ChecklistItem>
-        For final dividends, obtain shareholder approval (written resolution is common).
-      </ChecklistItem>
-      <ChecklistItem>
-        Prepare a dividend voucher for each shareholder (including directors).
-      </ChecklistItem>
+      <ChecklistItem 
+        title="Hold a Board Meeting"
+        description="Record the dividend type, total amount, amount per share, record date, and payment date."
+      />
+      <ChecklistItem 
+        title="Shareholder Approval"
+        description="Obtain a written resolution if declaring a Final Dividend."
+      />
+      <ChecklistItem 
+        title="Prepare Dividend Vouchers"
+        description="Create a voucher for every shareholder."
+      />
 
-      {/* Card Box */}
+      {/* Card Box - Dividend Voucher Requirements */}
       <View style={styles.cardBox}>
-        <Text style={styles.cardTitle}>Dividend Voucher — Minimum Details</Text>
-        <BulletItem>Company name and registration number</BulletItem>
-        <BulletItem>Shareholder name and address</BulletItem>
-        <BulletItem>Date of payment and dividend amount (gross)</BulletItem>
-        <BulletItem>Share class and number of shares held</BulletItem>
-        <BulletItem>Director signature and reference number</BulletItem>
+        <Text style={styles.cardTitle}>📄 Dividend Voucher Requirements</Text>
+        <BulletItem>Company Name & Registration Number</BulletItem>
+        <BulletItem>Shareholder Name & Address</BulletItem>
+        <BulletItem>Date of Payment (or Declaration)</BulletItem>
+        <BulletItem>Gross Dividend Amount & Share Class</BulletItem>
+        <BulletItem>Director's Signature</BulletItem>
       </View>
 
       {/* Footer Page 1 */}
@@ -367,26 +418,33 @@ export const DividendComplianceChecklistPDF = () => (
           <Image src={iconLogo} style={styles.footerLogoCenter} />
         </Link>
       </View>
-      <Text style={styles.pageNumber}>Page 1</Text>
+      <Text style={styles.pageNumber}>Page 1 of 2</Text>
     </Page>
 
-    {/* Page 2 - Sections 3, 4, 5, CTA */}
+    {/* Page 2 */}
     <Page size="A4" style={styles.page}>
-      {/* Section 3 */}
-      <SectionHeader number="3" title="Pay and Record Correctly" />
+      {/* Page 2 Header */}
+      <Text style={styles.page2Header}>Dividend Compliance Checklist | Page 2</Text>
+
+      {/* Section 3 - Pay and Record */}
+      <SectionHeader number="3" title="Pay and Record" />
       
-      <ChecklistItem>
-        Make the payment (bank transfer is easiest for audit trail) matching what was declared.
-      </ChecklistItem>
-      <ChecklistItem>
-        Post the bookkeeping entries: debit retained earnings, credit dividends payable.
-      </ChecklistItem>
-      <ChecklistItem>
-        Keep supporting documents together: management accounts, minutes, vouchers, bank evidence.
-      </ChecklistItem>
-      <ChecklistItem>
-        If paying to a director, ensure it's not treated as salary. Dividends are not payroll items.
-      </ChecklistItem>
+      <ChecklistItem 
+        title="Make the Payment"
+        description="Use bank transfer for a clear audit trail. Ensure it matches the minutes exactly."
+      />
+      <ChecklistItem 
+        title="Post Bookkeeping"
+        description="Debit retained earnings; Credit dividends payable (then clear when paid)."
+      />
+      <ChecklistItem 
+        title="Archive Documents"
+        description="Store minutes, vouchers, and bank proof together."
+      />
+      <ChecklistItem 
+        title="Not Payroll"
+        description="Do not treat this as salary. Dividends are not payroll items."
+      />
 
       {/* Warning Section */}
       <View style={styles.warningContainer}>
@@ -394,52 +452,62 @@ export const DividendComplianceChecklistPDF = () => (
           <Text style={styles.warningIcon}>⚠</Text>
           <Text style={styles.warningTitle}>Common Mistakes to Avoid</Text>
         </View>
-        <WarningItem>Paying dividends when there are no profits (or losses wipe out reserves).</WarningItem>
-        <WarningItem>Backdating minutes or creating vouchers after the fact.</WarningItem>
-        <WarningItem>Unequal dividends without correct share classes or waivers.</WarningItem>
-        <WarningItem>Mixing drawings and dividends without proper documentation.</WarningItem>
-        <WarningItem>Forgetting personal tax — budget for Self Assessment liability.</WarningItem>
+        <WarningItem 
+          title="Illegal Dividends"
+          description="Paying dividends when there are no retained profits (or when losses wipe out reserves)."
+        />
+        <WarningItem 
+          title="Backdating Paperwork"
+          description="Creating minutes or vouchers months later to match random cash withdrawals."
+        />
+        <WarningItem 
+          title="Unequal Payments"
+          description="Paying different amounts to shareholders holding the same share class without a waiver."
+        />
+        <WarningItem 
+          title="Mixing Drawings & Dividends"
+          description="Treating company money as a personal wallet without formal declaration steps."
+        />
+        <WarningItem 
+          title="Ignoring Personal Tax"
+          description="Forgetting that dividends are paid gross, so you must save for Self Assessment."
+        />
       </View>
 
-      {/* Section 4 - Handy Notes */}
-      <SectionHeader number="4" title="Handy Notes for Directors" />
+      {/* Section 5 - Handy Notes */}
+      <SectionHeader number="5" title="Handy Notes for Directors" />
       
-      <TipItem>
-        Dividends are paid from post-tax profits. Factor in corporation tax when assessing reserves.
-      </TipItem>
-      <TipItem>
-        Keep the story consistent: minutes, vouchers, and bank payments should all align.
-      </TipItem>
-      <TipItem>
-        For regular monthly dividends: monthly management accounts + minutes + vouchers + payment.
-      </TipItem>
+      <NoteItem 
+        title="Corporation Tax"
+        description="Dividends are paid from post-tax profits. Always set aside Corporation Tax before calculating what is available to withdraw."
+      />
+      <NoteItem 
+        title="Consistency is Key"
+        description="Your board minutes, vouchers, and bank statement dates must all align perfectly."
+      />
+      <NoteItem 
+        title="Routine"
+        description="If you pay monthly, establish a 'Month End' routine: Management Accounts → Minutes → Voucher → Pay."
+      />
 
       {/* CTA Section */}
-      <View style={{ marginTop: 20, alignItems: 'center' }}>
-        <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 6 }}>
-          Need Templates?
-        </Text>
-        <Text style={{ fontSize: 13, color: colors.textColor, textAlign: 'center', marginBottom: 12 }}>
-          Dividify provides professional dividend vouchers, board minutes, and written resolutions — all in one place.
-        </Text>
+      <View style={styles.ctaSection}>
+        <Text style={styles.ctaTitle}>Need Professional Templates?</Text>
+        <Text style={styles.ctaSubtitle}>Generate compliant vouchers & minutes in seconds.</Text>
         <Link src="https://dividify.co.uk/get-started">
           <View style={styles.ctaButton}>
             <Text style={styles.ctaButtonText}>Start Free Trial →</Text>
           </View>
         </Link>
-      </View>
-
-      {/* Footer Page 2 */}
-      <View style={styles.footer}>
         <Text style={styles.disclaimer}>
-          Disclaimer: This checklist is general information for UK companies. It does not cover every scenario. 
-          If you are unsure, get professional advice before paying dividends.
+          Disclaimer: This checklist is for general information only. It does not cover complex scenarios like group structures or dividend waivers. Always seek professional advice if unsure.
         </Text>
         <Link src="https://dividify.co.uk">
           <Image src={iconLogo} style={styles.footerLogoCenter} />
         </Link>
       </View>
-      <Text style={styles.pageNumber}>Page 2</Text>
+
+      <Text style={styles.pageNumber}>Page 2 of 2</Text>
     </Page>
   </Document>
 );
