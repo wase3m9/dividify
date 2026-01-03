@@ -14,6 +14,21 @@ interface FeatureRequestBody {
   additionalDetails?: string;
 }
 
+// HTML escape function to prevent XSS
+function htmlEscape(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// Text validation function
+function isValidText(text: string, maxLength: number): boolean {
+  return typeof text === 'string' && text.trim().length > 0 && text.length <= maxLength;
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -55,6 +70,7 @@ const handler = async (req: Request): Promise<Response> => {
     const body: FeatureRequestBody = await req.json();
     const { featureRequest, additionalDetails } = body;
 
+    // Validate feature request
     if (!featureRequest || featureRequest.trim().length === 0) {
       return new Response(
         JSON.stringify({ error: "Feature request is required" }),
@@ -62,7 +78,31 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log(`Processing feature request from: ${userEmail}`);
+    // Validate feature request length
+    if (!isValidText(featureRequest, 5000)) {
+      return new Response(
+        JSON.stringify({ error: "Feature request is too long (max 5000 characters)" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Validate additional details length if provided
+    if (additionalDetails && additionalDetails.length > 5000) {
+      return new Response(
+        JSON.stringify({ error: "Additional details are too long (max 5000 characters)" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    console.log(`Processing feature request from: ${htmlEscape(userEmail)}`);
+
+    // Sanitize all user inputs before inserting into HTML
+    const safeUserName = htmlEscape(userName);
+    const safeUserEmail = htmlEscape(userEmail);
+    const safeFeatureRequest = htmlEscape(featureRequest).replace(/\n/g, "<br>");
+    const safeAdditionalDetails = additionalDetails 
+      ? htmlEscape(additionalDetails).replace(/\n/g, "<br>") 
+      : null;
 
     const htmlBody = `
 <!DOCTYPE html>
@@ -95,8 +135,8 @@ const handler = async (req: Request): Promise<Response> => {
                       Submitted by
                     </p>
                     <p style="margin:0; font-size:14px; color:#111827;">
-                      ${userName}<br/>
-                      <a href="mailto:${userEmail}" style="color:#7c3aed;">${userEmail}</a>
+                      ${safeUserName}<br/>
+                      <a href="mailto:${safeUserEmail}" style="color:#7c3aed;">${safeUserEmail}</a>
                     </p>
                   </td>
                 </tr>
@@ -107,17 +147,17 @@ const handler = async (req: Request): Promise<Response> => {
                   Feature Request
                 </p>
                 <p style="margin:0; font-size:14px; color:#111827; background:#faf9fc; padding:16px; border-radius:8px; border-left:4px solid #9b87f5;">
-                  ${featureRequest.replace(/\n/g, "<br>")}
+                  ${safeFeatureRequest}
                 </p>
               </div>
 
-              ${additionalDetails ? `
+              ${safeAdditionalDetails ? `
               <div>
                 <p style="margin:0 0 8px 0; font-size:12px; color:#6b7280; text-transform:uppercase; font-weight:600;">
                   Additional Details
                 </p>
                 <p style="margin:0; font-size:14px; color:#111827; background:#f9fafb; padding:16px; border-radius:8px;">
-                  ${additionalDetails.replace(/\n/g, "<br>")}
+                  ${safeAdditionalDetails}
                 </p>
               </div>
               ` : ""}
@@ -141,7 +181,7 @@ const handler = async (req: Request): Promise<Response> => {
     const { error: emailError } = await resend.emails.send({
       from: "Dividify <no-reply@dividify.co.uk>",
       to: ["noreply@dividify.co.uk"],
-      subject: `Feature Request from ${userName}`,
+      subject: `Feature Request from ${safeUserName}`,
       html: htmlBody,
       reply_to: userEmail !== "Anonymous" ? userEmail : undefined,
     });

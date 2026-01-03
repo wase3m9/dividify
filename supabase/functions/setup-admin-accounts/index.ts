@@ -16,13 +16,65 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     
+    // SECURITY: Require authentication
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader) {
+      console.error('No authorization header provided');
+      return new Response(JSON.stringify({ 
+        error: 'Authentication required',
+        success: false 
+      }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Verify the authenticated user
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } },
+    });
+
+    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser();
+    
+    if (authError || !user) {
+      console.error('Invalid authentication:', authError?.message);
+      return new Response(JSON.stringify({ 
+        error: 'Invalid authentication',
+        success: false 
+      }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // SECURITY: Check if the requesting user has admin role
     const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false
       }
     });
+
+    const { data: userRoles, error: roleError } = await supabaseAdmin
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .eq('role', 'admin');
+
+    if (roleError || !userRoles || userRoles.length === 0) {
+      console.error('User is not an admin:', user.id);
+      return new Response(JSON.stringify({ 
+        error: 'Admin privileges required',
+        success: false 
+      }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log(`Admin ${user.email} is setting up admin accounts`);
 
     // Define the admin accounts to set up
     const adminAccounts = [
@@ -94,7 +146,7 @@ serve(async (req) => {
           .upsert({
             user_id: userId,
             role: 'admin',
-            created_by: userId
+            created_by: user.id  // Track who created this admin
           });
         
         // Log the admin setup action
@@ -104,7 +156,8 @@ serve(async (req) => {
           details: {
             email: account.email,
             user_type: account.userType,
-            description: account.description
+            description: account.description,
+            created_by: user.email
           }
         });
         
@@ -113,7 +166,8 @@ serve(async (req) => {
           userType: account.userType,
           tempPassword: tempPassword,
           success: true,
-          description: account.description
+          description: account.description,
+          note: 'Password shown once only - change immediately after first login'
         });
         
         console.log(`Successfully set up admin account for ${account.email}`);
@@ -132,9 +186,15 @@ serve(async (req) => {
     return new Response(JSON.stringify({
       success: true,
       message: 'Admin accounts setup completed',
-      results: results
+      results: results,
+      createdBy: user.email
     }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { 
+        ...corsHeaders, 
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+        'Pragma': 'no-cache'
+      },
     });
 
   } catch (error) {
