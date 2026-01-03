@@ -20,36 +20,34 @@ const colors = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
-    paddingLeft: 50,
-    paddingRight: 50,
-    paddingBottom: 55,
+    padding: '12mm 15mm',
+    paddingBottom: 45,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
-    fontSize: 10,
-    lineHeight: 1.4,
+    fontSize: 13,
+    lineHeight: 1.45,
     position: 'relative',
   },
   
   // Header
   header: {
-    marginBottom: 15,
+    marginBottom: 20,
   },
   mainLogo: {
-    width: 110,
+    width: 130,
     height: 'auto',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 22,
+    fontSize: 28,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
-    marginTop: 3,
-    marginBottom: 3,
-    letterSpacing: -0.5,
+    marginTop: 5,
+    marginBottom: 5,
+    letterSpacing: -1,
   },
   subtitle: {
-    fontSize: 11,
+    fontSize: 14,
     color: colors.textMuted,
     fontWeight: 500,
     marginBottom: 10,
@@ -58,25 +56,25 @@ const styles = StyleSheet.create({
   // Stats Grid
   statsGrid: {
     flexDirection: 'row',
-    gap: 8,
-    marginBottom: 15,
+    gap: 10,
+    marginBottom: 20,
   },
   statBox: {
     flex: 1,
     backgroundColor: colors.brandLightPurple,
     borderWidth: 1,
     borderColor: colors.introBorder,
-    borderRadius: 6,
-    padding: 8,
+    borderRadius: 8,
+    padding: 10,
     alignItems: 'center',
   },
   statValue: {
     color: colors.brandPurple,
     fontFamily: 'Helvetica-Bold',
-    fontSize: 14,
+    fontSize: 16,
   },
   statLabel: {
-    fontSize: 8,
+    fontSize: 10,
     color: colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -86,16 +84,16 @@ const styles = StyleSheet.create({
   // Intro Box
   introBox: {
     backgroundColor: '#fafafa',
-    borderLeftWidth: 3,
+    borderLeftWidth: 4,
     borderLeftColor: colors.brandPurple,
-    padding: 10,
-    marginBottom: 18,
-    borderRadius: 3,
+    padding: '12 15',
+    marginBottom: 25,
+    borderRadius: 4,
   },
   introText: {
-    fontSize: 9,
+    fontSize: 13,
     color: '#555555',
-    lineHeight: 1.4,
+    lineHeight: 1.45,
   },
   introStrong: {
     fontFamily: 'Helvetica-Bold',
@@ -106,65 +104,69 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 1.5,
+    borderBottomWidth: 2,
     borderBottomColor: colors.border,
-    paddingBottom: 4,
-    marginTop: 12,
-    marginBottom: 8,
+    paddingBottom: 5,
+    marginTop: 20,
+    marginBottom: 10,
   },
   sectionNumber: {
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
     backgroundColor: colors.brandPurple,
-    borderRadius: 10,
+    borderRadius: 11,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 8,
   },
   sectionNumberText: {
     color: '#FFFFFF',
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
-    fontSize: 13,
+    fontSize: 16,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandPurple,
   },
   
   // Paragraph
   paragraph: {
-    fontSize: 9,
-    color: colors.textColor,
-    marginBottom: 6,
-    lineHeight: 1.4,
+    fontSize: 13,
+    color: '#444444',
+    marginBottom: 10,
+    lineHeight: 1.45,
   },
   
   // List Items
+  listContainer: {
+    paddingLeft: 18,
+    marginTop: 5,
+    marginBottom: 15,
+  },
   listItem: {
     flexDirection: 'row',
     marginBottom: 4,
-    paddingLeft: 0,
   },
   listBullet: {
     width: 12,
-    fontSize: 10,
+    fontSize: 13,
     color: colors.brandPurple,
   },
   listText: {
     flex: 1,
-    fontSize: 9,
+    fontSize: 13,
     color: '#444444',
-    lineHeight: 1.3,
+    lineHeight: 1.45,
   },
   
   // Table
   table: {
-    marginTop: 8,
+    marginTop: 10,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#eeeeee',
-    borderRadius: 5,
+    borderRadius: 8,
     overflow: 'hidden',
   },
   tableHeader: {
@@ -173,9 +175,9 @@ const styles = StyleSheet.create({
   },
   tableHeaderCell: {
     flex: 1,
-    padding: 6,
+    padding: '8 10',
     color: '#FFFFFF',
-    fontSize: 9,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
   },
   tableRow: {
@@ -188,8 +190,8 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     flex: 1,
-    padding: 6,
-    fontSize: 8,
+    padding: '8 10',
+    fontSize: 12,
     color: colors.textColor,
   },
   
@@ -198,10 +200,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.warningRedBorder,
     backgroundColor: colors.warningRedBg,
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 12,
-    marginBottom: 12,
+    borderRadius: 8,
+    padding: '12 15',
+    marginTop: 15,
+    marginBottom: 15,
   },
   warningHeader: {
     flexDirection: 'row',
@@ -209,59 +211,59 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   warningTitle: {
-    fontSize: 11,
+    fontSize: 14,
     fontFamily: 'Helvetica-Bold',
     color: colors.warningRedText,
   },
   warningText: {
-    fontSize: 9,
+    fontSize: 13,
     color: '#822727',
-    lineHeight: 1.3,
+    lineHeight: 1.45,
   },
   
   // Footer
   footer: {
     position: 'absolute',
-    bottom: 20,
-    left: 50,
-    right: 50,
+    bottom: 15,
+    left: 15,
+    right: 15,
     borderTopWidth: 1,
     borderTopColor: '#eeeeee',
-    paddingTop: 10,
+    paddingTop: 15,
     alignItems: 'center',
   },
   ctaButton: {
     backgroundColor: colors.brandPurple,
-    paddingVertical: 7,
-    paddingHorizontal: 22,
-    borderRadius: 18,
+    paddingVertical: 8,
+    paddingHorizontal: 25,
+    borderRadius: 30,
     marginTop: 8,
-    marginBottom: 8,
+    marginBottom: 10,
   },
   ctaButtonText: {
-    fontSize: 9,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
   },
   disclaimer: {
-    fontSize: 7,
+    fontSize: 9,
     color: '#999999',
     lineHeight: 1.3,
-    marginTop: 8,
-    marginBottom: 4,
+    marginTop: 10,
+    marginBottom: 5,
     textAlign: 'center',
   },
   footerLogoCenter: {
-    width: 18,
+    width: 20,
     height: 'auto',
     opacity: 0.8,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 12,
-    right: 50,
-    fontSize: 8,
+    bottom: 15,
+    right: 20,
+    fontSize: 10,
     color: '#cccccc',
   },
 });
@@ -327,10 +329,12 @@ export const UKDividendGuidePDF = () => (
         A dividend is a distribution of company profits to shareholders. Unlike salary, dividends are not 
         subject to National Insurance, making them a tax-efficient way to extract profits from your company.
       </Text>
-      <ListItem>Paid from post-tax company profits (retained earnings)</ListItem>
-      <ListItem>No employer or employee National Insurance contributions</ListItem>
-      <ListItem>Must be declared properly with board minutes and vouchers</ListItem>
-      <ListItem>Shareholders receive dividends based on their shareholding percentage</ListItem>
+      <View style={styles.listContainer}>
+        <ListItem>Paid from post-tax company profits (retained earnings)</ListItem>
+        <ListItem>No employer or employee National Insurance contributions</ListItem>
+        <ListItem>Must be declared properly with board minutes and vouchers</ListItem>
+        <ListItem>Shareholders receive dividends based on their shareholding percentage</ListItem>
+      </View>
 
       {/* Section 2 */}
       <SectionHeader number="2" title="Dividend Tax Rates 2025/26" />
@@ -372,10 +376,12 @@ export const UKDividendGuidePDF = () => (
       <Text style={styles.paragraph}>
         Every dividend payment requires proper documentation to be legally valid:
       </Text>
-      <ListItem>Board minutes recording the dividend declaration</ListItem>
-      <ListItem>Individual dividend voucher for each shareholder</ListItem>
-      <ListItem>Up-to-date management accounts showing distributable reserves</ListItem>
-      <ListItem>Bank payment records matching the declared amounts</ListItem>
+      <View style={styles.listContainer}>
+        <ListItem>Board minutes recording the dividend declaration</ListItem>
+        <ListItem>Individual dividend voucher for each shareholder</ListItem>
+        <ListItem>Up-to-date management accounts showing distributable reserves</ListItem>
+        <ListItem>Bank payment records matching the declared amounts</ListItem>
+      </View>
 
       {/* Footer Page 1 */}
       <View style={styles.footer}>
@@ -422,10 +428,12 @@ export const UKDividendGuidePDF = () => (
       <Text style={styles.paragraph}>
         You can only pay dividends if your company has sufficient distributable reserves:
       </Text>
-      <ListItem>Accumulated profits minus accumulated losses</ListItem>
-      <ListItem>Must account for corporation tax liability</ListItem>
-      <ListItem>Check reserves before each dividend declaration</ListItem>
-      <ListItem>Illegal dividends may need to be repaid by directors</ListItem>
+      <View style={styles.listContainer}>
+        <ListItem>Accumulated profits minus accumulated losses</ListItem>
+        <ListItem>Must account for corporation tax liability</ListItem>
+        <ListItem>Check reserves before each dividend declaration</ListItem>
+        <ListItem>Illegal dividends may need to be repaid by directors</ListItem>
+      </View>
 
       {/* Warning Section */}
       <View style={styles.warningContainer}>
@@ -441,18 +449,20 @@ export const UKDividendGuidePDF = () => (
 
       {/* Section 6 */}
       <SectionHeader number="6" title="Common Mistakes to Avoid" />
-      <ListItem>Paying dividends without sufficient profits</ListItem>
-      <ListItem>Missing or incomplete dividend vouchers</ListItem>
-      <ListItem>Backdating documentation after payment</ListItem>
-      <ListItem>Unequal dividends without different share classes</ListItem>
-      <ListItem>Forgetting to budget for personal tax liability</ListItem>
+      <View style={styles.listContainer}>
+        <ListItem>Paying dividends without sufficient profits</ListItem>
+        <ListItem>Missing or incomplete dividend vouchers</ListItem>
+        <ListItem>Backdating documentation after payment</ListItem>
+        <ListItem>Unequal dividends without different share classes</ListItem>
+        <ListItem>Forgetting to budget for personal tax liability</ListItem>
+      </View>
 
       {/* CTA Section */}
       <View style={{ marginTop: 15, alignItems: 'center' }}>
-        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 4 }}>
+        <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 4 }}>
           Need Help with Dividend Documentation?
         </Text>
-        <Text style={{ fontSize: 9, color: colors.textColor, textAlign: 'center', marginBottom: 8 }}>
+        <Text style={{ fontSize: 12, color: colors.textColor, textAlign: 'center', marginBottom: 8 }}>
           Dividify generates compliant board minutes and dividend vouchers in seconds.
         </Text>
         <Link src="https://dividify.co.uk/get-started">
