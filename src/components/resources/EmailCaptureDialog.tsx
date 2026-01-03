@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { pdf } from "@react-pdf/renderer";
 import { DividendComplianceChecklistPDF } from "./DividendComplianceChecklistPDF";
+import { UKDividendGuidePDF } from "./UKDividendGuidePDF";
 
 interface EmailCaptureDialogProps {
   open: boolean;
@@ -29,17 +30,16 @@ export const EmailCaptureDialog = ({
   const [isSuccess, setIsSuccess] = useState(false);
 
   const downloadGeneratedPDF = async () => {
-    // Generate the PDF dynamically for the compliance checklist
+    let blob: Blob;
+    let filename: string;
+
+    // Generate the appropriate PDF dynamically
     if (pdfPath.includes("dividend-compliance-checklist")) {
-      const blob = await pdf(<DividendComplianceChecklistPDF />).toBlob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "dividend-compliance-checklist-dividify.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      blob = await pdf(<DividendComplianceChecklistPDF />).toBlob();
+      filename = "dividend-compliance-checklist-dividify.pdf";
+    } else if (pdfPath.includes("uk-dividend-guide")) {
+      blob = await pdf(<UKDividendGuidePDF />).toBlob();
+      filename = "uk-dividend-guide-2025-26-dividify.pdf";
     } else {
       // Fallback to static PDF for other resources
       const link = document.createElement("a");
@@ -48,7 +48,17 @@ export const EmailCaptureDialog = ({
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      return;
     }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
