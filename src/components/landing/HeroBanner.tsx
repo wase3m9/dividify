@@ -16,11 +16,25 @@ export const HeroBanner = ({
   const titleText = "Professional Dividend Vouchers & Board Minutes for UK Limited Companies";
   const [animatedText, resetAnimation] = useTypewriter(titleText, 50);
 
-  // Function to apply gradient to specific terms
+  // Function to apply gradient to specific terms using safe React rendering
   const renderStyledTitle = (text: string) => {
-    return text
-      .replace("Dividend Vouchers", '<span class="bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent">Dividend Vouchers</span>')
-      .replace("Board Minutes", '<span class="bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent">Board Minutes</span>');
+    const highlightTerms = ["Dividend Vouchers", "Board Minutes"];
+    const regex = new RegExp(`(${highlightTerms.join("|")})`, "g");
+    const parts = text.split(regex);
+    
+    return parts.map((part, index) => {
+      if (highlightTerms.includes(part)) {
+        return (
+          <span 
+            key={index} 
+            className="bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent"
+          >
+            {part}
+          </span>
+        );
+      }
+      return <span key={index}>{part}</span>;
+    });
   };
 
   // Reset animation when location changes or component mounts
@@ -57,12 +71,10 @@ export const HeroBanner = ({
             <span className="whitespace-nowrap">Built for Directors legal compliance</span>
           </motion.div>
 
-          <h1 
-            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[120px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[190px] text-gray-900 text-center lg:text-left px-2 sm:px-0"
-            dangerouslySetInnerHTML={{
-              __html: renderStyledTitle(animatedText) + '<span class="animate-pulse">|</span>'
-            }}
-          />
+          <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] min-h-[120px] sm:min-h-[140px] md:min-h-[150px] lg:min-h-[190px] text-gray-900 text-center lg:text-left px-2 sm:px-0">
+            {renderStyledTitle(animatedText)}
+            <span className="animate-pulse">|</span>
+          </h1>
 
           <p className="text-xs sm:text-sm md:text-xl text-gray-700 max-w-xl leading-relaxed animate-fade-in px-2 sm:px-0 text-center lg:text-left">
             HMRC-compliant dividend vouchers and board minutes for UK limited companies. Save time with professional templates that ensure legal compliance every time.
