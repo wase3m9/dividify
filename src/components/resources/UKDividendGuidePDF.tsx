@@ -52,6 +52,11 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     marginBottom: 10,
   },
+  page2Header: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginBottom: 15,
+  },
   
   // Stats Grid
   statsGrid: {
@@ -81,7 +86,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   
-  // Intro Box
+  // Intro Box (Golden Rules)
   introBox: {
     backgroundColor: '#fafafa',
     borderLeftWidth: 4,
@@ -137,8 +142,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     lineHeight: 1.45,
   },
+  paragraphIndent: {
+    fontSize: 13,
+    color: '#444444',
+    marginBottom: 10,
+    lineHeight: 1.45,
+    paddingLeft: 18,
+  },
+  smallText: {
+    fontSize: 11,
+    color: '#666666',
+    fontStyle: 'italic',
+    marginTop: 5,
+  },
   
-  // List Items
+  // List Items (numbered)
   listContainer: {
     paddingLeft: 18,
     marginTop: 5,
@@ -147,6 +165,12 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     marginBottom: 4,
+  },
+  listNumber: {
+    width: 18,
+    fontSize: 13,
+    color: colors.brandPurple,
+    fontFamily: 'Helvetica-Bold',
   },
   listBullet: {
     width: 12,
@@ -158,6 +182,17 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#444444',
     lineHeight: 1.45,
+  },
+  
+  // Checkmark list items
+  checkListItem: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  checkMark: {
+    width: 18,
+    fontSize: 13,
+    color: colors.successGreen,
   },
   
   // Table
@@ -216,8 +251,25 @@ const styles = StyleSheet.create({
     color: colors.warningRedText,
   },
   warningText: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#822727',
+    lineHeight: 1.4,
+    marginBottom: 4,
+  },
+  
+  // FAQ Section
+  faqItem: {
+    marginBottom: 10,
+  },
+  faqQuestion: {
+    fontSize: 13,
+    fontFamily: 'Helvetica-Bold',
+    color: colors.brandDark,
+    marginBottom: 2,
+  },
+  faqAnswer: {
+    fontSize: 13,
+    color: '#444444',
     lineHeight: 1.45,
   },
   
@@ -231,6 +283,23 @@ const styles = StyleSheet.create({
     borderTopColor: '#eeeeee',
     paddingTop: 15,
     alignItems: 'center',
+  },
+  ctaSection: {
+    alignItems: 'center',
+    marginTop: 'auto',
+    paddingTop: 15,
+  },
+  ctaTitle: {
+    fontSize: 14,
+    fontFamily: 'Helvetica-Bold',
+    color: colors.brandPurple,
+    marginBottom: 4,
+  },
+  ctaSubtitle: {
+    fontSize: 12,
+    color: colors.textColor,
+    textAlign: 'center',
+    marginBottom: 8,
   },
   ctaButton: {
     backgroundColor: colors.brandPurple,
@@ -277,9 +346,16 @@ const SectionHeader = ({ number, title }: { number: string; title: string }) => 
   </View>
 );
 
-const ListItem = ({ children }: { children: React.ReactNode }) => (
+const NumberedListItem = ({ number, children }: { number: string; children: React.ReactNode }) => (
   <View style={styles.listItem}>
-    <Text style={styles.listBullet}>•</Text>
+    <Text style={styles.listNumber}>{number}.</Text>
+    <Text style={styles.listText}>{children}</Text>
+  </View>
+);
+
+const CheckListItem = ({ children }: { children: React.ReactNode }) => (
+  <View style={styles.checkListItem}>
+    <Text style={styles.checkMark}>✔</Text>
     <Text style={styles.listText}>{children}</Text>
   </View>
 );
@@ -295,92 +371,66 @@ export const UKDividendGuidePDF = () => (
 
       <Text style={styles.title}>UK Dividend Guide 2025/26</Text>
       <Text style={styles.subtitle}>
-        Everything you need to know about paying dividends correctly
+        Everything you need to know about paying dividends in 2025/26.
       </Text>
 
       {/* Stats Grid */}
       <View style={styles.statsGrid}>
         <View style={styles.statBox}>
           <Text style={styles.statValue}>£500</Text>
-          <Text style={styles.statLabel}>Tax-Free Allowance</Text>
+          <Text style={styles.statLabel}>Dividend Allowance</Text>
         </View>
         <View style={styles.statBox}>
           <Text style={styles.statValue}>8.75%</Text>
-          <Text style={styles.statLabel}>Basic Rate</Text>
+          <Text style={styles.statLabel}>Basic Rate Tax</Text>
         </View>
         <View style={styles.statBox}>
           <Text style={styles.statValue}>33.75%</Text>
-          <Text style={styles.statLabel}>Higher Rate</Text>
+          <Text style={styles.statLabel}>Higher Rate Tax</Text>
         </View>
       </View>
 
-      {/* Intro Box */}
+      {/* Golden Rules Intro Box */}
       <View style={styles.introBox}>
         <Text style={styles.introText}>
-          <Text style={styles.introStrong}>Quick Rule: </Text>
-          Dividends can only be paid from company profits after corporation tax. You need proper paperwork 
-          (board minutes + dividend vouchers) and shareholders receive dividends in proportion to their shares.
+          <Text style={styles.introStrong}>The Golden Rules:</Text>
+          {'\n'}1. Dividends can only be paid from distributable profits (after tax).
+          {'\n'}2. You must have paperwork: Minutes + Vouchers.
+          {'\n'}3. No tax is deducted at source; you pay it via Self Assessment.
         </Text>
       </View>
 
       {/* Section 1 */}
-      <SectionHeader number="1" title="What is a Dividend?" />
+      <SectionHeader number="1" title="Profits & Distributable Reserves" />
       <Text style={styles.paragraph}>
-        A dividend is a distribution of company profits to shareholders. Unlike salary, dividends are not 
-        subject to National Insurance, making them a tax-efficient way to extract profits from your company.
+        Before declaring a dividend, you must confirm the company has enough "Distributable Reserves" (Retained Earnings). You cannot pay dividends from capital or future hoped-for income.
       </Text>
-      <View style={styles.listContainer}>
-        <ListItem>Paid from post-tax company profits (retained earnings)</ListItem>
-        <ListItem>No employer or employee National Insurance contributions</ListItem>
-        <ListItem>Must be declared properly with board minutes and vouchers</ListItem>
-        <ListItem>Shareholders receive dividends based on their shareholding percentage</ListItem>
-      </View>
+      <Text style={styles.paragraphIndent}>
+        <Text style={styles.introStrong}>Practical Test:</Text> Take your last filed accounts, add profits earned since then, subtract any losses, subtract estimated Corporation Tax, and subtract any dividends already paid. The result is what you can pay.
+      </Text>
 
       {/* Section 2 */}
-      <SectionHeader number="2" title="Dividend Tax Rates 2025/26" />
+      <SectionHeader number="2" title="Interim vs. Final Dividends" />
       <Text style={styles.paragraph}>
-        Dividend income is taxed at different rates depending on your total taxable income:
+        Most small companies pay Interim Dividends. Here is the correct process:
       </Text>
-
-      {/* Tax Rates Table */}
-      <View style={styles.table}>
-        <View style={styles.tableHeader}>
-          <Text style={styles.tableHeaderCell}>Tax Band</Text>
-          <Text style={styles.tableHeaderCell}>Income Range</Text>
-          <Text style={styles.tableHeaderCell}>Rate</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={styles.tableCell}>Dividend Allowance</Text>
-          <Text style={styles.tableCell}>First £500</Text>
-          <Text style={styles.tableCell}>0%</Text>
-        </View>
-        <View style={[styles.tableRow, styles.tableRowEven]}>
-          <Text style={styles.tableCell}>Basic Rate</Text>
-          <Text style={styles.tableCell}>£12,571 - £50,270</Text>
-          <Text style={styles.tableCell}>8.75%</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={styles.tableCell}>Higher Rate</Text>
-          <Text style={styles.tableCell}>£50,271 - £125,140</Text>
-          <Text style={styles.tableCell}>33.75%</Text>
-        </View>
-        <View style={[styles.tableRow, styles.tableRowEven]}>
-          <Text style={styles.tableCell}>Additional Rate</Text>
-          <Text style={styles.tableCell}>Over £125,140</Text>
-          <Text style={styles.tableCell}>39.35%</Text>
-        </View>
+      <View style={styles.listContainer}>
+        <NumberedListItem number="1">Run the numbers: Confirm reserves are available.</NumberedListItem>
+        <NumberedListItem number="2">Decision: Directors hold a meeting (or sign a written minute) declaring the dividend.</NumberedListItem>
+        <NumberedListItem number="3">Voucher: Issue a dividend voucher to every shareholder.</NumberedListItem>
+        <NumberedListItem number="4">Pay it: Bank transfer is best for a clear audit trail.</NumberedListItem>
       </View>
 
       {/* Section 3 */}
-      <SectionHeader number="3" title="Required Documentation" />
+      <SectionHeader number="3" title="The Paperwork Pack" />
       <Text style={styles.paragraph}>
-        Every dividend payment requires proper documentation to be legally valid:
+        If HMRC asks questions, this is the "Minimum Pack" you should have on file:
       </Text>
       <View style={styles.listContainer}>
-        <ListItem>Board minutes recording the dividend declaration</ListItem>
-        <ListItem>Individual dividend voucher for each shareholder</ListItem>
-        <ListItem>Up-to-date management accounts showing distributable reserves</ListItem>
-        <ListItem>Bank payment records matching the declared amounts</ListItem>
+        <CheckListItem>Dividend Calculation</CheckListItem>
+        <CheckListItem>Board Minutes</CheckListItem>
+        <CheckListItem>Dividend Vouchers</CheckListItem>
+        <CheckListItem>Bank Statement Evidence</CheckListItem>
       </View>
 
       {/* Footer Page 1 */}
@@ -389,100 +439,99 @@ export const UKDividendGuidePDF = () => (
           <Image src={iconLogo} style={styles.footerLogoCenter} />
         </Link>
       </View>
-      <Text style={styles.pageNumber}>Page 1</Text>
+      <Text style={styles.pageNumber}>Page 1 of 2</Text>
     </Page>
 
     {/* Page 2 */}
     <Page size="A4" style={styles.page}>
+      {/* Page 2 Header */}
+      <Text style={styles.page2Header}>UK Dividend Guide 2025/26 | Page 2</Text>
+
       {/* Section 4 */}
-      <SectionHeader number="4" title="Interim vs Final Dividends" />
+      <SectionHeader number="4" title="Tax on Dividends (Worked Examples)" />
       <Text style={styles.paragraph}>
-        Understanding the difference between interim and final dividends:
+        Dividends sit on top of your other income. You use your Personal Allowance (£12,570) first, then the £500 Dividend Allowance, then pay tax on the rest.
       </Text>
       
+      {/* Tax Examples Table */}
       <View style={styles.table}>
         <View style={styles.tableHeader}>
-          <Text style={styles.tableHeaderCell}>Interim Dividend</Text>
-          <Text style={styles.tableHeaderCell}>Final Dividend</Text>
+          <Text style={styles.tableHeaderCell}>Scenario</Text>
+          <Text style={styles.tableHeaderCell}>Salary</Text>
+          <Text style={styles.tableHeaderCell}>Dividends</Text>
+          <Text style={styles.tableHeaderCell}>Est. Tax</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.tableCell}>Declared by directors</Text>
-          <Text style={styles.tableCell}>Recommended by directors</Text>
+          <Text style={styles.tableCell}>A: Standard</Text>
+          <Text style={styles.tableCell}>£12,570</Text>
+          <Text style={styles.tableCell}>£30,000</Text>
+          <Text style={styles.tableCell}>£2,581.25</Text>
         </View>
         <View style={[styles.tableRow, styles.tableRowEven]}>
-          <Text style={styles.tableCell}>Paid during financial year</Text>
-          <Text style={styles.tableCell}>Paid after year-end</Text>
+          <Text style={styles.tableCell}>B: Higher Rate</Text>
+          <Text style={styles.tableCell}>£12,570</Text>
+          <Text style={styles.tableCell}>£70,000</Text>
+          <Text style={styles.tableCell}>£14,031.25</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.tableCell}>Board resolution only</Text>
-          <Text style={styles.tableCell}>Requires shareholder approval</Text>
-        </View>
-        <View style={[styles.tableRow, styles.tableRowEven]}>
-          <Text style={styles.tableCell}>Can be cancelled before payment</Text>
-          <Text style={styles.tableCell}>Binding once approved</Text>
+          <Text style={styles.tableCell}>C: Low Salary</Text>
+          <Text style={styles.tableCell}>£12,400</Text>
+          <Text style={styles.tableCell}>£37,600</Text>
+          <Text style={styles.tableCell}>£3,231.38</Text>
         </View>
       </View>
+      <Text style={styles.smallText}>
+        *Rates for 2025/26. Basic rate: 8.75% | Higher: 33.75% | Additional: 39.35%
+      </Text>
 
       {/* Section 5 */}
-      <SectionHeader number="5" title="Distributable Reserves" />
+      <SectionHeader number="5" title="Director's Loan Accounts (DLA)" />
       <Text style={styles.paragraph}>
-        You can only pay dividends if your company has sufficient distributable reserves:
+        If you take money that isn't salary or dividend, it goes to your DLA. You can clear an overdrawn DLA with a dividend, but the paperwork must be correct.
       </Text>
-      <View style={styles.listContainer}>
-        <ListItem>Accumulated profits minus accumulated losses</ListItem>
-        <ListItem>Must account for corporation tax liability</ListItem>
-        <ListItem>Check reserves before each dividend declaration</ListItem>
-        <ListItem>Illegal dividends may need to be repaid by directors</ListItem>
-      </View>
 
       {/* Warning Section */}
       <View style={styles.warningContainer}>
         <View style={styles.warningHeader}>
-          <Text style={styles.warningTitle}>⚠ Director's Loan Accounts</Text>
+          <Text style={styles.warningTitle}>⚠ Two Major Tax Traps</Text>
         </View>
         <Text style={styles.warningText}>
-          If you owe money to your company (overdrawn DLA), you may face S455 tax of 33.75% if not 
-          repaid within 9 months of year-end. Consider declaring dividends to clear the balance, 
-          but ensure proper documentation is in place.
+          <Text style={{ fontFamily: 'Helvetica-Bold' }}>s455 Tax (33.75%):</Text> Payable by the company if you owe it money 9 months after year-end. (Refundable when you repay the loan).
+        </Text>
+        <Text style={styles.warningText}>
+          <Text style={{ fontFamily: 'Helvetica-Bold' }}>Benefit in Kind:</Text> If you owe {'>'} £10,000 at any point, it's a beneficial loan. You may need to file a P11D and pay Class 1A NICs.
         </Text>
       </View>
 
       {/* Section 6 */}
-      <SectionHeader number="6" title="Common Mistakes to Avoid" />
-      <View style={styles.listContainer}>
-        <ListItem>Paying dividends without sufficient profits</ListItem>
-        <ListItem>Missing or incomplete dividend vouchers</ListItem>
-        <ListItem>Backdating documentation after payment</ListItem>
-        <ListItem>Unequal dividends without different share classes</ListItem>
-        <ListItem>Forgetting to budget for personal tax liability</ListItem>
+      <SectionHeader number="6" title="Frequently Asked Questions" />
+      <View style={styles.faqItem}>
+        <Text style={styles.faqQuestion}>Can I pay monthly?</Text>
+        <Text style={styles.faqAnswer}>Yes, if you have reserves and do the minutes + vouchers every time.</Text>
+      </View>
+      <View style={styles.faqItem}>
+        <Text style={styles.faqQuestion}>Unequal dividends?</Text>
+        <Text style={styles.faqAnswer}>Only if you have different share classes or a valid waiver. Otherwise, it must be equal.</Text>
       </View>
 
       {/* CTA Section */}
-      <View style={{ marginTop: 15, alignItems: 'center' }}>
-        <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 4 }}>
-          Need Help with Dividend Documentation?
-        </Text>
-        <Text style={{ fontSize: 12, color: colors.textColor, textAlign: 'center', marginBottom: 8 }}>
-          Dividify generates compliant board minutes and dividend vouchers in seconds.
-        </Text>
+      <View style={styles.ctaSection}>
+        <Text style={styles.ctaTitle}>Automate Your Paperwork</Text>
+        <Text style={styles.ctaSubtitle}>Generate HMRC-compliant vouchers & minutes in seconds.</Text>
         <Link src="https://dividify.co.uk/get-started">
           <View style={styles.ctaButton}>
             <Text style={styles.ctaButtonText}>Start Free Trial →</Text>
           </View>
         </Link>
-      </View>
-
-      {/* Footer Page 2 */}
-      <View style={styles.footer}>
         <Text style={styles.disclaimer}>
-          This guide is for general information only. Tax rates and allowances may change. 
-          Consult a qualified accountant for advice specific to your situation.
+          Disclaimer: This guide is general information for UK companies. It does not cover complex scenarios. Always seek professional advice if unsure.
         </Text>
         <Link src="https://dividify.co.uk">
           <Image src={iconLogo} style={styles.footerLogoCenter} />
         </Link>
       </View>
-      <Text style={styles.pageNumber}>Page 2</Text>
+
+      <Text style={styles.pageNumber}>Page 2 of 2</Text>
     </Page>
   </Document>
 );
