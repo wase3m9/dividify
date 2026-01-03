@@ -41,15 +41,14 @@ serve(async (req) => {
       throw new Error('No Stripe signature found');
     }
 
-    // Verify webhook signature (you'll need to set STRIPE_WEBHOOK_SECRET)
+    // Verify webhook signature - REQUIRED for security
     const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
-    let event;
-    
-    if (webhookSecret) {
-      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-    } else {
-      event = JSON.parse(body);
+    if (!webhookSecret) {
+      logStep("ERROR", { message: "STRIPE_WEBHOOK_SECRET is not configured" });
+      throw new Error("STRIPE_WEBHOOK_SECRET must be configured for secure webhook verification");
     }
+    
+    const event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
 
     logStep("Processing webhook event", { type: event.type, id: event.id });
 
