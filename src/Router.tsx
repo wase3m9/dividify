@@ -33,6 +33,7 @@ import CookiePolicy from "@/pages/CookiePolicy";
 import JournalEntries from "@/pages/JournalEntries";
 import EmailVerified from "@/pages/EmailVerified";
 import AdminDashboard from "@/pages/AdminDashboard";
+import Resources from "@/pages/Resources";
 
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 import { PaymentRequiredGate } from "@/components/dashboard/PaymentRequiredGate";
@@ -220,6 +221,10 @@ export const router = createBrowserRouter([
       {
         path: "/documentation",
         element: <Api />,
+      },
+      {
+        path: "/resources",
+        element: <Resources />,
       },
     ],
   },
