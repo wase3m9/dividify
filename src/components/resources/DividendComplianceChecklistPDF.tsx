@@ -3,234 +3,265 @@ import { Document, Page, Text, View, StyleSheet, Link, Image } from '@react-pdf/
 import mainLogo from '@/assets/dividify-main-logo.png';
 import iconLogo from '@/assets/dividify-icon-logo.png';
 
-// Dividify brand colors (purple theme)
+// Brand colors matching the HTML design
 const colors = {
-  primary: '#6B46C1', // Purple
-  primaryLight: '#9F7AEA',
-  background: '#FAFAFA',
-  text: '#1A1A2E',
-  textMuted: '#64748B',
-  border: '#E2E8F0',
-  success: '#22C55E',
+  brandPurple: '#5227cc',
+  brandLightPurple: '#f8f5ff',
+  brandDark: '#1a1a2e',
+  successGreen: '#27ae60',
+  warningRedBg: '#fff5f5',
+  warningRedBorder: '#e53e3e',
+  warningRedText: '#c53030',
+  textColor: '#333333',
+  textMuted: '#666666',
+  border: '#f0f0f0',
+  introBorder: '#e0d4fc',
 };
 
 const styles = StyleSheet.create({
   page: {
     padding: 50,
-    paddingTop: 40,
-    paddingBottom: 70,
+    paddingLeft: 60,
+    paddingRight: 60,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
-    fontSize: 11,
-    lineHeight: 1.5,
+    fontSize: 15,
+    lineHeight: 1.6,
+    position: 'relative',
   },
+  
+  // Header
   header: {
-    marginBottom: 20,
-    borderBottomWidth: 3,
-    borderBottomColor: colors.primary,
-    paddingBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  headerContent: {
-    flexDirection: 'column',
+    marginBottom: 35,
   },
   mainLogo: {
-    width: 100,
-    height: 28,
-    marginBottom: 4,
-  },
-  tagline: {
-    fontSize: 9,
-    color: colors.textMuted,
-    marginTop: 2,
+    width: 150,
+    height: 'auto',
+    marginBottom: 15,
   },
   title: {
-    fontSize: 22,
+    fontSize: 32,
     fontFamily: 'Helvetica-Bold',
-    color: colors.text,
-    marginTop: 8,
-    marginBottom: 8,
+    color: colors.brandDark,
+    marginTop: 5,
+    marginBottom: 5,
+    letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 11,
+    fontSize: 16,
     color: colors.textMuted,
-    marginBottom: 14,
-    lineHeight: 1.6,
+    fontWeight: 500,
+    marginBottom: 20,
   },
-  sectionContainer: {
-    marginBottom: 16,
+  
+  // Intro Box
+  introBox: {
+    backgroundColor: colors.brandLightPurple,
+    borderWidth: 1,
+    borderColor: colors.introBorder,
+    borderRadius: 8,
+    padding: 18,
+    paddingLeft: 25,
+    paddingRight: 25,
+    marginBottom: 35,
   },
+  introText: {
+    fontSize: 14,
+    color: '#555555',
+    lineHeight: 1.5,
+  },
+  
+  // Section Headers
   sectionHeader: {
-    backgroundColor: colors.primary,
-    padding: 8,
-    paddingLeft: 12,
-    marginBottom: 10,
-    borderRadius: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: colors.border,
+    paddingBottom: 8,
+    marginTop: 25,
+    marginBottom: 20,
+  },
+  sectionNumber: {
+    width: 30,
+    height: 30,
+    backgroundColor: colors.brandPurple,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  sectionNumberText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 20,
     fontFamily: 'Helvetica-Bold',
-    color: '#FFFFFF',
+    color: colors.brandPurple,
   },
+  
+  // Checklist Items
   checklistItem: {
     flexDirection: 'row',
-    marginBottom: 8,
-    paddingLeft: 6,
+    marginBottom: 22,
+    paddingLeft: 0,
   },
   checkbox: {
-    width: 12,
-    height: 12,
-    borderWidth: 1.5,
-    borderColor: colors.primary,
-    borderRadius: 2,
-    marginRight: 10,
+    width: 18,
+    height: 18,
+    borderWidth: 2,
+    borderColor: '#cbd5e0',
+    borderRadius: 4,
+    marginRight: 12,
     marginTop: 2,
   },
   checklistText: {
     flex: 1,
-    fontSize: 10,
-    color: colors.text,
+    fontSize: 15,
+    color: '#444444',
     lineHeight: 1.5,
   },
-  infoBox: {
-    backgroundColor: '#F3E8FF',
-    padding: 12,
-    borderRadius: 4,
-    marginTop: 10,
-    marginBottom: 14,
-    borderLeftWidth: 4,
-    borderLeftColor: colors.primary,
+  
+  // Card Box
+  cardBox: {
+    backgroundColor: '#fafafa',
+    borderWidth: 1,
+    borderColor: '#eeeeee',
+    padding: 20,
+    paddingLeft: 25,
+    paddingRight: 25,
+    borderRadius: 8,
+    marginTop: 30,
+    marginBottom: 30,
   },
-  infoBoxTitle: {
-    fontSize: 10,
+  cardTitle: {
+    fontSize: 14,
     fontFamily: 'Helvetica-Bold',
-    color: colors.primary,
-    marginBottom: 4,
-  },
-  infoBoxText: {
-    fontSize: 9,
-    color: colors.text,
-    lineHeight: 1.5,
+    color: colors.brandPurple,
+    marginBottom: 10,
   },
   bulletItem: {
     flexDirection: 'row',
-    marginBottom: 3,
-    paddingLeft: 4,
+    marginBottom: 6,
   },
   bullet: {
-    width: 10,
-    fontSize: 9,
-    color: colors.primary,
+    width: 15,
+    fontSize: 14,
+    color: colors.brandPurple,
   },
   bulletText: {
     flex: 1,
-    fontSize: 9,
-    color: colors.text,
+    fontSize: 13,
+    color: colors.textColor,
     lineHeight: 1.4,
   },
-  mistakeItem: {
+  
+  // Warning Container
+  warningContainer: {
+    borderWidth: 2,
+    borderColor: colors.warningRedBorder,
+    backgroundColor: colors.warningRedBg,
+    borderRadius: 10,
+    padding: 20,
+    marginTop: 25,
+    marginBottom: 25,
+  },
+  warningHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  warningIcon: {
+    fontSize: 22,
+    marginRight: 8,
+  },
+  warningTitle: {
+    fontSize: 18,
+    fontFamily: 'Helvetica-Bold',
+    color: colors.warningRedText,
+  },
+  warningItem: {
     flexDirection: 'row',
     marginBottom: 8,
-    paddingLeft: 6,
+    paddingLeft: 0,
   },
-  mistakeIcon: {
-    width: 14,
-    fontSize: 10,
-    color: '#EF4444',
-    marginRight: 6,
+  warningItemIcon: {
+    width: 25,
+    fontSize: 14,
+    color: colors.warningRedBorder,
+    fontFamily: 'Helvetica-Bold',
   },
-  mistakeText: {
+  warningItemText: {
     flex: 1,
-    fontSize: 10,
-    color: colors.text,
-    lineHeight: 1.5,
+    fontSize: 13,
+    color: '#822727',
+    fontWeight: 500,
+    lineHeight: 1.4,
   },
+  
+  // Tip Items (green checkmarks)
   tipItem: {
     flexDirection: 'row',
-    marginBottom: 8,
-    paddingLeft: 6,
+    marginBottom: 12,
   },
   tipIcon: {
-    width: 14,
-    fontSize: 10,
-    color: colors.success,
-    marginRight: 6,
+    width: 20,
+    fontSize: 14,
+    color: colors.successGreen,
+    fontFamily: 'Helvetica-Bold',
   },
   tipText: {
     flex: 1,
-    fontSize: 10,
-    color: colors.text,
+    fontSize: 15,
+    color: '#444444',
     lineHeight: 1.5,
   },
+  
+  // Footer
   footer: {
     position: 'absolute',
-    bottom: 25,
-    left: 50,
-    right: 50,
+    bottom: 30,
+    left: 60,
+    right: 60,
     borderTopWidth: 1,
-    borderTopColor: colors.border,
-    paddingTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    borderTopColor: '#eeeeee',
+    paddingTop: 20,
     alignItems: 'center',
-  },
-  footerIconLogo: {
-    width: 24,
-    height: 24,
-  },
-  footerLink: {
-    fontSize: 9,
-    color: colors.primary,
-    textDecoration: 'none',
-  },
-  pageNumber: {
-    fontSize: 9,
-    color: colors.textMuted,
-  },
-  disclaimer: {
-    marginTop: 16,
-    padding: 12,
-    backgroundColor: colors.background,
-    borderRadius: 4,
-  },
-  disclaimerText: {
-    fontSize: 8,
-    color: colors.textMuted,
-    fontStyle: 'italic',
-    lineHeight: 1.5,
-  },
-  ctaBox: {
-    backgroundColor: '#F3E8FF',
-    padding: 16,
-    borderRadius: 6,
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  ctaTitle: {
-    fontSize: 12,
-    fontFamily: 'Helvetica-Bold',
-    color: colors.primary,
-    marginBottom: 6,
-    textAlign: 'center',
-  },
-  ctaText: {
-    fontSize: 10,
-    color: colors.text,
-    textAlign: 'center',
-    marginBottom: 10,
   },
   ctaButton: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.brandPurple,
     paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 25,
+    paddingHorizontal: 35,
+    borderRadius: 30,
+    marginTop: 15,
+    marginBottom: 10,
   },
   ctaButtonText: {
-    fontSize: 11,
+    fontSize: 14,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
+  },
+  disclaimer: {
+    fontSize: 11,
+    color: '#999999',
+    lineHeight: 1.4,
+    marginTop: 20,
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  footerLogoCenter: {
+    width: 25,
+    height: 'auto',
+    opacity: 0.8,
+  },
+  pageNumber: {
+    position: 'absolute',
+    bottom: 20,
+    right: 60,
+    fontSize: 12,
+    color: '#cccccc',
   },
 });
 
@@ -248,10 +279,10 @@ const BulletItem = ({ children }: { children: React.ReactNode }) => (
   </View>
 );
 
-const MistakeItem = ({ children }: { children: React.ReactNode }) => (
-  <View style={styles.mistakeItem}>
-    <Text style={styles.mistakeIcon}>✗</Text>
-    <Text style={styles.mistakeText}>{children}</Text>
+const WarningItem = ({ children }: { children: React.ReactNode }) => (
+  <View style={styles.warningItem}>
+    <Text style={styles.warningItemIcon}>✖</Text>
+    <Text style={styles.warningItemText}>{children}</Text>
   </View>
 );
 
@@ -262,165 +293,138 @@ const TipItem = ({ children }: { children: React.ReactNode }) => (
   </View>
 );
 
-const Header = () => (
-  <View style={styles.header}>
-    <View style={styles.headerContent}>
-      <Image src={mainLogo} style={styles.mainLogo} />
-      <Text style={styles.tagline}>Dividend Management Made Simple</Text>
+const SectionHeader = ({ number, title }: { number: string; title: string }) => (
+  <View style={styles.sectionHeader}>
+    <View style={styles.sectionNumber}>
+      <Text style={styles.sectionNumberText}>{number}</Text>
     </View>
-  </View>
-);
-
-const Footer = ({ pageNumber }: { pageNumber: number }) => (
-  <View style={styles.footer}>
-    <Image src={iconLogo} style={styles.footerIconLogo} />
-    <Link src="https://dividify.co.uk" style={styles.footerLink}>dividify.co.uk</Link>
-    <Text style={styles.pageNumber}>Page {pageNumber}</Text>
+    <Text style={styles.sectionTitle}>{title}</Text>
   </View>
 );
 
 export const DividendComplianceChecklistPDF = () => (
   <Document>
-    {/* Page 1 - Sections 1 and 2 */}
+    {/* Page 1 - Header, Intro, Sections 1 and 2 */}
     <Page size="A4" style={styles.page}>
-      <Header />
+      {/* Header */}
+      <View style={styles.header}>
+        <Image src={mainLogo} style={styles.mainLogo} />
+      </View>
 
       <Text style={styles.title}>Dividend Compliance Checklist</Text>
       <Text style={styles.subtitle}>
-        A quick-reference checklist to help UK limited company directors pay dividends properly — with the right paperwork and the right order of steps.
+        Your essential guide to paying dividends correctly in 2025/26
       </Text>
 
-      <View style={styles.infoBox}>
-        <Text style={styles.infoBoxTitle}>What this covers</Text>
-        <Text style={styles.infoBoxText}>
-          Interim & final dividends, distributable reserves, board minutes, dividend vouchers, and the most common mistakes.
-        </Text>
-        <Text style={{ ...styles.infoBoxTitle, marginTop: 6 }}>What this is not</Text>
-        <Text style={styles.infoBoxText}>
-          Personal tax planning advice. Use this as a compliance checklist and consult your accountant if anything is unclear.
+      {/* Intro Box */}
+      <View style={styles.introBox}>
+        <Text style={styles.introText}>
+          This checklist helps UK limited company directors pay dividends legally and with the correct paperwork. 
+          It covers distributable reserves, board minutes, dividend vouchers, and common pitfalls to avoid.
         </Text>
       </View>
 
       {/* Section 1 */}
-      <View style={styles.sectionContainer}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>1) Before You Declare a Dividend</Text>
-        </View>
-        
-        <ChecklistItem>
-          Confirm the company has distributable reserves (retained profits). You generally cannot pay dividends from capital or future hoped-for income.
-        </ChecklistItem>
-        <ChecklistItem>
-          Check the Articles of Association and share structure (ordinary vs different classes). Make sure the dividend you plan to pay matches the rights of each share class.
-        </ChecklistItem>
-        <ChecklistItem>
-          Decide whether this is an interim dividend (board decision) or a final dividend (typically recommended by directors and approved by shareholders).
-        </ChecklistItem>
-        <ChecklistItem>
-          Ensure the dividend is fair and correctly allocated across shareholders. Unequal payments usually require different share classes or a lawful waiver process.
-        </ChecklistItem>
-        <ChecklistItem>
-          If you are using the dividend to clear an overdrawn director's loan account, make sure the paperwork still supports it (minute + voucher) and that the company has profits.
-        </ChecklistItem>
-      </View>
+      <SectionHeader number="1" title="Before You Declare" />
+      
+      <ChecklistItem>
+        Confirm the company has distributable reserves (retained profits after tax).
+      </ChecklistItem>
+      <ChecklistItem>
+        Check the Articles of Association and share structure (ordinary vs different classes).
+      </ChecklistItem>
+      <ChecklistItem>
+        Decide whether this is an interim dividend (board decision) or a final dividend (shareholder approval required).
+      </ChecklistItem>
+      <ChecklistItem>
+        Ensure the dividend is correctly allocated across shareholders based on shareholding.
+      </ChecklistItem>
+      <ChecklistItem>
+        If clearing a director's loan account, ensure proper paperwork supports it.
+      </ChecklistItem>
 
       {/* Section 2 */}
-      <View style={styles.sectionContainer}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>2) Declare It Properly (Decision + Paperwork)</Text>
-        </View>
-        
-        <ChecklistItem>
-          Hold a directors' meeting (or written resolution) and record: dividend type (interim/final), total amount, amount per share, record date, payment date, and which shareholders are entitled.
-        </ChecklistItem>
-        <ChecklistItem>
-          If it's a final dividend, obtain shareholder approval (written resolution is common for small companies).
-        </ChecklistItem>
-        <ChecklistItem>
-          Prepare a dividend voucher for each shareholder (including directors).
-        </ChecklistItem>
+      <SectionHeader number="2" title="Declare It Properly" />
+      
+      <ChecklistItem>
+        Hold a directors' meeting and record: dividend type, total amount, amount per share, record date, and payment date.
+      </ChecklistItem>
+      <ChecklistItem>
+        For final dividends, obtain shareholder approval (written resolution is common).
+      </ChecklistItem>
+      <ChecklistItem>
+        Prepare a dividend voucher for each shareholder (including directors).
+      </ChecklistItem>
 
-        <View style={styles.infoBox}>
-          <Text style={styles.infoBoxTitle}>Dividend Voucher — Minimum Details</Text>
-          <BulletItem>Company name and registration number</BulletItem>
-          <BulletItem>Shareholder name and address</BulletItem>
-          <BulletItem>Date of payment (or date declared, if you show both)</BulletItem>
-          <BulletItem>Dividend amount (gross) and share class / number of shares (optional but helpful)</BulletItem>
-          <BulletItem>Signature (director / company secretary) and a reference number (optional)</BulletItem>
-        </View>
+      {/* Card Box */}
+      <View style={styles.cardBox}>
+        <Text style={styles.cardTitle}>Dividend Voucher — Minimum Details</Text>
+        <BulletItem>Company name and registration number</BulletItem>
+        <BulletItem>Shareholder name and address</BulletItem>
+        <BulletItem>Date of payment and dividend amount (gross)</BulletItem>
+        <BulletItem>Share class and number of shares held</BulletItem>
+        <BulletItem>Director signature and reference number</BulletItem>
       </View>
 
-      <Footer pageNumber={1} />
+      {/* Footer Page 1 */}
+      <View style={styles.footer}>
+        <Link src="https://dividify.co.uk">
+          <Image src={iconLogo} style={styles.footerLogoCenter} />
+        </Link>
+      </View>
+      <Text style={styles.pageNumber}>Page 1</Text>
     </Page>
 
-    {/* Page 2 - Sections 3, 4, 5, CTA and Disclaimer */}
+    {/* Page 2 - Sections 3, 4, 5, CTA */}
     <Page size="A4" style={styles.page}>
-      <Header />
-
       {/* Section 3 */}
-      <View style={styles.sectionContainer}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>3) Pay and Record It Correctly</Text>
+      <SectionHeader number="3" title="Pay and Record Correctly" />
+      
+      <ChecklistItem>
+        Make the payment (bank transfer is easiest for audit trail) matching what was declared.
+      </ChecklistItem>
+      <ChecklistItem>
+        Post the bookkeeping entries: debit retained earnings, credit dividends payable.
+      </ChecklistItem>
+      <ChecklistItem>
+        Keep supporting documents together: management accounts, minutes, vouchers, bank evidence.
+      </ChecklistItem>
+      <ChecklistItem>
+        If paying to a director, ensure it's not treated as salary. Dividends are not payroll items.
+      </ChecklistItem>
+
+      {/* Warning Section */}
+      <View style={styles.warningContainer}>
+        <View style={styles.warningHeader}>
+          <Text style={styles.warningIcon}>⚠</Text>
+          <Text style={styles.warningTitle}>Common Mistakes to Avoid</Text>
         </View>
-        
-        <ChecklistItem>
-          Make the payment (bank transfer is easiest for audit trail) and ensure it matches what was declared.
-        </ChecklistItem>
-        <ChecklistItem>
-          Post the bookkeeping entries: dividend debited to retained earnings / reserves and credited to dividends payable (then cleared when paid).
-        </ChecklistItem>
-        <ChecklistItem>
-          Keep the supporting documents together: management accounts, minutes/resolutions, vouchers, bank evidence, and shareholder approval (if final dividend).
-        </ChecklistItem>
-        <ChecklistItem>
-          If the payment is to a director personally, make sure you do not accidentally treat it as salary. Dividends are not payroll items.
-        </ChecklistItem>
+        <WarningItem>Paying dividends when there are no profits (or losses wipe out reserves).</WarningItem>
+        <WarningItem>Backdating minutes or creating vouchers after the fact.</WarningItem>
+        <WarningItem>Unequal dividends without correct share classes or waivers.</WarningItem>
+        <WarningItem>Mixing drawings and dividends without proper documentation.</WarningItem>
+        <WarningItem>Forgetting personal tax — budget for Self Assessment liability.</WarningItem>
       </View>
 
-      {/* Section 4 */}
-      <View style={styles.sectionContainer}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>4) Common Mistakes to Avoid</Text>
-        </View>
-        
-        <MistakeItem>
-          Paying dividends when there are no profits (or losses wipe out reserves).
-        </MistakeItem>
-        <MistakeItem>
-          Backdating minutes or creating vouchers after the fact to match payments already made.
-        </MistakeItem>
-        <MistakeItem>
-          Unequal dividends between shareholders without the correct share classes or waivers.
-        </MistakeItem>
-        <MistakeItem>
-          Mixing drawings and dividends (calling personal spending a dividend without the required steps).
-        </MistakeItem>
-        <MistakeItem>
-          Forgetting the personal tax: the company doesn't deduct tax at source for dividends, so directors should budget for their Self Assessment bill.
-        </MistakeItem>
-      </View>
+      {/* Section 5 - Handy Notes */}
+      <SectionHeader number="4" title="Handy Notes for Directors" />
+      
+      <TipItem>
+        Dividends are paid from post-tax profits. Factor in corporation tax when assessing reserves.
+      </TipItem>
+      <TipItem>
+        Keep the story consistent: minutes, vouchers, and bank payments should all align.
+      </TipItem>
+      <TipItem>
+        For regular monthly dividends: monthly management accounts + minutes + vouchers + payment.
+      </TipItem>
 
-      {/* Section 5 */}
-      <View style={styles.sectionContainer}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>5) Handy Notes for Directors</Text>
-        </View>
-        
-        <TipItem>
-          Dividends are paid from post-tax profits. If the company has corporation tax due, factor that in when assessing reserves.
-        </TipItem>
-        <TipItem>
-          Keep the story consistent: the minutes, vouchers, and bank payments should all line up (dates and amounts).
-        </TipItem>
-        <TipItem>
-          If you're planning regular monthly dividends, keep a simple routine: monthly management accounts + minutes + vouchers + payment.
-        </TipItem>
-      </View>
-
-      {/* CTA Box */}
-      <View style={styles.ctaBox}>
-        <Text style={styles.ctaTitle}>Need Templates?</Text>
-        <Text style={styles.ctaText}>
+      {/* CTA Section */}
+      <View style={{ marginTop: 30, alignItems: 'center' }}>
+        <Text style={{ fontSize: 16, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 8 }}>
+          Need Templates?
+        </Text>
+        <Text style={{ fontSize: 14, color: colors.textColor, textAlign: 'center', marginBottom: 15 }}>
           Dividify provides professional dividend vouchers, board minutes, and written resolutions — all in one place.
         </Text>
         <Link src="https://dividify.co.uk/get-started">
@@ -430,14 +434,17 @@ export const DividendComplianceChecklistPDF = () => (
         </Link>
       </View>
 
-      {/* Disclaimer */}
-      <View style={styles.disclaimer}>
-        <Text style={styles.disclaimerText}>
-          Disclaimer: This checklist is general information for UK companies. It does not cover every scenario (for example, different share classes, dividend waivers, or complex group structures). If you are unsure, get professional advice before paying dividends.
+      {/* Footer Page 2 */}
+      <View style={styles.footer}>
+        <Text style={styles.disclaimer}>
+          Disclaimer: This checklist is general information for UK companies. It does not cover every scenario. 
+          If you are unsure, get professional advice before paying dividends.
         </Text>
+        <Link src="https://dividify.co.uk">
+          <Image src={iconLogo} style={styles.footerLogoCenter} />
+        </Link>
       </View>
-
-      <Footer pageNumber={2} />
+      <Text style={styles.pageNumber}>Page 2</Text>
     </Page>
   </Document>
 );
