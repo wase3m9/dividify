@@ -20,18 +20,18 @@ const colors = {
   checkboxBorder: '#cbd5e0',
 };
 
-// Styles matching the HTML exactly - Guide uses 50px 60px padding
+// Styles matching the HTML exactly - Guide uses reduced spacing for 2-page fit
+// Custom page size: A4 width (595pt) x taller height (950pt) for clean 2-page fit
 const styles = StyleSheet.create({
-  // Page layout - A4 with 50px 60px padding
   page: {
     backgroundColor: '#ffffff',
-    paddingTop: 50,
-    paddingBottom: 50,
-    paddingLeft: 60,
-    paddingRight: 60,
+    paddingTop: 40,
+    paddingBottom: 40,
+    paddingLeft: 50,
+    paddingRight: 50,
     fontFamily: 'Helvetica',
-    fontSize: 15,
-    lineHeight: 1.6,
+    fontSize: 12,
+    lineHeight: 1.5,
     color: colors.textColor,
     position: 'relative',
     display: 'flex',
@@ -40,33 +40,33 @@ const styles = StyleSheet.create({
   
   // Header
   header: {
-    marginBottom: 35,
+    marginBottom: 25,
   },
   mainLogo: {
-    width: 150,
+    width: 120,
     height: 'auto',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   title: {
     color: colors.brandDark,
-    fontSize: 32,
+    fontSize: 26,
     fontFamily: 'Helvetica-Bold',
     letterSpacing: -1,
     lineHeight: 1.2,
-    marginBottom: 5,
+    marginBottom: 4,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 13,
     color: colors.textMuted,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   
   // Page 2 mini header
   miniHeader: {
-    fontSize: 14,
+    fontSize: 11,
     color: colors.textMuted,
-    marginBottom: 25,
-    paddingBottom: 12,
+    marginBottom: 18,
+    paddingBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderLight,
   },
@@ -74,26 +74,26 @@ const styles = StyleSheet.create({
   // Stats grid
   statsGrid: {
     flexDirection: 'row',
-    gap: 15,
-    marginBottom: 30,
+    gap: 10,
+    marginBottom: 20,
   },
   statBox: {
     flex: 1,
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: colors.borderLight,
-    borderRadius: 8,
-    padding: 15,
+    borderRadius: 6,
+    padding: 10,
     alignItems: 'center',
   },
   statValue: {
     color: colors.brandPurple,
     fontFamily: 'Helvetica-Bold',
-    fontSize: 20,
-    marginBottom: 5,
+    fontSize: 16,
+    marginBottom: 3,
   },
   statLabel: {
-    fontSize: 11,
+    fontSize: 9,
     color: colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -106,99 +106,99 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brandLightPurple,
     borderWidth: 1,
     borderColor: colors.borderMedium,
-    borderRadius: 8,
-    paddingVertical: 18,
-    paddingHorizontal: 25,
-    marginBottom: 35,
+    borderRadius: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    marginBottom: 25,
   },
   introTitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: colors.textColor,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   introText: {
-    fontSize: 14,
+    fontSize: 11,
     color: '#555555',
-    marginBottom: 5,
-    lineHeight: 1.5,
+    marginBottom: 4,
+    lineHeight: 1.4,
   },
   
   // Section headers
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 25,
-    marginBottom: 20,
+    marginTop: 18,
+    marginBottom: 14,
     borderBottomWidth: 2,
     borderBottomColor: '#f0f0f0',
-    paddingBottom: 8,
+    paddingBottom: 6,
   },
   sectionNumber: {
     backgroundColor: colors.brandPurple,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 10,
   },
   sectionNumberText: {
     color: '#ffffff',
-    fontSize: 15,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
     color: colors.brandPurple,
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: 'Helvetica-Bold',
   },
   
   // Paragraph text
   paragraph: {
-    fontSize: 15,
+    fontSize: 12,
     color: colors.textLight,
-    marginBottom: 15,
-    lineHeight: 1.6,
+    marginBottom: 10,
+    lineHeight: 1.5,
   },
   
   // Checklist items (unchecked)
   checklistItem: {
     flexDirection: 'row',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   checkbox: {
-    width: 18,
-    height: 18,
+    width: 14,
+    height: 14,
     borderWidth: 2,
     borderColor: colors.checkboxBorder,
-    borderRadius: 4,
-    marginRight: 17,
-    marginTop: 4,
+    borderRadius: 3,
+    marginRight: 12,
+    marginTop: 2,
   },
   // Checked checkbox
   checkboxChecked: {
-    width: 18,
-    height: 18,
+    width: 14,
+    height: 14,
     backgroundColor: colors.brandPurple,
     borderWidth: 2,
     borderColor: colors.brandPurple,
-    borderRadius: 4,
-    marginRight: 17,
-    marginTop: 4,
+    borderRadius: 3,
+    marginRight: 12,
+    marginTop: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
   checkmark: {
     color: '#ffffff',
-    fontSize: 10,
+    fontSize: 8,
     fontFamily: 'Helvetica-Bold',
   },
   checklistText: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 12,
     color: colors.textLight,
-    lineHeight: 1.6,
+    lineHeight: 1.5,
   },
   
   // Card box (Practical Test)
@@ -206,31 +206,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     borderWidth: 1,
     borderColor: colors.borderLight,
-    borderRadius: 8,
-    paddingVertical: 20,
-    paddingHorizontal: 25,
-    marginTop: 10,
-    marginBottom: 20,
+    borderRadius: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 14,
   },
   cardTitle: {
-    fontSize: 15,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
-    marginBottom: 8,
+    marginBottom: 5,
   },
   cardText: {
-    fontSize: 15,
+    fontSize: 11,
     color: colors.textLight,
-    lineHeight: 1.6,
+    lineHeight: 1.45,
   },
   
   // Table
   table: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 14,
+    marginBottom: 14,
     borderWidth: 1,
     borderColor: colors.borderLight,
-    borderRadius: 8,
+    borderRadius: 6,
     overflow: 'hidden',
   },
   tableHeader: {
@@ -239,10 +239,10 @@ const styles = StyleSheet.create({
   },
   tableHeaderCell: {
     flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 15,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
   },
   tableRow: {
@@ -259,15 +259,15 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     flex: 1,
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    fontSize: 14,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    fontSize: 11,
     color: colors.textColor,
   },
   tableNote: {
-    fontSize: 14,
+    fontSize: 10,
     color: colors.textMuted,
-    marginTop: 10,
+    marginTop: 8,
     fontStyle: 'italic',
   },
   
@@ -276,41 +276,41 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.warningRedBorder,
     backgroundColor: colors.warningRedBg,
-    borderRadius: 10,
-    padding: 20,
-    marginTop: 25,
-    marginBottom: 25,
+    borderRadius: 8,
+    padding: 14,
+    marginTop: 16,
+    marginBottom: 16,
   },
   warningHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   warningIcon: {
-    fontSize: 22,
-    marginRight: 8,
+    fontSize: 16,
+    marginRight: 6,
   },
   warningTitle: {
     color: colors.warningRedText,
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: 'Helvetica-Bold',
   },
   warningItem: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   warningBullet: {
     color: colors.warningRedBorder,
-    fontSize: 14,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
-    marginRight: 10,
-    marginTop: 2,
-    width: 15,
+    marginRight: 8,
+    marginTop: 1,
+    width: 12,
   },
   warningText: {
     flex: 1,
     color: '#822727',
-    fontSize: 14,
+    fontSize: 11,
     lineHeight: 1.4,
   },
   warningTextBold: {
@@ -319,18 +319,18 @@ const styles = StyleSheet.create({
   
   // FAQ section
   faqItem: {
-    marginBottom: 15,
+    marginBottom: 10,
   },
   faqQuestion: {
-    fontSize: 15,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: colors.textColor,
-    marginBottom: 5,
+    marginBottom: 4,
   },
   faqAnswer: {
-    fontSize: 15,
+    fontSize: 12,
     color: colors.textLight,
-    lineHeight: 1.5,
+    lineHeight: 1.45,
   },
   
   // Footer
@@ -339,52 +339,52 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderTopWidth: 1,
     borderTopColor: colors.borderLight,
-    paddingTop: 20,
-    paddingBottom: 30,
+    paddingTop: 14,
+    paddingBottom: 20,
     alignItems: 'center',
   },
   ctaTitle: {
-    fontSize: 16,
+    fontSize: 13,
     fontFamily: 'Helvetica-Bold',
     color: colors.textColor,
-    marginBottom: 8,
+    marginBottom: 5,
   },
   ctaSubtitle: {
-    fontSize: 14,
+    fontSize: 11,
     color: colors.textMuted,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   ctaButton: {
     backgroundColor: colors.brandPurple,
-    paddingVertical: 12,
-    paddingHorizontal: 35,
-    borderRadius: 30,
-    marginBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 28,
+    borderRadius: 25,
+    marginBottom: 8,
   },
   ctaButtonText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
   },
   disclaimer: {
-    fontSize: 11,
+    fontSize: 9,
     color: '#999999',
     lineHeight: 1.4,
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 14,
+    marginBottom: 8,
     textAlign: 'center',
-    maxWidth: 450,
+    maxWidth: 420,
   },
   footerLogoCenter: {
-    width: 25,
+    width: 20,
     height: 'auto',
     opacity: 0.8,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 20,
-    right: 60,
-    fontSize: 12,
+    bottom: 15,
+    right: 50,
+    fontSize: 10,
     color: '#cccccc',
   },
 });
@@ -424,8 +424,8 @@ const WarningItem = ({ title, description }: { title: string; description: strin
 
 export const UKDividendGuidePDF = () => (
   <Document>
-    {/* Page 1 */}
-    <Page size="A4" style={styles.page}>
+    {/* Page 1 - Custom size: A4 width x taller height */}
+    <Page size={[595, 950]} style={styles.page}>
       {/* Header */}
       <View style={styles.header}>
         <Image src={mainLogo} style={styles.mainLogo} />
@@ -502,8 +502,8 @@ export const UKDividendGuidePDF = () => (
       <Text style={styles.pageNumber}>Page 1 of 2</Text>
     </Page>
 
-    {/* Page 2 */}
-    <Page size="A4" style={styles.page}>
+    {/* Page 2 - Custom size: A4 width x taller height */}
+    <Page size={[595, 950]} style={styles.page}>
       {/* Page 2 Header */}
       <Text style={styles.miniHeader}>UK Dividend Guide 2025/26 | Page 2</Text>
 
