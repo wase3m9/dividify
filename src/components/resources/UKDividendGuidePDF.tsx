@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Link, Image } from '@react-pdf/
 import mainLogo from '@/assets/dividify-main-logo.png';
 import iconLogo from '@/assets/dividify-icon-logo.png';
 
-// Brand colors matching the HTML design
+// Brand colors matching the V3 HTML design
 const colors = {
   brandPurple: '#5227cc',
   brandLightPurple: '#f8f5ff',
@@ -20,26 +20,26 @@ const colors = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: '12mm 15mm',
-    paddingBottom: 45,
+    padding: '50px 60px',
+    paddingBottom: 60,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
-    fontSize: 13,
-    lineHeight: 1.45,
+    fontSize: 15,
+    lineHeight: 1.6,
     position: 'relative',
   },
   
   // Header
   header: {
-    marginBottom: 20,
+    marginBottom: 35,
   },
   mainLogo: {
-    width: 130,
+    width: 150,
     height: 'auto',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
     marginTop: 5,
@@ -47,62 +47,84 @@ const styles = StyleSheet.create({
     letterSpacing: -1,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 16,
     color: colors.textMuted,
-    fontWeight: 500,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   page2Header: {
     fontSize: 12,
     color: colors.textMuted,
-    marginBottom: 15,
+    marginBottom: 20,
   },
   
   // Stats Grid
   statsGrid: {
     flexDirection: 'row',
-    gap: 10,
-    marginBottom: 20,
+    gap: 15,
+    marginBottom: 30,
   },
   statBox: {
     flex: 1,
-    backgroundColor: colors.brandLightPurple,
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: colors.introBorder,
+    borderColor: '#eeeeee',
     borderRadius: 8,
-    padding: 10,
+    padding: 15,
     alignItems: 'center',
   },
   statValue: {
     color: colors.brandPurple,
     fontFamily: 'Helvetica-Bold',
-    fontSize: 16,
+    fontSize: 20,
+    marginBottom: 5,
   },
   statLabel: {
-    fontSize: 10,
+    fontSize: 11,
     color: colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    marginTop: 2,
+    textAlign: 'center',
   },
   
   // Intro Box (Golden Rules)
   introBox: {
-    backgroundColor: '#fafafa',
-    borderLeftWidth: 4,
-    borderLeftColor: colors.brandPurple,
-    padding: '12 15',
-    marginBottom: 25,
-    borderRadius: 4,
+    backgroundColor: colors.brandLightPurple,
+    borderWidth: 1,
+    borderColor: colors.introBorder,
+    padding: '18 25',
+    marginBottom: 35,
+    borderRadius: 8,
   },
   introText: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#555555',
-    lineHeight: 1.45,
+    lineHeight: 1.6,
   },
   introStrong: {
     fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
+  },
+  
+  // Card Box
+  cardBox: {
+    backgroundColor: '#fafafa',
+    borderWidth: 1,
+    borderColor: '#eeeeee',
+    padding: '20 25',
+    marginTop: 10,
+    marginBottom: 20,
+    borderRadius: 8,
+  },
+  cardTitle: {
+    fontSize: 15,
+    fontFamily: 'Helvetica-Bold',
+    color: colors.brandDark,
+    marginBottom: 8,
+  },
+  cardText: {
+    fontSize: 15,
+    color: '#444444',
+    lineHeight: 1.6,
   },
   
   // Section Headers
@@ -111,94 +133,91 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 2,
     borderBottomColor: colors.border,
-    paddingBottom: 5,
-    marginTop: 20,
-    marginBottom: 10,
+    paddingBottom: 8,
+    marginTop: 25,
+    marginBottom: 20,
   },
   sectionNumber: {
-    width: 22,
-    height: 22,
+    width: 30,
+    height: 30,
     backgroundColor: colors.brandPurple,
-    borderRadius: 11,
+    borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 8,
+    marginRight: 12,
   },
   sectionNumberText: {
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 15,
     fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandPurple,
   },
   
   // Paragraph
   paragraph: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#444444',
-    marginBottom: 10,
-    lineHeight: 1.45,
-  },
-  paragraphIndent: {
-    fontSize: 13,
-    color: '#444444',
-    marginBottom: 10,
-    lineHeight: 1.45,
-    paddingLeft: 18,
+    marginBottom: 15,
+    lineHeight: 1.6,
   },
   smallText: {
-    fontSize: 11,
+    fontSize: 14,
     color: '#666666',
     fontStyle: 'italic',
     marginTop: 5,
   },
   
-  // List Items (numbered)
-  listContainer: {
-    paddingLeft: 18,
+  // Checklist Items
+  checklistContainer: {
     marginTop: 5,
     marginBottom: 15,
   },
-  listItem: {
+  checklistItem: {
     flexDirection: 'row',
-    marginBottom: 4,
+    marginBottom: 15,
+    paddingLeft: 0,
   },
-  listNumber: {
+  checkbox: {
     width: 18,
-    fontSize: 13,
-    color: colors.brandPurple,
+    height: 18,
+    borderWidth: 2,
+    borderColor: '#cbd5e0',
+    borderRadius: 4,
+    marginRight: 15,
+    marginTop: 2,
+  },
+  checkboxChecked: {
+    width: 18,
+    height: 18,
+    backgroundColor: colors.brandPurple,
+    borderWidth: 2,
+    borderColor: colors.brandPurple,
+    borderRadius: 4,
+    marginRight: 15,
+    marginTop: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkmark: {
+    color: '#FFFFFF',
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
   },
-  listBullet: {
-    width: 12,
-    fontSize: 13,
-    color: colors.brandPurple,
-  },
-  listText: {
+  checklistText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 15,
     color: '#444444',
-    lineHeight: 1.45,
-  },
-  
-  // Checkmark list items
-  checkListItem: {
-    flexDirection: 'row',
-    marginBottom: 4,
-  },
-  checkMark: {
-    width: 18,
-    fontSize: 13,
-    color: colors.successGreen,
+    lineHeight: 1.6,
   },
   
   // Table
   table: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 20,
     borderWidth: 1,
     borderColor: '#eeeeee',
     borderRadius: 8,
@@ -210,9 +229,9 @@ const styles = StyleSheet.create({
   },
   tableHeaderCell: {
     flex: 1,
-    padding: '8 10',
+    padding: '12 15',
     color: '#FFFFFF',
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Helvetica-Bold',
   },
   tableRow: {
@@ -225,114 +244,129 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     flex: 1,
-    padding: '8 10',
-    fontSize: 12,
+    padding: '12 15',
+    fontSize: 14,
     color: colors.textColor,
   },
   
   // Warning Container
   warningContainer: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.warningRedBorder,
     backgroundColor: colors.warningRedBg,
-    borderRadius: 8,
-    padding: '12 15',
-    marginTop: 15,
-    marginBottom: 15,
+    borderRadius: 10,
+    padding: 20,
+    marginTop: 25,
+    marginBottom: 25,
   },
   warningHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: 12,
+  },
+  warningIcon: {
+    fontSize: 22,
+    marginRight: 8,
   },
   warningTitle: {
-    fontSize: 14,
+    fontSize: 18,
     fontFamily: 'Helvetica-Bold',
     color: colors.warningRedText,
   },
+  warningItem: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    paddingLeft: 0,
+  },
+  warningBullet: {
+    width: 25,
+    fontSize: 14,
+    color: colors.warningRedBorder,
+    fontFamily: 'Helvetica-Bold',
+  },
   warningText: {
-    fontSize: 12,
+    flex: 1,
+    fontSize: 14,
     color: '#822727',
     lineHeight: 1.4,
-    marginBottom: 4,
+  },
+  warningTextBold: {
+    fontFamily: 'Helvetica-Bold',
   },
   
   // FAQ Section
+  faqContainer: {
+    marginTop: 10,
+  },
   faqItem: {
-    marginBottom: 10,
+    marginBottom: 15,
   },
   faqQuestion: {
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
-    marginBottom: 2,
+    marginBottom: 4,
   },
   faqAnswer: {
-    fontSize: 13,
+    fontSize: 15,
     color: '#444444',
-    lineHeight: 1.45,
+    lineHeight: 1.6,
   },
   
   // Footer
   footer: {
-    position: 'absolute',
-    bottom: 15,
-    left: 15,
-    right: 15,
+    marginTop: 'auto',
     borderTopWidth: 1,
     borderTopColor: '#eeeeee',
-    paddingTop: 15,
+    paddingTop: 20,
+    paddingBottom: 30,
     alignItems: 'center',
-  },
-  ctaSection: {
-    alignItems: 'center',
-    marginTop: 'auto',
-    paddingTop: 15,
   },
   ctaTitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandPurple,
-    marginBottom: 4,
+    marginBottom: 6,
   },
   ctaSubtitle: {
-    fontSize: 12,
+    fontSize: 14,
     color: colors.textColor,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   ctaButton: {
     backgroundColor: colors.brandPurple,
-    paddingVertical: 8,
-    paddingHorizontal: 25,
+    paddingVertical: 12,
+    paddingHorizontal: 35,
     borderRadius: 30,
-    marginTop: 8,
+    marginTop: 15,
     marginBottom: 10,
   },
   ctaButtonText: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
   },
   disclaimer: {
-    fontSize: 9,
+    fontSize: 11,
     color: '#999999',
-    lineHeight: 1.3,
-    marginTop: 10,
-    marginBottom: 5,
+    lineHeight: 1.4,
+    marginTop: 20,
+    marginBottom: 10,
     textAlign: 'center',
+    maxWidth: 450,
   },
   footerLogoCenter: {
-    width: 20,
+    width: 25,
     height: 'auto',
     opacity: 0.8,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 15,
-    right: 20,
-    fontSize: 10,
+    bottom: 20,
+    right: 60,
+    fontSize: 12,
     color: '#cccccc',
   },
 });
@@ -346,17 +380,23 @@ const SectionHeader = ({ number, title }: { number: string; title: string }) => 
   </View>
 );
 
-const NumberedListItem = ({ number, children }: { number: string; children: React.ReactNode }) => (
-  <View style={styles.listItem}>
-    <Text style={styles.listNumber}>{number}.</Text>
-    <Text style={styles.listText}>{children}</Text>
+const ChecklistItem = ({ children, checked = false }: { children: React.ReactNode; checked?: boolean }) => (
+  <View style={styles.checklistItem}>
+    {checked ? (
+      <View style={styles.checkboxChecked}>
+        <Text style={styles.checkmark}>✓</Text>
+      </View>
+    ) : (
+      <View style={styles.checkbox} />
+    )}
+    <Text style={styles.checklistText}>{children}</Text>
   </View>
 );
 
-const CheckListItem = ({ children }: { children: React.ReactNode }) => (
-  <View style={styles.checkListItem}>
-    <Text style={styles.checkMark}>✔</Text>
-    <Text style={styles.listText}>{children}</Text>
+const WarningItem = ({ children }: { children: React.ReactNode }) => (
+  <View style={styles.warningItem}>
+    <Text style={styles.warningBullet}>✖</Text>
+    <Text style={styles.warningText}>{children}</Text>
   </View>
 );
 
@@ -405,36 +445,41 @@ export const UKDividendGuidePDF = () => (
       <Text style={styles.paragraph}>
         Before declaring a dividend, you must confirm the company has enough "Distributable Reserves" (Retained Earnings). You cannot pay dividends from capital or future hoped-for income.
       </Text>
-      <Text style={styles.paragraphIndent}>
-        <Text style={styles.introStrong}>Practical Test:</Text> Take your last filed accounts, add profits earned since then, subtract any losses, subtract estimated Corporation Tax, and subtract any dividends already paid. The result is what you can pay.
-      </Text>
+      
+      {/* Card Box for Practical Test */}
+      <View style={styles.cardBox}>
+        <Text style={styles.cardTitle}>💡 Practical Test</Text>
+        <Text style={styles.cardText}>
+          Take your last filed accounts, add profits earned since then, subtract any losses, subtract estimated Corporation Tax, and subtract any dividends already paid. The result is what you can pay.
+        </Text>
+      </View>
 
       {/* Section 2 */}
       <SectionHeader number="2" title="Interim vs. Final Dividends" />
       <Text style={styles.paragraph}>
-        Most small companies pay Interim Dividends. Here is the correct process:
+        Most small companies pay Interim Dividends. Here is the process:
       </Text>
-      <View style={styles.listContainer}>
-        <NumberedListItem number="1">Run the numbers: Confirm reserves are available.</NumberedListItem>
-        <NumberedListItem number="2">Decision: Directors hold a meeting (or sign a written minute) declaring the dividend.</NumberedListItem>
-        <NumberedListItem number="3">Voucher: Issue a dividend voucher to every shareholder.</NumberedListItem>
-        <NumberedListItem number="4">Pay it: Bank transfer is best for a clear audit trail.</NumberedListItem>
+      <View style={styles.checklistContainer}>
+        <ChecklistItem>Run the numbers: Confirm reserves are available.</ChecklistItem>
+        <ChecklistItem>Decision: Directors hold a meeting (or sign a written minute).</ChecklistItem>
+        <ChecklistItem>Voucher: Issue a dividend voucher to every shareholder.</ChecklistItem>
+        <ChecklistItem>Pay it: Bank transfer is best for a clear audit trail.</ChecklistItem>
       </View>
 
       {/* Section 3 */}
       <SectionHeader number="3" title="The Paperwork Pack" />
       <Text style={styles.paragraph}>
-        If HMRC asks questions, this is the "Minimum Pack" you should have on file:
+        If HMRC asks questions, this is the "Minimum Pack" required:
       </Text>
-      <View style={styles.listContainer}>
-        <CheckListItem>Dividend Calculation</CheckListItem>
-        <CheckListItem>Board Minutes</CheckListItem>
-        <CheckListItem>Dividend Vouchers</CheckListItem>
-        <CheckListItem>Bank Statement Evidence</CheckListItem>
+      <View style={styles.checklistContainer}>
+        <ChecklistItem checked>Dividend Calculation</ChecklistItem>
+        <ChecklistItem checked>Board Minutes (or Written Resolution)</ChecklistItem>
+        <ChecklistItem checked>Dividend Vouchers</ChecklistItem>
+        <ChecklistItem checked>Bank Statement Evidence</ChecklistItem>
       </View>
 
       {/* Footer Page 1 */}
-      <View style={styles.footer}>
+      <View style={{ marginTop: 'auto', alignItems: 'center', paddingTop: 15 }}>
         <Link src="https://dividify.co.uk">
           <Image src={iconLogo} style={styles.footerLogoCenter} />
         </Link>
@@ -495,42 +540,43 @@ export const UKDividendGuidePDF = () => (
         <View style={styles.warningHeader}>
           <Text style={styles.warningTitle}>⚠ Two Major Tax Traps</Text>
         </View>
-        <Text style={styles.warningText}>
-          <Text style={{ fontFamily: 'Helvetica-Bold' }}>s455 Tax (33.75%):</Text> Payable by the company if you owe it money 9 months after year-end. (Refundable when you repay the loan).
-        </Text>
-        <Text style={styles.warningText}>
-          <Text style={{ fontFamily: 'Helvetica-Bold' }}>Benefit in Kind:</Text> If you owe {'>'} £10,000 at any point, it's a beneficial loan. You may need to file a P11D and pay Class 1A NICs.
-        </Text>
+        <WarningItem>
+          <Text style={styles.warningTextBold}>s455 Tax (33.75%):</Text> Payable by the company if you owe it money 9 months after year-end. (Refundable when you repay the loan).
+        </WarningItem>
+        <WarningItem>
+          <Text style={styles.warningTextBold}>Benefit in Kind:</Text> If you owe {'>'}{'\u00A0'}£10,000 at any point, it's a beneficial loan. You may need to file a P11D and pay Class 1A NICs.
+        </WarningItem>
       </View>
 
       {/* Section 6 */}
       <SectionHeader number="6" title="Frequently Asked Questions" />
-      <View style={styles.faqItem}>
-        <Text style={styles.faqQuestion}>Can I pay monthly?</Text>
-        <Text style={styles.faqAnswer}>Yes, if you have reserves and do the minutes + vouchers every time.</Text>
-      </View>
-      <View style={styles.faqItem}>
-        <Text style={styles.faqQuestion}>Unequal dividends?</Text>
-        <Text style={styles.faqAnswer}>Only if you have different share classes or a valid waiver. Otherwise, it must be equal.</Text>
+      <View style={styles.faqContainer}>
+        <View style={styles.faqItem}>
+          <Text style={styles.faqQuestion}>Can I pay monthly?</Text>
+          <Text style={styles.faqAnswer}>Yes, if you have reserves and do the minutes + vouchers every time.</Text>
+        </View>
+        <View style={styles.faqItem}>
+          <Text style={styles.faqQuestion}>Unequal dividends?</Text>
+          <Text style={styles.faqAnswer}>Only if you have different share classes or a valid waiver. Otherwise, it must be equal.</Text>
+        </View>
       </View>
 
-      {/* CTA Section */}
-      <View style={styles.ctaSection}>
+      {/* Footer */}
+      <View style={styles.footer}>
         <Text style={styles.ctaTitle}>Automate Your Paperwork</Text>
-        <Text style={styles.ctaSubtitle}>Generate HMRC-compliant vouchers & minutes in seconds.</Text>
+        <Text style={styles.ctaSubtitle}>Generate compliant vouchers & minutes in seconds.</Text>
         <Link src="https://dividify.co.uk/get-started">
           <View style={styles.ctaButton}>
             <Text style={styles.ctaButtonText}>Start Free Trial →</Text>
           </View>
         </Link>
         <Text style={styles.disclaimer}>
-          Disclaimer: This guide is general information for UK companies. It does not cover complex scenarios. Always seek professional advice if unsure.
+          Disclaimer: This guide is general information for UK companies. It does not cover complex scenarios like group structures or dividend waivers. Always seek professional advice if unsure.
         </Text>
         <Link src="https://dividify.co.uk">
           <Image src={iconLogo} style={styles.footerLogoCenter} />
         </Link>
       </View>
-
       <Text style={styles.pageNumber}>Page 2 of 2</Text>
     </Page>
   </Document>
