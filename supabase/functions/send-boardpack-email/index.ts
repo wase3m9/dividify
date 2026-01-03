@@ -21,6 +21,16 @@ interface BoardPackEmailRequest {
   base64: string;
 }
 
+// HTML escape function to prevent XSS
+function htmlEscape(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 serve(async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -76,8 +86,8 @@ serve(async (req: Request): Promise<Response> => {
       );
     }
 
-    // Build HTML email
-    const htmlMessage = message.replace(/\n/g, '<br>');
+    // Build HTML email with escaped message content
+    const htmlMessage = htmlEscape(message).replace(/\n/g, '<br>');
     
     const html = `
       <!DOCTYPE html>

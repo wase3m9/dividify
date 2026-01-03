@@ -24,6 +24,16 @@ interface EmailRequest {
   }[];
 }
 
+// HTML escape function to prevent XSS
+function htmlEscape(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -132,7 +142,8 @@ const handler = async (req: Request): Promise<Response> => {
             <tr>
               <td style="padding:24px 24px 8px 24px; color:#111827; font-size:14px; line-height:1.6;">
                 <div style="white-space: pre-wrap; margin:0 0 16px 0;">
-${message.replace(/\n/g, "<br>")}
+${htmlEscape(message).replace(/\n/g, "<br>")}
+                </div>
                 </div>
 
                 <!-- Attachment summary card -->
