@@ -111,7 +111,7 @@ const Resources = () => {
       {/* Hero Section */}
       <section className="py-16 md:py-24 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
             Free Resources & Calculators
           </h1>
           <p className="text-xl text-muted-foreground">
