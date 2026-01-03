@@ -6,9 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Download, Loader2, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { pdf } from "@react-pdf/renderer";
-import { DividendComplianceChecklistPDF } from "./DividendComplianceChecklistPDF";
-import { UKDividendGuidePDF } from "./UKDividendGuidePDF";
 
 interface EmailCaptureDialogProps {
   open: boolean;
@@ -29,36 +26,14 @@ export const EmailCaptureDialog = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const downloadGeneratedPDF = async () => {
-    let blob: Blob;
-    let filename: string;
-
-    // Generate the appropriate PDF dynamically
-    if (pdfPath.includes("dividend-compliance-checklist")) {
-      blob = await pdf(<DividendComplianceChecklistPDF />).toBlob();
-      filename = "dividend-compliance-checklist-dividify.pdf";
-    } else if (pdfPath.includes("uk-dividend-guide")) {
-      blob = await pdf(<UKDividendGuidePDF />).toBlob();
-      filename = "uk-dividend-guide-2025-26-dividify.pdf";
-    } else {
-      // Fallback to static PDF for other resources
-      const link = document.createElement("a");
-      link.href = pdfPath;
-      link.download = pdfPath.split("/").pop() || "resource.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      return;
-    }
-
-    const url = URL.createObjectURL(blob);
+  const downloadPDF = () => {
     const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
+    link.href = pdfPath;
+    link.download = resourceTitle.replace(/\s+/g, "-").toLowerCase() + ".pdf";
+    link.target = "_blank";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,7 +60,7 @@ export const EmailCaptureDialog = ({
       toast.success("Check your email for confirmation!");
       
       // Trigger download
-      await downloadGeneratedPDF();
+      downloadPDF();
       
       // Reset after delay
       setTimeout(() => {
