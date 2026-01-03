@@ -10,15 +10,15 @@ import { FileCheck, BookOpen, Calculator, PoundSterling } from "lucide-react";
 const resources = [
   {
     title: "Dividend Compliance Checklist",
-    description: "A quick-reference checklist to ensure your dividend payments are fully compliant with UK company law and HMRC requirements.",
+    description: "Ensure your dividend payments are fully compliant with UK company law and HMRC requirements.",
     pdfPath: "https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/downloads/Dividend%20Compliance%20Checklist.pdf",
-    icon: <FileCheck className="w-6 h-6 text-primary" />,
+    icon: <FileCheck className="w-6 h-6" />,
   },
   {
     title: "UK Dividend Guide 2025/2026",
-    description: "Everything you need to know about paying dividends in the UK, from tax rates to paperwork requirements.",
+    description: "Everything you need to know about paying dividends in the UK, from tax rates to paperwork.",
     pdfPath: "https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/downloads/UK%20Dividend%20Guide%202025-2026.pdf",
-    icon: <BookOpen className="w-6 h-6 text-primary" />,
+    icon: <BookOpen className="w-6 h-6" />,
   },
 ];
 

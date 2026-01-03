@@ -16,7 +16,7 @@ export const ResourceCard = ({ title, description, pdfPath, icon }: ResourceCard
 
   return (
     <>
-      <Card className="group relative overflow-hidden border-0 bg-gradient-to-br from-card via-card to-primary/5 shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+      <Card className="group relative overflow-hidden border-0 bg-gradient-to-br from-card via-card to-primary/5 shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full">
         {/* Animated gradient border */}
         <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/20 via-purple-500/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm" />
         <div className="absolute inset-[1px] rounded-lg bg-card" />
@@ -24,11 +24,10 @@ export const ResourceCard = ({ title, description, pdfPath, icon }: ResourceCard
         {/* Decorative corner accent */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
         
-        <CardHeader className="relative pb-2">
-          {/* Floating icon with glow effect */}
-          <div className="relative inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary/80 mb-5 shadow-lg shadow-primary/25 group-hover:shadow-primary/40 group-hover:scale-110 transition-all duration-300">
-            <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative text-primary-foreground">
+        <CardHeader className="relative pb-2 flex-1">
+          {/* Floating icon with light purple background */}
+          <div className="relative inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-5 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
+            <div className="relative text-primary">
               {icon || <FileText className="w-6 h-6" />}
             </div>
           </div>
@@ -36,7 +35,7 @@ export const ResourceCard = ({ title, description, pdfPath, icon }: ResourceCard
           <CardTitle className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text group-hover:from-primary group-hover:to-primary/80 transition-all duration-300">
             {title}
           </CardTitle>
-          <CardDescription className="text-muted-foreground leading-relaxed mt-2">
+          <CardDescription className="text-muted-foreground leading-relaxed mt-2 min-h-[3rem]">
             {description}
           </CardDescription>
         </CardHeader>
