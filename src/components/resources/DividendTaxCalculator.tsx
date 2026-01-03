@@ -130,7 +130,7 @@ export const DividendTaxCalculator = () => {
               <div className="flex gap-2">
                 <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-muted-foreground">
-                  <p className="font-medium text-foreground mb-1">Tax Rates for {taxYear}</p>
+                  <p className="font-medium text-foreground mb-1">Dividend Tax Rates {taxYear}</p>
                   <ul className="space-y-1">
                     <li>• £500 dividend allowance (0%)</li>
                     <li>• Basic rate: 8.75%</li>

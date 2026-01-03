@@ -32,6 +32,16 @@ export const TAX_YEARS: Record<string, TaxYearConfig> = {
     additionalRate: 0.3935,
     s455Rate: 0.3375,
   },
+  "2026/27": {
+    dividendAllowance: 500,
+    basicRateThreshold: 37700,
+    higherRateThreshold: 125140,
+    additionalRateThreshold: 125140,
+    basicRate: 0.0875,
+    higherRate: 0.3375,
+    additionalRate: 0.3935,
+    s455Rate: 0.3375,
+  },
 };
 
 export const PERSONAL_ALLOWANCE = 12570;
