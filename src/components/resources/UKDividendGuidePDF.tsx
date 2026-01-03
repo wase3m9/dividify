@@ -20,62 +20,63 @@ const colors = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 45,
-    paddingLeft: 55,
-    paddingRight: 55,
+    padding: 40,
+    paddingLeft: 50,
+    paddingRight: 50,
+    paddingBottom: 55,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
-    fontSize: 14,
-    lineHeight: 1.5,
+    fontSize: 10,
+    lineHeight: 1.4,
     position: 'relative',
   },
   
   // Header
   header: {
-    marginBottom: 25,
-  },
-  mainLogo: {
-    width: 140,
-    height: 'auto',
     marginBottom: 15,
   },
+  mainLogo: {
+    width: 110,
+    height: 'auto',
+    marginBottom: 8,
+  },
   title: {
-    fontSize: 30,
+    fontSize: 22,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 3,
+    marginBottom: 3,
     letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 11,
     color: colors.textMuted,
     fontWeight: 500,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   
   // Stats Grid
   statsGrid: {
     flexDirection: 'row',
-    gap: 10,
-    marginBottom: 25,
+    gap: 8,
+    marginBottom: 15,
   },
   statBox: {
     flex: 1,
     backgroundColor: colors.brandLightPurple,
     borderWidth: 1,
     borderColor: colors.introBorder,
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 6,
+    padding: 8,
     alignItems: 'center',
   },
   statValue: {
     color: colors.brandPurple,
     fontFamily: 'Helvetica-Bold',
-    fontSize: 18,
+    fontSize: 14,
   },
   statLabel: {
-    fontSize: 11,
+    fontSize: 8,
     color: colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -85,18 +86,16 @@ const styles = StyleSheet.create({
   // Intro Box
   introBox: {
     backgroundColor: '#fafafa',
-    borderLeftWidth: 4,
+    borderLeftWidth: 3,
     borderLeftColor: colors.brandPurple,
-    padding: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginBottom: 30,
-    borderRadius: 4,
+    padding: 10,
+    marginBottom: 18,
+    borderRadius: 3,
   },
   introText: {
-    fontSize: 14,
+    fontSize: 9,
     color: '#555555',
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   introStrong: {
     fontFamily: 'Helvetica-Bold',
@@ -107,65 +106,65 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1.5,
     borderBottomColor: colors.border,
-    paddingBottom: 6,
-    marginTop: 25,
-    marginBottom: 15,
+    paddingBottom: 4,
+    marginTop: 12,
+    marginBottom: 8,
   },
   sectionNumber: {
-    width: 26,
-    height: 26,
+    width: 20,
+    height: 20,
     backgroundColor: colors.brandPurple,
-    borderRadius: 13,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginRight: 8,
   },
   sectionNumberText: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 13,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandPurple,
   },
   
   // Paragraph
   paragraph: {
-    fontSize: 14,
+    fontSize: 9,
     color: colors.textColor,
-    marginBottom: 10,
-    lineHeight: 1.5,
+    marginBottom: 6,
+    lineHeight: 1.4,
   },
   
   // List Items
   listItem: {
     flexDirection: 'row',
-    marginBottom: 6,
+    marginBottom: 4,
     paddingLeft: 0,
   },
   listBullet: {
-    width: 15,
-    fontSize: 14,
+    width: 12,
+    fontSize: 10,
     color: colors.brandPurple,
   },
   listText: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 9,
     color: '#444444',
-    lineHeight: 1.4,
+    lineHeight: 1.3,
   },
   
   // Table
   table: {
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: 8,
+    marginBottom: 10,
     borderWidth: 1,
     borderColor: '#eeeeee',
-    borderRadius: 8,
+    borderRadius: 5,
     overflow: 'hidden',
   },
   tableHeader: {
@@ -174,9 +173,9 @@ const styles = StyleSheet.create({
   },
   tableHeaderCell: {
     flex: 1,
-    padding: 10,
+    padding: 6,
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 9,
     fontFamily: 'Helvetica-Bold',
   },
   tableRow: {
@@ -189,8 +188,8 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     flex: 1,
-    padding: 10,
-    fontSize: 13,
+    padding: 6,
+    fontSize: 8,
     color: colors.textColor,
   },
   
@@ -199,72 +198,70 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.warningRedBorder,
     backgroundColor: colors.warningRedBg,
-    borderRadius: 8,
-    padding: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: 20,
-    marginBottom: 20,
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 12,
+    marginBottom: 12,
   },
   warningHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 5,
   },
   warningTitle: {
-    fontSize: 16,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
     color: colors.warningRedText,
   },
   warningText: {
-    fontSize: 13,
+    fontSize: 9,
     color: '#822727',
-    lineHeight: 1.4,
+    lineHeight: 1.3,
   },
   
   // Footer
   footer: {
     position: 'absolute',
     bottom: 20,
-    left: 55,
-    right: 55,
+    left: 50,
+    right: 50,
     borderTopWidth: 1,
     borderTopColor: '#eeeeee',
-    paddingTop: 20,
+    paddingTop: 10,
     alignItems: 'center',
   },
   ctaButton: {
     backgroundColor: colors.brandPurple,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 30,
-    marginTop: 10,
-    marginBottom: 15,
+    paddingVertical: 7,
+    paddingHorizontal: 22,
+    borderRadius: 18,
+    marginTop: 8,
+    marginBottom: 8,
   },
   ctaButtonText: {
-    fontSize: 13,
+    fontSize: 9,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
   },
   disclaimer: {
-    fontSize: 10,
+    fontSize: 7,
     color: '#999999',
     lineHeight: 1.3,
-    marginTop: 15,
-    marginBottom: 5,
+    marginTop: 8,
+    marginBottom: 4,
     textAlign: 'center',
   },
   footerLogoCenter: {
-    width: 25,
+    width: 18,
     height: 'auto',
     opacity: 0.8,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 20,
-    right: 55,
-    fontSize: 11,
+    bottom: 12,
+    right: 50,
+    fontSize: 8,
     color: '#cccccc',
   },
 });
@@ -451,11 +448,11 @@ export const UKDividendGuidePDF = () => (
       <ListItem>Forgetting to budget for personal tax liability</ListItem>
 
       {/* CTA Section */}
-      <View style={{ marginTop: 25, alignItems: 'center' }}>
-        <Text style={{ fontSize: 16, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 8 }}>
+      <View style={{ marginTop: 15, alignItems: 'center' }}>
+        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 4 }}>
           Need Help with Dividend Documentation?
         </Text>
-        <Text style={{ fontSize: 14, color: colors.textColor, textAlign: 'center', marginBottom: 12 }}>
+        <Text style={{ fontSize: 9, color: colors.textColor, textAlign: 'center', marginBottom: 8 }}>
           Dividify generates compliant board minutes and dividend vouchers in seconds.
         </Text>
         <Link src="https://dividify.co.uk/get-started">

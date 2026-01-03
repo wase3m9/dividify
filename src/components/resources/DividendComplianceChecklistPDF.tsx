@@ -20,38 +20,39 @@ const colors = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
-    paddingLeft: 60,
-    paddingRight: 60,
+    padding: 40,
+    paddingLeft: 50,
+    paddingRight: 50,
+    paddingBottom: 60,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
-    fontSize: 15,
-    lineHeight: 1.6,
+    fontSize: 11,
+    lineHeight: 1.4,
     position: 'relative',
   },
   
   // Header
   header: {
-    marginBottom: 35,
+    marginBottom: 20,
   },
   mainLogo: {
-    width: 150,
+    width: 120,
     height: 'auto',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 3,
+    marginBottom: 3,
     letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 12,
     color: colors.textMuted,
     fontWeight: 500,
-    marginBottom: 20,
+    marginBottom: 12,
   },
   
   // Intro Box
@@ -59,44 +60,42 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brandLightPurple,
     borderWidth: 1,
     borderColor: colors.introBorder,
-    borderRadius: 8,
-    padding: 18,
-    paddingLeft: 25,
-    paddingRight: 25,
-    marginBottom: 35,
+    borderRadius: 6,
+    padding: 12,
+    marginBottom: 18,
   },
   introText: {
-    fontSize: 14,
+    fontSize: 10,
     color: '#555555',
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   
   // Section Headers
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 2,
+    borderBottomWidth: 1.5,
     borderBottomColor: colors.border,
-    paddingBottom: 8,
-    marginTop: 25,
-    marginBottom: 20,
+    paddingBottom: 5,
+    marginTop: 14,
+    marginBottom: 10,
   },
   sectionNumber: {
-    width: 30,
-    height: 30,
+    width: 22,
+    height: 22,
     backgroundColor: colors.brandPurple,
-    borderRadius: 15,
+    borderRadius: 11,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 8,
   },
   sectionNumberText: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 14,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandPurple,
   },
@@ -104,23 +103,23 @@ const styles = StyleSheet.create({
   // Checklist Items
   checklistItem: {
     flexDirection: 'row',
-    marginBottom: 22,
+    marginBottom: 10,
     paddingLeft: 0,
   },
   checkbox: {
-    width: 18,
-    height: 18,
-    borderWidth: 2,
+    width: 12,
+    height: 12,
+    borderWidth: 1.5,
     borderColor: '#cbd5e0',
-    borderRadius: 4,
-    marginRight: 12,
-    marginTop: 2,
+    borderRadius: 2,
+    marginRight: 8,
+    marginTop: 1,
   },
   checklistText: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 10,
     color: '#444444',
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   
   // Card Box
@@ -128,139 +127,137 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     borderWidth: 1,
     borderColor: '#eeeeee',
-    padding: 20,
-    paddingLeft: 25,
-    paddingRight: 25,
-    borderRadius: 8,
-    marginTop: 30,
-    marginBottom: 30,
+    padding: 12,
+    borderRadius: 6,
+    marginTop: 12,
+    marginBottom: 12,
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: colors.brandPurple,
-    marginBottom: 10,
+    marginBottom: 6,
   },
   bulletItem: {
     flexDirection: 'row',
-    marginBottom: 6,
+    marginBottom: 3,
   },
   bullet: {
-    width: 15,
-    fontSize: 14,
+    width: 12,
+    fontSize: 10,
     color: colors.brandPurple,
   },
   bulletText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 9,
     color: colors.textColor,
-    lineHeight: 1.4,
+    lineHeight: 1.3,
   },
   
   // Warning Container
   warningContainer: {
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: colors.warningRedBorder,
     backgroundColor: colors.warningRedBg,
-    borderRadius: 10,
-    padding: 20,
-    marginTop: 25,
-    marginBottom: 25,
+    borderRadius: 6,
+    padding: 12,
+    marginTop: 14,
+    marginBottom: 14,
   },
   warningHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   warningIcon: {
-    fontSize: 22,
-    marginRight: 8,
+    fontSize: 14,
+    marginRight: 6,
   },
   warningTitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: colors.warningRedText,
   },
   warningItem: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginBottom: 4,
     paddingLeft: 0,
   },
   warningItemIcon: {
-    width: 25,
-    fontSize: 14,
+    width: 16,
+    fontSize: 10,
     color: colors.warningRedBorder,
     fontFamily: 'Helvetica-Bold',
   },
   warningItemText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 9,
     color: '#822727',
     fontWeight: 500,
-    lineHeight: 1.4,
+    lineHeight: 1.3,
   },
   
   // Tip Items (green checkmarks)
   tipItem: {
     flexDirection: 'row',
-    marginBottom: 12,
+    marginBottom: 6,
   },
   tipIcon: {
-    width: 20,
-    fontSize: 14,
+    width: 14,
+    fontSize: 10,
     color: colors.successGreen,
     fontFamily: 'Helvetica-Bold',
   },
   tipText: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 10,
     color: '#444444',
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   
   // Footer
   footer: {
     position: 'absolute',
-    bottom: 30,
-    left: 60,
-    right: 60,
+    bottom: 25,
+    left: 50,
+    right: 50,
     borderTopWidth: 1,
     borderTopColor: '#eeeeee',
-    paddingTop: 20,
+    paddingTop: 12,
     alignItems: 'center',
   },
   ctaButton: {
     backgroundColor: colors.brandPurple,
-    paddingVertical: 12,
-    paddingHorizontal: 35,
-    borderRadius: 30,
-    marginTop: 15,
-    marginBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 25,
+    borderRadius: 20,
+    marginTop: 10,
+    marginBottom: 6,
   },
   ctaButtonText: {
-    fontSize: 14,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
   },
   disclaimer: {
-    fontSize: 11,
+    fontSize: 8,
     color: '#999999',
-    lineHeight: 1.4,
-    marginTop: 20,
-    marginBottom: 10,
+    lineHeight: 1.3,
+    marginTop: 10,
+    marginBottom: 6,
     textAlign: 'center',
   },
   footerLogoCenter: {
-    width: 25,
+    width: 20,
     height: 'auto',
     opacity: 0.8,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 20,
-    right: 60,
-    fontSize: 12,
+    bottom: 15,
+    right: 50,
+    fontSize: 9,
     color: '#cccccc',
   },
 });
@@ -406,7 +403,7 @@ export const DividendComplianceChecklistPDF = () => (
         <WarningItem>Forgetting personal tax — budget for Self Assessment liability.</WarningItem>
       </View>
 
-      {/* Section 5 - Handy Notes */}
+      {/* Section 4 - Handy Notes */}
       <SectionHeader number="4" title="Handy Notes for Directors" />
       
       <TipItem>
@@ -420,11 +417,11 @@ export const DividendComplianceChecklistPDF = () => (
       </TipItem>
 
       {/* CTA Section */}
-      <View style={{ marginTop: 30, alignItems: 'center' }}>
-        <Text style={{ fontSize: 16, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 8 }}>
+      <View style={{ marginTop: 18, alignItems: 'center' }}>
+        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', color: colors.brandPurple, marginBottom: 5 }}>
           Need Templates?
         </Text>
-        <Text style={{ fontSize: 14, color: colors.textColor, textAlign: 'center', marginBottom: 15 }}>
+        <Text style={{ fontSize: 10, color: colors.textColor, textAlign: 'center', marginBottom: 10 }}>
           Dividify provides professional dividend vouchers, board minutes, and written resolutions — all in one place.
         </Text>
         <Link src="https://dividify.co.uk/get-started">
