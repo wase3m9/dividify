@@ -152,16 +152,27 @@ Deno.serve(async (req) => {
         details: { target_email: targetEmail, created_by: user.id }
       })
 
+      // Note: Password is returned only for display in the admin UI
+      // The password is not logged and should be shown once then discarded
+      // In a production environment, consider sending via secure email instead
       return new Response(
         JSON.stringify({ 
           message: 'Admin user created successfully',
           userId: authUser.user.id,
           email: authUser.user.email,
-          // Return password securely (in production, send via email instead)
+          // Password returned for one-time display only - not logged
           tempPassword: generatedPassword,
-          note: 'Please change this password immediately after first login'
+          note: 'This password is shown once only. Please copy it now and change it immediately after first login.',
+          security: 'Do not share or store this password. It will not be shown again.'
         }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { 
+          headers: { 
+            ...corsHeaders, 
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+            'Pragma': 'no-cache'
+          } 
+        }
       )
     }
 
