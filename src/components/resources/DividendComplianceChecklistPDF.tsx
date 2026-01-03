@@ -16,25 +16,29 @@ const colors = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 40,
-    paddingTop: 30,
-    paddingBottom: 60,
+    padding: 50,
+    paddingTop: 40,
+    paddingBottom: 70,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
-    fontSize: 10,
-    lineHeight: 1.4,
+    fontSize: 11,
+    lineHeight: 1.5,
   },
   header: {
-    marginBottom: 12,
+    marginBottom: 20,
     borderBottomWidth: 3,
     borderBottomColor: colors.primary,
-    paddingBottom: 8,
+    paddingBottom: 12,
+    flexDirection: 'row',
     alignItems: 'center',
   },
+  headerContent: {
+    flexDirection: 'column',
+  },
   mainLogo: {
-    width: 140,
-    height: 40,
-    marginBottom: 2,
+    width: 100,
+    height: 28,
+    marginBottom: 4,
   },
   tagline: {
     fontSize: 9,
@@ -42,205 +46,188 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   title: {
-    fontSize: 18,
+    fontSize: 22,
     fontFamily: 'Helvetica-Bold',
     color: colors.text,
-    marginTop: 4,
-    marginBottom: 4,
+    marginTop: 8,
+    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 9,
+    fontSize: 11,
     color: colors.textMuted,
-    marginBottom: 8,
-    lineHeight: 1.5,
+    marginBottom: 14,
+    lineHeight: 1.6,
   },
   sectionContainer: {
-    marginBottom: 8,
+    marginBottom: 16,
   },
   sectionHeader: {
     backgroundColor: colors.primary,
-    padding: 5,
-    paddingLeft: 10,
-    marginBottom: 6,
+    padding: 8,
+    paddingLeft: 12,
+    marginBottom: 10,
     borderRadius: 3,
   },
   sectionTitle: {
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
   },
-  subsectionTitle: {
+  checklistItem: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    paddingLeft: 6,
+  },
+  checkbox: {
+    width: 12,
+    height: 12,
+    borderWidth: 1.5,
+    borderColor: colors.primary,
+    borderRadius: 2,
+    marginRight: 10,
+    marginTop: 2,
+  },
+  checklistText: {
+    flex: 1,
+    fontSize: 10,
+    color: colors.text,
+    lineHeight: 1.5,
+  },
+  infoBox: {
+    backgroundColor: '#F3E8FF',
+    padding: 12,
+    borderRadius: 4,
+    marginTop: 10,
+    marginBottom: 14,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.primary,
+  },
+  infoBoxTitle: {
     fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: colors.primary,
-    marginTop: 8,
     marginBottom: 4,
   },
-  paragraph: {
+  infoBoxText: {
     fontSize: 9,
     color: colors.text,
-    marginBottom: 6,
     lineHeight: 1.5,
   },
-  checklistItem: {
+  bulletItem: {
     flexDirection: 'row',
     marginBottom: 3,
     paddingLeft: 4,
   },
-  checkbox: {
-    width: 9,
-    height: 9,
-    borderWidth: 1.5,
-    borderColor: colors.primary,
-    borderRadius: 2,
-    marginRight: 6,
-    marginTop: 1,
-  },
-  checklistText: {
-    flex: 1,
-    fontSize: 8,
-    color: colors.text,
-    lineHeight: 1.35,
-  },
-  infoBox: {
-    backgroundColor: '#F3E8FF',
-    padding: 8,
-    borderRadius: 3,
-    marginTop: 6,
-    marginBottom: 6,
-    borderLeftWidth: 3,
-    borderLeftColor: colors.primary,
-  },
-  infoBoxTitle: {
-    fontSize: 8,
-    fontFamily: 'Helvetica-Bold',
-    color: colors.primary,
-    marginBottom: 3,
-  },
-  infoBoxText: {
-    fontSize: 7,
-    color: colors.text,
-    lineHeight: 1.35,
-  },
-  bulletItem: {
-    flexDirection: 'row',
-    marginBottom: 1,
-    paddingLeft: 2,
-  },
   bullet: {
-    width: 8,
-    fontSize: 7,
+    width: 10,
+    fontSize: 9,
     color: colors.primary,
   },
   bulletText: {
     flex: 1,
-    fontSize: 7,
+    fontSize: 9,
     color: colors.text,
-    lineHeight: 1.3,
+    lineHeight: 1.4,
   },
   mistakeItem: {
     flexDirection: 'row',
-    marginBottom: 3,
-    paddingLeft: 4,
+    marginBottom: 8,
+    paddingLeft: 6,
   },
   mistakeIcon: {
-    width: 10,
-    fontSize: 8,
+    width: 14,
+    fontSize: 10,
     color: '#EF4444',
-    marginRight: 4,
+    marginRight: 6,
   },
   mistakeText: {
     flex: 1,
-    fontSize: 8,
+    fontSize: 10,
     color: colors.text,
-    lineHeight: 1.35,
+    lineHeight: 1.5,
   },
   tipItem: {
     flexDirection: 'row',
-    marginBottom: 3,
-    paddingLeft: 4,
+    marginBottom: 8,
+    paddingLeft: 6,
   },
   tipIcon: {
-    width: 10,
-    fontSize: 8,
+    width: 14,
+    fontSize: 10,
     color: colors.success,
-    marginRight: 4,
+    marginRight: 6,
   },
   tipText: {
     flex: 1,
-    fontSize: 8,
+    fontSize: 10,
     color: colors.text,
-    lineHeight: 1.35,
+    lineHeight: 1.5,
   },
   footer: {
     position: 'absolute',
-    bottom: 20,
-    left: 40,
-    right: 40,
+    bottom: 25,
+    left: 50,
+    right: 50,
     borderTopWidth: 1,
     borderTopColor: colors.border,
-    paddingTop: 8,
+    paddingTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   footerIconLogo: {
-    width: 20,
-    height: 20,
-  },
-  footerText: {
-    fontSize: 8,
-    color: colors.textMuted,
+    width: 24,
+    height: 24,
   },
   footerLink: {
-    fontSize: 8,
+    fontSize: 9,
     color: colors.primary,
     textDecoration: 'none',
   },
   pageNumber: {
-    fontSize: 8,
+    fontSize: 9,
     color: colors.textMuted,
   },
   disclaimer: {
-    marginTop: 8,
-    padding: 8,
+    marginTop: 16,
+    padding: 12,
     backgroundColor: colors.background,
-    borderRadius: 3,
+    borderRadius: 4,
   },
   disclaimerText: {
-    fontSize: 7,
+    fontSize: 8,
     color: colors.textMuted,
     fontStyle: 'italic',
-    lineHeight: 1.4,
+    lineHeight: 1.5,
   },
   ctaBox: {
     backgroundColor: '#F3E8FF',
-    padding: 12,
-    borderRadius: 5,
-    marginTop: 10,
+    padding: 16,
+    borderRadius: 6,
+    marginTop: 20,
     alignItems: 'center',
   },
   ctaTitle: {
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: colors.primary,
-    marginBottom: 4,
+    marginBottom: 6,
     textAlign: 'center',
   },
   ctaText: {
-    fontSize: 8,
+    fontSize: 10,
     color: colors.text,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   ctaButton: {
     backgroundColor: colors.primary,
-    paddingVertical: 10,
-    paddingHorizontal: 28,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
     borderRadius: 25,
   },
   ctaButtonText: {
-    fontSize: 10,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
@@ -277,8 +264,10 @@ const TipItem = ({ children }: { children: React.ReactNode }) => (
 
 const Header = () => (
   <View style={styles.header}>
-    <Image src={mainLogo} style={styles.mainLogo} />
-    <Text style={styles.tagline}>Dividend Management Made Simple</Text>
+    <View style={styles.headerContent}>
+      <Image src={mainLogo} style={styles.mainLogo} />
+      <Text style={styles.tagline}>Dividend Management Made Simple</Text>
+    </View>
   </View>
 );
 
@@ -292,7 +281,7 @@ const Footer = ({ pageNumber }: { pageNumber: number }) => (
 
 export const DividendComplianceChecklistPDF = () => (
   <Document>
-    {/* Page 1 - Sections 1, 2, and 3 */}
+    {/* Page 1 - Sections 1 and 2 */}
     <Page size="A4" style={styles.page}>
       <Header />
 
@@ -306,7 +295,7 @@ export const DividendComplianceChecklistPDF = () => (
         <Text style={styles.infoBoxText}>
           Interim & final dividends, distributable reserves, board minutes, dividend vouchers, and the most common mistakes.
         </Text>
-        <Text style={{ ...styles.infoBoxTitle, marginTop: 4 }}>What this is not</Text>
+        <Text style={{ ...styles.infoBoxTitle, marginTop: 6 }}>What this is not</Text>
         <Text style={styles.infoBoxText}>
           Personal tax planning advice. Use this as a compliance checklist and consult your accountant if anything is unclear.
         </Text>
@@ -361,6 +350,13 @@ export const DividendComplianceChecklistPDF = () => (
         </View>
       </View>
 
+      <Footer pageNumber={1} />
+    </Page>
+
+    {/* Page 2 - Sections 3, 4, 5, CTA and Disclaimer */}
+    <Page size="A4" style={styles.page}>
+      <Header />
+
       {/* Section 3 */}
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
@@ -380,13 +376,6 @@ export const DividendComplianceChecklistPDF = () => (
           If the payment is to a director personally, make sure you do not accidentally treat it as salary. Dividends are not payroll items.
         </ChecklistItem>
       </View>
-
-      <Footer pageNumber={1} />
-    </Page>
-
-    {/* Page 2 - Sections 4, 5, CTA and Disclaimer */}
-    <Page size="A4" style={styles.page}>
-      <Header />
 
       {/* Section 4 */}
       <View style={styles.sectionContainer}>
