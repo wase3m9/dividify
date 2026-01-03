@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Link, Image } from '@react-pdf/
 import mainLogo from '@/assets/dividify-main-logo.png';
 import iconLogo from '@/assets/dividify-icon-logo.png';
 
-// Brand colors matching the HTML design
+// Brand colors matching the HTML design exactly
 const colors = {
   brandPurple: '#5227cc',
   brandLightPurple: '#f8f5ff',
@@ -14,140 +14,156 @@ const colors = {
   warningRedText: '#c53030',
   textColor: '#333333',
   textMuted: '#666666',
-  border: '#f0f0f0',
-  introBorder: '#e0d4fc',
+  textLight: '#444444',
+  borderLight: '#eeeeee',
+  borderMedium: '#e0d4fc',
+  checkboxBorder: '#cbd5e0',
 };
 
+// Styles matching the HTML exactly - Checklist uses tighter spacing
 const styles = StyleSheet.create({
+  // Page layout - A4 with calibrated padding (12mm 15mm)
   page: {
-    padding: '50px 60px',
-    paddingBottom: 60,
+    backgroundColor: '#ffffff',
+    paddingTop: 34, // ~12mm
+    paddingBottom: 34,
+    paddingLeft: 42, // ~15mm
+    paddingRight: 42,
     fontFamily: 'Helvetica',
-    backgroundColor: '#FFFFFF',
-    fontSize: 15,
-    lineHeight: 1.6,
+    fontSize: 13,
+    lineHeight: 1.45,
+    color: colors.textColor,
     position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
   },
   
   // Header
   header: {
-    marginBottom: 35,
+    marginBottom: 25,
   },
   mainLogo: {
-    width: 150,
+    width: 130,
     height: 'auto',
     marginBottom: 10,
   },
   title: {
-    fontSize: 32,
-    fontFamily: 'Helvetica-Bold',
     color: colors.brandDark,
-    marginTop: 5,
-    marginBottom: 5,
+    fontSize: 28,
+    fontFamily: 'Helvetica-Bold',
     letterSpacing: -1,
+    lineHeight: 1.2,
+    marginBottom: 5,
   },
   subtitle: {
-    fontSize: 16,
-    color: colors.textMuted,
-    fontWeight: 500,
-    marginBottom: 20,
-  },
-  page2Header: {
     fontSize: 14,
     color: colors.textMuted,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   
-  // Intro Box
+  // Page 2 mini header
+  miniHeader: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginBottom: 20,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+  },
+  
+  // Intro box
   introBox: {
     backgroundColor: colors.brandLightPurple,
     borderWidth: 1,
-    borderColor: colors.introBorder,
-    borderRadius: 10,
-    padding: '18 25',
-    marginBottom: 35,
+    borderColor: colors.borderMedium,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    marginBottom: 25,
   },
   introText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#555555',
-    lineHeight: 1.6,
+    marginBottom: 6,
+  },
+  introBold: {
+    fontFamily: 'Helvetica-Bold',
   },
   introNote: {
     fontSize: 13,
-    color: colors.textMuted,
+    color: '#555555',
     fontStyle: 'italic',
-    marginTop: 6,
   },
   
-  // Section Headers
+  // Section headers
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 15,
     borderBottomWidth: 2,
-    borderBottomColor: colors.border,
-    paddingBottom: 8,
-    marginTop: 25,
-    marginBottom: 20,
+    borderBottomColor: '#f0f0f0',
+    paddingBottom: 6,
   },
   sectionNumber: {
-    width: 30,
-    height: 30,
     backgroundColor: colors.brandPurple,
-    borderRadius: 15,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 10,
   },
   sectionNumberText: {
-    color: '#FFFFFF',
-    fontSize: 15,
+    color: '#ffffff',
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
-    fontSize: 20,
-    fontFamily: 'Helvetica-Bold',
     color: colors.brandPurple,
+    fontSize: 16,
+    fontFamily: 'Helvetica-Bold',
   },
   
-  // Checklist Items
+  // Checklist items
   checklistItem: {
     flexDirection: 'row',
-    marginBottom: 18,
-    paddingLeft: 0,
+    marginBottom: 15,
   },
   checkbox: {
-    width: 18,
-    height: 18,
+    width: 16,
+    height: 16,
     borderWidth: 2,
-    borderColor: '#cbd5e0',
+    borderColor: colors.checkboxBorder,
     borderRadius: 4,
     marginRight: 14,
     marginTop: 2,
   },
   checklistText: {
     flex: 1,
-    fontSize: 15,
-    color: '#444444',
-    lineHeight: 1.6,
+    fontSize: 13,
+    color: colors.textLight,
+    lineHeight: 1.45,
   },
   checklistBold: {
     fontFamily: 'Helvetica-Bold',
   },
   
-  // Card Box
+  // Card box
   cardBox: {
     backgroundColor: '#fafafa',
     borderWidth: 1,
-    borderColor: '#eeeeee',
-    padding: '20 25',
-    borderRadius: 10,
+    borderColor: colors.borderLight,
+    borderRadius: 8,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
     marginTop: 20,
     marginBottom: 20,
   },
   cardTitle: {
-    fontSize: 15,
+    fontSize: 13,
     fontFamily: 'Helvetica-Bold',
-    color: colors.brandPurple,
+    color: colors.textColor,
     marginBottom: 10,
   },
   bulletItem: {
@@ -156,150 +172,148 @@ const styles = StyleSheet.create({
   },
   bullet: {
     width: 16,
-    fontSize: 14,
+    fontSize: 12,
     color: colors.brandPurple,
   },
   bulletText: {
     flex: 1,
-    fontSize: 14,
-    color: colors.textColor,
-    lineHeight: 1.5,
+    fontSize: 12,
+    color: colors.textLight,
+    lineHeight: 1.4,
   },
   
-  // Warning Container
+  // Warning container
   warningContainer: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.warningRedBorder,
     backgroundColor: colors.warningRedBg,
-    borderRadius: 10,
-    padding: 20,
-    marginTop: 25,
-    marginBottom: 25,
+    borderRadius: 8,
+    padding: 15,
+    marginTop: 20,
+    marginBottom: 20,
   },
   warningHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   warningIcon: {
-    fontSize: 20,
-    marginRight: 10,
+    fontSize: 18,
+    marginRight: 8,
   },
   warningTitle: {
-    fontSize: 18,
-    fontFamily: 'Helvetica-Bold',
     color: colors.warningRedText,
+    fontSize: 15,
+    fontFamily: 'Helvetica-Bold',
   },
   warningItem: {
     flexDirection: 'row',
-    marginBottom: 8,
-    paddingLeft: 0,
+    marginBottom: 6,
   },
-  warningItemIcon: {
-    width: 24,
-    fontSize: 14,
+  warningBullet: {
     color: colors.warningRedBorder,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
+    marginRight: 8,
+    width: 14,
   },
-  warningItemText: {
+  warningText: {
     flex: 1,
-    fontSize: 14,
     color: '#822727',
-    fontWeight: 500,
-    lineHeight: 1.5,
+    fontSize: 12,
+    lineHeight: 1.4,
   },
-  warningItemBold: {
+  warningTextBold: {
     fontFamily: 'Helvetica-Bold',
   },
   
-  // Handy Notes Items
+  // Notes section
   noteItem: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   noteText: {
     flex: 1,
-    fontSize: 15,
-    color: '#444444',
-    lineHeight: 1.6,
+    fontSize: 13,
+    color: colors.textLight,
+    lineHeight: 1.45,
   },
   noteBold: {
     fontFamily: 'Helvetica-Bold',
-    color: colors.brandDark,
-  },
-  
-  // CTA Section
-  ctaSection: {
-    alignItems: 'center',
-    marginTop: 'auto',
-    paddingTop: 20,
-  },
-  ctaTitle: {
-    fontSize: 16,
-    fontFamily: 'Helvetica-Bold',
-    color: colors.brandPurple,
-    marginBottom: 8,
-  },
-  ctaSubtitle: {
-    fontSize: 15,
-    color: colors.textColor,
-    textAlign: 'center',
-    marginBottom: 15,
   },
   
   // Footer
   footer: {
-    position: 'absolute',
-    bottom: 30,
-    left: 60,
-    right: 60,
+    marginTop: 'auto',
+    textAlign: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#eeeeee',
-    paddingTop: 20,
+    borderTopColor: colors.borderLight,
+    paddingTop: 15,
     paddingBottom: 10,
     alignItems: 'center',
   },
-  ctaButton: {
-    backgroundColor: colors.brandPurple,
-    paddingVertical: 12,
-    paddingHorizontal: 35,
-    borderRadius: 30,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  ctaButtonText: {
+  ctaTitle: {
     fontSize: 14,
     fontFamily: 'Helvetica-Bold',
-    color: '#FFFFFF',
-    textAlign: 'center',
+    color: colors.textColor,
+    marginBottom: 8,
+  },
+  ctaSubtitle: {
+    fontSize: 12,
+    color: colors.textMuted,
+    marginBottom: 10,
+  },
+  ctaButton: {
+    backgroundColor: colors.brandPurple,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 30,
+    marginTop: 10,
+    marginBottom: 8,
+  },
+  ctaButtonText: {
+    color: '#ffffff',
+    fontSize: 13,
+    fontFamily: 'Helvetica-Bold',
   },
   disclaimer: {
-    fontSize: 11,
+    fontSize: 9,
     color: '#999999',
-    lineHeight: 1.4,
+    lineHeight: 1.3,
     marginTop: 15,
     marginBottom: 5,
     textAlign: 'center',
+    maxWidth: 400,
   },
   footerLogoCenter: {
-    width: 25,
+    width: 22,
     height: 'auto',
     opacity: 0.8,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 30,
-    right: 60,
-    fontSize: 11,
+    bottom: 15,
+    right: 20,
+    fontSize: 10,
     color: '#cccccc',
   },
 });
 
-const ChecklistItem = ({ title, description }: { title?: string; description: string }) => (
+// Helper Components
+const SectionHeader = ({ number, title }: { number: string; title: string }) => (
+  <View style={styles.sectionHeader}>
+    <View style={styles.sectionNumber}>
+      <Text style={styles.sectionNumberText}>{number}</Text>
+    </View>
+    <Text style={styles.sectionTitle}>{title}</Text>
+  </View>
+);
+
+const ChecklistItem = ({ title, description }: { title: string; description: string }) => (
   <View style={styles.checklistItem}>
     <View style={styles.checkbox} />
     <Text style={styles.checklistText}>
-      {title && <Text style={styles.checklistBold}>{title}: </Text>}
+      <Text style={styles.checklistBold}>{title}: </Text>
       {description}
     </Text>
   </View>
@@ -314,9 +328,9 @@ const BulletItem = ({ children }: { children: React.ReactNode }) => (
 
 const WarningItem = ({ title, description }: { title: string; description: string }) => (
   <View style={styles.warningItem}>
-    <Text style={styles.warningItemIcon}>✖</Text>
-    <Text style={styles.warningItemText}>
-      <Text style={styles.warningItemBold}>{title}: </Text>
+    <Text style={styles.warningBullet}>✖</Text>
+    <Text style={styles.warningText}>
+      <Text style={styles.warningTextBold}>{title}: </Text>
       {description}
     </Text>
   </View>
@@ -331,15 +345,6 @@ const NoteItem = ({ title, description }: { title: string; description: string }
   </View>
 );
 
-const SectionHeader = ({ number, title }: { number: string; title: string }) => (
-  <View style={styles.sectionHeader}>
-    <View style={styles.sectionNumber}>
-      <Text style={styles.sectionNumberText}>{number}</Text>
-    </View>
-    <Text style={styles.sectionTitle}>{title}</Text>
-  </View>
-);
-
 export const DividendComplianceChecklistPDF = () => (
   <Document>
     {/* Page 1 */}
@@ -350,14 +355,12 @@ export const DividendComplianceChecklistPDF = () => (
       </View>
 
       <Text style={styles.title}>Dividend Compliance Checklist</Text>
-      <Text style={styles.subtitle}>
-        Management Made Simple for UK Directors
-      </Text>
+      <Text style={styles.subtitle}>Management Made Simple for UK Directors</Text>
 
       {/* Intro Box */}
       <View style={styles.introBox}>
         <Text style={styles.introText}>
-          <Text style={styles.checklistBold}>Overview:</Text> Follow this compliance flow to ensure your dividends are legal and HMRC-compliant.
+          <Text style={styles.introBold}>Overview:</Text> Follow this compliance flow to ensure your dividends are legal and HMRC-compliant.
         </Text>
         <Text style={styles.introNote}>Note: This does not constitute tax advice.</Text>
       </View>
@@ -424,7 +427,7 @@ export const DividendComplianceChecklistPDF = () => (
     {/* Page 2 */}
     <Page size="A4" style={styles.page}>
       {/* Page 2 Header */}
-      <Text style={styles.page2Header}>Dividend Compliance Checklist | Page 2</Text>
+      <Text style={styles.miniHeader}>Dividend Compliance Checklist | Page 2</Text>
 
       {/* Section 3 - Pay and Record */}
       <SectionHeader number="3" title="Pay and Record" />
@@ -490,8 +493,8 @@ export const DividendComplianceChecklistPDF = () => (
         description="If you pay monthly, establish a 'Month End' routine: Management Accounts → Minutes → Voucher → Pay."
       />
 
-      {/* CTA Section */}
-      <View style={styles.ctaSection}>
+      {/* CTA Footer */}
+      <View style={styles.footer}>
         <Text style={styles.ctaTitle}>Need Professional Templates?</Text>
         <Text style={styles.ctaSubtitle}>Generate compliant vouchers & minutes in seconds.</Text>
         <Link src="https://dividify.co.uk/get-started">
@@ -506,8 +509,9 @@ export const DividendComplianceChecklistPDF = () => (
           <Image src={iconLogo} style={styles.footerLogoCenter} />
         </Link>
       </View>
-
       <Text style={styles.pageNumber}>Page 2 of 2</Text>
     </Page>
   </Document>
 );
+
+export default DividendComplianceChecklistPDF;
