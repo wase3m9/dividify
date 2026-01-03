@@ -21,17 +21,17 @@ const colors = {
 };
 
 // Styles matching the HTML exactly - Checklist uses tighter spacing
+// Custom page size: A4 width (595pt) x taller height (950pt) for clean 2-page fit
 const styles = StyleSheet.create({
-  // Page layout - A4 with calibrated padding (12mm 15mm)
   page: {
     backgroundColor: '#ffffff',
-    paddingTop: 34, // ~12mm
-    paddingBottom: 34,
-    paddingLeft: 42, // ~15mm
-    paddingRight: 42,
+    paddingTop: 28,
+    paddingBottom: 28,
+    paddingLeft: 35,
+    paddingRight: 35,
     fontFamily: 'Helvetica',
-    fontSize: 13,
-    lineHeight: 1.45,
+    fontSize: 11,
+    lineHeight: 1.4,
     color: colors.textColor,
     position: 'relative',
     display: 'flex',
@@ -40,33 +40,33 @@ const styles = StyleSheet.create({
   
   // Header
   header: {
-    marginBottom: 25,
+    marginBottom: 18,
   },
   mainLogo: {
-    width: 130,
+    width: 110,
     height: 'auto',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   title: {
     color: colors.brandDark,
-    fontSize: 28,
+    fontSize: 24,
     fontFamily: 'Helvetica-Bold',
     letterSpacing: -1,
     lineHeight: 1.2,
-    marginBottom: 5,
+    marginBottom: 4,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 12,
     color: colors.textMuted,
-    marginBottom: 15,
+    marginBottom: 12,
   },
   
   // Page 2 mini header
   miniHeader: {
-    fontSize: 12,
+    fontSize: 10,
     color: colors.textMuted,
-    marginBottom: 20,
-    paddingBottom: 8,
+    marginBottom: 15,
+    paddingBottom: 6,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderLight,
   },
@@ -76,21 +76,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brandLightPurple,
     borderWidth: 1,
     borderColor: colors.borderMedium,
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    marginBottom: 25,
+    borderRadius: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    marginBottom: 18,
   },
   introText: {
-    fontSize: 13,
+    fontSize: 11,
     color: '#555555',
-    marginBottom: 6,
+    marginBottom: 4,
   },
   introBold: {
     fontFamily: 'Helvetica-Bold',
   },
   introNote: {
-    fontSize: 13,
+    fontSize: 11,
     color: '#555555',
     fontStyle: 'italic',
   },
@@ -99,51 +99,51 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 15,
+    marginTop: 14,
+    marginBottom: 10,
     borderBottomWidth: 2,
     borderBottomColor: '#f0f0f0',
-    paddingBottom: 6,
+    paddingBottom: 4,
   },
   sectionNumber: {
     backgroundColor: colors.brandPurple,
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginRight: 8,
   },
   sectionNumberText: {
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
   },
   sectionTitle: {
     color: colors.brandPurple,
-    fontSize: 16,
+    fontSize: 13,
     fontFamily: 'Helvetica-Bold',
   },
   
   // Checklist items
   checklistItem: {
     flexDirection: 'row',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   checkbox: {
-    width: 16,
-    height: 16,
+    width: 13,
+    height: 13,
     borderWidth: 2,
     borderColor: colors.checkboxBorder,
-    borderRadius: 4,
-    marginRight: 14,
-    marginTop: 2,
+    borderRadius: 3,
+    marginRight: 10,
+    marginTop: 1,
   },
   checklistText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 11,
     color: colors.textLight,
-    lineHeight: 1.45,
+    lineHeight: 1.4,
   },
   checklistBold: {
     fontFamily: 'Helvetica-Bold',
@@ -154,32 +154,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     borderWidth: 1,
     borderColor: colors.borderLight,
-    borderRadius: 8,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 20,
+    borderRadius: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    marginTop: 12,
+    marginBottom: 12,
   },
   cardTitle: {
-    fontSize: 13,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
     color: colors.textColor,
-    marginBottom: 10,
+    marginBottom: 6,
   },
   bulletItem: {
     flexDirection: 'row',
-    marginBottom: 6,
+    marginBottom: 4,
   },
   bullet: {
-    width: 16,
-    fontSize: 12,
+    width: 12,
+    fontSize: 10,
     color: colors.brandPurple,
   },
   bulletText: {
     flex: 1,
-    fontSize: 12,
+    fontSize: 10,
     color: colors.textLight,
-    lineHeight: 1.4,
+    lineHeight: 1.35,
   },
   
   // Warning container
@@ -187,41 +187,41 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.warningRedBorder,
     backgroundColor: colors.warningRedBg,
-    borderRadius: 8,
-    padding: 15,
-    marginTop: 20,
-    marginBottom: 20,
+    borderRadius: 6,
+    padding: 10,
+    marginTop: 14,
+    marginBottom: 14,
   },
   warningHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   warningIcon: {
-    fontSize: 18,
-    marginRight: 8,
+    fontSize: 14,
+    marginRight: 6,
   },
   warningTitle: {
     color: colors.warningRedText,
-    fontSize: 15,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
   },
   warningItem: {
     flexDirection: 'row',
-    marginBottom: 6,
+    marginBottom: 4,
   },
   warningBullet: {
     color: colors.warningRedBorder,
-    fontSize: 12,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
-    marginRight: 8,
-    width: 14,
+    marginRight: 6,
+    width: 12,
   },
   warningText: {
     flex: 1,
     color: '#822727',
-    fontSize: 12,
-    lineHeight: 1.4,
+    fontSize: 10,
+    lineHeight: 1.35,
   },
   warningTextBold: {
     fontFamily: 'Helvetica-Bold',
@@ -230,13 +230,13 @@ const styles = StyleSheet.create({
   // Notes section
   noteItem: {
     flexDirection: 'row',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   noteText: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 11,
     color: colors.textLight,
-    lineHeight: 1.45,
+    lineHeight: 1.4,
   },
   noteBold: {
     fontFamily: 'Helvetica-Bold',
@@ -248,53 +248,53 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderTopWidth: 1,
     borderTopColor: colors.borderLight,
-    paddingTop: 15,
-    paddingBottom: 10,
+    paddingTop: 12,
+    paddingBottom: 8,
     alignItems: 'center',
   },
   ctaTitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: colors.textColor,
-    marginBottom: 8,
+    marginBottom: 5,
   },
   ctaSubtitle: {
-    fontSize: 12,
+    fontSize: 10,
     color: colors.textMuted,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   ctaButton: {
     backgroundColor: colors.brandPurple,
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 30,
-    marginTop: 10,
-    marginBottom: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    borderRadius: 25,
+    marginTop: 8,
+    marginBottom: 6,
   },
   ctaButtonText: {
     color: '#ffffff',
-    fontSize: 13,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
   },
   disclaimer: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#999999',
     lineHeight: 1.3,
-    marginTop: 15,
-    marginBottom: 5,
+    marginTop: 10,
+    marginBottom: 4,
     textAlign: 'center',
-    maxWidth: 400,
+    maxWidth: 380,
   },
   footerLogoCenter: {
-    width: 22,
+    width: 18,
     height: 'auto',
     opacity: 0.8,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 15,
-    right: 20,
-    fontSize: 10,
+    bottom: 12,
+    right: 18,
+    fontSize: 9,
     color: '#cccccc',
   },
 });
@@ -347,8 +347,8 @@ const NoteItem = ({ title, description }: { title: string; description: string }
 
 export const DividendComplianceChecklistPDF = () => (
   <Document>
-    {/* Page 1 */}
-    <Page size="A4" style={styles.page}>
+    {/* Page 1 - Custom size: A4 width x taller height */}
+    <Page size={[595, 950]} style={styles.page}>
       {/* Header */}
       <View style={styles.header}>
         <Image src={mainLogo} style={styles.mainLogo} />
@@ -424,8 +424,8 @@ export const DividendComplianceChecklistPDF = () => (
       <Text style={styles.pageNumber}>Page 1 of 2</Text>
     </Page>
 
-    {/* Page 2 */}
-    <Page size="A4" style={styles.page}>
+    {/* Page 2 - Custom size: A4 width x taller height */}
+    <Page size={[595, 950]} style={styles.page}>
       {/* Page 2 Header */}
       <Text style={styles.miniHeader}>Dividend Compliance Checklist | Page 2</Text>
 
