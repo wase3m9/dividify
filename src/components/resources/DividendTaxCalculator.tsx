@@ -14,6 +14,7 @@ export const DividendTaxCalculator = () => {
   const dividend = parseFloat(dividendAmount) || 0;
   const income = parseFloat(otherIncome) || 0;
   const result = calculateDividendTax(dividend, income, taxYear);
+  const currentConfig = TAX_YEARS[taxYear];
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-GB", {
@@ -133,9 +134,9 @@ export const DividendTaxCalculator = () => {
                   <p className="font-medium text-foreground mb-1">Dividend Tax Rates {taxYear}</p>
                   <ul className="space-y-1">
                     <li>• £500 dividend allowance (0%)</li>
-                    <li>• Basic rate: 8.75%</li>
-                    <li>• Higher rate: 33.75%</li>
-                    <li>• Additional rate: 39.35%</li>
+                    <li>• Basic rate: {(currentConfig.basicRate * 100).toFixed(2)}%</li>
+                    <li>• Higher rate: {(currentConfig.higherRate * 100).toFixed(2)}%</li>
+                    <li>• Additional rate: {(currentConfig.additionalRate * 100).toFixed(2)}%</li>
                   </ul>
                 </div>
               </div>

@@ -37,10 +37,10 @@ export const TAX_YEARS: Record<string, TaxYearConfig> = {
     basicRateThreshold: 37700,
     higherRateThreshold: 125140,
     additionalRateThreshold: 125140,
-    basicRate: 0.0875,
-    higherRate: 0.3375,
+    basicRate: 0.1075,
+    higherRate: 0.3575,
     additionalRate: 0.3935,
-    s455Rate: 0.3375,
+    s455Rate: 0.3575,
   },
 };
 
@@ -108,7 +108,7 @@ export function calculateDividendTax(
     const basicRateAmount = Math.min(remainingDividend, basicRateSpace);
     const basicRateTax = basicRateAmount * config.basicRate;
     bands.push({
-      band: "Basic Rate (8.75%)",
+      band: `Basic Rate (${(config.basicRate * 100).toFixed(2)}%)`,
       amount: basicRateAmount,
       rate: config.basicRate,
       tax: basicRateTax,
@@ -128,7 +128,7 @@ export function calculateDividendTax(
       const higherRateAmount = Math.min(remainingDividend, availableHigherRate);
       const higherRateTax = higherRateAmount * config.higherRate;
       bands.push({
-        band: "Higher Rate (33.75%)",
+        band: `Higher Rate (${(config.higherRate * 100).toFixed(2)}%)`,
         amount: higherRateAmount,
         rate: config.higherRate,
         tax: higherRateTax,
@@ -142,7 +142,7 @@ export function calculateDividendTax(
   if (remainingDividend > 0) {
     const additionalRateTax = remainingDividend * config.additionalRate;
     bands.push({
-      band: "Additional Rate (39.35%)",
+      band: `Additional Rate (${(config.additionalRate * 100).toFixed(2)}%)`,
       amount: remainingDividend,
       rate: config.additionalRate,
       tax: additionalRateTax,
