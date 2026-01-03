@@ -31,10 +31,10 @@ export const S455Calculator = () => {
   })) : null;
 
   return (
-    <Card className="h-full">
+    <Card className="h-full bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200/50">
       <CardHeader>
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-4">
-          <Calculator className="w-6 h-6 text-primary" />
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-amber-100 mb-4">
+          <Calculator className="w-6 h-6 text-amber-600" />
         </div>
         <CardTitle className="text-xl">S455 Tax Calculator</CardTitle>
         <CardDescription>
@@ -140,7 +140,7 @@ export const S455Calculator = () => {
               </div>
             )}
 
-            <div className="bg-muted/50 rounded-lg p-4 mt-4">
+            <div className="bg-amber-100/50 rounded-lg p-4 mt-4 border border-amber-200/30">
               <div className="flex gap-2">
                 <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-muted-foreground">
