@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link, Svg, Path } from '@react-pdf/renderer';
 
 // Dividify brand colors (purple theme)
 const colors = {
@@ -14,167 +14,168 @@ const colors = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
+    padding: 40,
+    paddingBottom: 60,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
     fontSize: 10,
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   header: {
-    marginBottom: 24,
+    marginBottom: 16,
     borderBottomWidth: 3,
     borderBottomColor: colors.primary,
-    paddingBottom: 16,
+    paddingBottom: 10,
   },
-  logo: {
-    fontSize: 24,
-    fontFamily: 'Helvetica-Bold',
-    color: colors.primary,
-    marginBottom: 4,
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
   },
   tagline: {
-    fontSize: 10,
+    fontSize: 9,
     color: colors.textMuted,
+    marginTop: 2,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily: 'Helvetica-Bold',
     color: colors.text,
-    marginTop: 16,
-    marginBottom: 8,
+    marginTop: 8,
+    marginBottom: 6,
   },
   subtitle: {
-    fontSize: 11,
+    fontSize: 10,
     color: colors.textMuted,
-    marginBottom: 20,
-    lineHeight: 1.6,
+    marginBottom: 12,
+    lineHeight: 1.5,
   },
   sectionContainer: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   sectionHeader: {
     backgroundColor: colors.primary,
-    padding: 8,
-    paddingLeft: 12,
-    marginBottom: 10,
-    borderRadius: 4,
+    padding: 6,
+    paddingLeft: 10,
+    marginBottom: 8,
+    borderRadius: 3,
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
   },
   subsectionTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: colors.primary,
-    marginTop: 10,
-    marginBottom: 6,
+    marginTop: 8,
+    marginBottom: 4,
   },
   paragraph: {
-    fontSize: 10,
+    fontSize: 9,
     color: colors.text,
-    marginBottom: 8,
-    lineHeight: 1.6,
+    marginBottom: 6,
+    lineHeight: 1.5,
   },
   checklistItem: {
     flexDirection: 'row',
-    marginBottom: 6,
-    paddingLeft: 8,
+    marginBottom: 4,
+    paddingLeft: 6,
   },
   checkbox: {
-    width: 12,
-    height: 12,
+    width: 10,
+    height: 10,
     borderWidth: 1.5,
     borderColor: colors.primary,
     borderRadius: 2,
-    marginRight: 10,
+    marginRight: 8,
     marginTop: 1,
   },
   checklistText: {
-    flex: 1,
-    fontSize: 10,
-    color: colors.text,
-    lineHeight: 1.5,
-  },
-  infoBox: {
-    backgroundColor: '#F3E8FF',
-    padding: 12,
-    borderRadius: 4,
-    marginTop: 12,
-    marginBottom: 12,
-    borderLeftWidth: 3,
-    borderLeftColor: colors.primary,
-  },
-  infoBoxTitle: {
-    fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
-    color: colors.primary,
-    marginBottom: 6,
-  },
-  infoBoxText: {
-    fontSize: 9,
-    color: colors.text,
-    lineHeight: 1.5,
-  },
-  bulletItem: {
-    flexDirection: 'row',
-    marginBottom: 3,
-    paddingLeft: 4,
-  },
-  bullet: {
-    width: 12,
-    fontSize: 9,
-    color: colors.primary,
-  },
-  bulletText: {
     flex: 1,
     fontSize: 9,
     color: colors.text,
     lineHeight: 1.4,
   },
+  infoBox: {
+    backgroundColor: '#F3E8FF',
+    padding: 10,
+    borderRadius: 3,
+    marginTop: 8,
+    marginBottom: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.primary,
+  },
+  infoBoxTitle: {
+    fontSize: 9,
+    fontFamily: 'Helvetica-Bold',
+    color: colors.primary,
+    marginBottom: 4,
+  },
+  infoBoxText: {
+    fontSize: 8,
+    color: colors.text,
+    lineHeight: 1.4,
+  },
+  bulletItem: {
+    flexDirection: 'row',
+    marginBottom: 2,
+    paddingLeft: 2,
+  },
+  bullet: {
+    width: 10,
+    fontSize: 8,
+    color: colors.primary,
+  },
+  bulletText: {
+    flex: 1,
+    fontSize: 8,
+    color: colors.text,
+    lineHeight: 1.3,
+  },
   mistakeItem: {
     flexDirection: 'row',
-    marginBottom: 6,
-    paddingLeft: 8,
+    marginBottom: 4,
+    paddingLeft: 6,
   },
   mistakeIcon: {
-    width: 14,
-    fontSize: 10,
+    width: 12,
+    fontSize: 9,
     color: '#EF4444',
-    marginRight: 6,
+    marginRight: 4,
   },
   mistakeText: {
     flex: 1,
-    fontSize: 10,
+    fontSize: 9,
     color: colors.text,
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   tipItem: {
     flexDirection: 'row',
-    marginBottom: 6,
-    paddingLeft: 8,
+    marginBottom: 4,
+    paddingLeft: 6,
   },
   tipIcon: {
-    width: 14,
-    fontSize: 10,
+    width: 12,
+    fontSize: 9,
     color: colors.success,
-    marginRight: 6,
+    marginRight: 4,
   },
   tipText: {
     flex: 1,
-    fontSize: 10,
+    fontSize: 9,
     color: colors.text,
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   footer: {
     position: 'absolute',
-    bottom: 30,
-    left: 50,
-    right: 50,
+    bottom: 25,
+    left: 40,
+    right: 40,
     borderTopWidth: 1,
     borderTopColor: colors.border,
-    paddingTop: 10,
+    paddingTop: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -193,45 +194,90 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
   },
   disclaimer: {
-    marginTop: 16,
-    padding: 10,
+    marginTop: 12,
+    padding: 8,
     backgroundColor: colors.background,
-    borderRadius: 4,
+    borderRadius: 3,
   },
   disclaimerText: {
     fontSize: 8,
     color: colors.textMuted,
     fontStyle: 'italic',
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   ctaBox: {
     backgroundColor: colors.primary,
-    padding: 16,
-    borderRadius: 6,
-    marginTop: 20,
-    marginBottom: 30,
+    padding: 14,
+    borderRadius: 5,
+    marginTop: 16,
+    marginBottom: 20,
   },
   ctaTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
-    marginBottom: 6,
+    marginBottom: 5,
     textAlign: 'center',
   },
   ctaText: {
-    fontSize: 10,
+    fontSize: 9,
     color: '#FFFFFF',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   ctaLink: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
     textDecoration: 'underline',
   },
 });
+
+// Dividify Logo component for PDF
+const DividifyLogo = ({ size = 'normal' }: { size?: 'normal' | 'small' }) => {
+  const scale = size === 'small' ? 0.5 : 1;
+  const width = 100 * scale;
+  const height = 28 * scale;
+  
+  return (
+    <Svg width={width} height={height} viewBox="0 0 100 28">
+      {/* "Dividify" text path approximation */}
+      <Path
+        d="M2 8h5c4.5 0 7 2.5 7 7s-2.5 7-7 7H2V8zm5 11.5c2.8 0 4.2-1.8 4.2-4.5s-1.4-4.5-4.2-4.5H4.8v9H7z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M17 10.5c0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4zM17.2 14h2.4v8h-2.4v-8z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M22 14h2.3l2.2 5.5 2.2-5.5h2.3l-3.5 8h-2l-3.5-8z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M32 10.5c0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4zM32.2 14h2.4v8h-2.4v-8z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M37 18c0-2.5 1.8-4.2 4-4.2 1.3 0 2.3.5 3 1.4V8h2.4v14H44v-1.2c-.6.9-1.6 1.4-2.8 1.4-2.3 0-4.2-1.7-4.2-4.2zm7 0c0-1.4-.9-2.4-2.2-2.4-1.3 0-2.2 1-2.2 2.4s.9 2.4 2.2 2.4c1.3 0 2.2-1 2.2-2.4z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M48 10.5c0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4zM48.2 14h2.4v8h-2.4v-8z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M53 14h2.2v1.2c.5-.8 1.3-1.4 2.5-1.4.6 0 1 .1 1.4.3l-.5 2.2c-.3-.2-.7-.3-1.1-.3-1.3 0-2.1.9-2.1 2.5V22h-2.4v-8z"
+        fill={colors.primary}
+      />
+      <Path
+        d="M60 14h2.3l2.2 5.5 2.2-5.5h2.3l-4.3 10h-2.4l1.3-2.8L60 14z"
+        fill={colors.primary}
+      />
+    </Svg>
+  );
+};
 
 const ChecklistItem = ({ children }: { children: React.ReactNode }) => (
   <View style={styles.checklistItem}>
@@ -261,14 +307,28 @@ const TipItem = ({ children }: { children: React.ReactNode }) => (
   </View>
 );
 
+const Header = ({ showTagline = true }: { showTagline?: boolean }) => (
+  <View style={styles.header}>
+    <View style={styles.logoContainer}>
+      <DividifyLogo />
+    </View>
+    {showTagline && <Text style={styles.tagline}>Dividend Management Made Simple</Text>}
+  </View>
+);
+
+const Footer = ({ pageNumber }: { pageNumber: number }) => (
+  <View style={styles.footer}>
+    <DividifyLogo size="small" />
+    <Link src="https://dividify.co.uk" style={styles.footerLink}>dividify.co.uk</Link>
+    <Text style={styles.pageNumber}>Page {pageNumber}</Text>
+  </View>
+);
+
 export const DividendComplianceChecklistPDF = () => (
   <Document>
-    {/* Page 1 */}
+    {/* Page 1 - Everything up to and including Dividend Voucher info box */}
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.logo}>Dividify</Text>
-        <Text style={styles.tagline}>Dividend Management Made Simple</Text>
-      </View>
+      <Header />
 
       <Text style={styles.title}>Dividend Compliance Checklist</Text>
       <Text style={styles.subtitle}>
@@ -280,7 +340,7 @@ export const DividendComplianceChecklistPDF = () => (
         <Text style={styles.infoBoxText}>
           Interim & final dividends, distributable reserves, board minutes, dividend vouchers, and the most common mistakes.
         </Text>
-        <Text style={{ ...styles.infoBoxTitle, marginTop: 8 }}>What this is not</Text>
+        <Text style={{ ...styles.infoBoxTitle, marginTop: 6 }}>What this is not</Text>
         <Text style={styles.infoBoxText}>
           Personal tax planning advice. Use this as a compliance checklist and consult your accountant if anything is unclear.
         </Text>
@@ -335,19 +395,12 @@ export const DividendComplianceChecklistPDF = () => (
         </View>
       </View>
 
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Dividify Ltd</Text>
-        <Link src="https://dividify.co.uk" style={styles.footerLink}>dividify.co.uk</Link>
-        <Text style={styles.pageNumber}>Page 1</Text>
-      </View>
+      <Footer pageNumber={1} />
     </Page>
 
-    {/* Page 2 */}
+    {/* Page 2 - Sections 3, 4, 5 */}
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text style={styles.logo}>Dividify</Text>
-        <Text style={styles.tagline}>Dividend Compliance Checklist</Text>
-      </View>
+      <Header />
 
       {/* Section 3 */}
       <View style={styles.sectionContainer}>
@@ -409,6 +462,13 @@ export const DividendComplianceChecklistPDF = () => (
         </TipItem>
       </View>
 
+      <Footer pageNumber={2} />
+    </Page>
+
+    {/* Page 3 - CTA and Disclaimer */}
+    <Page size="A4" style={styles.page}>
+      <Header />
+
       {/* CTA Box */}
       <View style={styles.ctaBox}>
         <Text style={styles.ctaTitle}>Need Templates?</Text>
@@ -427,11 +487,7 @@ export const DividendComplianceChecklistPDF = () => (
         </Text>
       </View>
 
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Dividify Ltd</Text>
-        <Link src="https://dividify.co.uk" style={styles.footerLink}>dividify.co.uk</Link>
-        <Text style={styles.pageNumber}>Page 2</Text>
-      </View>
+      <Footer pageNumber={3} />
     </Page>
   </Document>
 );
