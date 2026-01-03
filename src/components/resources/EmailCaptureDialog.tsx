@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Download, Loader2, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { pdf } from "@react-pdf/renderer";
+import { DividendComplianceChecklistPDF } from "./DividendComplianceChecklistPDF";
 
 interface EmailCaptureDialogProps {
   open: boolean;
@@ -25,6 +27,29 @@ export const EmailCaptureDialog = ({
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const downloadGeneratedPDF = async () => {
+    // Generate the PDF dynamically for the compliance checklist
+    if (pdfPath.includes("dividend-compliance-checklist")) {
+      const blob = await pdf(<DividendComplianceChecklistPDF />).toBlob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "dividend-compliance-checklist-dividify.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } else {
+      // Fallback to static PDF for other resources
+      const link = document.createElement("a");
+      link.href = pdfPath;
+      link.download = pdfPath.split("/").pop() || "resource.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,12 +75,7 @@ export const EmailCaptureDialog = ({
       toast.success("Check your email for confirmation!");
       
       // Trigger download
-      const link = document.createElement("a");
-      link.href = pdfPath;
-      link.download = pdfPath.split("/").pop() || "resource.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      await downloadGeneratedPDF();
       
       // Reset after delay
       setTimeout(() => {
