@@ -165,43 +165,126 @@ const Resources = () => {
         </div>
       </section>
 
-      {/* SEO Content Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg max-w-none">
-            <h2 className="text-2xl font-bold text-foreground mb-6">
-              Understanding UK Dividend Taxation
+      {/* UK Dividend Knowledge Section */}
+      <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              UK Dividend Tax Quick Reference
             </h2>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  Dividend Tax Rates 2024/25 & 2025/26
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  The UK dividend tax rates remain consistent for both tax years:
-                </p>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li>• <strong>£500</strong> dividend allowance (tax-free)</li>
-                  <li>• <strong>8.75%</strong> basic rate (income up to £50,270)</li>
-                  <li>• <strong>33.75%</strong> higher rate (£50,271 - £125,140)</li>
-                  <li>• <strong>39.35%</strong> additional rate (over £125,140)</li>
-                </ul>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Essential tax rates and thresholds for the 2024/25 and 2025/26 tax years
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {/* Tax Rate Cards */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/20 p-6 hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-green-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="relative">
+                <p className="text-sm font-medium text-green-600 dark:text-green-400 mb-1">Tax-Free Allowance</p>
+                <p className="text-3xl font-bold text-foreground mb-2">£500</p>
+                <p className="text-sm text-muted-foreground">Dividend allowance per year</p>
               </div>
-              
-              <div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
+            </div>
+            
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 p-6 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="relative">
+                <p className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-1">Basic Rate</p>
+                <p className="text-3xl font-bold text-foreground mb-2">8.75%</p>
+                <p className="text-sm text-muted-foreground">Income up to £50,270</p>
+              </div>
+            </div>
+            
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 p-6 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="relative">
+                <p className="text-sm font-medium text-amber-600 dark:text-amber-400 mb-1">Higher Rate</p>
+                <p className="text-3xl font-bold text-foreground mb-2">33.75%</p>
+                <p className="text-sm text-muted-foreground">£50,271 - £125,140</p>
+              </div>
+            </div>
+            
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-500/10 to-red-600/5 border border-red-500/20 p-6 hover:shadow-lg hover:shadow-red-500/10 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="relative">
+                <p className="text-sm font-medium text-red-600 dark:text-red-400 mb-1">Additional Rate</p>
+                <p className="text-3xl font-bold text-foreground mb-2">39.35%</p>
+                <p className="text-sm text-muted-foreground">Over £125,140</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Key Info Cards */}
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="relative overflow-hidden rounded-2xl bg-card border shadow-md p-8">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
+              <div className="relative">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-4">
+                  <PoundSterling className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">
                   Section 455 (S455) Tax
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  S455 applies when directors borrow money from their company:
+                  Corporation tax charge on directors' loans from their company
                 </p>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li>• <strong>33.75%</strong> tax on outstanding loans</li>
-                  <li>• Charged 9 months after year-end</li>
-                  <li>• Refunded when the loan is repaid</li>
-                  <li>• Applies to loans over £10,000</li>
-                </ul>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                    <span className="text-2xl font-bold text-primary">33.75%</span>
+                    <span className="text-sm text-muted-foreground">Tax rate on outstanding loans</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>Due 9 months after company year-end</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>Refundable when loan is repaid</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>Applies to loans exceeding £10,000</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="relative overflow-hidden rounded-2xl bg-card border shadow-md p-8">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
+              <div className="relative">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-4">
+                  <FileCheck className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">
+                  Dividend Compliance Essentials
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Key requirements for legal dividend payments in the UK
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span>Sufficient distributable reserves must exist</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span>Board meeting minutes documenting the declaration</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span>Individual dividend vouchers for each shareholder</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span>Dividends paid proportionally to shareholding</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="text-primary mt-0.5">✓</span>
+                    <span>Records retained for at least 6 years</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
