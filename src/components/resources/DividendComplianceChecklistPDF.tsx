@@ -1,5 +1,7 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Link, Svg, Path } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Link, Image } from '@react-pdf/renderer';
+import mainLogo from '@/assets/dividify-main-logo.png';
+import iconLogo from '@/assets/dividify-icon-logo.png';
 
 // Dividify brand colors (purple theme)
 const colors = {
@@ -15,6 +17,7 @@ const colors = {
 const styles = StyleSheet.create({
   page: {
     padding: 40,
+    paddingTop: 30,
     paddingBottom: 60,
     fontFamily: 'Helvetica',
     backgroundColor: '#FFFFFF',
@@ -22,14 +25,15 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
   },
   header: {
-    marginBottom: 16,
+    marginBottom: 12,
     borderBottomWidth: 3,
     borderBottomColor: colors.primary,
-    paddingBottom: 10,
-  },
-  logoContainer: {
-    flexDirection: 'row',
+    paddingBottom: 8,
     alignItems: 'center',
+  },
+  mainLogo: {
+    width: 140,
+    height: 40,
     marginBottom: 2,
   },
   tagline: {
@@ -38,30 +42,30 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Helvetica-Bold',
     color: colors.text,
-    marginTop: 8,
-    marginBottom: 6,
+    marginTop: 4,
+    marginBottom: 4,
   },
   subtitle: {
-    fontSize: 10,
+    fontSize: 9,
     color: colors.textMuted,
-    marginBottom: 12,
+    marginBottom: 8,
     lineHeight: 1.5,
   },
   sectionContainer: {
-    marginBottom: 12,
+    marginBottom: 8,
   },
   sectionHeader: {
     backgroundColor: colors.primary,
-    padding: 6,
+    padding: 5,
     paddingLeft: 10,
-    marginBottom: 8,
+    marginBottom: 6,
     borderRadius: 3,
   },
   sectionTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
   },
@@ -80,97 +84,97 @@ const styles = StyleSheet.create({
   },
   checklistItem: {
     flexDirection: 'row',
-    marginBottom: 4,
-    paddingLeft: 6,
+    marginBottom: 3,
+    paddingLeft: 4,
   },
   checkbox: {
-    width: 10,
-    height: 10,
+    width: 9,
+    height: 9,
     borderWidth: 1.5,
     borderColor: colors.primary,
     borderRadius: 2,
-    marginRight: 8,
+    marginRight: 6,
     marginTop: 1,
   },
   checklistText: {
     flex: 1,
-    fontSize: 9,
+    fontSize: 8,
     color: colors.text,
-    lineHeight: 1.4,
+    lineHeight: 1.35,
   },
   infoBox: {
     backgroundColor: '#F3E8FF',
-    padding: 10,
+    padding: 8,
     borderRadius: 3,
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 6,
+    marginBottom: 6,
     borderLeftWidth: 3,
     borderLeftColor: colors.primary,
   },
   infoBoxTitle: {
-    fontSize: 9,
+    fontSize: 8,
     fontFamily: 'Helvetica-Bold',
     color: colors.primary,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   infoBoxText: {
-    fontSize: 8,
+    fontSize: 7,
     color: colors.text,
-    lineHeight: 1.4,
+    lineHeight: 1.35,
   },
   bulletItem: {
     flexDirection: 'row',
-    marginBottom: 2,
+    marginBottom: 1,
     paddingLeft: 2,
   },
   bullet: {
-    width: 10,
-    fontSize: 8,
+    width: 8,
+    fontSize: 7,
     color: colors.primary,
   },
   bulletText: {
     flex: 1,
-    fontSize: 8,
+    fontSize: 7,
     color: colors.text,
     lineHeight: 1.3,
   },
   mistakeItem: {
     flexDirection: 'row',
-    marginBottom: 4,
-    paddingLeft: 6,
+    marginBottom: 3,
+    paddingLeft: 4,
   },
   mistakeIcon: {
-    width: 12,
-    fontSize: 9,
+    width: 10,
+    fontSize: 8,
     color: '#EF4444',
     marginRight: 4,
   },
   mistakeText: {
     flex: 1,
-    fontSize: 9,
+    fontSize: 8,
     color: colors.text,
-    lineHeight: 1.4,
+    lineHeight: 1.35,
   },
   tipItem: {
     flexDirection: 'row',
-    marginBottom: 4,
-    paddingLeft: 6,
+    marginBottom: 3,
+    paddingLeft: 4,
   },
   tipIcon: {
-    width: 12,
-    fontSize: 9,
+    width: 10,
+    fontSize: 8,
     color: colors.success,
     marginRight: 4,
   },
   tipText: {
     flex: 1,
-    fontSize: 9,
+    fontSize: 8,
     color: colors.text,
-    lineHeight: 1.4,
+    lineHeight: 1.35,
   },
   footer: {
     position: 'absolute',
-    bottom: 25,
+    bottom: 20,
     left: 40,
     right: 40,
     borderTopWidth: 1,
@@ -179,6 +183,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  footerIconLogo: {
+    width: 20,
+    height: 20,
   },
   footerText: {
     fontSize: 8,
@@ -194,90 +202,44 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
   },
   disclaimer: {
-    marginTop: 12,
+    marginTop: 8,
     padding: 8,
     backgroundColor: colors.background,
     borderRadius: 3,
   },
   disclaimerText: {
-    fontSize: 8,
+    fontSize: 7,
     color: colors.textMuted,
     fontStyle: 'italic',
     lineHeight: 1.4,
   },
   ctaBox: {
     backgroundColor: colors.primary,
-    padding: 14,
+    padding: 12,
     borderRadius: 5,
-    marginTop: 16,
-    marginBottom: 20,
+    marginTop: 10,
   },
   ctaTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
-    marginBottom: 5,
+    marginBottom: 4,
     textAlign: 'center',
   },
   ctaText: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#FFFFFF',
     textAlign: 'center',
-    marginBottom: 6,
+    marginBottom: 5,
   },
   ctaLink: {
-    fontSize: 10,
+    fontSize: 9,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
     textDecoration: 'underline',
   },
 });
-
-// Dividify Logo component for PDF
-const DividifyLogo = ({ size = 'normal' }: { size?: 'normal' | 'small' }) => {
-  const scale = size === 'small' ? 0.5 : 1;
-  const width = 100 * scale;
-  const height = 28 * scale;
-  
-  return (
-    <Svg width={width} height={height} viewBox="0 0 100 28">
-      {/* "Dividify" text path approximation */}
-      <Path
-        d="M2 8h5c4.5 0 7 2.5 7 7s-2.5 7-7 7H2V8zm5 11.5c2.8 0 4.2-1.8 4.2-4.5s-1.4-4.5-4.2-4.5H4.8v9H7z"
-        fill={colors.primary}
-      />
-      <Path
-        d="M17 10.5c0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4zM17.2 14h2.4v8h-2.4v-8z"
-        fill={colors.primary}
-      />
-      <Path
-        d="M22 14h2.3l2.2 5.5 2.2-5.5h2.3l-3.5 8h-2l-3.5-8z"
-        fill={colors.primary}
-      />
-      <Path
-        d="M32 10.5c0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4zM32.2 14h2.4v8h-2.4v-8z"
-        fill={colors.primary}
-      />
-      <Path
-        d="M37 18c0-2.5 1.8-4.2 4-4.2 1.3 0 2.3.5 3 1.4V8h2.4v14H44v-1.2c-.6.9-1.6 1.4-2.8 1.4-2.3 0-4.2-1.7-4.2-4.2zm7 0c0-1.4-.9-2.4-2.2-2.4-1.3 0-2.2 1-2.2 2.4s.9 2.4 2.2 2.4c1.3 0 2.2-1 2.2-2.4z"
-        fill={colors.primary}
-      />
-      <Path
-        d="M48 10.5c0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4zM48.2 14h2.4v8h-2.4v-8z"
-        fill={colors.primary}
-      />
-      <Path
-        d="M53 14h2.2v1.2c.5-.8 1.3-1.4 2.5-1.4.6 0 1 .1 1.4.3l-.5 2.2c-.3-.2-.7-.3-1.1-.3-1.3 0-2.1.9-2.1 2.5V22h-2.4v-8z"
-        fill={colors.primary}
-      />
-      <Path
-        d="M60 14h2.3l2.2 5.5 2.2-5.5h2.3l-4.3 10h-2.4l1.3-2.8L60 14z"
-        fill={colors.primary}
-      />
-    </Svg>
-  );
-};
 
 const ChecklistItem = ({ children }: { children: React.ReactNode }) => (
   <View style={styles.checklistItem}>
@@ -307,18 +269,16 @@ const TipItem = ({ children }: { children: React.ReactNode }) => (
   </View>
 );
 
-const Header = ({ showTagline = true }: { showTagline?: boolean }) => (
+const Header = () => (
   <View style={styles.header}>
-    <View style={styles.logoContainer}>
-      <DividifyLogo />
-    </View>
-    {showTagline && <Text style={styles.tagline}>Dividend Management Made Simple</Text>}
+    <Image src={mainLogo} style={styles.mainLogo} />
+    <Text style={styles.tagline}>Dividend Management Made Simple</Text>
   </View>
 );
 
 const Footer = ({ pageNumber }: { pageNumber: number }) => (
   <View style={styles.footer}>
-    <DividifyLogo size="small" />
+    <Image src={iconLogo} style={styles.footerIconLogo} />
     <Link src="https://dividify.co.uk" style={styles.footerLink}>dividify.co.uk</Link>
     <Text style={styles.pageNumber}>Page {pageNumber}</Text>
   </View>
@@ -326,7 +286,7 @@ const Footer = ({ pageNumber }: { pageNumber: number }) => (
 
 export const DividendComplianceChecklistPDF = () => (
   <Document>
-    {/* Page 1 - Everything up to and including Dividend Voucher info box */}
+    {/* Page 1 - Sections 1, 2, and 3 */}
     <Page size="A4" style={styles.page}>
       <Header />
 
@@ -340,7 +300,7 @@ export const DividendComplianceChecklistPDF = () => (
         <Text style={styles.infoBoxText}>
           Interim & final dividends, distributable reserves, board minutes, dividend vouchers, and the most common mistakes.
         </Text>
-        <Text style={{ ...styles.infoBoxTitle, marginTop: 6 }}>What this is not</Text>
+        <Text style={{ ...styles.infoBoxTitle, marginTop: 4 }}>What this is not</Text>
         <Text style={styles.infoBoxText}>
           Personal tax planning advice. Use this as a compliance checklist and consult your accountant if anything is unclear.
         </Text>
@@ -395,13 +355,6 @@ export const DividendComplianceChecklistPDF = () => (
         </View>
       </View>
 
-      <Footer pageNumber={1} />
-    </Page>
-
-    {/* Page 2 - Sections 3, 4, 5 */}
-    <Page size="A4" style={styles.page}>
-      <Header />
-
       {/* Section 3 */}
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
@@ -412,15 +365,22 @@ export const DividendComplianceChecklistPDF = () => (
           Make the payment (bank transfer is easiest for audit trail) and ensure it matches what was declared.
         </ChecklistItem>
         <ChecklistItem>
-          Post the bookkeeping entries: dividend debited to retained earnings / reserves and credited to dividends payable (then cleared when paid). Your software may handle this automatically, but the paperwork still matters.
+          Post the bookkeeping entries: dividend debited to retained earnings / reserves and credited to dividends payable (then cleared when paid).
         </ChecklistItem>
         <ChecklistItem>
-          Keep the supporting documents together: management accounts / dividend calculation, minutes/resolutions, vouchers, bank evidence, and the shareholder approval (if final dividend).
+          Keep the supporting documents together: management accounts, minutes/resolutions, vouchers, bank evidence, and shareholder approval (if final dividend).
         </ChecklistItem>
         <ChecklistItem>
-          If the payment is to a director personally, make sure you do not accidentally treat it as salary or reimbursements. Dividends are not payroll items.
+          If the payment is to a director personally, make sure you do not accidentally treat it as salary. Dividends are not payroll items.
         </ChecklistItem>
       </View>
+
+      <Footer pageNumber={1} />
+    </Page>
+
+    {/* Page 2 - Sections 4, 5, CTA and Disclaimer */}
+    <Page size="A4" style={styles.page}>
+      <Header />
 
       {/* Section 4 */}
       <View style={styles.sectionContainer}>
@@ -462,13 +422,6 @@ export const DividendComplianceChecklistPDF = () => (
         </TipItem>
       </View>
 
-      <Footer pageNumber={2} />
-    </Page>
-
-    {/* Page 3 - CTA and Disclaimer */}
-    <Page size="A4" style={styles.page}>
-      <Header />
-
       {/* CTA Box */}
       <View style={styles.ctaBox}>
         <Text style={styles.ctaTitle}>Need Templates?</Text>
@@ -487,7 +440,7 @@ export const DividendComplianceChecklistPDF = () => (
         </Text>
       </View>
 
-      <Footer pageNumber={3} />
+      <Footer pageNumber={2} />
     </Page>
   </Document>
 );
