@@ -3,15 +3,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calculator, Info } from "lucide-react";
+import { Calculator, Info, TrendingUp, TrendingDown } from "lucide-react";
 import { calculateS455Tax, TAX_YEARS } from "@/utils/taxCalculations";
 
 export const S455Calculator = () => {
   const [loanAmount, setLoanAmount] = useState<string>("");
-  const [taxYear, setTaxYear] = useState<string>("2024/25");
+  const [accountingPeriod, setAccountingPeriod] = useState<string>("2024/25");
 
   const amount = parseFloat(loanAmount) || 0;
-  const result = calculateS455Tax(amount, taxYear);
+  const result = calculateS455Tax(amount, accountingPeriod);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-GB", {
@@ -20,6 +20,15 @@ export const S455Calculator = () => {
       minimumFractionDigits: 2,
     }).format(value);
   };
+
+  const periods = Object.keys(TAX_YEARS);
+
+  // Calculate comparison across all periods
+  const comparison = amount > 0 ? periods.map(period => ({
+    period,
+    result: calculateS455Tax(amount, period),
+    config: TAX_YEARS[period],
+  })) : null;
 
   return (
     <Card className="h-full">
@@ -49,19 +58,22 @@ export const S455Calculator = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="s455-year">Tax Year</Label>
-            <Select value={taxYear} onValueChange={setTaxYear}>
-              <SelectTrigger id="s455-year">
+            <Label htmlFor="s455-period">Accounting Period End</Label>
+            <Select value={accountingPeriod} onValueChange={setAccountingPeriod}>
+              <SelectTrigger id="s455-period">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {Object.keys(TAX_YEARS).map((year) => (
-                  <SelectItem key={year} value={year}>
-                    {year}
+                {periods.map((period) => (
+                  <SelectItem key={period} value={period}>
+                    {period}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
+            <p className="text-xs text-muted-foreground">
+              Select the accounting period in which the loan was outstanding at year-end
+            </p>
           </div>
         </div>
 
@@ -84,15 +96,60 @@ export const S455Calculator = () => {
               </div>
             </div>
 
+            {/* Accounting Period Comparison */}
+            {comparison && (
+              <div className="pt-4 border-t">
+                <h4 className="font-semibold text-foreground mb-3">Compare Accounting Periods</h4>
+                <div className="grid grid-cols-3 gap-2">
+                  {comparison.map(({ period, result: periodResult, config }) => {
+                    const isSelected = period === accountingPeriod;
+                    const diff = periodResult.taxCharge - result.taxCharge;
+                    
+                    return (
+                      <div 
+                        key={period}
+                        className={`p-3 rounded-lg border text-center ${
+                          isSelected 
+                            ? 'border-primary bg-primary/5' 
+                            : 'border-border bg-muted/20'
+                        }`}
+                      >
+                        <p className="text-xs font-medium text-muted-foreground mb-1">{period}</p>
+                        <p className={`text-sm font-bold ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                          {formatCurrency(periodResult.taxCharge)}
+                        </p>
+                        {!isSelected && diff !== 0 && (
+                          <div className={`flex items-center justify-center gap-1 text-xs mt-1 ${
+                            diff > 0 ? 'text-red-500' : 'text-green-500'
+                          }`}>
+                            {diff > 0 ? (
+                              <TrendingUp className="h-3 w-3" />
+                            ) : (
+                              <TrendingDown className="h-3 w-3" />
+                            )}
+                            <span>{diff > 0 ? '+' : ''}{formatCurrency(diff)}</span>
+                          </div>
+                        )}
+                        <p className="text-[10px] text-muted-foreground mt-1">
+                          Rate: {(config.s455Rate * 100).toFixed(2)}%
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="bg-muted/50 rounded-lg p-4 mt-4">
               <div className="flex gap-2">
                 <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-muted-foreground">
                   <p className="font-medium text-foreground mb-1">When does S455 apply?</p>
                   <p>
-                    S455 tax is charged when a director's loan account is overdrawn at the company's 
-                    year-end and not repaid within 9 months after the accounting period ends. 
-                    The tax is refunded if the loan is repaid.
+                    S455 tax is triggered if a director's loan remains outstanding 9 months and 1 day 
+                    after your company's accounting period end. For example, if your accounting period 
+                    ends 31 March 2025, S455 is due if the loan isn't repaid by 1 January 2026. 
+                    The tax is refundable once the loan is repaid or written off.
                   </p>
                 </div>
               </div>

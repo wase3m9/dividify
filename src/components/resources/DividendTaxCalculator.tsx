@@ -3,18 +3,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { PoundSterling, Info } from "lucide-react";
-import { calculateDividendTax, TAX_YEARS, PERSONAL_ALLOWANCE } from "@/utils/taxCalculations";
+import { PoundSterling, Info, TrendingUp, TrendingDown } from "lucide-react";
+import { calculateDividendTax, compareTaxYears, TAX_YEARS } from "@/utils/taxCalculations";
 
 export const DividendTaxCalculator = () => {
   const [dividendAmount, setDividendAmount] = useState<string>("");
   const [otherIncome, setOtherIncome] = useState<string>("");
-  const [taxYear, setTaxYear] = useState<string>("2024/25");
+  const [taxYear, setTaxYear] = useState<string>("2025/26");
 
   const dividend = parseFloat(dividendAmount) || 0;
   const income = parseFloat(otherIncome) || 0;
   const result = calculateDividendTax(dividend, income, taxYear);
   const currentConfig = TAX_YEARS[taxYear];
+  const comparison = dividend > 0 ? compareTaxYears(dividend, income) : null;
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-GB", {
@@ -23,6 +24,8 @@ export const DividendTaxCalculator = () => {
       minimumFractionDigits: 2,
     }).format(value);
   };
+
+  const taxYears = Object.keys(TAX_YEARS);
 
   return (
     <Card className="h-full">
@@ -74,7 +77,7 @@ export const DividendTaxCalculator = () => {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {Object.keys(TAX_YEARS).map((year) => (
+                {taxYears.map((year) => (
                   <SelectItem key={year} value={year}>
                     {year}
                   </SelectItem>
@@ -86,17 +89,26 @@ export const DividendTaxCalculator = () => {
 
         {dividend > 0 && (
           <div className="space-y-4 pt-4 border-t">
-            <h4 className="font-semibold text-foreground">Results</h4>
+            <h4 className="font-semibold text-foreground">Results for {taxYear}</h4>
             
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Gross Dividend</span>
                 <span className="font-medium">{formatCurrency(result.grossDividend)}</span>
               </div>
+              
+              {result.unusedPersonalAllowance > 0 && (
+                <div className="flex justify-between items-center text-green-600">
+                  <span>Unused Personal Allowance applied</span>
+                  <span className="font-medium">-{formatCurrency(result.unusedPersonalAllowance)}</span>
+                </div>
+              )}
+              
               <div className="flex justify-between items-center text-green-600">
-                <span>Tax-Free (£500 allowance)</span>
-                <span className="font-medium">{formatCurrency(result.taxFreeAmount)}</span>
+                <span>Tax-Free (Dividend Allowance)</span>
+                <span className="font-medium">-{formatCurrency(result.dividendAllowanceUsed)}</span>
               </div>
+              
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Taxable Dividend</span>
                 <span className="font-medium">{formatCurrency(result.taxableDividend)}</span>
@@ -106,7 +118,9 @@ export const DividendTaxCalculator = () => {
                 <div className="bg-muted/30 rounded-lg p-3 space-y-2">
                   {result.bands.map((band, index) => (
                     <div key={index} className="flex justify-between items-center text-sm">
-                      <span className="text-muted-foreground">{band.band}</span>
+                      <span className="text-muted-foreground">
+                        {band.band} on {formatCurrency(band.amount)}
+                      </span>
                       <span>{formatCurrency(band.tax)}</span>
                     </div>
                   ))}
@@ -127,13 +141,62 @@ export const DividendTaxCalculator = () => {
               </div>
             </div>
 
+            {/* Tax Year Comparison */}
+            {comparison && (
+              <div className="pt-4 border-t">
+                <h4 className="font-semibold text-foreground mb-3">Compare Tax Years</h4>
+                <div className="grid grid-cols-3 gap-2">
+                  {taxYears.map((year) => {
+                    const yearResult = comparison[year];
+                    const isSelected = year === taxYear;
+                    const config = TAX_YEARS[year];
+                    
+                    // Calculate difference from selected year
+                    const diff = yearResult.totalTax - result.totalTax;
+                    
+                    return (
+                      <div 
+                        key={year}
+                        className={`p-3 rounded-lg border text-center ${
+                          isSelected 
+                            ? 'border-primary bg-primary/5' 
+                            : 'border-border bg-muted/20'
+                        }`}
+                      >
+                        <p className="text-xs font-medium text-muted-foreground mb-1">{year}</p>
+                        <p className={`text-sm font-bold ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                          {formatCurrency(yearResult.totalTax)}
+                        </p>
+                        {!isSelected && diff !== 0 && (
+                          <div className={`flex items-center justify-center gap-1 text-xs mt-1 ${
+                            diff > 0 ? 'text-red-500' : 'text-green-500'
+                          }`}>
+                            {diff > 0 ? (
+                              <TrendingUp className="h-3 w-3" />
+                            ) : (
+                              <TrendingDown className="h-3 w-3" />
+                            )}
+                            <span>{diff > 0 ? '+' : ''}{formatCurrency(diff)}</span>
+                          </div>
+                        )}
+                        <p className="text-[10px] text-muted-foreground mt-1">
+                          Basic: {(config.basicRate * 100).toFixed(2)}%
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="bg-muted/50 rounded-lg p-4 mt-4">
               <div className="flex gap-2">
                 <Info className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-muted-foreground">
                   <p className="font-medium text-foreground mb-1">Dividend Tax Rates {taxYear}</p>
                   <ul className="space-y-1">
-                    <li>• £500 dividend allowance (0%)</li>
+                    <li>• Personal Allowance: £{currentConfig.personalAllowance.toLocaleString()}</li>
+                    <li>• Dividend Allowance: £{currentConfig.dividendAllowance} (0%)</li>
                     <li>• Basic rate: {(currentConfig.basicRate * 100).toFixed(2)}%</li>
                     <li>• Higher rate: {(currentConfig.higherRate * 100).toFixed(2)}%</li>
                     <li>• Additional rate: {(currentConfig.additionalRate * 100).toFixed(2)}%</li>
