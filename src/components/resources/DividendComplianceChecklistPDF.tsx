@@ -214,30 +214,36 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
   },
   ctaBox: {
-    backgroundColor: colors.primary,
+    backgroundColor: '#F3E8FF',
     padding: 12,
     borderRadius: 5,
     marginTop: 10,
+    alignItems: 'center',
   },
   ctaTitle: {
     fontSize: 10,
     fontFamily: 'Helvetica-Bold',
-    color: '#FFFFFF',
+    color: colors.primary,
     marginBottom: 4,
     textAlign: 'center',
   },
   ctaText: {
     fontSize: 8,
-    color: '#FFFFFF',
+    color: colors.text,
     textAlign: 'center',
-    marginBottom: 5,
+    marginBottom: 8,
   },
-  ctaLink: {
-    fontSize: 9,
+  ctaButton: {
+    backgroundColor: colors.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 28,
+    borderRadius: 25,
+  },
+  ctaButtonText: {
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
     color: '#FFFFFF',
     textAlign: 'center',
-    textDecoration: 'underline',
   },
 });
 
@@ -428,8 +434,10 @@ export const DividendComplianceChecklistPDF = () => (
         <Text style={styles.ctaText}>
           Dividify provides professional dividend vouchers, board minutes, and written resolutions — all in one place.
         </Text>
-        <Link src="https://dividify.co.uk" style={styles.ctaLink}>
-          Get Started at dividify.co.uk
+        <Link src="https://dividify.co.uk/get-started">
+          <View style={styles.ctaButton}>
+            <Text style={styles.ctaButtonText}>Start Free Trial →</Text>
+          </View>
         </Link>
       </View>
 
