@@ -11,13 +11,13 @@ const resources = [
   {
     title: "Dividend Compliance Checklist",
     description: "A quick-reference checklist to ensure your dividend payments are fully compliant with UK company law and HMRC requirements.",
-    pdfPath: "/resources/dividend-compliance-checklist.pdf",
+    pdfPath: "https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/downloads/Dividend%20Compliance%20Checklist.pdf",
     icon: <FileCheck className="w-6 h-6 text-primary" />,
   },
   {
     title: "UK Dividend Guide 2025/2026",
     description: "Everything you need to know about paying dividends in the UK, from tax rates to paperwork requirements.",
-    pdfPath: "/resources/uk-dividend-guide-2025.pdf",
+    pdfPath: "https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/downloads/UK%20Dividend%20Guide%202025-2026.pdf",
     icon: <BookOpen className="w-6 h-6 text-primary" />,
   },
 ];
