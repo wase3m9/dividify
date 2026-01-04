@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
-import { FileText, BarChart3, FileSpreadsheet, Building2, PieChart, Layers, Palette, Download } from "lucide-react";
+import { FileText, BarChart3, FileSpreadsheet, Building2, PieChart, Layers, Palette, Download, Mail, CalendarClock, PenTool } from "lucide-react";
 
 const features = [
   { name: "Dividend voucher generator", link: "/features/dividend-vouchers", icon: FileText, color: "from-violet-500 to-purple-600", isPage: true },
   { name: "Board minutes generator", link: "/features/board-minutes", icon: FileText, color: "from-blue-500 to-indigo-600", isPage: true },
   { name: "Board pack generator", link: "/features/board-packs", icon: Layers, color: "from-emerald-500 to-teal-600", isPage: true },
-  { name: "Dividend tracker & analytics", link: "/features/dividend-tracker", icon: BarChart3, color: "from-orange-500 to-amber-600", isPage: true },
+  { name: "Dividend tracker/breakdown", link: "/features/dividend-tracker", icon: BarChart3, color: "from-orange-500 to-amber-600", isPage: true },
   { name: "Annual summary reports (PDF & Excel)", anchor: "#annual-summary-reports", icon: FileSpreadsheet, color: "from-rose-500 to-pink-600" },
   { name: "Companies House officer import", anchor: "#companies-house-import", icon: Building2, color: "from-cyan-500 to-blue-600" },
   { name: "Shareholders & cap table snapshot", anchor: "#cap-table-snapshot", icon: PieChart, color: "from-fuchsia-500 to-purple-600" },
   { name: "Branding & templates", anchor: "#branding-templates", icon: Palette, color: "from-lime-500 to-green-600" },
   { name: "Exports & accounting integrations", anchor: "#exports-integrations", icon: Download, color: "from-sky-500 to-indigo-600" },
+  { name: "Email Documents", anchor: "#email-documents", icon: Mail, color: "from-red-500 to-rose-600" },
+  { name: "Dividend Scheduling/Recurring", anchor: "#dividend-scheduling", icon: CalendarClock, color: "from-teal-500 to-cyan-600" },
+  { name: "Electronic signature", anchor: "#electronic-signature", icon: PenTool, color: "from-amber-500 to-yellow-600" },
 ];
 
 export const AtAGlanceGrid = () => {
