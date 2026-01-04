@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useActivityLog } from "@/hooks/useActivityLog";
@@ -12,8 +12,12 @@ import {
   ImageIcon,
   CreditCard,
   Settings,
-  Link as LinkIcon
+  Link as LinkIcon,
+  ChevronDown
 } from "lucide-react";
+
+const INITIAL_DISPLAY_COUNT = 5;
+const LOAD_MORE_COUNT = 5;
 
 const getActivityIcon = (action: string) => {
   if (action.includes('dividend')) return BadgePoundSterling;
@@ -58,7 +62,15 @@ interface RecentActivityProps {
 }
 
 export const RecentActivity = ({ companyId }: RecentActivityProps) => {
-  const { data: activities, isLoading } = useActivityLog(3);
+  const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT);
+  const { data: activities, isLoading } = useActivityLog(50);
+
+  const handleShowMore = () => {
+    setDisplayCount(prev => prev + LOAD_MORE_COUNT);
+  };
+
+  const displayedActivities = activities?.slice(0, displayCount) || [];
+  const hasMore = activities && activities.length > displayCount;
 
   if (isLoading) {
     return <div>Loading activity...</div>;
@@ -68,16 +80,11 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold">Recent Activity</h2>
-        {activities && activities.length > 5 && (
-          <Button variant="ghost" size="sm">
-            View All
-          </Button>
-        )}
       </div>
       
       {activities && activities.length > 0 ? (
         <div className="space-y-1">
-          {activities.slice(0, 3).map((activity) => {
+          {displayedActivities.map((activity) => {
             const Icon = getActivityIcon(activity.action);
             const descriptionLines = getActivityDescription(
               activity.action,
@@ -129,6 +136,17 @@ export const RecentActivity = ({ companyId }: RecentActivityProps) => {
               </div>
             );
           })}
+          
+          {hasMore && (
+            <Button
+              variant="ghost"
+              className="w-full mt-2"
+              onClick={handleShowMore}
+            >
+              <ChevronDown className="h-4 w-4 mr-2" />
+              Show more
+            </Button>
+          )}
         </div>
       ) : (
         <div className="text-left py-8">

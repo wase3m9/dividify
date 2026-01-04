@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Clock, FileText, Users, Building } from "lucide-react";
+import { Clock, FileText, Users, Building, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface RecentActivityProfileProps {
   userId: string;
@@ -15,7 +16,12 @@ interface ActivityItem {
   metadata?: any;
 }
 
+const INITIAL_DISPLAY_COUNT = 5;
+const LOAD_MORE_COUNT = 5;
+
 export const RecentActivityProfile: FC<RecentActivityProfileProps> = ({ userId }) => {
+  const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY_COUNT);
+
   const { data: activities, isLoading } = useQuery({
     queryKey: ['recent-activity', userId],
     queryFn: async () => {
@@ -26,13 +32,20 @@ export const RecentActivityProfile: FC<RecentActivityProfileProps> = ({ userId }
         .select('*')
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(50);
 
       if (error) throw error;
       return data as ActivityItem[];
     },
     enabled: !!userId,
   });
+
+  const handleShowMore = () => {
+    setDisplayCount(prev => prev + LOAD_MORE_COUNT);
+  };
+
+  const displayedActivities = activities?.slice(0, displayCount) || [];
+  const hasMore = activities && activities.length > displayCount;
 
   const getIcon = (action: string) => {
     switch (action) {
@@ -64,7 +77,7 @@ export const RecentActivityProfile: FC<RecentActivityProfileProps> = ({ userId }
 
   return (
     <div className="space-y-4">
-      {activities.map((activity) => (
+      {displayedActivities.map((activity) => (
         <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg border">
           {getIcon(activity.action)}
           <div className="flex-1 min-w-0">
@@ -75,6 +88,16 @@ export const RecentActivityProfile: FC<RecentActivityProfileProps> = ({ userId }
           </div>
         </div>
       ))}
+      {hasMore && (
+        <Button
+          variant="ghost"
+          className="w-full"
+          onClick={handleShowMore}
+        >
+          <ChevronDown className="h-4 w-4 mr-2" />
+          Show more
+        </Button>
+      )}
     </div>
   );
 };
