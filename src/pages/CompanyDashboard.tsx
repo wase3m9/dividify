@@ -341,7 +341,9 @@ const CompanyDashboard = () => {
         <div className="max-w-5xl mx-auto space-y-12">
         <PaymentSetupBanner />
         <TrialBanner />
-        {company && <MissingBoardMinutesBanner companyId={company.id} />}
+        {company && (userProfile?.subscription_plan === 'professional' || userProfile?.subscription_plan === 'enterprise') && (
+          <MissingBoardMinutesBanner companyId={company.id} />
+        )}
           
           {/* Company Selector Section */}
           <Card className="p-6">
