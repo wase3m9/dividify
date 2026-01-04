@@ -22,11 +22,11 @@ export const BlogPostContent = ({
         // Skip empty paragraphs
         if (!paragraph.trim()) return null;
 
-        // Table of Contents - make it clickable
-        if (paragraph.trim().startsWith('**Table of Contents**')) {
+        // Table of Contents - make it clickable (supports both **Table of Contents** and **Table of Contents:**)
+        if (paragraph.trim().match(/^\*\*Table of Contents\*?\*?:?\*?\*?$/i) || paragraph.trim().startsWith('**Table of Contents**') || paragraph.trim().startsWith('**Table of Contents:**')) {
           const tocLines: string[] = [];
           const lines = section.split('\n');
-          const tocStartIndex = lines.findIndex(line => line.trim().startsWith('**Table of Contents**'));
+          const tocStartIndex = lines.findIndex(line => line.trim().startsWith('**Table of Contents'));
           
           // Look for bullet points only in the lines immediately following the TOC header
           // Support both - and • bullet formats
