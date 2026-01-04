@@ -228,7 +228,7 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
           {isPremium && "PREMIUM DOCUMENT • "}
           {data.accountantFirmName 
             ? `These board minutes were prepared by ${data.accountantFirmName} and recorded in accordance with the Companies Act 2006.`
-            : "These minutes were approved at the board meeting held on [DATE]"
+            : `These minutes were approved at the board meeting held on ${format(new Date(data.boardDate), 'dd/MM/yyyy')}.`
           }
           {isPremium && " • Professional Grade Documentation"}
         </Text>
