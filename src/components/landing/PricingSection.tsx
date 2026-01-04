@@ -77,6 +77,9 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         "Custom branding",
         "Premium templates",
         "Create Board Packs",
+        "Email Documents",
+        "Dividend Scheduling/Recurring",
+        "Electronic signature",
         "Priority support"
       ],
       buttonText: "Subscribe Now",
@@ -96,6 +99,9 @@ export const PricingSection = ({ onStartFreeTrial }: PricingSectionProps) => {
         "Custom branding",
         "Premium templates",
         "Create Board Packs",
+        "Email Documents",
+        "Dividend Scheduling/Recurring",
+        "Electronic signature",
         "24/7 support"
       ],
       buttonText: "Subscribe Now",
