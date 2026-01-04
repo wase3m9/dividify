@@ -484,6 +484,184 @@ export type Database = {
         }
         Relationships: []
       }
+      recurring_dividends: {
+        Row: {
+          amount_per_share: number
+          company_id: string
+          created_at: string
+          day_of_month: number
+          email_recipients: string[]
+          end_date: string | null
+          frequency: string
+          id: string
+          include_board_minutes: boolean
+          is_active: boolean
+          is_paused: boolean
+          last_run_at: string | null
+          next_run_at: string | null
+          number_of_shares: number
+          share_class: string
+          shareholder_id: string
+          start_date: string
+          template_preference: string | null
+          total_amount: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_per_share: number
+          company_id: string
+          created_at?: string
+          day_of_month: number
+          email_recipients?: string[]
+          end_date?: string | null
+          frequency: string
+          id?: string
+          include_board_minutes?: boolean
+          is_active?: boolean
+          is_paused?: boolean
+          last_run_at?: string | null
+          next_run_at?: string | null
+          number_of_shares: number
+          share_class: string
+          shareholder_id: string
+          start_date: string
+          template_preference?: string | null
+          total_amount: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_per_share?: number
+          company_id?: string
+          created_at?: string
+          day_of_month?: number
+          email_recipients?: string[]
+          end_date?: string | null
+          frequency?: string
+          id?: string
+          include_board_minutes?: boolean
+          is_active?: boolean
+          is_paused?: boolean
+          last_run_at?: string | null
+          next_run_at?: string | null
+          number_of_shares?: number
+          share_class?: string
+          shareholder_id?: string
+          start_date?: string
+          template_preference?: string | null
+          total_amount?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recurring_dividends_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_dividends_shareholder_id_fkey"
+            columns: ["shareholder_id"]
+            isOneToOne: false
+            referencedRelation: "shareholders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_dividends_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scheduled_dividend_runs: {
+        Row: {
+          company_id: string
+          created_at: string
+          dividend_record_id: string | null
+          email_sent: boolean
+          email_sent_at: string | null
+          error_message: string | null
+          executed_at: string | null
+          id: string
+          minutes_record_id: string | null
+          schedule_id: string
+          scheduled_for: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          dividend_record_id?: string | null
+          email_sent?: boolean
+          email_sent_at?: string | null
+          error_message?: string | null
+          executed_at?: string | null
+          id?: string
+          minutes_record_id?: string | null
+          schedule_id: string
+          scheduled_for: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          dividend_record_id?: string | null
+          email_sent?: boolean
+          email_sent_at?: string | null
+          error_message?: string | null
+          executed_at?: string | null
+          id?: string
+          minutes_record_id?: string | null
+          schedule_id?: string
+          scheduled_for?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_dividend_runs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_dividend_runs_dividend_record_id_fkey"
+            columns: ["dividend_record_id"]
+            isOneToOne: false
+            referencedRelation: "dividend_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_dividend_runs_minutes_record_id_fkey"
+            columns: ["minutes_record_id"]
+            isOneToOne: false
+            referencedRelation: "minutes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_dividend_runs_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "recurring_dividends"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_dividend_runs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sent_emails: {
         Row: {
           cc_emails: string | null
@@ -755,6 +933,15 @@ export type Database = {
         }
         Returns: undefined
       }
+      calculate_next_run_date: {
+        Args: {
+          p_day_of_month: number
+          p_frequency: string
+          p_last_run?: string
+          p_start_date?: string
+        }
+        Returns: string
+      }
       check_and_reset_monthly_counters: {
         Args: { user_id_param: string }
         Returns: undefined
@@ -783,6 +970,29 @@ export type Database = {
           date: string
           minutes: number
           vouchers: number
+        }[]
+      }
+      get_due_dividend_schedules: {
+        Args: never
+        Returns: {
+          amount_per_share: number
+          company_address: string
+          company_id: string
+          company_name: string
+          company_reg_number: string
+          day_of_month: number
+          email_recipients: string[]
+          frequency: string
+          id: string
+          include_board_minutes: boolean
+          number_of_shares: number
+          share_class: string
+          shareholder_address: string
+          shareholder_id: string
+          shareholder_name: string
+          template_preference: string
+          total_amount: number
+          user_id: string
         }[]
       }
       get_next_voucher_number: {

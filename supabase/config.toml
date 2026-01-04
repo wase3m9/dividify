@@ -17,3 +17,6 @@ verify_jwt = true
 
 [functions.resource-download]
 verify_jwt = false
+
+[functions.process-scheduled-dividends]
+verify_jwt = false
