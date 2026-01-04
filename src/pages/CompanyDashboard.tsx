@@ -344,25 +344,8 @@ const CompanyDashboard = () => {
           
           {/* Company Selector Section */}
           <Card className="p-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex-1 w-full sm:w-auto">
-                <h2 className="text-xl font-semibold mb-4">Select Company</h2>
-                {companies.length > 0 ? (
-                  <select
-                    value={selectedCompanyId || ''}
-                    onChange={(e) => handleCompanySelect(e.target.value)}
-                    className="w-full sm:w-80 p-3 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    {companies.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <p className="text-muted-foreground">No companies added yet</p>
-                )}
-              </div>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+              <h2 className="text-xl font-semibold">Select Company</h2>
               <Dialog open={isAddCompanyDialogOpen} onOpenChange={setIsAddCompanyDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]">
@@ -375,6 +358,21 @@ const CompanyDashboard = () => {
                 </DialogContent>
               </Dialog>
             </div>
+            {companies.length > 0 ? (
+              <select
+                value={selectedCompanyId || ''}
+                onChange={(e) => handleCompanySelect(e.target.value)}
+                className="w-full p-3 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                {companies.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-muted-foreground">No companies added yet</p>
+            )}
           </Card>
 
           {!company ? (
