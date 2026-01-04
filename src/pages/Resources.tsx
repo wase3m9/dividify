@@ -228,7 +228,7 @@ const Resources = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Next Steps</h2>
           <div className="grid md:grid-cols-3 gap-4">
-            <Link to="/blog/how-to-create-dividend-vouchers-uk-guide-2025" className="group">
+            <Link to="/blog/how-to-create-dividend-voucher-step-by-step-guide" className="group">
               <Card className="h-full hover:shadow-md transition-shadow">
                 <CardContent className="p-4 flex items-center gap-3">
                   <ExternalLink className="w-5 h-5 text-primary flex-shrink-0" />
@@ -238,7 +238,7 @@ const Resources = () => {
                 </CardContent>
               </Card>
             </Link>
-            <Link to="/blog/salary-vs-dividends-2025-26-tax-year" className="group">
+            <Link to="/blog/salary-vs-dividends-what-s-the-most-tax-efficient-mix-for-uk-directors-in-2025-26" className="group">
               <Card className="h-full hover:shadow-md transition-shadow">
                 <CardContent className="p-4 flex items-center gap-3">
                   <ExternalLink className="w-5 h-5 text-primary flex-shrink-0" />
@@ -248,7 +248,7 @@ const Resources = () => {
                 </CardContent>
               </Card>
             </Link>
-            <Link to="/blog/directors-loan-accounts-2025" className="group">
+            <Link to="/blog/director-loan-accounts-tax-implications-and-common-pitfalls-in-2025" className="group">
               <Card className="h-full hover:shadow-md transition-shadow">
                 <CardContent className="p-4 flex items-center gap-3">
                   <ExternalLink className="w-5 h-5 text-primary flex-shrink-0" />
