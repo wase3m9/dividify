@@ -40,9 +40,9 @@ export const DividendTaxCalculator = () => {
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-sky-100 mb-4">
           <PoundSterling className="w-6 h-6 text-sky-600" />
         </div>
-        <CardTitle className="text-xl">Dividend Tax Calculator</CardTitle>
+        <CardTitle className="text-xl">Quick Dividend Tax Estimate</CardTitle>
         <CardDescription>
-          Calculate personal tax on dividend income based on your tax band
+          Fast estimate of personal tax on dividend income based on your tax band
         </CardDescription>
       </CardHeader>
 

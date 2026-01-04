@@ -34,6 +34,7 @@ import JournalEntries from "@/pages/JournalEntries";
 import EmailVerified from "@/pages/EmailVerified";
 import AdminDashboard from "@/pages/AdminDashboard";
 import Resources from "@/pages/Resources";
+import DividendTaxCalculator from "@/pages/DividendTaxCalculator";
 
 import { DashboardRouter } from "@/components/dashboard/DashboardRouter";
 import { PaymentRequiredGate } from "@/components/dashboard/PaymentRequiredGate";
@@ -225,6 +226,10 @@ export const router = createBrowserRouter([
       {
         path: "/resources",
         element: <Resources />,
+      },
+      {
+        path: "/dividend-tax-calculator",
+        element: <DividendTaxCalculator />,
       },
     ],
   },

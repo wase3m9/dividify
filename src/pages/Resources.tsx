@@ -5,7 +5,10 @@ import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { ResourceCard } from "@/components/resources/ResourceCard";
 import { S455Calculator } from "@/components/resources/S455Calculator";
 import { DividendTaxCalculator } from "@/components/resources/DividendTaxCalculator";
-import { FileCheck, BookOpen, Calculator, PoundSterling } from "lucide-react";
+import { FileCheck, BookOpen, PoundSterling, Shield, ArrowRight, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 const resources = [
   {
@@ -27,8 +30,8 @@ const Resources = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Free Dividend Resources & Tax Calculators | Dividify",
-    description: "Free UK dividend resources including compliance checklists, guides, and interactive tax calculators for S455 and dividend tax.",
+    name: "Free UK Director Tax Tools | Dividify Resources",
+    description: "Quick UK tax tools for company directors, including a dividend tax estimate and Section 455 calculator.",
     url: "https://dividify.co.uk/resources",
     mainEntity: [
       {
@@ -40,10 +43,10 @@ const Resources = () => {
       },
       {
         "@type": "SoftwareApplication",
-        name: "Dividend Tax Calculator",
+        name: "Quick Dividend Tax Estimate",
         applicationCategory: "FinanceApplication",
         operatingSystem: "Web",
-        description: "Calculate personal tax on UK dividend income based on tax bands",
+        description: "Fast estimate of personal tax on UK dividend income",
       },
     ],
   };
@@ -62,10 +65,10 @@ const Resources = () => {
       },
       {
         "@type": "Question",
-        name: "What are the UK dividend tax rates for 2024/25 and 2025/26?",
+        name: "What are the UK dividend tax rates for 2025/26?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "UK dividend tax rates are: 0% on the first £500 (dividend allowance), 8.75% basic rate, 33.75% higher rate, and 39.35% additional rate. These rates apply for both 2024/25 and 2025/26 tax years.",
+          text: "UK dividend tax rates for 2025/26 are: 0% on the first £500 (dividend allowance), 8.75% basic rate, 33.75% higher rate, and 39.35% additional rate.",
         },
       },
     ],
@@ -74,27 +77,27 @@ const Resources = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Free Dividend Resources & Tax Calculators | Dividify UK</title>
+        <title>Free UK Director Tax Tools | Dividify Resources</title>
         <meta 
           name="description" 
-          content="Free UK dividend resources: compliance checklists, dividend guides, S455 tax calculator, and dividend tax calculator for 2024/25 and 2025/26. Download PDFs and calculate your tax." 
+          content="Quick UK tax tools for company directors, including a dividend tax estimate and Section 455 calculator. Try the Smart Shield calculator for a more accurate dividend check." 
         />
         <meta 
           name="keywords" 
-          content="dividend tax calculator UK, S455 calculator, dividend compliance checklist, UK dividend guide, dividend tax rates 2024/25, dividend tax rates 2025/26, directors loan tax, HMRC dividend" 
+          content="S455 calculator, dividend tax estimate, directors loan tax, UK dividend tools, dividend compliance checklist, UK dividend guide" 
         />
         <link rel="canonical" href="https://dividify.co.uk/resources" />
         
         {/* Open Graph */}
-        <meta property="og:title" content="Free Dividend Resources & Tax Calculators | Dividify UK" />
-        <meta property="og:description" content="Free UK dividend resources: compliance checklists, guides, and interactive tax calculators for S455 and dividend tax." />
+        <meta property="og:title" content="Free UK Director Tax Tools | Dividify Resources" />
+        <meta property="og:description" content="Quick UK tax tools for company directors, including a dividend tax estimate and Section 455 calculator." />
         <meta property="og:url" content="https://dividify.co.uk/resources" />
         <meta property="og:type" content="website" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Free Dividend Resources & Tax Calculators | Dividify UK" />
-        <meta name="twitter:description" content="Free UK dividend resources: compliance checklists, guides, and interactive tax calculators." />
+        <meta name="twitter:title" content="Free UK Director Tax Tools | Dividify Resources" />
+        <meta name="twitter:description" content="Quick UK tax tools for company directors." />
         
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -112,11 +115,45 @@ const Resources = () => {
       <section className="py-16 md:py-24 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
-            Free Resources & Calculators
+            Free UK Tax Tools for Company Directors
           </h1>
           <p className="text-xl text-muted-foreground">
-            Downloadable guides and interactive tools to help you manage dividends and stay compliant.
+            Quick calculators and downloadable guides to help you manage dividends and stay compliant.
           </p>
+        </div>
+      </section>
+
+      {/* Featured Smart Shield Banner */}
+      <section className="py-8 bg-gradient-to-r from-primary/10 via-primary/5 to-background">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="bg-card/80 backdrop-blur border-primary/20 shadow-lg">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                    <Shield className="w-7 h-7 text-primary" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+                    Smarter Dividend Check (Smart Shield)
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Estimate dividend tax and sanity-check affordability using retained profits + a Corporation Tax reserve. 
+                    See the 2026/27 rate changes and plan ahead.
+                  </p>
+                </div>
+                <div className="flex-shrink-0">
+                  <Link to="/dividend-tax-calculator">
+                    <Button size="lg" className="gap-2">
+                      Open Smart Shield Calculator
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -151,22 +188,82 @@ const Resources = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
-              Tax Calculators
+              Quick Tax Calculators
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Interactive calculators for S455 tax and dividend tax liability. Updated for 2024/25 and 2025/26 tax years.
+              Fast estimates for S455 tax and dividend tax liability. For a more accurate dividend safety check, use Smart Shield.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <S455Calculator />
-            <DividendTaxCalculator />
+            {/* S455 Calculator */}
+            <div className="space-y-4">
+              <S455Calculator />
+              <p className="text-sm text-muted-foreground text-center">
+                Used when a director's loan is overdrawn at the year end.
+              </p>
+            </div>
+            
+            {/* Quick Dividend Tax Estimate */}
+            <div className="space-y-4">
+              <DividendTaxCalculator />
+              <div className="text-center space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Fast estimate only. For a more accurate dividend safety check, use Smart Shield.
+                </p>
+                <Link to="/dividend-tax-calculator">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    Try Smart Shield Calculator
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Next Steps Section */}
+      <section className="py-12 bg-muted/30">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Next Steps</h2>
+          <div className="grid md:grid-cols-3 gap-4">
+            <Link to="/blog/how-to-create-dividend-vouchers-uk-guide-2025" className="group">
+              <Card className="h-full hover:shadow-md transition-shadow">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <ExternalLink className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                    How to issue a compliant dividend (minutes + voucher)
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link to="/blog/salary-vs-dividends-2025-26-tax-year" className="group">
+              <Card className="h-full hover:shadow-md transition-shadow">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <ExternalLink className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                    Director salary vs dividends (2025/26)
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link to="/blog/directors-loan-accounts-2025" className="group">
+              <Card className="h-full hover:shadow-md transition-shadow">
+                <CardContent className="p-4 flex items-center gap-3">
+                  <ExternalLink className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                    Overdrawn director's loan: what Section 455 means
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* UK Dividend Knowledge Section */}
-      <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
+      <section className="py-20 bg-gradient-to-b from-background to-muted/30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
