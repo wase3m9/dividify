@@ -47,7 +47,7 @@ export const AccountantsHowItWorksSection = () => {
             </div>
             
             <h3 className="text-xl font-semibold text-center mb-4">
-              Bulk Generate Documents
+              Generate Documents
             </h3>
             <p className="text-gray-600 leading-relaxed text-center mb-4">
               Create dividend vouchers and board minutes for multiple clients simultaneously using our professional templates.
@@ -73,7 +73,7 @@ export const AccountantsHowItWorksSection = () => {
               Deliver to Clients
             </h3>
             <p className="text-gray-600 leading-relaxed text-center mb-4">
-              Export compliant documents and maintain comprehensive audit trails for all client dividend activities.
+              Export compliant documents, create professional board packs, and maintain comprehensive audit trails for all client dividend activities.
             </p>
             <div className="text-center">
               <span className="text-sm text-[#9b87f5] font-medium">Professional delivery</span>
