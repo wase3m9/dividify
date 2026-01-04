@@ -9,6 +9,7 @@ import { ShareholdingsSection } from "@/components/dividend/board/ShareholdingsS
 import { ShareholderDetails } from "@/components/dividend/ShareholderDetailsForm";
 import { AnnualSummaryReport } from "@/components/dividend/AnnualSummaryReport";
 import { SentEmailsSection } from "@/components/dividend/email/SentEmailsSection";
+import { ScheduleList } from "@/components/dividend/scheduling/ScheduleList";
 import { useState } from "react";
 import { useCompanyData } from "@/hooks/useCompanyData";
 import { useToast } from "@/hooks/use-toast";
@@ -95,12 +96,13 @@ export const CompanyTabs = ({
   return (
     <div className="grid grid-cols-1 gap-4">
       <Tabs defaultValue="company" className="w-full">
-        <TabsList className="grid grid-cols-8 gap-2">
+        <TabsList className="grid grid-cols-9 gap-2">
           <TabsTrigger value="company">Company</TabsTrigger>
           <TabsTrigger value="officers">Officers</TabsTrigger>
           <TabsTrigger value="shareholders">Shareholders</TabsTrigger>
           <TabsTrigger value="share-classes">Share Classes</TabsTrigger>
           <TabsTrigger value="dividends">Dividends</TabsTrigger>
+          <TabsTrigger value="scheduling">Scheduling</TabsTrigger>
           <TabsTrigger value="meetings">Meetings</TabsTrigger>
           <TabsTrigger value="reports">Reports</TabsTrigger>
           <TabsTrigger value="emails">Emails</TabsTrigger>
@@ -145,6 +147,10 @@ export const CompanyTabs = ({
             companyId={selectedCompany?.id}
             onEmailClick={onVoucherEmailClick}
           />
+        </TabsContent>
+
+        <TabsContent value="scheduling">
+          <ScheduleList companyId={selectedCompany?.id} />
         </TabsContent>
 
         <TabsContent value="meetings">
