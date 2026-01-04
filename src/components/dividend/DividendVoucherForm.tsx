@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { CompanySelector } from '@/components/dividend/company/CompanySelector';
 import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
 import { DividendVoucherData } from '@/utils/documentGenerator/types';
@@ -51,6 +52,7 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
   const [savedDividendData, setSavedDividendData] = useState<DividendDataForMinutes | null>(null);
   const [directorSignatureName, setDirectorSignatureName] = useState('');
   const [signatureDate, setSignatureDate] = useState('');
+  const [useElectronicSignature, setUseElectronicSignature] = useState(false);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -218,9 +220,9 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         templateStyle: data.templateStyle,
         logoUrl: profile?.logo_url || undefined,
         accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
-        // Electronic signature fields
-        directorSignatureName: directorSignatureName || undefined,
-        signatureDate: signatureDate || data.paymentDate || undefined,
+        // Electronic signature fields - only include if toggle is on
+        directorSignatureName: useElectronicSignature ? directorSignatureName || undefined : undefined,
+        signatureDate: useElectronicSignature ? (signatureDate || data.paymentDate || undefined) : undefined,
         // Keep original data for backwards compatibility
         companyAddress: data.companyAddress,
         companyRegNumber: data.companyRegNumber,
@@ -653,39 +655,54 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
 
           {/* Electronic Signature Section */}
           <div className="border-t pt-4 mt-4">
-            <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-              Electronic Signature
-              <HelpTooltip content="Enter the director's name to add an electronic signature to the document. The name will appear in an elegant handwriting style on the PDF, eliminating the need for a wet signature." />
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="directorSignatureName" className="text-left block mb-2">
-                  Director Name (for signature)
-                </Label>
-                <Input
-                  id="directorSignatureName"
-                  value={directorSignatureName}
-                  onChange={(e) => setDirectorSignatureName(e.target.value)}
-                  placeholder="e.g. John Smith"
-                />
-                {directorSignatureName && (
-                  <p className="text-sm text-muted-foreground mt-1 italic" style={{ fontFamily: 'cursive' }}>
-                    Preview: {directorSignatureName}
-                  </p>
-                )}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-medium">Electronic Signature</h3>
+                <HelpTooltip content="Enable to add an electronic signature to the document. The name will appear in an elegant handwriting style on the PDF, eliminating the need for a wet signature." />
               </div>
-              <div>
-                <Label htmlFor="signatureDate" className="text-left block mb-2">
-                  Signature Date
+              <div className="flex items-center gap-2">
+                <Label htmlFor="useElectronicSignature" className="text-sm text-muted-foreground">
+                  {useElectronicSignature ? 'Enabled' : 'Disabled'}
                 </Label>
-                <Input
-                  id="signatureDate"
-                  type="date"
-                  value={signatureDate}
-                  onChange={(e) => setSignatureDate(e.target.value)}
+                <Switch
+                  id="useElectronicSignature"
+                  checked={useElectronicSignature}
+                  onCheckedChange={setUseElectronicSignature}
                 />
               </div>
             </div>
+            
+            {useElectronicSignature && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="directorSignatureName" className="text-left block mb-2">
+                    Director Name (for signature)
+                  </Label>
+                  <Input
+                    id="directorSignatureName"
+                    value={directorSignatureName}
+                    onChange={(e) => setDirectorSignatureName(e.target.value)}
+                    placeholder="e.g. John Smith"
+                  />
+                  {directorSignatureName && (
+                    <p className="text-sm text-muted-foreground mt-1 italic" style={{ fontFamily: 'cursive' }}>
+                      Preview: {directorSignatureName}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="signatureDate" className="text-left block mb-2">
+                    Signature Date
+                  </Label>
+                  <Input
+                    id="signatureDate"
+                    type="date"
+                    value={signatureDate}
+                    onChange={(e) => setSignatureDate(e.target.value)}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-2">
