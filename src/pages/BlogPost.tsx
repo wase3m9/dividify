@@ -128,6 +128,47 @@ const BlogPost = () => {
     }
   };
 
+  // Extract FAQs from content for FAQ schema
+  const extractFAQs = (content: string) => {
+    const faqs: { question: string; answer: string }[] = [];
+    const lines = content.split('\n');
+    let inFAQSection = false;
+    let currentQuestion = '';
+    let currentAnswer = '';
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      
+      // Detect FAQ section
+      if (line.includes('**FAQs**') || line.includes('**FAQ**') || line.toLowerCase() === 'faqs') {
+        inFAQSection = true;
+        continue;
+      }
+      
+      if (inFAQSection) {
+        // Check if this is a question (bold text ending with ?)
+        if (line.startsWith('**') && line.includes('?')) {
+          // Save previous Q&A if exists
+          if (currentQuestion && currentAnswer) {
+            faqs.push({ question: currentQuestion, answer: currentAnswer.trim() });
+          }
+          currentQuestion = line.replace(/\*\*/g, '').trim();
+          currentAnswer = '';
+        } else if (currentQuestion && line && !line.startsWith('**Try') && !line.startsWith('**Create')) {
+          // This is part of the answer
+          currentAnswer += ' ' + line;
+        }
+      }
+    }
+    
+    // Don't forget the last Q&A
+    if (currentQuestion && currentAnswer) {
+      faqs.push({ question: currentQuestion, answer: currentAnswer.trim() });
+    }
+    
+    return faqs;
+  };
+
   // Generate structured data for the article
   const generateArticleSchema = () => {
     if (!post) return null;
@@ -136,18 +177,21 @@ const BlogPost = () => {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": post.title,
-      "description": metaDescription,
+      "description": post.meta_description || metaDescription,
       "image": `${window.location.origin}${getPostImage(post.slug)}`,
       "datePublished": post.published_at,
-      "dateModified": post.published_at,
+      "dateModified": post.updated_at || post.published_at,
+      "wordCount": wordCount,
       "author": {
         "@type": "Person",
         "name": "James Wilson",
-        "jobTitle": "Senior Tax Advisor"
+        "jobTitle": "Senior Tax Advisor",
+        "url": `${window.location.origin}/blog`
       },
       "publisher": {
         "@type": "Organization",
         "name": "Dividify",
+        "url": `${window.location.origin}`,
         "logo": {
           "@type": "ImageObject",
           "url": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`
@@ -156,38 +200,112 @@ const BlogPost = () => {
       "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": `${window.location.origin}/blog/${post.slug}`
-      }
+      },
+      "articleSection": "Tax Planning",
+      "inLanguage": "en-GB"
     };
   };
+
+  // Generate FAQ schema if FAQs exist
+  const generateFAQSchema = () => {
+    if (!post?.content) return null;
+    
+    const faqs = extractFAQs(post.content);
+    if (faqs.length === 0) return null;
+    
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    };
+  };
+
+  // Generate BreadcrumbList schema
+  const generateBreadcrumbSchema = () => {
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": `${window.location.origin}`
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": `${window.location.origin}/blog`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": post?.title,
+          "item": `${window.location.origin}/blog/${post?.slug}`
+        }
+      ]
+    };
+  };
+
+  const faqSchema = generateFAQSchema();
+  const breadcrumbSchema = generateBreadcrumbSchema();
 
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
         <title>{post?.title} | Expert UK Tax Insights | Dividify Blog</title>
-        <meta name="description" content={metaDescription} />
-        <meta name="keywords" content="UK dividend taxation, HMRC compliance, board meeting requirements, UK limited company tax, dividends UK, company compliance" />
+        <meta name="description" content={post?.meta_description || metaDescription} />
+        <meta name="keywords" content="UK dividend taxation, HMRC compliance, board meeting requirements, UK limited company tax, dividends UK, company compliance, dividend vouchers, board minutes" />
         <meta name="geo.region" content="GB" />
         <meta name="geo.country" content="UK" />
+        <meta name="author" content="James Wilson" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <meta property="og:title" content={post?.title} />
-        <meta property="og:description" content={metaDescription} />
+        <meta property="og:description" content={post?.meta_description || metaDescription} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`${window.location.origin}/blog/${slug}`} />
         <meta property="og:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="en_GB" />
+        <meta property="og:site_name" content="Dividify" />
         <meta property="article:published_time" content={post?.published_at} />
+        <meta property="article:modified_time" content={post?.updated_at || post?.published_at} />
         <meta property="article:author" content="James Wilson" />
         <meta property="article:section" content="UK Tax & Compliance" />
         <meta property="article:tag" content="UK Taxation" />
+        <meta property="article:tag" content="Dividends" />
         <meta property="article:tag" content="Company Law" />
         <meta property="article:tag" content="HMRC Compliance" />
+        <meta property="article:tag" content="Tax Planning" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post?.title} />
-        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:description" content={post?.meta_description || metaDescription} />
         <meta name="twitter:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
+        <meta name="twitter:label1" content="Written by" />
+        <meta name="twitter:data1" content="James Wilson" />
+        <meta name="twitter:label2" content="Est. reading time" />
+        <meta name="twitter:data2" content={readingTime} />
         <link rel="canonical" href={`${window.location.origin}/blog/${slug}`} />
         <script type="application/ld+json">
           {JSON.stringify(generateArticleSchema())}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
+        {faqSchema && (
+          <script type="application/ld+json">
+            {JSON.stringify(faqSchema)}
+          </script>
+        )}
       </Helmet>
 
       <div className="sticky top-0 z-50 bg-white border-b">
