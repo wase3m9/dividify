@@ -24,23 +24,23 @@ export const BlogPostContent = ({
 
         // Table of Contents - make it clickable
         if (paragraph.trim().startsWith('**Table of Contents**')) {
-          const tocLines = [];
+          const tocLines: string[] = [];
           const lines = section.split('\n');
           const tocStartIndex = lines.findIndex(line => line.trim().startsWith('**Table of Contents**'));
           
           // Look for bullet points only in the lines immediately following the TOC header
+          // Support both - and • bullet formats
           for (let i = tocStartIndex + 1; i < lines.length; i++) {
             const line = lines[i].trim();
-            if (line.startsWith('-')) {
+            if (line.startsWith('-') || line.startsWith('•')) {
               tocLines.push(line);
-            } else if (line.startsWith('**') || line === '') {
-              // Stop when we hit the next section or empty line after TOC items
-              if (tocLines.length > 0 && line.startsWith('**')) break;
-              if (line === '' && tocLines.length > 0) {
-                // Check if the next non-empty line is a section header
-                const nextNonEmpty = lines.slice(i + 1).find(l => l.trim() !== '');
-                if (nextNonEmpty && nextNonEmpty.trim().startsWith('**')) break;
-              }
+            } else if (line.startsWith('**') && !line.includes('Table of Contents')) {
+              // Stop when we hit the next section header
+              if (tocLines.length > 0) break;
+            } else if (line === '' && tocLines.length > 0) {
+              // Check if the next non-empty line is a section header
+              const nextNonEmpty = lines.slice(i + 1).find(l => l.trim() !== '');
+              if (nextNonEmpty && nextNonEmpty.trim().startsWith('**')) break;
             }
           }
 
@@ -48,7 +48,8 @@ export const BlogPostContent = ({
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h3>
                 <ul className="space-y-3">
                   {tocLines.map((tocItem, tocIndex) => {
-                const text = tocItem.replace('-', '').trim();
+                // Remove both - and • bullet characters
+                const text = tocItem.replace(/^[-•]\s*/, '').trim();
                 const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
                 return <li key={tocIndex}>
                           <a href={`#${anchor}`} className="text-[#9b87f5] hover:text-[#7E69AB] transition-colors duration-200 cursor-pointer text-sm" onClick={e => {
@@ -68,8 +69,8 @@ export const BlogPostContent = ({
               </div>;
         }
 
-        // Skip TOC items when not in TOC section
-        if (paragraph.trim().startsWith('-') && !paragraph.includes('**')) {
+        // Skip TOC items when not in TOC section (both - and • bullets)
+        if ((paragraph.trim().startsWith('-') || paragraph.trim().startsWith('•')) && !paragraph.includes('**')) {
           return null;
         }
 
