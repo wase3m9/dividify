@@ -5,9 +5,15 @@ import { BoardMinutesPDF } from './components/BoardMinutesPDF';
 import { DividendVoucherData, BoardMinutesData } from '../types';
 
 // Register handwriting-style font for electronic signatures
+// Using direct Google Fonts static URL for react-pdf compatibility
 Font.register({
-  family: 'GreatVibes',
-  src: 'https://fonts.gstatic.com/s/greatvibes/v18/RWmMoKWR9v4ksMfaWd_JN9XFiaQ.ttf',
+  family: 'SignatureFont',
+  fonts: [
+    {
+      src: 'https://fonts.gstatic.com/s/dancingscript/v25/If2cXTr6YS-zF4S-kcSWSVi_sxjsohD9F50Ruu7B1i03.ttf',
+      fontWeight: 400,
+    },
+  ],
 });
 
 export const generateDividendVoucherPDF = async (data: DividendVoucherData): Promise<Blob> => {

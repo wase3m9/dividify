@@ -144,11 +144,12 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
       color: template.colors.accent,
     },
     signatureName: {
-      fontFamily: 'GreatVibes',
-      fontSize: 24,
+      fontFamily: 'SignatureFont',
+      fontSize: 28,
       textAlign: 'center',
       color: '#1a365d',
-      marginBottom: 4,
+      marginBottom: 6,
+      fontStyle: 'italic',
     },
     signatureDateText: {
       fontSize: template.fonts.body,
