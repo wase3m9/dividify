@@ -19,6 +19,9 @@ export interface DividendVoucherData {
   templateStyle?: string;
   logoUrl?: string;
   accountantFirmName?: string;
+  // Electronic signature fields
+  directorSignatureName?: string;
+  signatureDate?: string;
   // Additional properties for backwards compatibility
   companyAddress?: string;
   companyRegNumber?: string;
@@ -47,6 +50,9 @@ export interface BoardMinutesData {
   templateStyle?: string;
   logoUrl?: string;
   accountantFirmName?: string;
+  // Electronic signature fields
+  chairmanSignatureName?: string;
+  signatureDate?: string;
 }
 
 export interface DocumentGenerator {

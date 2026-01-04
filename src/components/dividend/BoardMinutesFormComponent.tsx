@@ -59,6 +59,8 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
   const [selectedCompanyId, setSelectedCompanyId] = useState<string>(companyId || prefillFromDividend?.companyId || '');
   const [isSaving, setIsSaving] = useState(false);
   const [linkedDividendId, setLinkedDividendId] = useState<string | null>(prefillFromDividend?.linkedDividendId || null);
+  const [chairmanSignatureName, setChairmanSignatureName] = useState('');
+  const [signatureDate, setSignatureDate] = useState('');
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -186,7 +188,10 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       ...data, 
       directorsPresent: directors,
       logoUrl: profile?.logo_url || undefined,
-      accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined
+      accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
+      // Electronic signature fields
+      chairmanSignatureName: chairmanSignatureName || undefined,
+      signatureDate: signatureDate || data.boardDate || undefined,
     } as BoardMinutesData);
   };
 
@@ -486,6 +491,43 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
                   <SelectItem value="magistrate">Magistrate Bronze (Formal Brown)</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+          </div>
+
+          {/* Electronic Signature Section */}
+          <div className="border-t pt-4 mt-4">
+            <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
+              Electronic Signature
+              <HelpTooltip content="Enter the chairman's name to add an electronic signature to the document. The name will appear in an elegant handwriting style on the PDF, eliminating the need for a wet signature." />
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="chairmanSignatureName" className="text-left block mb-2">
+                  Chairman Name (for signature)
+                </Label>
+                <Input
+                  id="chairmanSignatureName"
+                  value={chairmanSignatureName}
+                  onChange={(e) => setChairmanSignatureName(e.target.value)}
+                  placeholder="e.g. John Smith"
+                />
+                {chairmanSignatureName && (
+                  <p className="text-sm text-muted-foreground mt-1 italic" style={{ fontFamily: 'cursive' }}>
+                    Preview: {chairmanSignatureName}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="signatureDate" className="text-left block mb-2">
+                  Signature Date
+                </Label>
+                <Input
+                  id="signatureDate"
+                  type="date"
+                  value={signatureDate}
+                  onChange={(e) => setSignatureDate(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 

@@ -143,6 +143,19 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
       textAlign: 'center',
       color: template.colors.accent,
     },
+    signatureName: {
+      fontFamily: 'GreatVibes',
+      fontSize: 24,
+      textAlign: 'center',
+      color: '#1a365d',
+      marginBottom: 4,
+    },
+    signatureDateText: {
+      fontSize: template.fonts.body,
+      textAlign: 'center',
+      color: template.colors.text,
+      marginBottom: 4,
+    },
     footer: {
       position: 'absolute',
       bottom: 30,
@@ -238,10 +251,24 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
         {/* Signature Section */}
         <View style={styles.signatureSection}>
           <View style={styles.signatureBox}>
-            <Text style={styles.signatureLabel}>Director Signature</Text>
+            {data.directorSignatureName ? (
+              <>
+                <Text style={styles.signatureName}>{data.directorSignatureName}</Text>
+                <Text style={styles.signatureLabel}>Director</Text>
+              </>
+            ) : (
+              <Text style={styles.signatureLabel}>Director Signature</Text>
+            )}
           </View>
           <View style={styles.signatureBox}>
-            <Text style={styles.signatureLabel}>Date</Text>
+            {data.signatureDate ? (
+              <>
+                <Text style={styles.signatureDateText}>{formatDate(data.signatureDate)}</Text>
+                <Text style={styles.signatureLabel}>Date</Text>
+              </>
+            ) : (
+              <Text style={styles.signatureLabel}>Date</Text>
+            )}
           </View>
         </View>
 

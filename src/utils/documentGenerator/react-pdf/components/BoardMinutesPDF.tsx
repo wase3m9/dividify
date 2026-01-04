@@ -121,6 +121,19 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
       textAlign: 'center',
       color: template.colors.accent,
     },
+    signatureName: {
+      fontFamily: 'GreatVibes',
+      fontSize: 24,
+      textAlign: 'center',
+      color: '#1a365d',
+      marginBottom: 4,
+    },
+    signatureDateText: {
+      fontSize: template.fonts.body,
+      textAlign: 'center',
+      color: template.colors.text,
+      marginBottom: 4,
+    },
     footer: {
       position: 'absolute',
       bottom: 30,
@@ -217,10 +230,24 @@ export const BoardMinutesPDF: React.FC<BoardMinutesPDFProps> = ({ data }) => {
 
         <View style={styles.signatureSection}>
           <View style={styles.signatureBox}>
-            <Text style={styles.signatureLabel}>Chairman Signature</Text>
+            {data.chairmanSignatureName ? (
+              <>
+                <Text style={styles.signatureName}>{data.chairmanSignatureName}</Text>
+                <Text style={styles.signatureLabel}>Chairman</Text>
+              </>
+            ) : (
+              <Text style={styles.signatureLabel}>Chairman Signature</Text>
+            )}
           </View>
           <View style={styles.signatureBox}>
-            <Text style={styles.signatureLabel}>Date</Text>
+            {data.signatureDate ? (
+              <>
+                <Text style={styles.signatureDateText}>{format(new Date(data.signatureDate), 'dd/MM/yyyy')}</Text>
+                <Text style={styles.signatureLabel}>Date</Text>
+              </>
+            ) : (
+              <Text style={styles.signatureLabel}>Date</Text>
+            )}
           </View>
         </View>
 
