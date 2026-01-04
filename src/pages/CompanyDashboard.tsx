@@ -16,7 +16,7 @@ import { QuickActions } from "@/components/dividend/board/QuickActions";
 import { TipsSection } from "@/components/dividend/dashboard/TipsSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Plus, CreditCard, Mail } from "lucide-react";
+import { Plus, CreditCard, Mail, CalendarClock } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
@@ -27,7 +27,8 @@ import { DividendAnalyticsSection } from "@/components/dividend/analytics/Divide
 import { EmailClientDialog } from "@/components/dividend/email/EmailClientDialog";
 import { SentEmailsSection } from "@/components/dividend/email/SentEmailsSection";
 import { FeatureRequestPopup } from "@/components/dashboard/FeatureRequestPopup";
-
+import { ScheduleList } from "@/components/dividend/scheduling/ScheduleList";
+import { UpcomingDividendsWidget } from "@/components/dividend/scheduling/UpcomingDividendsWidget";
 
 
 const CompanyDashboard = () => {
@@ -394,6 +395,13 @@ const CompanyDashboard = () => {
                       Minutes
                     </TabsTrigger>
                     <TabsTrigger 
+                      value="scheduling"
+                      className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
+                    >
+                      <CalendarClock className="h-4 w-4 mr-1" />
+                      Scheduling
+                    </TabsTrigger>
+                    <TabsTrigger 
                       value="emails"
                       className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-[#9b87f5] rounded-none px-4 text-sm"
                     >
@@ -406,9 +414,14 @@ const CompanyDashboard = () => {
                         company={company}
                         onCompanyUpdate={fetchData}
                       />
-                      <div className="mt-8 grid gap-8">
-                        <QuickActions />
-                        <TipsSection />
+                      <div className="mt-8 grid gap-8 lg:grid-cols-3">
+                        <div className="lg:col-span-2 space-y-8">
+                          <QuickActions />
+                          <TipsSection />
+                        </div>
+                        <div>
+                          <UpcomingDividendsWidget companyId={company?.id} />
+                        </div>
                       </div>
                     </TabsContent>
                     <TabsContent value="officers" className="mt-0">
@@ -442,6 +455,9 @@ const CompanyDashboard = () => {
                         companyId={company?.id}
                         onEmailClick={handleMinutesEmailClick}
                       />
+                    </TabsContent>
+                    <TabsContent value="scheduling" className="mt-0">
+                      <ScheduleList companyId={company?.id} />
                     </TabsContent>
                     <TabsContent value="emails" className="mt-0">
                       <SentEmailsSection companyId={company?.id} />
