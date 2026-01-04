@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { CompanySelector } from '@/components/dividend/company/CompanySelector';
 import { PDFPreview } from '@/utils/documentGenerator/react-pdf';
 import { BoardMinutesData } from '@/utils/documentGenerator/types';
@@ -61,6 +62,7 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
   const [linkedDividendId, setLinkedDividendId] = useState<string | null>(prefillFromDividend?.linkedDividendId || null);
   const [chairmanSignatureName, setChairmanSignatureName] = useState('');
   const [signatureDate, setSignatureDate] = useState('');
+  const [useElectronicSignature, setUseElectronicSignature] = useState(false);
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -189,9 +191,9 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
       directorsPresent: directors,
       logoUrl: profile?.logo_url || undefined,
       accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
-      // Electronic signature fields
-      chairmanSignatureName: chairmanSignatureName || undefined,
-      signatureDate: signatureDate || data.boardDate || undefined,
+      // Electronic signature fields - only include if toggle is on
+      chairmanSignatureName: useElectronicSignature ? chairmanSignatureName || undefined : undefined,
+      signatureDate: useElectronicSignature ? (signatureDate || data.boardDate || undefined) : undefined,
     } as BoardMinutesData);
   };
 
@@ -496,39 +498,54 @@ export const BoardMinutesFormComponent: React.FC<BoardMinutesFormProps> = ({ ini
 
           {/* Electronic Signature Section */}
           <div className="border-t pt-4 mt-4">
-            <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-              Electronic Signature
-              <HelpTooltip content="Enter the chairman's name to add an electronic signature to the document. The name will appear in an elegant handwriting style on the PDF, eliminating the need for a wet signature." />
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="chairmanSignatureName" className="text-left block mb-2">
-                  Chairman Name (for signature)
-                </Label>
-                <Input
-                  id="chairmanSignatureName"
-                  value={chairmanSignatureName}
-                  onChange={(e) => setChairmanSignatureName(e.target.value)}
-                  placeholder="e.g. John Smith"
-                />
-                {chairmanSignatureName && (
-                  <p className="text-sm text-muted-foreground mt-1 italic" style={{ fontFamily: 'cursive' }}>
-                    Preview: {chairmanSignatureName}
-                  </p>
-                )}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-medium">Electronic Signature</h3>
+                <HelpTooltip content="Enable to add an electronic signature to the document. The name will appear in an elegant handwriting style on the PDF, eliminating the need for a wet signature." />
               </div>
-              <div>
-                <Label htmlFor="signatureDate" className="text-left block mb-2">
-                  Signature Date
+              <div className="flex items-center gap-2">
+                <Label htmlFor="useElectronicSignature" className="text-sm text-muted-foreground">
+                  {useElectronicSignature ? 'Enabled' : 'Disabled'}
                 </Label>
-                <Input
-                  id="signatureDate"
-                  type="date"
-                  value={signatureDate}
-                  onChange={(e) => setSignatureDate(e.target.value)}
+                <Switch
+                  id="useElectronicSignature"
+                  checked={useElectronicSignature}
+                  onCheckedChange={setUseElectronicSignature}
                 />
               </div>
             </div>
+            
+            {useElectronicSignature && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="chairmanSignatureName" className="text-left block mb-2">
+                    Chairman Name (for signature)
+                  </Label>
+                  <Input
+                    id="chairmanSignatureName"
+                    value={chairmanSignatureName}
+                    onChange={(e) => setChairmanSignatureName(e.target.value)}
+                    placeholder="e.g. John Smith"
+                  />
+                  {chairmanSignatureName && (
+                    <p className="text-sm text-muted-foreground mt-1 italic" style={{ fontFamily: 'cursive' }}>
+                      Preview: {chairmanSignatureName}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="signatureDate" className="text-left block mb-2">
+                    Signature Date
+                  </Label>
+                  <Input
+                    id="signatureDate"
+                    type="date"
+                    value={signatureDate}
+                    onChange={(e) => setSignatureDate(e.target.value)}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-2">
