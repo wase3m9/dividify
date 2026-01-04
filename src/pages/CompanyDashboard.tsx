@@ -16,7 +16,8 @@ import { QuickActions } from "@/components/dividend/board/QuickActions";
 import { TipsSection } from "@/components/dividend/dashboard/TipsSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Plus, CreditCard, Mail, CalendarClock } from "lucide-react";
+import { Plus, CreditCard, Mail, CalendarClock, Package } from "lucide-react";
+import { CreateBoardPackButton } from "@/components/dividend/boardpack/CreateBoardPackButton";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CompanyForm } from "@/components/dividend/company/CompanyForm";
 import { Card } from "@/components/ui/card";
@@ -80,7 +81,7 @@ const CompanyDashboard = () => {
 
       const { data: profile, error } = await supabase
         .from('profiles')
-        .select('subscription_plan, created_at')
+        .select('subscription_plan, created_at, logo_url, full_name')
         .eq('id', user.id)
         .single();
 
@@ -404,6 +405,30 @@ const CompanyDashboard = () => {
                   </Button>
                 </div>
               </Card>
+
+              {/* Board Pack Generator - Professional/Enterprise only */}
+              {(userProfile?.subscription_plan === 'professional' || userProfile?.subscription_plan === 'enterprise') && (
+                <Card className="p-4 border-primary/20 bg-primary/5">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Package className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground">Board Pack Generator</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Create comprehensive board packs with dividend vouchers, minutes, and cap tables
+                        </p>
+                      </div>
+                    </div>
+                    <CreateBoardPackButton 
+                      company={company}
+                      logoUrl={userProfile?.logo_url}
+                      accountantFirmName={userProfile?.full_name}
+                    />
+                  </div>
+                </Card>
+              )}
               
               <DividendAnalyticsSection 
                 companyId={company.id} 
