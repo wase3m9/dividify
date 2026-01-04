@@ -149,7 +149,6 @@ export const DividendVoucherPDF: React.FC<DividendVoucherPDFProps> = ({ data }) 
       textAlign: 'center',
       color: '#1a365d',
       marginBottom: 6,
-      fontStyle: 'italic',
     },
     signatureDateText: {
       fontSize: template.fonts.body,
