@@ -37,6 +37,8 @@ const CompanyDashboard = () => {
   const companyIdFromUrl = searchParams.get('companyId');
   const { toast } = useToast();
   const { data: monthlyUsage } = useMonthlyUsage();
+  const [companies, setCompanies] = useState<any[]>([]);
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(companyIdFromUrl);
   const [company, setCompany] = useState(null);
   const [directors, setDirectors] = useState([]);
   const [shareholdings, setShareholdings] = useState([]);
@@ -45,6 +47,7 @@ const CompanyDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isShareholderDialogOpen, setIsShareholderDialogOpen] = useState(false);
   const [isShareClassDialogOpen, setIsShareClassDialogOpen] = useState(false);
+  const [isAddCompanyDialogOpen, setIsAddCompanyDialogOpen] = useState(false);
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
   const [preSelectedVoucherId, setPreSelectedVoucherId] = useState<string>();
   const [preSelectedMinutesId, setPreSelectedMinutesId] = useState<string>();
@@ -55,13 +58,20 @@ const CompanyDashboard = () => {
       if (!session) {
         navigate("/auth");
       } else {
-        await fetchData();
+        await fetchCompanies();
         await fetchUserProfile();
       }
     };
 
     checkAuth();
-  }, [navigate, companyIdFromUrl]);
+  }, [navigate]);
+
+  // Fetch company data when selectedCompanyId changes
+  useEffect(() => {
+    if (selectedCompanyId) {
+      fetchCompanyData(selectedCompanyId);
+    }
+  }, [selectedCompanyId]);
 
   const fetchUserProfile = async () => {
     try {
@@ -96,32 +106,41 @@ const CompanyDashboard = () => {
   const trialDaysLeft = calculateTrialDaysLeft();
   const isTrialExpired = trialDaysLeft === 0 && userProfile?.subscription_plan === 'trial';
 
-  const fetchData = async () => {
+  const fetchCompanies = async () => {
     try {
-      let companyData;
-      
-      if (companyIdFromUrl) {
-        // Load specific company from URL parameter
-        const { data, error: companyError } = await supabase
-          .from('companies')
-          .select('*')
-          .eq('id', companyIdFromUrl)
-          .maybeSingle();
-        
-        if (companyError) throw companyError;
-        companyData = data;
-      } else {
-        // Load first company (existing behavior)
-        const { data, error: companyError } = await supabase
-          .from('companies')
-          .select('*')
-          .limit(1)
-          .maybeSingle();
+      const { data: companiesData, error } = await supabase
+        .from('companies')
+        .select('*')
+        .order('name');
 
-        if (companyError) throw companyError;
-        companyData = data;
-      }
+      if (error) throw error;
+      setCompanies(companiesData || []);
       
+      // Auto-select first company if none selected and companies exist
+      if (!selectedCompanyId && companiesData && companiesData.length > 0) {
+        const initialCompanyId = companyIdFromUrl || companiesData[0].id;
+        setSelectedCompanyId(initialCompanyId);
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchCompanyData = async (companyId: string) => {
+    try {
+      const { data: companyData, error: companyError } = await supabase
+        .from('companies')
+        .select('*')
+        .eq('id', companyId)
+        .maybeSingle();
+      
+      if (companyError) throw companyError;
       setCompany(companyData);
 
       if (companyData) {
@@ -157,8 +176,21 @@ const CompanyDashboard = () => {
         title: "Error",
         description: error.message,
       });
-    } finally {
-      setLoading(false);
+    }
+  };
+
+  const handleCompanySelect = (companyId: string) => {
+    setSelectedCompanyId(companyId);
+  };
+
+  const handleCompanyCreated = () => {
+    setIsAddCompanyDialogOpen(false);
+    fetchCompanies();
+  };
+
+  const refreshData = () => {
+    if (selectedCompanyId) {
+      fetchCompanyData(selectedCompanyId);
     }
   };
 
@@ -203,7 +235,7 @@ const CompanyDashboard = () => {
         description: shareholderId ? "Shareholder updated successfully" : "Shareholder added successfully",
       });
       setIsShareholderDialogOpen(false);
-      fetchData();
+      refreshData();
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -239,7 +271,7 @@ const CompanyDashboard = () => {
         description: "Share class added successfully",
       });
       setIsShareClassDialogOpen(false);
-      fetchData();
+      refreshData();
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -309,11 +341,29 @@ const CompanyDashboard = () => {
         <PaymentSetupBanner />
         <TrialBanner />
         {company && <MissingBoardMinutesBanner companyId={company.id} />}
-          {!company ? (
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-semibold mb-4">Welcome to Dividify!</h2>
-              <p className="text-gray-600 mb-8">Let's start by adding your company details.</p>
-              <Dialog>
+          
+          {/* Company Selector Section */}
+          <Card className="p-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex-1 w-full sm:w-auto">
+                <h2 className="text-xl font-semibold mb-4">Select Company</h2>
+                {companies.length > 0 ? (
+                  <select
+                    value={selectedCompanyId || ''}
+                    onChange={(e) => handleCompanySelect(e.target.value)}
+                    className="w-full sm:w-80 p-3 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    {companies.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p className="text-muted-foreground">No companies added yet</p>
+                )}
+              </div>
+              <Dialog open={isAddCompanyDialogOpen} onOpenChange={setIsAddCompanyDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-[#9b87f5] hover:bg-[#8b77e5]">
                     <Plus className="mr-2 h-4 w-4" />
@@ -321,9 +371,16 @@ const CompanyDashboard = () => {
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl">
-                  <CompanyForm onSuccess={fetchData} />
+                  <CompanyForm onSuccess={handleCompanyCreated} />
                 </DialogContent>
               </Dialog>
+            </div>
+          </Card>
+
+          {!company ? (
+            <div className="text-center py-12">
+              <h2 className="text-2xl font-semibold mb-4">Welcome to Dividify!</h2>
+              <p className="text-gray-600 mb-8">Let's start by adding your company details using the button above.</p>
             </div>
           ) : (
             <>
@@ -412,7 +469,7 @@ const CompanyDashboard = () => {
                     <TabsContent value="company" className="mt-0">
                       <CompanySection 
                         company={company}
-                        onCompanyUpdate={fetchData}
+                        onCompanyUpdate={refreshData}
                       />
                       <div className="mt-8 grid gap-8 lg:grid-cols-3">
                         <div className="lg:col-span-2 space-y-8">
