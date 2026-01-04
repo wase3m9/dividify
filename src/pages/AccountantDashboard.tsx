@@ -15,6 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMinutesBanner";
 import { CreateBoardPackButton } from "@/components/dividend/boardpack/CreateBoardPackButton";
+import { UpcomingDividendsWidget } from "@/components/dividend/scheduling/UpcomingDividendsWidget";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Package, Mail } from "lucide-react";
@@ -171,7 +172,10 @@ const AccountantDashboard = () => {
                 </div>
               </Card>
 
-              <DividendAnalyticsSection 
+              {/* Upcoming Dividends Widget */}
+              <UpcomingDividendsWidget companyId={selectedCompanyId} />
+
+              <DividendAnalyticsSection
                 companyId={selectedCompanyId}
                 title={`Dividend Tracker - ${selectedCompany?.name || 'Company'}`}
               />

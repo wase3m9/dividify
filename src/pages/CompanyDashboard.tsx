@@ -429,8 +429,13 @@ const CompanyDashboard = () => {
                   </div>
                 </Card>
               )}
+
+              {/* Upcoming Dividends Widget - Professional/Enterprise only */}
+              {(userProfile?.subscription_plan === 'professional' || userProfile?.subscription_plan === 'enterprise') && (
+                <UpcomingDividendsWidget companyId={company?.id} />
+              )}
               
-              <DividendAnalyticsSection 
+              <DividendAnalyticsSection
                 companyId={company.id} 
                 title={`Dividend Tracker - ${company.name}`}
               />
