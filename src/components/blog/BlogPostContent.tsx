@@ -183,12 +183,6 @@ export const BlogPostContent = ({
           continue;
         }
 
-        // Skip TOC items when not in TOC section
-        if ((paragraph.trim().startsWith('-') || paragraph.trim().startsWith('•')) && !paragraph.includes('**')) {
-          i++;
-          continue;
-        }
-
         // STEP HEADERS
         if (paragraph.includes('**STEP_HEADER**') || paragraph.includes('STEP_HEADER')) {
           let headerText = paragraph
