@@ -1,8 +1,14 @@
 import React from 'react';
-import { pdf } from '@react-pdf/renderer';
+import { pdf, Font } from '@react-pdf/renderer';
 import { DividendVoucherPDF } from './components/DividendVoucherPDF';
 import { BoardMinutesPDF } from './components/BoardMinutesPDF';
 import { DividendVoucherData, BoardMinutesData } from '../types';
+
+// Register handwriting-style font for electronic signatures
+Font.register({
+  family: 'GreatVibes',
+  src: 'https://fonts.gstatic.com/s/greatvibes/v18/RWmMoKWR9v4ksMfaWd_JN9XFiaQ.ttf',
+});
 
 export const generateDividendVoucherPDF = async (data: DividendVoucherData): Promise<Blob> => {
   const blob = await pdf(<DividendVoucherPDF data={data} />).toBlob();

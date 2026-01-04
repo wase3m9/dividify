@@ -49,6 +49,8 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
   const [isSaving, setIsSaving] = useState(false);
   const [showBoardMinutesPrompt, setShowBoardMinutesPrompt] = useState(false);
   const [savedDividendData, setSavedDividendData] = useState<DividendDataForMinutes | null>(null);
+  const [directorSignatureName, setDirectorSignatureName] = useState('');
+  const [signatureDate, setSignatureDate] = useState('');
   const { data: usage } = useMonthlyUsage();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -216,6 +218,9 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
         templateStyle: data.templateStyle,
         logoUrl: profile?.logo_url || undefined,
         accountantFirmName: profile?.user_type === 'accountant' ? profile?.full_name : undefined,
+        // Electronic signature fields
+        directorSignatureName: directorSignatureName || undefined,
+        signatureDate: signatureDate || data.paymentDate || undefined,
         // Keep original data for backwards compatibility
         companyAddress: data.companyAddress,
         companyRegNumber: data.companyRegNumber,
@@ -643,6 +648,43 @@ export const DividendVoucherFormComponent: React.FC<DividendVoucherFormProps> = 
                   <SelectItem value="magistrate">Magistrate Bronze (Formal Brown)</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+          </div>
+
+          {/* Electronic Signature Section */}
+          <div className="border-t pt-4 mt-4">
+            <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
+              Electronic Signature
+              <HelpTooltip content="Enter the director's name to add an electronic signature to the document. The name will appear in an elegant handwriting style on the PDF, eliminating the need for a wet signature." />
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="directorSignatureName" className="text-left block mb-2">
+                  Director Name (for signature)
+                </Label>
+                <Input
+                  id="directorSignatureName"
+                  value={directorSignatureName}
+                  onChange={(e) => setDirectorSignatureName(e.target.value)}
+                  placeholder="e.g. John Smith"
+                />
+                {directorSignatureName && (
+                  <p className="text-sm text-muted-foreground mt-1 italic" style={{ fontFamily: 'cursive' }}>
+                    Preview: {directorSignatureName}
+                  </p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="signatureDate" className="text-left block mb-2">
+                  Signature Date
+                </Label>
+                <Input
+                  id="signatureDate"
+                  type="date"
+                  value={signatureDate}
+                  onChange={(e) => setSignatureDate(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
