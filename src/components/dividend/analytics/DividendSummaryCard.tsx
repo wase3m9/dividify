@@ -18,6 +18,13 @@ const iconMap = {
   average: TrendingUp,
 };
 
+const colorMap = {
+  total: 'bg-emerald-50 border-emerald-200',
+  count: 'bg-blue-50 border-blue-200',
+  shareholders: 'bg-violet-50 border-violet-200',
+  average: 'bg-amber-50 border-amber-200',
+};
+
 export const DividendSummaryCard: FC<DividendSummaryCardProps> = ({ 
   title, 
   value, 
@@ -26,13 +33,14 @@ export const DividendSummaryCard: FC<DividendSummaryCardProps> = ({
   formatAsCurrency = true
 }) => {
   const Icon = iconMap[icon];
+  const colorClass = colorMap[icon];
   
   const displayValue = typeof value === 'number' 
     ? (formatAsCurrency ? formatCurrency(value) : value.toFixed(2))
     : value;
   
   return (
-    <Card>
+    <Card className={colorClass}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <Icon className="h-4 w-4 text-muted-foreground" />
