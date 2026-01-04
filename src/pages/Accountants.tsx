@@ -171,7 +171,7 @@ const Accountants = () => {
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
-                <span>Dividend tracker</span>
+                <span>Dividend tracker/breakdown</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-[#9b87f5]" />
