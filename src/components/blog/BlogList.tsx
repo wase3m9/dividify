@@ -24,6 +24,34 @@ interface BlogListProps {
   calculateReadingTime: (content: string) => number;
 }
 
+// Function to extract clean excerpt from post content, stripping TOC and markdown
+const getCleanExcerpt = (content: string, maxLength: number = 200): string => {
+  // Remove Table of Contents section entirely (header + bullet points)
+  let cleaned = content;
+  
+  // Remove the TOC header and all following bullet points until we hit a non-bullet line
+  const tocMatch = cleaned.match(/\*\*Table of Contents:?\*\*[\s\S]*?(?=\n\n[^•\-\n]|\n\n\*\*[^T])/i);
+  if (tocMatch) {
+    cleaned = cleaned.replace(tocMatch[0], '');
+  }
+  
+  // Remove markdown bold markers
+  cleaned = cleaned.replace(/\*\*/g, '');
+  
+  // Remove bullet points
+  cleaned = cleaned.replace(/^[•\-]\s+/gm, '');
+  
+  // Clean up extra whitespace and newlines
+  cleaned = cleaned.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+  
+  // Get first meaningful content
+  if (cleaned.length > maxLength) {
+    cleaned = cleaned.substring(0, maxLength);
+  }
+  
+  return cleaned;
+};
+
 export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
   const navigate = useNavigate();
 
@@ -88,7 +116,7 @@ export const BlogList = ({ posts, calculateReadingTime }: BlogListProps) => {
               </CardHeader>
               <CardContent className="p-0 mt-4">
                 <p className="text-gray-700 line-clamp-3 text-left">
-                  {post.content.substring(0, 200)}...
+                  {getCleanExcerpt(post.content)}...
                 </p>
                 <span className="inline-block mt-4 text-[#9b87f5] hover:text-[#8b77e5] transition-colors font-medium text-left">
                   Read more →
