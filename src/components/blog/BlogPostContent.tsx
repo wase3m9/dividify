@@ -17,142 +17,318 @@ export const BlogPostContent = ({
   slug
 }: BlogPostContentProps) => {
   const renderContent = (content: string) => {
-    return content.split('________________________________________').map((section, index) => <div key={index} className="mb-8">
-        {section.split('\n').map((paragraph, pIndex) => {
-        // Skip empty paragraphs
-        if (!paragraph.trim()) return null;
+    // First, handle WARNING_BOX sections
+    const processedContent = content.replace(
+      /\*\*WARNING_BOX\*\*([\s\S]*?)\*\*WARNING_BOX_END\*\*/g,
+      '___WARNING_BOX_START___$1___WARNING_BOX_END___'
+    );
 
-        // Table of Contents - make it clickable (supports both **Table of Contents** and **Table of Contents:**)
+    return processedContent.split('________________________________________').map((section, index) => {
+      const elements: JSX.Element[] = [];
+      const lines = section.split('\n');
+      let i = 0;
+      let elementKey = 0;
+
+      while (i < lines.length) {
+        const paragraph = lines[i];
+
+        // Skip empty paragraphs
+        if (!paragraph.trim()) {
+          i++;
+          continue;
+        }
+
+        // Handle WARNING_BOX
+        if (paragraph.includes('___WARNING_BOX_START___')) {
+          let warningContent = paragraph.replace('___WARNING_BOX_START___', '');
+          i++;
+          while (i < lines.length && !lines[i].includes('___WARNING_BOX_END___')) {
+            warningContent += '\n' + lines[i];
+            i++;
+          }
+          if (i < lines.length) {
+            warningContent += '\n' + lines[i].replace('___WARNING_BOX_END___', '');
+            i++;
+          }
+          
+          elements.push(
+            <div key={elementKey++} className="bg-amber-50 border-l-4 border-amber-500 p-5 my-6 rounded-r-lg">
+              <div className="flex items-start gap-3">
+                <svg className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div className="text-amber-800">
+                  {warningContent.split('\n').filter(l => l.trim()).map((line, li) => (
+                    <p key={li} className="mb-2 last:mb-0">{formatBoldText(line.trim())}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+          continue;
+        }
+
+        // Handle TIP_BOX
+        if (paragraph.includes('**TIP_BOX**')) {
+          let tipContent = paragraph.replace('**TIP_BOX**', '');
+          i++;
+          while (i < lines.length && !lines[i].includes('**TIP_BOX_END**')) {
+            tipContent += '\n' + lines[i];
+            i++;
+          }
+          if (i < lines.length) {
+            tipContent += '\n' + lines[i].replace('**TIP_BOX_END**', '');
+            i++;
+          }
+          
+          elements.push(
+            <div key={elementKey++} className="bg-emerald-50 border-l-4 border-emerald-500 p-5 my-6 rounded-r-lg">
+              <div className="flex items-start gap-3">
+                <svg className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <div className="text-emerald-800">
+                  {tipContent.split('\n').filter(l => l.trim()).map((line, li) => (
+                    <p key={li} className="mb-2 last:mb-0">{formatBoldText(line.trim())}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+          continue;
+        }
+
+        // Handle INFO_BOX
+        if (paragraph.includes('**INFO_BOX**')) {
+          let infoContent = paragraph.replace('**INFO_BOX**', '');
+          i++;
+          while (i < lines.length && !lines[i].includes('**INFO_BOX_END**')) {
+            infoContent += '\n' + lines[i];
+            i++;
+          }
+          if (i < lines.length) {
+            infoContent += '\n' + lines[i].replace('**INFO_BOX_END**', '');
+            i++;
+          }
+          
+          elements.push(
+            <div key={elementKey++} className="bg-blue-50 border-l-4 border-blue-500 p-5 my-6 rounded-r-lg">
+              <div className="flex items-start gap-3">
+                <svg className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div className="text-blue-800">
+                  {infoContent.split('\n').filter(l => l.trim()).map((line, li) => (
+                    <p key={li} className="mb-2 last:mb-0">{formatBoldText(line.trim())}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+          continue;
+        }
+
+        // Table of Contents
         if (paragraph.trim().match(/^\*\*Table of Contents\*?\*?:?\*?\*?$/i) || paragraph.trim().startsWith('**Table of Contents**') || paragraph.trim().startsWith('**Table of Contents:**')) {
           const tocLines: string[] = [];
-          const lines = section.split('\n');
-          const tocStartIndex = lines.findIndex(line => line.trim().startsWith('**Table of Contents'));
+          const tocStartIndex = i;
           
-          // Look for bullet points only in the lines immediately following the TOC header
-          // Support both - and • bullet formats
-          for (let i = tocStartIndex + 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (line.startsWith('-') || line.startsWith('•')) {
+          for (let j = tocStartIndex + 1; j < lines.length; j++) {
+            const line = lines[j].trim();
+            if (line.startsWith('-') || line.startsWith('•') || line.match(/^\d+\./)) {
               tocLines.push(line);
             } else if (line.startsWith('**') && !line.includes('Table of Contents')) {
-              // Stop when we hit the next section header
               if (tocLines.length > 0) break;
             } else if (line === '' && tocLines.length > 0) {
-              // Check if the next non-empty line is a section header
-              const nextNonEmpty = lines.slice(i + 1).find(l => l.trim() !== '');
+              const nextNonEmpty = lines.slice(j + 1).find(l => l.trim() !== '');
               if (nextNonEmpty && nextNonEmpty.trim().startsWith('**')) break;
             }
           }
 
-          return <div key={pIndex} className="bg-gray-50 p-6 rounded-lg mb-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Table of Contents</h3>
-                <ul className="space-y-3">
-                  {tocLines.map((tocItem, tocIndex) => {
-                // Remove both - and • bullet characters
-                const text = tocItem.replace(/^[-•]\s*/, '').trim();
-                const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
-                return <li key={tocIndex}>
-                          <a href={`#${anchor}`} className="text-[#9b87f5] hover:text-[#7E69AB] transition-colors duration-200 cursor-pointer text-sm" onClick={e => {
-                    e.preventDefault();
-                    const element = document.getElementById(anchor);
-                    if (element) {
-                      element.scrollIntoView({
-                        behavior: 'smooth'
-                      });
-                    }
-                  }}>
-                            {text}
-                          </a>
-                        </li>;
-              })}
-                </ul>
-              </div>;
+          elements.push(
+            <div key={elementKey++} className="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-xl mb-8 border border-purple-100 shadow-sm">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+                Table of Contents
+              </h3>
+              <ul className="space-y-2">
+                {tocLines.map((tocItem, tocIndex) => {
+                  const text = tocItem.replace(/^[-•]\s*/, '').replace(/^\d+\.\s*/, '').trim();
+                  const anchor = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
+                  return (
+                    <li key={tocIndex} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                      <a
+                        href={`#${anchor}`}
+                        className="text-gray-700 hover:text-primary transition-colors duration-200 cursor-pointer text-sm hover:underline"
+                        onClick={e => {
+                          e.preventDefault();
+                          const element = document.getElementById(anchor);
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        }}
+                      >
+                        {text}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+          i++;
+          continue;
         }
 
-        // Skip TOC items when not in TOC section (both - and • bullets)
+        // Skip TOC items when not in TOC section
         if ((paragraph.trim().startsWith('-') || paragraph.trim().startsWith('•')) && !paragraph.includes('**')) {
-          return null;
+          i++;
+          continue;
         }
 
-        // STEP HEADERS with lilac color
-        if (paragraph.includes('**STEP_HEADER**') && paragraph.includes('**STEP_HEADER_END**')) {
-          const headerText = paragraph.replace('**STEP_HEADER**', '').replace('**STEP_HEADER_END**', '').trim();
+        // STEP HEADERS
+        if (paragraph.includes('**STEP_HEADER**') || paragraph.includes('STEP_HEADER')) {
+          let headerText = paragraph
+            .replace('**STEP_HEADER**', '')
+            .replace('**STEP_HEADER_END**', '')
+            .replace('STEP_HEADER', '')
+            .replace('STEP_HEADER_END', '')
+            .replace(/\*\*/g, '')
+            .trim();
           const anchorId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
           
-          return <h2 key={pIndex} id={anchorId} className="text-2xl font-bold text-[#9b87f5] mt-8 mb-4 pb-2 border-b-2 border-[#9b87f5]/20 scroll-mt-20">
-                  {headerText}
-                </h2>;
+          elements.push(
+            <h2 key={elementKey++} id={anchorId} className="text-2xl font-bold text-primary mt-10 mb-5 pb-3 border-b-2 border-primary/20 scroll-mt-20 flex items-center gap-3">
+              <span className="w-2 h-8 bg-gradient-to-b from-primary to-primary/50 rounded-full"></span>
+              {headerText}
+            </h2>
+          );
+          i++;
+          continue;
         }
 
-        // Regular bold headers (without STEP_HEADER markers)
+        // Regular bold headers
         if (paragraph.trim().startsWith('**') && paragraph.trim().endsWith('**') && !paragraph.includes('Table of Contents')) {
           const headerText = paragraph.replace(/\*\*/g, '').trim();
           const anchorId = headerText.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-');
           
-          return <h2 key={pIndex} id={anchorId} className="text-2xl font-bold text-gray-900 mt-8 mb-4 pb-2 border-b-2 border-brand-purple scroll-mt-20">
-                  {headerText}
-                </h2>;
+          elements.push(
+            <h2 key={elementKey++} id={anchorId} className="text-2xl font-bold text-gray-900 mt-10 mb-5 pb-3 border-b-2 border-primary scroll-mt-20">
+              {headerText}
+            </h2>
+          );
+          i++;
+          continue;
         }
 
+        // Handle numbered lists
+        if (paragraph.trim().match(/^\d+\.\s/)) {
+          const listItems: string[] = [paragraph];
+          i++;
+          while (i < lines.length && lines[i].trim().match(/^\d+\.\s/)) {
+            listItems.push(lines[i]);
+            i++;
+          }
+          
+          elements.push(
+            <ol key={elementKey++} className="list-decimal list-outside ml-6 my-4 space-y-2">
+              {listItems.map((item, li) => (
+                <li key={li} className="text-gray-700 leading-relaxed pl-2">
+                  {formatBoldText(item.replace(/^\d+\.\s/, ''))}
+                </li>
+              ))}
+            </ol>
+          );
+          continue;
+        }
 
-        // Darker purple for specific sections
-        if (paragraph.trim().startsWith('A dividend voucher acts as proof') || paragraph.trim().startsWith('As a shareholder, you must report') || paragraph.trim().startsWith('Tip: Check your company')) {
-          return <p key={pIndex} className="mb-4 text-[#7E69AB] leading-relaxed">
-                {formatTextContent(paragraph)}
-              </p>;
+        // Handle bullet lists
+        if (paragraph.trim().startsWith('- ') || paragraph.trim().startsWith('• ')) {
+          const listItems: string[] = [paragraph];
+          i++;
+          while (i < lines.length && (lines[i].trim().startsWith('- ') || lines[i].trim().startsWith('• '))) {
+            listItems.push(lines[i]);
+            i++;
+          }
+          
+          elements.push(
+            <ul key={elementKey++} className="list-disc list-outside ml-6 my-4 space-y-2">
+              {listItems.map((item, li) => (
+                <li key={li} className="text-gray-700 leading-relaxed pl-2">
+                  {formatBoldText(item.replace(/^[-•]\s/, ''))}
+                </li>
+              ))}
+            </ul>
+          );
+          continue;
         }
 
         // Render tax rates table
         if (paragraph.trim().startsWith('Basic Rate')) {
-          return <div key={pIndex}>
-                
-                <Table className="my-6">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Tax Band</TableHead>
-                      <TableHead>Income Range</TableHead>
-                      <TableHead>Rate</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell>Basic Rate</TableCell>
-                      <TableCell>Up to £50,270</TableCell>
-                      <TableCell>8.75%</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Higher Rate</TableCell>
-                      <TableCell>£50,271 to £125,140</TableCell>
-                      <TableCell>33.75%</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Additional Rate</TableCell>
-                      <TableCell>Over £125,140</TableCell>
-                      <TableCell>39.35%</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>;
+          elements.push(
+            <div key={elementKey++} className="my-8 overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-primary">
+                    <TableHead className="text-white font-semibold">Tax Band</TableHead>
+                    <TableHead className="text-white font-semibold">Income Range</TableHead>
+                    <TableHead className="text-white font-semibold">Rate</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow className="bg-white hover:bg-gray-50">
+                    <TableCell className="font-medium">Basic Rate</TableCell>
+                    <TableCell>Up to £50,270</TableCell>
+                    <TableCell className="font-semibold text-primary">8.75%</TableCell>
+                  </TableRow>
+                  <TableRow className="bg-gray-50 hover:bg-gray-100">
+                    <TableCell className="font-medium">Higher Rate</TableCell>
+                    <TableCell>£50,271 to £125,140</TableCell>
+                    <TableCell className="font-semibold text-primary">33.75%</TableCell>
+                  </TableRow>
+                  <TableRow className="bg-white hover:bg-gray-50">
+                    <TableCell className="font-medium">Additional Rate</TableCell>
+                    <TableCell>Over £125,140</TableCell>
+                    <TableCell className="font-semibold text-primary">39.35%</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          );
+          i++;
+          continue;
         }
 
-        // Regular paragraphs with formatted content
-        // Convert plain "Dividify" text to link to homepage
+        // Dividify link
         if (paragraph.includes('Dividify makes creating professional')) {
           const parts = paragraph.split('Dividify');
-          return <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed">
-                  {formatTextContent(parts[0])}
-                  <Link to="/" className="text-[#9b87f5] hover:text-[#7E69AB] font-semibold">
-                    Dividify
-                  </Link>
-                  {formatTextContent(parts[1])}
-                </p>;
+          elements.push(
+            <p key={elementKey++} className="mb-4 text-gray-700 leading-relaxed text-lg">
+              {formatTextContent(parts[0])}
+              <Link to="/" className="text-primary hover:text-primary/80 font-semibold">
+                Dividify
+              </Link>
+              {formatTextContent(parts[1])}
+            </p>
+          );
+          i++;
+          continue;
         }
         
-        return <p key={pIndex} className="mb-4 text-gray-700 leading-relaxed">
-              {formatTextContent(paragraph)}
-            </p>;
-      }).filter(Boolean)}
-      </div>);
+        // Regular paragraphs
+        elements.push(
+          <p key={elementKey++} className="mb-4 text-gray-700 leading-relaxed text-lg">
+            {formatTextContent(paragraph)}
+          </p>
+        );
+        i++;
+      }
+
+      return <div key={index} className="mb-8">{elements}</div>;
+    });
   };
 
   // Helper to safely format bold text without dangerouslySetInnerHTML
