@@ -1,0 +1,27 @@
+[build]
+  publish = "dist"
+
+# www to non-www redirects (MUST come before SPA fallback)
+[[redirects]]
+  from = "https://www.dividify.co.uk/*"
+  to = "https://dividify.co.uk/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.dividify.co.uk/*"
+  to = "https://dividify.co.uk/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://dividify.co.uk/*"
+  to = "https://dividify.co.uk/:splat"
+  status = 301
+  force = true
+
+# SPA fallback - MUST be last
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
