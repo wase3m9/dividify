@@ -5,12 +5,18 @@ import { SiteBreadcrumbs } from "@/components/navigation/SiteBreadcrumbs";
 import { ResourceCard } from "@/components/resources/ResourceCard";
 import { S455Calculator } from "@/components/resources/S455Calculator";
 import { DividendTaxCalculator } from "@/components/resources/DividendTaxCalculator";
-import { FileCheck, BookOpen, PoundSterling, Shield, ArrowRight, ExternalLink } from "lucide-react";
+import { FileCheck, BookOpen, PoundSterling, Shield, ArrowRight, ExternalLink, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const resources = [
+  {
+    title: "Dividend Voucher & Board Minutes Template",
+    description: "Ready-to-use template for creating compliant dividend vouchers and board minutes for UK limited companies.",
+    pdfPath: "https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/downloads/Dividend%20Voucher%20&%20Minutes%20Template%20-%20Dividify.pdf",
+    icon: <FileText className="w-6 h-6" />,
+  },
   {
     title: "Dividend Compliance Checklist",
     description: "Ensure your dividend payments are fully compliant with UK company law and HMRC requirements.",
@@ -26,14 +32,27 @@ const resources = [
 ];
 
 const Resources = () => {
+  const BASE_URL = "https://dividify.co.uk/";
+
   // Structured data for SEO
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Free UK Director Tax Tools | Dividify Resources",
-    description: "Quick UK tax tools for company directors, including a dividend tax estimate and Section 455 calculator.",
-    url: "https://dividify.co.uk/resources",
+    "@id": `${BASE_URL}resources#webpage`,
+    name: "Free Dividend Voucher Template & UK Tax Tools | Dividify",
+    description: "Download free dividend voucher and board minutes templates. Use our S455 calculator and dividend tax estimator for UK limited companies.",
+    url: `${BASE_URL}resources`,
+    isPartOf: { "@id": `${BASE_URL}#website` },
+    publisher: { "@id": `${BASE_URL}#org` },
+    inLanguage: "en-GB",
     mainEntity: [
+      {
+        "@type": "DigitalDocument",
+        name: "Dividend Voucher & Board Minutes Template",
+        description: "Ready-to-use template for creating compliant dividend vouchers and board minutes for UK limited companies.",
+        url: "https://vkllrotescxmqwogfamo.supabase.co/storage/v1/object/public/downloads/Dividend%20Voucher%20&%20Minutes%20Template%20-%20Dividify.pdf",
+        encodingFormat: "application/pdf",
+      },
       {
         "@type": "SoftwareApplication",
         name: "S455 Tax Calculator",
@@ -77,27 +96,28 @@ const Resources = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Free UK Director Tax Tools | Dividify Resources</title>
+        <title>Free Dividend Voucher Template & UK Tax Tools | Dividify</title>
         <meta 
           name="description" 
-          content="Quick UK tax tools for company directors, including a dividend tax estimate and Section 455 calculator. Try the Smart Shield calculator for a more accurate dividend check." 
+          content="Download free dividend voucher and board minutes templates for UK limited companies. Use our S455 calculator and dividend tax estimator to stay compliant." 
         />
         <meta 
           name="keywords" 
-          content="S455 calculator, dividend tax estimate, directors loan tax, UK dividend tools, dividend compliance checklist, UK dividend guide" 
+          content="dividend voucher template, board minutes template, S455 calculator, dividend tax calculator, UK dividend tools, free dividend template, HMRC dividend voucher" 
         />
-        <link rel="canonical" href="https://dividify.co.uk/resources" />
+        <link rel="canonical" href={`${BASE_URL}resources`} />
         
         {/* Open Graph */}
-        <meta property="og:title" content="Free UK Director Tax Tools | Dividify Resources" />
-        <meta property="og:description" content="Quick UK tax tools for company directors, including a dividend tax estimate and Section 455 calculator." />
-        <meta property="og:url" content="https://dividify.co.uk/resources" />
+        <meta property="og:title" content="Free Dividend Voucher Template & UK Tax Tools | Dividify" />
+        <meta property="og:description" content="Download free dividend voucher and board minutes templates. Use our S455 calculator and dividend tax estimator for UK limited companies." />
+        <meta property="og:url" content={`${BASE_URL}resources`} />
         <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_GB" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Free UK Director Tax Tools | Dividify Resources" />
-        <meta name="twitter:description" content="Quick UK tax tools for company directors." />
+        <meta name="twitter:title" content="Free Dividend Voucher Template & UK Tax Tools | Dividify" />
+        <meta name="twitter:description" content="Download free dividend voucher and board minutes templates for UK limited companies." />
         
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -115,7 +135,7 @@ const Resources = () => {
       <section className="py-16 md:py-24 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
-            Free UK Tax Tools for Company Directors
+            Free Dividend Voucher Templates & UK Tax Tools
           </h1>
           <p className="text-xl text-muted-foreground">
             Quick calculators and downloadable guides to help you manage dividends and stay compliant.
@@ -169,7 +189,7 @@ const Resources = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {resources.map((resource) => (
               <ResourceCard
                 key={resource.title}
