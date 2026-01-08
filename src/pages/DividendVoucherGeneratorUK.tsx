@@ -49,7 +49,7 @@ const DividendVoucherGeneratorUK = () => {
               "name": "How long should I keep dividend vouchers?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "HMRC recommends keeping dividend vouchers for at least 22 months after the end of the tax year they relate to. Many accountants advise keeping them for 6 years to cover potential enquiries. Dividify stores all your vouchers securely in the cloud with a full audit trail."
+                "text": "Keep dividend records for at least the minimum statutory record-keeping period. Many accountants keep them for around 6 years in case of queries. Dividify stores all your vouchers securely in the cloud with a full audit trail."
               }
             },
             {
@@ -65,7 +65,7 @@ const DividendVoucherGeneratorUK = () => {
               "name": "Do I need board minutes as well as dividend vouchers?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. Under the Companies Act 2006, dividends must be properly declared by the directors before payment. Board minutes record this declaration and should be prepared alongside dividend vouchers. Dividify generates both documents together."
+                "text": "Yes. Dividends should be properly declared by the directors before payment, and board minutes are the usual way to document this. Dividify generates both documents together."
               }
             }
           ]
@@ -288,7 +288,7 @@ const DividendVoucherGeneratorUK = () => {
               },
               {
                 q: "How long should I keep dividend vouchers?",
-                a: "HMRC recommends keeping dividend vouchers for at least 22 months after the end of the tax year they relate to. Many accountants advise keeping them for 6 years to cover potential enquiries. Dividify stores all your vouchers securely in the cloud with a full audit trail."
+                a: "Keep dividend records for at least the minimum statutory record-keeping period. Many accountants keep them for around 6 years in case of queries. Dividify stores all your vouchers securely in the cloud with a full audit trail."
               },
               {
                 q: "Can I create dividend vouchers for past dividends?",
@@ -296,7 +296,7 @@ const DividendVoucherGeneratorUK = () => {
               },
               {
                 q: "Do I need board minutes as well as dividend vouchers?",
-                a: "Yes. Under the Companies Act 2006, dividends must be properly declared by the directors before payment. Board minutes record this declaration and should be prepared alongside dividend vouchers. Dividify generates both documents together."
+                a: "Yes. Dividends should be properly declared by the directors before payment, and board minutes are the usual way to document this. Dividify generates both documents together."
               }
             ].map((faq, index) => (
               <div key={index} className="bg-white p-6 rounded-xl border border-gray-100">
