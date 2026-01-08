@@ -238,28 +238,28 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>Dividend Vouchers & Board Minutes Generator | UK Limited Companies | Dividify</title>
-        <meta name="description" content="Generate professional dividend vouchers and board minutes for UK limited companies quickly and compliantly. HMRC-ready templates from £6/month. Start free trial." />
+        <title>Dividify | Dividend Vouchers & Board Minutes for UK Directors</title>
+        <meta name="description" content="Dividify helps UK directors and accountants create HMRC-compliant dividend vouchers, board minutes and supporting paperwork in minutes. Simple, professional, downloadable PDFs. Start your free trial." />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="googlebot" content="index, follow" />
         <meta name="keywords" content="dividend vouchers UK, board minutes generator, UK limited company compliance, HMRC dividend compliance, accountants London, small business accounting UK, tax return service UK, corporate secretary services" />
         <meta name="geo.region" content="GB" />
         <meta name="geo.country" content="UK" />
         <meta name="geo.placename" content="London" />
-        <meta property="og:title" content="Dividend Vouchers & Board Minutes Generator | UK Limited Companies | Dividify" />
-        <meta property="og:description" content="Generate professional dividend vouchers and board minutes for UK limited companies quickly and compliantly. HMRC-ready templates from £6/month. Start free trial." />
+        <meta property="og:title" content="Dividify | Dividend Vouchers & Board Minutes for UK Directors" />
+        <meta property="og:description" content="Dividify helps UK directors and accountants create HMRC-compliant dividend vouchers, board minutes and supporting paperwork in minutes." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
+        <meta property="og:url" content="https://dividify.co.uk/" />
+        <meta property="og:image" content="https://dividify.co.uk/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="en_GB" />
         <meta property="og:site_name" content="Dividify" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Dividend Vouchers & Board Minutes Generator | UK Limited Companies" />
-        <meta name="twitter:description" content="Generate professional dividend vouchers and board minutes for UK limited companies quickly and compliantly. HMRC-ready templates from £6/month." />
-        <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
-        <link rel="canonical" href={window.location.origin} />
+        <meta name="twitter:title" content="Dividify | Dividend Vouchers & Board Minutes for UK Directors" />
+        <meta name="twitter:description" content="Dividify helps UK directors and accountants create HMRC-compliant dividend vouchers and board minutes in minutes." />
+        <meta name="twitter:image" content="https://dividify.co.uk/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png" />
+        <link rel="canonical" href="https://dividify.co.uk/" />
         <script type="application/ld+json">
           {JSON.stringify(generateHomeSchema())}
         </script>
@@ -269,6 +269,48 @@ const Index = () => {
       
       <main className="container mx-auto px-3 sm:px-4 pt-14 sm:pt-16">
         <HeroBanner onStartFreeTrial={handleStartFreeTrial} />
+        
+        {/* SEO Text Section - Crawlable content for search engines */}
+        <section className="py-12 sm:py-16 bg-white border-b border-gray-100">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
+              Why UK Directors and Accountants Choose Dividify
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
+              Dividify is the trusted platform for creating professional dividend vouchers and board minutes for UK limited companies. 
+              Whether you're a company director managing your own paperwork or an accountant handling multiple clients, 
+              Dividify saves you hours of manual work while ensuring full HMRC compliance.
+            </p>
+            <ul className="text-left max-w-2xl mx-auto space-y-4 text-gray-700">
+              <li className="flex items-start gap-3">
+                <span className="text-primary font-bold">✓</span>
+                <span>Generate <strong>HMRC-compliant dividend vouchers</strong> in seconds with all required shareholder and payment details</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary font-bold">✓</span>
+                <span>Create legally accurate <strong>board minutes</strong> that document dividend declarations properly under the Companies Act 2006</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary font-bold">✓</span>
+                <span>Access professionally designed templates that you can customise with your company branding</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary font-bold">✓</span>
+                <span>Store all documents securely in the cloud with a complete audit trail</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary font-bold">✓</span>
+                <span>Built specifically for <strong>UK directors</strong> and <strong>accountants</strong> who need reliable, compliant documentation</span>
+              </li>
+            </ul>
+            <p className="text-base text-gray-600 mt-8 leading-relaxed">
+              Stop using outdated Word templates or spreadsheets. Dividify automates the entire process, 
+              from calculating dividend amounts per share class to generating downloadable PDF documents ready for your records. 
+              Thousands of UK businesses trust Dividify to handle their dividend documentation the right way.
+            </p>
+          </div>
+        </section>
+        
         <HowItWorksSection />
         
         {/* Connect Dividify Section */}
