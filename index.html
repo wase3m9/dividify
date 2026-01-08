@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-GB">
   <head>
@@ -14,6 +13,8 @@
     <meta name="description" content="Dividify helps UK directors and accountants create HMRC-compliant dividend vouchers, board minutes and supporting paperwork in minutes. Simple, professional, downloadable PDFs. Start your free trial." />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <link rel="canonical" href="https://dividify.co.uk/" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content="Dividify | Dividend Vouchers & Board Minutes for UK Directors" />
     <meta property="og:description" content="Dividify helps UK directors and accountants create HMRC-compliant dividend vouchers, board minutes and supporting paperwork in minutes." />
     <meta property="og:type" content="website" />
@@ -21,18 +22,15 @@
     <meta property="og:image" content="https://dividify.co.uk/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Dividify" />
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Dividify | Dividend Vouchers & Board Minutes for UK Directors" />
     <meta name="twitter:description" content="Dividify helps UK directors and accountants create HMRC-compliant dividend vouchers and board minutes in minutes." />
     <meta name="twitter:image" content="https://dividify.co.uk/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png" />
-    
-    <!-- SEO Verification Tags -->
-    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE_HERE" />
-    <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE_HERE" />
-    
-    <!-- Optimize CSS loading to prevent render blocking -->
+
+    <!-- Critical inline styles to prevent FOUC -->
     <style>
-      /* Critical inline styles to prevent FOUC */
       html { font-family: system-ui, -apple-system, sans-serif; }
       body { margin: 0; background: #fff; }
       #root { min-height: 100vh; }
@@ -48,8 +46,34 @@
         pointer-events: none; 
       }
     </style>
-    
-    <!-- Enable new Lovable features -->
+
+    <!-- Organization + WebSite JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://dividify.co.uk/#org",
+          "name": "Dividify",
+          "url": "https://dividify.co.uk/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://dividify.co.uk/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://dividify.co.uk/#website",
+          "name": "Dividify",
+          "url": "https://dividify.co.uk/",
+          "publisher": { "@id": "https://dividify.co.uk/#org" },
+          "inLanguage": "en-GB"
+        }
+      ]
+    }
+    </script>
+
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
   </head>
   <body>
