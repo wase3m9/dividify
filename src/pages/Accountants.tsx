@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { AccountantsHowItWorksSection } from "@/components/landing/AccountantsHowItWorksSection";
+import { ProductionCanonical, PRODUCTION_DOMAIN } from "@/components/seo/ProductionCanonical";
 
 const Accountants = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Accountants = () => {
 
   return (
     <>
+      <ProductionCanonical />
       <Helmet>
         <title>Dividify for Accountants - Professional Dividend & Board Minutes Solutions | Practice Management</title>
         <meta name="description" content="Streamline your accounting practice with Dividify's professional dividend voucher and board minutes generation. Built for UK accountants and bookkeepers." />
@@ -64,21 +66,20 @@ const Accountants = () => {
         <meta property="og:title" content="Dividify for Accountants - Professional Practice Management" />
         <meta property="og:description" content="Streamline your accounting practice with professional dividend voucher and board minutes generation." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${window.location.origin}/accountants`} />
-        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
+        <meta property="og:url" content={`${PRODUCTION_DOMAIN}/accountants`} />
+        <meta property="og:image" content={`${PRODUCTION_DOMAIN}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <meta property="og:locale" content="en_GB" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Accountants Software | Dividend Voucher Generator | London UK" />
         <meta name="twitter:description" content="Professional accounting software for UK accountants. Unlimited companies, HMRC compliance." />
-        <meta name="twitter:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
-        <link rel="canonical" href={`${window.location.origin}/accountants`} />
+        <meta name="twitter:image" content={`${PRODUCTION_DOMAIN}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": ["SoftwareApplication", "WebApplication"],
             "name": "Dividify for Accountants",
             "description": "Professional dividend voucher and board minutes generation software for UK accounting practices",
-            "url": window.location.href,
+            "url": `${PRODUCTION_DOMAIN}/accountants`,
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web Browser",
             "offers": {
@@ -92,8 +93,8 @@ const Accountants = () => {
             "provider": {
               "@type": "Organization",
               "name": "Dividify",
-              "url": window.location.origin,
-              "logo": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
+              "url": PRODUCTION_DOMAIN,
+              "logo": `${PRODUCTION_DOMAIN}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
               "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": "+44-20-7946-0958",
@@ -111,7 +112,7 @@ const Accountants = () => {
               "Custom templates",
               "24/7 support"
             ],
-            "screenshot": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
+            "screenshot": `${PRODUCTION_DOMAIN}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
             "aggregateRating": {
               "@type": "AggregateRating",
               "ratingValue": "4.8",
