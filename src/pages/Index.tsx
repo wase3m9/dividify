@@ -1,6 +1,6 @@
 
 import { Navigation } from "@/components/Navigation";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
@@ -230,7 +230,7 @@ const Index = () => {
             <ul className="text-left max-w-2xl mx-auto space-y-4 text-gray-700">
               <li className="flex items-start gap-3">
                 <span className="text-primary font-bold">✓</span>
-                <span>Generate <strong>HMRC-compliant dividend vouchers</strong> in seconds with all required shareholder and payment details</span>
+                <span>Use our <Link to="/dividend-voucher-generator-uk" className="text-brand-purple hover:underline font-medium">dividend voucher generator</Link> to create <strong>HMRC-compliant dividend vouchers</strong> in seconds with all required shareholder and payment details</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-primary font-bold">✓</span>

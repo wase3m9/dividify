@@ -4,6 +4,7 @@ import { Layout } from "@/components/Layout";
 import Index from "@/pages/Index";
 import Features from "@/pages/Features";
 import DividendVouchersFeature from "@/pages/features/DividendVouchers";
+import DividendVoucherGeneratorUK from "@/pages/DividendVoucherGeneratorUK";
 import BoardMinutesFeature from "@/pages/features/BoardMinutes";
 import DividendTrackerFeature from "@/pages/features/DividendTracker";
 import BoardPacksFeature from "@/pages/features/BoardPacks";
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: "/features",
         element: <Features />,
+      },
+      {
+        path: "/dividend-voucher-generator-uk",
+        element: <DividendVoucherGeneratorUK />,
       },
       {
         path: "/features/dividend-vouchers",
