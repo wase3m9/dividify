@@ -20,6 +20,15 @@ export const LandingNavLinks = ({ scrollToSection, isAccountantsPage }: LandingN
       </Button>
       <Button 
         variant="ghost" 
+        asChild
+        className="w-full"
+      >
+        <Link to="/dividend-voucher-generator-uk">
+          Dividend Vouchers
+        </Link>
+      </Button>
+      <Button 
+        variant="ghost" 
         onClick={() => scrollToSection('pricing')}
         className="w-full"
       >

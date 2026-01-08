@@ -63,6 +63,11 @@ const DividendVouchersFeature = () => {
           <p className="text-xl text-gray-600 mb-8">
             Stop copying and pasting from old Word templates. Generate compliant dividend vouchers in seconds.
           </p>
+          <p className="text-base text-gray-500 mb-6">
+            <Link to="/dividend-voucher-generator-uk" className="text-brand-purple hover:underline">
+              Learn more about UK dividend voucher requirements →
+            </Link>
+          </p>
           <Link to="/get-started">
             <Button size="lg" className="bg-brand-purple hover:bg-brand-purple/90">
               Start free 7-day trial <ArrowRight className="ml-2 w-5 h-5" />
