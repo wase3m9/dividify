@@ -14,6 +14,8 @@ import ChatNotification from "@/components/chat/ChatNotification";
 import { Helmet } from "react-helmet";
 import { useUserTypeRouting } from "@/hooks/useUserTypeRouting";
 
+const BASE_URL = "https://dividify.co.uk/";
+
 const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,78 +58,22 @@ const Index = () => {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "Organization",
-          "@id": `${window.location.origin}/#org`,
-          "name": "Dividify",
-          "url": `${window.location.origin}/`,
-          "logo": {
-            "@type": "ImageObject",
-            "url": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
-            "contentUrl": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`
-          },
-          "brand": {
-            "@type": "Brand",
-            "name": "Dividify"
-          },
-          "founder": {
-            "@type": "Person",
-            "name": "Waseem Choudhary"
-          },
-          "sameAs": [
-            "https://www.linkedin.com/company/dividify", 
-            "https://twitter.com/dividify"
-          ],
-          "contactPoint": [{
-            "@type": "ContactPoint",
-            "contactType": "customer support",
-            "email": "hello@dividify.co.uk",
-            "areaServed": "GB",
-            "availableLanguage": ["en-GB"]
-          }],
-          "knowsAbout": [
-            "Dividend vouchers",
-            "Board minutes",
-            "Companies Act 2006",
-            "UK company directors",
-            "Accountants and accounting firms",
-            "PDF generation",
-            "QuickBooks integrations"
-          ]
-        },
-        {
-          "@type": "WebSite",
-          "@id": `${window.location.origin}/#website`,
-          "url": `${window.location.origin}/`,
-          "name": "Dividify",
-          "publisher": { "@id": `${window.location.origin}/#org` },
-          "inLanguage": "en-GB",
-          "isFamilyFriendly": true,
-          "description": "Dividify helps UK accountants and company directors instantly generate compliant dividend vouchers and board minutes as polished PDFs.",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": `${window.location.origin}/blog?q={search_term_string}`,
-            "query-input": "required name=search_term_string"
-          },
-          "termsOfService": `${window.location.origin}/terms`,
-          "privacyPolicy": `${window.location.origin}/privacy`
-        },
-        {
           "@type": "SoftwareApplication",
-          "@id": `${window.location.origin}/#app`,
+          "@id": `${BASE_URL}#app`,
           "name": "Dividify",
           "applicationCategory": "BusinessApplication",
           "applicationSubCategory": "Accounting software",
           "operatingSystem": "Web",
-          "url": `${window.location.origin}/`,
-          "image": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
-          "publisher": { "@id": `${window.location.origin}/#org` },
+          "url": BASE_URL,
+          "image": `${BASE_URL}lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`,
+          "publisher": { "@id": `${BASE_URL}#org` },
           "offers": {
             "@type": "AggregateOffer",
             "priceCurrency": "GBP",
             "lowPrice": "15",
             "highPrice": "20",
             "offerCount": "3",
-            "url": `${window.location.origin}/#pricing`
+            "url": `${BASE_URL}#pricing`
           },
           "featureList": [
             "Generate dividend vouchers",
@@ -137,14 +83,14 @@ const Index = () => {
             "Audit trail and document history",
             "Team access for accounting firms"
           ],
-          "softwareHelp": `${window.location.origin}/contact`,
+          "softwareHelp": `${BASE_URL}contact`,
           "isAccessibleForFree": false
         },
         {
           "@type": "Service",
-          "@id": `${window.location.origin}/#service`,
+          "@id": `${BASE_URL}#service`,
           "serviceType": "Dividend Voucher & Board Minutes Generator",
-          "provider": { "@id": `${window.location.origin}/#org` },
+          "provider": { "@id": `${BASE_URL}#org` },
           "areaServed": {
             "@type": "Country",
             "name": "United Kingdom"
@@ -153,11 +99,11 @@ const Index = () => {
             "@type": "BusinessAudience",
             "name": "Accountants, accounting firms, and UK company directors"
           },
-          "offers": { "@id": `${window.location.origin}/#catalog` }
+          "offers": { "@id": `${BASE_URL}#catalog` }
         },
         {
           "@type": "OfferCatalog",
-          "@id": `${window.location.origin}/#catalog`,
+          "@id": `${BASE_URL}#catalog`,
           "name": "Dividify Pricing Plans",
           "itemListElement": [
             {
@@ -165,7 +111,7 @@ const Index = () => {
               "name": "Starter",
               "price": "15",
               "priceCurrency": "GBP",
-              "url": `${window.location.origin}/#pricing`,
+              "url": `${BASE_URL}#pricing`,
               "category": "entry-level",
               "description": "Best for single directors and small firms testing Dividify.",
               "eligibleCustomerType": "Business"
@@ -175,7 +121,7 @@ const Index = () => {
               "name": "Professional",
               "price": "20",
               "priceCurrency": "GBP",
-              "url": `${window.location.origin}/#pricing`,
+              "url": `${BASE_URL}#pricing`,
               "category": "standard",
               "description": "For growing firms needing custom branding and team access.",
               "eligibleCustomerType": "Business"
@@ -185,7 +131,7 @@ const Index = () => {
               "name": "Enterprise",
               "price": "POA",
               "priceCurrency": "GBP",
-              "url": `${window.location.origin}/#pricing`,
+              "url": `${BASE_URL}#pricing`,
               "category": "enterprise",
               "description": "Unlimited usage, SSO, priority support and onboarding.",
               "eligibleCustomerType": "Business"
@@ -194,7 +140,7 @@ const Index = () => {
         },
         {
           "@type": "FAQPage",
-          "@id": `${window.location.origin}/#faqs`,
+          "@id": `${BASE_URL}#faqs`,
           "mainEntity": [
             {
               "@type": "Question",
@@ -209,7 +155,7 @@ const Index = () => {
               "name": "Are the documents legally compliant?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes, all our templates are designed to meet UK legal requirements for dividend documentation and board meeting minutes. They are regularly reviewed by legal professionals."
+                "text": "Yes, the templates are designed around common UK requirements for dividend vouchers and board minutes."
               }
             },
             {
@@ -231,7 +177,7 @@ const Index = () => {
           ]
         }
       ],
-      "dateModified": "2025-09-08"
+      "dateModified": "2026-01-08"
     };
   };
 

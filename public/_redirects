@@ -1,2 +1,7 @@
+# Force non-www and HTTPS
+https://www.dividify.co.uk/* https://dividify.co.uk/:splat 301!
+http://www.dividify.co.uk/* https://dividify.co.uk/:splat 301!
+http://dividify.co.uk/* https://dividify.co.uk/:splat 301!
+
 # SPA fallback for React Router
 /* /index.html 200
