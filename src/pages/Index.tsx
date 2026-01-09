@@ -217,43 +217,111 @@ const Index = () => {
         <HeroBanner onStartFreeTrial={handleStartFreeTrial} />
         
         {/* SEO Text Section - Crawlable content for search engines */}
-        <section className="py-12 sm:py-16 bg-white border-b border-gray-100">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
-              Why UK Directors and Accountants Choose Dividify
-            </h2>
-            <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
-              Dividify is the trusted platform for creating professional dividend vouchers and board minutes for UK limited companies. 
-              Whether you're a company director managing your own paperwork or an accountant handling multiple clients, 
-              Dividify saves you hours of manual work while ensuring full HMRC compliance.
-            </p>
-            <ul className="text-left max-w-2xl mx-auto space-y-4 text-gray-700">
-              <li className="flex items-start gap-3">
-                <span className="text-primary font-bold">✓</span>
-                <span>Use our <Link to="/dividend-voucher-generator-uk" className="text-brand-purple hover:underline font-medium">dividend voucher generator</Link> to create <strong>HMRC-compliant dividend vouchers</strong> in seconds with all required shareholder and payment details</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary font-bold">✓</span>
-                <span>Create legally accurate <strong>board minutes</strong> that document dividend declarations properly under the Companies Act 2006</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary font-bold">✓</span>
-                <span>Access professionally designed templates that you can customise with your company branding</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary font-bold">✓</span>
-                <span>Store all documents securely in the cloud with a complete audit trail</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary font-bold">✓</span>
-                <span>Built specifically for <strong>UK directors</strong> and <strong>accountants</strong> who need reliable, compliant documentation</span>
-              </li>
-            </ul>
-            <p className="text-base text-gray-600 mt-8 leading-relaxed">
-              Stop using outdated Word templates or spreadsheets. Dividify automates the entire process, 
-              from calculating dividend amounts per share class to generating downloadable PDF documents ready for your records. 
-              Thousands of UK businesses trust Dividify to handle their dividend documentation the right way.
-            </p>
+        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-white via-gray-50/50 to-white">
+          <div className="max-w-6xl mx-auto px-4">
+            {/* Header */}
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                Trusted by UK Businesses
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+                Why UK Directors and Accountants
+                <span className="block text-primary">Choose Dividify</span>
+              </h2>
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                The trusted platform for creating professional dividend vouchers and board minutes for UK limited companies. 
+                Save hours of manual work while ensuring full HMRC compliance.
+              </p>
+            </div>
+            
+            {/* Feature Cards Grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12">
+              {/* Card 1 */}
+              <div className="group relative bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3">HMRC-Compliant Vouchers</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Use our <Link to="/dividend-voucher-generator-uk" className="text-primary hover:underline font-medium">dividend voucher generator</Link> to create compliant vouchers in seconds with all required shareholder and payment details.
+                </p>
+              </div>
+              
+              {/* Card 2 */}
+              <div className="group relative bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Legal Board Minutes</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Create legally accurate <strong className="text-foreground">board minutes</strong> that document dividend declarations properly under the Companies Act 2006.
+                </p>
+              </div>
+              
+              {/* Card 3 */}
+              <div className="group relative bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Custom Branding</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Access professionally designed templates that you can customise with your company branding for a polished look.
+                </p>
+              </div>
+              
+              {/* Card 4 */}
+              <div className="group relative bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Secure Cloud Storage</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Store all documents securely in the cloud with a complete audit trail for peace of mind and easy access.
+                </p>
+              </div>
+              
+              {/* Card 5 */}
+              <div className="group relative bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100 hover:shadow-lg hover:border-primary/20 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/5 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-3">Built for UK Professionals</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Specifically designed for <strong className="text-foreground">UK directors</strong> and <strong className="text-foreground">accountants</strong> who need reliable, compliant documentation.
+                </p>
+              </div>
+              
+              {/* Card 6 - CTA */}
+              <div className="group relative bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 sm:p-8 shadow-sm hover:shadow-lg transition-all duration-300">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-3">Automate Everything</h3>
+                <p className="text-white/90 leading-relaxed">
+                  Stop using outdated Word templates. Automate from dividend calculations to downloadable PDF documents.
+                </p>
+              </div>
+            </div>
+            
+            {/* Bottom Trust Statement */}
+            <div className="text-center">
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                <span className="font-semibold text-foreground">Thousands of UK businesses</span> trust Dividify to handle their dividend documentation the right way.
+              </p>
+            </div>
           </div>
         </section>
         
