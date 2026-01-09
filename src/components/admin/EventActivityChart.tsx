@@ -9,6 +9,15 @@ interface EventActivityChartProps {
   onPeriodChange: (days: number) => void;
 }
 
+const periodOptions = [
+  { value: 7, label: "7 Days" },
+  { value: 30, label: "30 Days" },
+  { value: 60, label: "60 Days" },
+  { value: 90, label: "90 Days" },
+  { value: 180, label: "6 Months" },
+  { value: 365, label: "12 Months" },
+];
+
 export const EventActivityChart = ({ daysBack, onPeriodChange }: EventActivityChartProps) => {
   const { data: activity, isLoading } = useEventActivity(daysBack);
 
@@ -18,9 +27,12 @@ export const EventActivityChart = ({ daysBack, onPeriodChange }: EventActivityCh
         <CardTitle>Event Activity</CardTitle>
         <CardDescription>Event breakdown by day</CardDescription>
         <Tabs value={String(daysBack)} onValueChange={(v) => onPeriodChange(Number(v))}>
-          <TabsList>
-            <TabsTrigger value="7">Last 7 Days</TabsTrigger>
-            <TabsTrigger value="30">Last 30 Days</TabsTrigger>
+          <TabsList className="flex-wrap h-auto gap-1">
+            {periodOptions.map((opt) => (
+              <TabsTrigger key={opt.value} value={String(opt.value)} className="text-xs">
+                {opt.label}
+              </TabsTrigger>
+            ))}
           </TabsList>
         </Tabs>
       </CardHeader>

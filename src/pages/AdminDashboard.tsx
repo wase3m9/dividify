@@ -22,11 +22,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
 
+type PeriodOption = 7 | 30 | 60 | 90 | 180 | 365;
+
+const periodOptions: { value: PeriodOption; label: string }[] = [
+  { value: 7, label: "7 Days" },
+  { value: 30, label: "30 Days" },
+  { value: 60, label: "60 Days" },
+  { value: 90, label: "90 Days" },
+  { value: 180, label: "6 Months" },
+  { value: 365, label: "12 Months" },
+];
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [userGrowthPeriod, setUserGrowthPeriod] = useState<30 | 7>(30);
-  const [docStatsPeriod, setDocStatsPeriod] = useState<30 | 7>(30);
-  const [eventPeriod, setEventPeriod] = useState<30 | 7>(30);
+  const [userGrowthPeriod, setUserGrowthPeriod] = useState<PeriodOption>(30);
+  const [docStatsPeriod, setDocStatsPeriod] = useState<PeriodOption>(30);
+  const [eventPeriod, setEventPeriod] = useState<PeriodOption>(30);
   
   const { data: metrics, isLoading: metricsLoading } = useAdminMetrics();
   const { data: userGrowth, isLoading: userGrowthLoading } = useUserGrowth(userGrowthPeriod);
@@ -128,10 +139,13 @@ const AdminDashboard = () => {
                   <CardHeader>
                     <CardTitle>User Growth</CardTitle>
                     <CardDescription>New user signups over time</CardDescription>
-                    <Tabs value={String(userGrowthPeriod)} onValueChange={(v) => setUserGrowthPeriod(Number(v) as 30 | 7)}>
-                      <TabsList>
-                        <TabsTrigger value="7">Last 7 Days</TabsTrigger>
-                        <TabsTrigger value="30">Last 30 Days</TabsTrigger>
+                    <Tabs value={String(userGrowthPeriod)} onValueChange={(v) => setUserGrowthPeriod(Number(v) as PeriodOption)}>
+                      <TabsList className="flex-wrap h-auto gap-1">
+                        {periodOptions.map((opt) => (
+                          <TabsTrigger key={opt.value} value={String(opt.value)} className="text-xs">
+                            {opt.label}
+                          </TabsTrigger>
+                        ))}
                       </TabsList>
                     </Tabs>
                   </CardHeader>
@@ -174,10 +188,13 @@ const AdminDashboard = () => {
                   <CardHeader>
                     <CardTitle>Document Generation</CardTitle>
                     <CardDescription>Vouchers and minutes created</CardDescription>
-                    <Tabs value={String(docStatsPeriod)} onValueChange={(v) => setDocStatsPeriod(Number(v) as 30 | 7)}>
-                      <TabsList>
-                        <TabsTrigger value="7">Last 7 Days</TabsTrigger>
-                        <TabsTrigger value="30">Last 30 Days</TabsTrigger>
+                    <Tabs value={String(docStatsPeriod)} onValueChange={(v) => setDocStatsPeriod(Number(v) as PeriodOption)}>
+                      <TabsList className="flex-wrap h-auto gap-1">
+                        {periodOptions.map((opt) => (
+                          <TabsTrigger key={opt.value} value={String(opt.value)} className="text-xs">
+                            {opt.label}
+                          </TabsTrigger>
+                        ))}
                       </TabsList>
                     </Tabs>
                   </CardHeader>
@@ -227,7 +244,7 @@ const AdminDashboard = () => {
               {/* Event Activity Chart */}
               <EventActivityChart 
                 daysBack={eventPeriod} 
-                onPeriodChange={(days) => setEventPeriod(days as 7 | 30)} 
+                onPeriodChange={(days) => setEventPeriod(days as PeriodOption)} 
               />
             </TabsContent>
 
