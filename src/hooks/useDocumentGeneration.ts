@@ -3,6 +3,7 @@ import { useUser } from '@supabase/auth-helpers-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useSubscriptionStatus } from '@/hooks/useSubscriptionStatus';
+import { trackGeneration, trackGenerationFailed } from '@/hooks/useEventTracking';
 
 interface UsageLimits {
   dividends: number;
@@ -146,6 +147,9 @@ export const useDocumentGeneration = () => {
         }
       });
 
+      // Track generation event
+      await trackGeneration('dividend_voucher', record.id, formData.companyId);
+
       toast({
         title: "Success",
         description: "Dividend voucher generated and saved successfully!"
@@ -157,8 +161,12 @@ export const useDocumentGeneration = () => {
         recordId: record.id
       };
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error generating dividend voucher:', error);
+      
+      // Track generation failure
+      await trackGenerationFailed('dividend_voucher', error.message || 'Unknown error', formData.companyId);
+      
       toast({
         title: "Error",
         description: "Failed to generate and save dividend voucher",
@@ -242,6 +250,9 @@ export const useDocumentGeneration = () => {
         }
       });
 
+      // Track generation event
+      await trackGeneration('board_minutes', record.id, formData.companyId);
+
       toast({
         title: "Success",
         description: "Board minutes generated and saved successfully!"
@@ -253,8 +264,12 @@ export const useDocumentGeneration = () => {
         recordId: record.id
       };
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error generating board minutes:', error);
+      
+      // Track generation failure
+      await trackGenerationFailed('board_minutes', error.message || 'Unknown error', formData.companyId);
+      
       toast({
         title: "Error",
         description: "Failed to generate and save board minutes",

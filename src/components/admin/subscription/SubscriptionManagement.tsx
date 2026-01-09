@@ -3,7 +3,9 @@ import { SubscriptionMetrics } from "./SubscriptionMetrics";
 import { SubscriptionFilters } from "./SubscriptionFilters";
 import { SubscriptionList } from "./SubscriptionList";
 import { SubscriptionDetailsDialog } from "./SubscriptionDetailsDialog";
+import { SubscriptionEventsPanel } from "./SubscriptionEventsPanel";
 import { useSubscriptionsList } from "@/hooks/useSubscriptionManagement";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const SubscriptionManagement = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,24 +29,37 @@ export const SubscriptionManagement = () => {
     <div className="space-y-6">
       <SubscriptionMetrics />
       
-      <div className="bg-card rounded-lg border p-6">
-        <h2 className="text-2xl font-semibold mb-6">Subscription Management</h2>
-        
-        <SubscriptionFilters
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          statusFilter={statusFilter}
-          onStatusChange={setStatusFilter}
-          planFilter={planFilter}
-          onPlanChange={setPlanFilter}
-        />
+      <Tabs defaultValue="subscriptions" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+          <TabsTrigger value="events">Subscription Events</TabsTrigger>
+        </TabsList>
 
-        <SubscriptionList
-          subscriptions={subscriptions || []}
-          isLoading={isLoading}
-          onSelectSubscription={handleSelectSubscription}
-        />
-      </div>
+        <TabsContent value="subscriptions">
+          <div className="bg-card rounded-lg border p-6">
+            <h2 className="text-2xl font-semibold mb-6">Subscription Management</h2>
+            
+            <SubscriptionFilters
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              statusFilter={statusFilter}
+              onStatusChange={setStatusFilter}
+              planFilter={planFilter}
+              onPlanChange={setPlanFilter}
+            />
+
+            <SubscriptionList
+              subscriptions={subscriptions || []}
+              isLoading={isLoading}
+              onSelectSubscription={handleSelectSubscription}
+            />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="events">
+          <SubscriptionEventsPanel />
+        </TabsContent>
+      </Tabs>
 
       <SubscriptionDetailsDialog
         subscriptionId={selectedSubscriptionId}

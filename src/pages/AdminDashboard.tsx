@@ -4,6 +4,8 @@ import { AdminGuard } from "@/components/admin/AdminGuard";
 import { MetricsCard } from "@/components/admin/MetricsCard";
 import { UserManagement } from "@/components/admin/UserManagement";
 import { SubscriptionManagement } from "@/components/admin/subscription/SubscriptionManagement";
+import { EventMetricsCards } from "@/components/admin/EventMetricsCards";
+import { EventActivityChart } from "@/components/admin/EventActivityChart";
 import { useAdminMetrics, useUserGrowth, useDocumentStats } from "@/hooks/useAdminMetrics";
 import { 
   Users, 
@@ -24,6 +26,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [userGrowthPeriod, setUserGrowthPeriod] = useState<30 | 7>(30);
   const [docStatsPeriod, setDocStatsPeriod] = useState<30 | 7>(30);
+  const [eventPeriod, setEventPeriod] = useState<30 | 7>(30);
   
   const { data: metrics, isLoading: metricsLoading } = useAdminMetrics();
   const { data: userGrowth, isLoading: userGrowthLoading } = useUserGrowth(userGrowthPeriod);
@@ -112,6 +115,7 @@ const AdminDashboard = () => {
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="events">Events</TabsTrigger>
             <TabsTrigger value="users">User Management</TabsTrigger>
             <TabsTrigger value="subscriptions">Subscriptions & Payments</TabsTrigger>
           </TabsList>
@@ -214,6 +218,17 @@ const AdminDashboard = () => {
                   </CardContent>
                 </Card>
               </div>
+            </TabsContent>
+
+            <TabsContent value="events" className="space-y-6">
+              {/* Event Metrics Cards */}
+              <EventMetricsCards daysBack={eventPeriod} />
+              
+              {/* Event Activity Chart */}
+              <EventActivityChart 
+                daysBack={eventPeriod} 
+                onPeriodChange={(days) => setEventPeriod(days as 7 | 30)} 
+              />
             </TabsContent>
 
           <TabsContent value="users">

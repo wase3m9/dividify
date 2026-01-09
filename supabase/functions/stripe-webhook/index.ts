@@ -119,12 +119,35 @@ serve(async (req) => {
 
         if (profileError) throw profileError;
 
+        // Log subscription_started event for new subscriptions
+        if (event.type === 'customer.subscription.created') {
+          await supabaseClient.rpc('log_event_server', {
+            p_user_id: user.id,
+            p_event_name: 'subscription_started',
+            p_company_id: null,
+            p_meta: {
+              stripe_subscription_id: subscription.id,
+              plan: planCode,
+              interval: price.recurring?.interval || 'month',
+              amount: amount
+            }
+          });
+          logStep("Logged subscription_started event", { userId: user.id, planCode });
+        }
+
         logStep("Subscription updated successfully", { userId: user.id, planCode });
         break;
       }
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
+        
+        // Get user_id from subscription before updating
+        const { data: subData } = await supabaseClient
+          .from('subscriptions')
+          .select('user_id')
+          .eq('stripe_subscription_id', subscription.id)
+          .single();
         
         // Update subscription status
         const { error } = await supabaseClient
@@ -137,13 +160,6 @@ serve(async (req) => {
 
         if (error) throw error;
 
-        // Reset user to trial plan
-        const { data: subData } = await supabaseClient
-          .from('subscriptions')
-          .select('user_id')
-          .eq('stripe_subscription_id', subscription.id)
-          .single();
-
         if (subData) {
           await supabaseClient
             .from('profiles')
@@ -152,6 +168,17 @@ serve(async (req) => {
               updated_at: new Date().toISOString()
             })
             .eq('id', subData.user_id);
+          
+          // Log subscription_cancelled event
+          await supabaseClient.rpc('log_event_server', {
+            p_user_id: subData.user_id,
+            p_event_name: 'subscription_cancelled',
+            p_company_id: null,
+            p_meta: {
+              stripe_subscription_id: subscription.id
+            }
+          });
+          logStep("Logged subscription_cancelled event", { userId: subData.user_id });
         }
 
         logStep("Subscription canceled", { subscriptionId: subscription.id });

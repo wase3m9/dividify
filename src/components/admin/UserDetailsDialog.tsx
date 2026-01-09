@@ -17,6 +17,7 @@ import {
 import { formatDistanceToNow, format } from "date-fns";
 import { Clock, Building2, FileText } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserEventTimeline } from "./UserEventTimeline";
 
 interface UserDetailsDialogProps {
   userId: string | null;
@@ -66,11 +67,12 @@ export const UserDetailsDialog = ({ userId, onClose }: UserDetailsDialogProps) =
           </div>
         ) : user ? (
           <Tabs defaultValue="profile" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="profile">Profile</TabsTrigger>
               <TabsTrigger value="subscription">Subscription</TabsTrigger>
               <TabsTrigger value="companies">Companies</TabsTrigger>
               <TabsTrigger value="activity">Activity</TabsTrigger>
+              <TabsTrigger value="events">Events</TabsTrigger>
             </TabsList>
 
             <TabsContent value="profile" className="space-y-4">
@@ -263,6 +265,10 @@ export const UserDetailsDialog = ({ userId, onClose }: UserDetailsDialogProps) =
                   )}
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="events" className="space-y-4">
+              <UserEventTimeline userId={userId} />
             </TabsContent>
           </Tabs>
         ) : (
