@@ -315,6 +315,41 @@ export type Database = {
           },
         ]
       }
+      events: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          event_name: string
+          id: string
+          meta: Json
+          user_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          event_name: string
+          id?: string
+          meta?: Json
+          user_id: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          event_name?: string
+          id?: string
+          meta?: Json
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       minutes: {
         Row: {
           attendees: string[]
@@ -995,6 +1030,29 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_event_activity: {
+        Args: { days_back?: number }
+        Returns: {
+          api_call: number
+          date: string
+          generation_created: number
+          generation_failed: number
+          pdf_downloaded: number
+          subscription_cancelled: number
+          subscription_started: number
+        }[]
+      }
+      get_event_counts: {
+        Args: { days_back?: number }
+        Returns: {
+          api_call_count: number
+          generation_created_count: number
+          generation_failed_count: number
+          pdf_downloaded_count: number
+          subscription_cancelled_count: number
+          subscription_started_count: number
+        }[]
+      }
       get_next_voucher_number: {
         Args: { company_id_param: string }
         Returns: number
@@ -1020,6 +1078,18 @@ export type Database = {
           updated_at: string
           user_id: string
           user_type: string
+        }[]
+      }
+      get_subscription_events: {
+        Args: { max_events?: number }
+        Returns: {
+          created_at: string
+          event_name: string
+          id: string
+          meta: Json
+          user_email: string
+          user_full_name: string
+          user_id: string
         }[]
       }
       get_subscription_metrics: {
@@ -1077,6 +1147,20 @@ export type Database = {
           subscription_plan: string
           subscription_status: string
           user_type: string
+        }[]
+      }
+      get_user_docs_this_month: {
+        Args: { target_user_id: string }
+        Returns: number
+      }
+      get_user_events: {
+        Args: { max_events?: number; target_user_id: string }
+        Returns: {
+          company_id: string
+          created_at: string
+          event_name: string
+          id: string
+          meta: Json
         }[]
       }
       get_user_growth: {
@@ -1137,10 +1221,30 @@ export type Database = {
         Args: { action_type: string; details?: Json; target_user_id?: string }
         Returns: undefined
       }
+      log_event: {
+        Args: { p_company_id?: string; p_event_name: string; p_meta?: Json }
+        Returns: undefined
+      }
+      log_event_server: {
+        Args: {
+          p_company_id?: string
+          p_event_name: string
+          p_meta?: Json
+          p_user_id: string
+        }
+        Returns: undefined
+      }
       reset_monthly_counters: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "user" | "owner" | "support"
+      event_name_type:
+        | "generation_created"
+        | "generation_failed"
+        | "pdf_downloaded"
+        | "subscription_started"
+        | "subscription_cancelled"
+        | "api_call"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1269,6 +1373,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user", "owner", "support"],
+      event_name_type: [
+        "generation_created",
+        "generation_failed",
+        "pdf_downloaded",
+        "subscription_started",
+        "subscription_cancelled",
+        "api_call",
+      ],
     },
   },
 } as const
