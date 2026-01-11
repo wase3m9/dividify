@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import dividendVoucherTemplatesImage from "@/assets/dividend-voucher-templates-2025.jpg";
 import dividendVoucherDeskImage from "@/assets/dividend-voucher-desk-2025.jpg";
+import { PRODUCTION_DOMAIN } from "@/components/seo/ProductionCanonical";
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -178,7 +179,7 @@ const BlogPost = () => {
       "@type": "BlogPosting",
       "headline": post.title,
       "description": post.meta_description || metaDescription,
-      "image": `${window.location.origin}${getPostImage(post.slug)}`,
+      "image": `${PRODUCTION_DOMAIN}${getPostImage(post.slug)}`,
       "datePublished": post.published_at,
       "dateModified": post.updated_at || post.published_at,
       "wordCount": wordCount,
@@ -186,20 +187,20 @@ const BlogPost = () => {
         "@type": "Person",
         "name": "James Wilson",
         "jobTitle": "Senior Tax Advisor",
-        "url": `${window.location.origin}/blog`
+        "url": `${PRODUCTION_DOMAIN}/blog`
       },
       "publisher": {
         "@type": "Organization",
         "name": "Dividify",
-        "url": `${window.location.origin}`,
+        "url": PRODUCTION_DOMAIN,
         "logo": {
           "@type": "ImageObject",
-          "url": `${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`
+          "url": `${PRODUCTION_DOMAIN}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`
         }
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": `${window.location.origin}/blog/${post.slug}`
+        "@id": `${PRODUCTION_DOMAIN}/blog/${post.slug}`
       },
       "articleSection": "Tax Planning",
       "inLanguage": "en-GB"
@@ -237,19 +238,19 @@ const BlogPost = () => {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": `${window.location.origin}`
+          "item": PRODUCTION_DOMAIN
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Blog",
-          "item": `${window.location.origin}/blog`
+          "item": `${PRODUCTION_DOMAIN}/blog`
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": post?.title,
-          "item": `${window.location.origin}/blog/${post?.slug}`
+          "item": `${PRODUCTION_DOMAIN}/blog/${post?.slug}`
         }
       ]
     };
@@ -271,8 +272,8 @@ const BlogPost = () => {
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={post?.meta_description || metaDescription} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`${window.location.origin}/blog/${slug}`} />
-        <meta property="og:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
+        <meta property="og:url" content={`${PRODUCTION_DOMAIN}/blog/${slug}`} />
+        <meta property="og:image" content={`${PRODUCTION_DOMAIN}${getPostImage(post.slug)}`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:locale" content="en_GB" />
@@ -289,12 +290,12 @@ const BlogPost = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post?.title} />
         <meta name="twitter:description" content={post?.meta_description || metaDescription} />
-        <meta name="twitter:image" content={`${window.location.origin}${getPostImage(post.slug)}`} />
+        <meta name="twitter:image" content={`${PRODUCTION_DOMAIN}${getPostImage(post.slug)}`} />
         <meta name="twitter:label1" content="Written by" />
         <meta name="twitter:data1" content="James Wilson" />
         <meta name="twitter:label2" content="Est. reading time" />
         <meta name="twitter:data2" content={readingTime} />
-        <link rel="canonical" href={`${window.location.origin}/blog/${slug}`} />
+        <link rel="canonical" href={`${PRODUCTION_DOMAIN}/blog/${slug}`} />
         <script type="application/ld+json">
           {JSON.stringify(generateArticleSchema())}
         </script>

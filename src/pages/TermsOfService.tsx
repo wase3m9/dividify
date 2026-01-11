@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/landing/Footer";
 import { Helmet } from "react-helmet";
+import { PRODUCTION_DOMAIN } from "@/components/seo/ProductionCanonical";
 
 const TermsOfService = () => {
   return (
@@ -8,12 +9,12 @@ const TermsOfService = () => {
       <Helmet>
         <title>Terms of Service | Dividify - UK Dividend Software</title>
         <meta name="description" content="Terms and conditions for using Dividify's dividend voucher and board minutes software for UK limited companies." />
-        <link rel="canonical" href={`${window.location.origin}/terms`} />
+        <link rel="canonical" href={`${PRODUCTION_DOMAIN}/terms`} />
         <meta property="og:title" content="Terms of Service | Dividify" />
         <meta property="og:description" content="Terms and conditions for using Dividify's dividend software" />
-        <meta property="og:url" content={`${window.location.origin}/terms`} />
+        <meta property="og:url" content={`${PRODUCTION_DOMAIN}/terms`} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={`${window.location.origin}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
+        <meta property="og:image" content={`${PRODUCTION_DOMAIN}/lovable-uploads/15c0aa90-4fcb-4507-890a-a06e5dfcc6da.png`} />
       </Helmet>
       <Navigation />
       <main className="container mx-auto px-4 pt-24 pb-16">
