@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Mail, Phone, MapPin } from "lucide-react";
 import ChatNotification from "@/components/chat/ChatNotification";
+import { PRODUCTION_DOMAIN } from "@/components/seo/ProductionCanonical";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -102,24 +103,24 @@ const Contact = () => {
         <meta property="og:title" content="Contact Dividify - Expert Support for UK Limited Companies" />
         <meta property="og:description" content="Get expert help with dividend vouchers, board minutes, and HMRC compliance from our UK company law specialists." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${window.location.origin}/contact`} />
+        <meta property="og:url" content={`${PRODUCTION_DOMAIN}/contact`} />
         <meta property="og:locale" content="en_GB" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Contact Dividify | UK Support" />
         <meta name="twitter:description" content="Get expert help with dividend vouchers and HMRC compliance from our UK specialists." />
-        <link rel="canonical" href={`${window.location.origin}/contact`} />
+        <link rel="canonical" href={`${PRODUCTION_DOMAIN}/contact`} />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "ContactPage",
             "name": "Contact Dividify",
             "description": "Contact page for Dividify - UK dividend voucher and board minutes software support",
-            "url": window.location.href,
+            "url": `${PRODUCTION_DOMAIN}/contact`,
             "mainEntity": {
               "@type": "Organization",
               "name": "Dividify",
-              "url": window.location.origin,
-              "logo": `${window.location.origin}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
+              "url": PRODUCTION_DOMAIN,
+              "logo": `${PRODUCTION_DOMAIN}/lovable-uploads/e4cf415e-3cbf-4e3b-9378-b22b2a036b60.png`,
               "contactPoint": [
                 {
                   "@type": "ContactPoint",
@@ -153,23 +154,6 @@ const Contact = () => {
         </script>
       </Helmet>
       <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>Contact Dividify | UK Dividend Software Support | London</title>
-        <meta name="description" content="Contact Dividify for support with dividend vouchers and board minutes software. Located in London, UK. Email info@dividify.co.uk or call +44 20 7946 0958" />
-        <meta name="keywords" content="contact dividify, dividend software support, UK accounting software, London business contact, HMRC compliance support" />
-        <meta name="geo.region" content="GB" />
-        <meta name="geo.country" content="UK" />
-        <meta name="geo.placename" content="London" />
-        <meta property="og:title" content="Contact Dividify | UK Dividend Software Support" />
-        <meta property="og:description" content="Contact Dividify for support with dividend vouchers and board minutes software. Located in London, UK." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:locale" content="en_GB" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Contact Dividify | UK Dividend Software Support" />
-        <meta name="twitter:description" content="Contact Dividify for support with dividend vouchers and board minutes software. Located in London, UK." />
-        <link rel="canonical" href={window.location.href} />
-      </Helmet>
       
       <Navigation />
       <div className="container mx-auto px-4 pt-24 pb-4">
