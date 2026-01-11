@@ -164,9 +164,8 @@ export const useBreadcrumbs = () => {
         breadcrumbs.push({ label: "Blog" });
         break;
 
-      case '/api':
       case '/documentation':
-        breadcrumbs.push({ label: "API Documentation" });
+        breadcrumbs.push({ label: "Documentation" });
         break;
 
       case '/privacy':

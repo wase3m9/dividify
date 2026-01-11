@@ -27,7 +27,6 @@ import DividendWaivers from "@/pages/DividendWaivers";
 import Contact from "@/pages/Contact";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
-import Api from "@/pages/Api";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import CookiePolicy from "@/pages/CookiePolicy";
@@ -197,10 +196,6 @@ export const router = createBrowserRouter([
         element: <BlogPost />,
       },
       {
-        path: "/api",
-        element: <Api />,
-      },
-      {
         path: "/privacy",
         element: <PrivacyPolicy />,
       },
@@ -223,10 +218,6 @@ export const router = createBrowserRouter([
       {
         path: "/cookie-policy",
         element: <CookiePolicy />,
-      },
-      {
-        path: "/documentation",
-        element: <Api />,
       },
       {
         path: "/resources",

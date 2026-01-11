@@ -5,7 +5,9 @@ Allow: /
 Allow: /accountants
 Allow: /blog
 Allow: /contact
-Allow: /api
+
+# Disallow removed pages
+Disallow: /api
 
 # Block admin/internal pages
 Disallow: /dashboard
