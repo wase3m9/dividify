@@ -20,7 +20,26 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { user_id, email, full_name, user_type, signup_plan }: SignupNotificationRequest = await req.json();
+    const body = await req.json();
+    const { user_id, email, full_name, user_type, signup_plan }: SignupNotificationRequest = body;
+
+    // Validate required fields (security check for unauthenticated endpoint)
+    if (!user_id || !email || !full_name || !user_type) {
+      console.error("Missing required fields in signup notification request");
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Basic email format validation
+    if (!email.includes("@")) {
+      console.error("Invalid email format in signup notification request");
+      return new Response(
+        JSON.stringify({ error: "Invalid email format" }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
     console.log("Processing signup notification for:", email);
 
