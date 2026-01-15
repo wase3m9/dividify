@@ -33,7 +33,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "Dividify <noreply@dividify.co.uk>",
-        to: ["info@dividify.co.uk"],
+        to: ["noreply@dividify.co.uk"],
         subject: `New User Signup - ${full_name}`,
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">

@@ -62,7 +62,7 @@ const Contact = () => {
       submitData.append('_template', 'table');
       submitData.append('_captcha', 'true');
 
-      const response = await fetch('https://formsubmit.co/info@dividify.co.uk', {
+      const response = await fetch('https://formsubmit.co/noreply@dividify.co.uk', {
         method: 'POST',
         body: submitData
       });
@@ -132,7 +132,7 @@ const Contact = () => {
                 },
                 {
                   "@type": "ContactPoint",
-                  "email": "info@dividify.co.uk",
+                  "email": "noreply@dividify.co.uk",
                   "contactType": "customer service",
                   "areaServed": "GB"
                 }
@@ -175,7 +175,7 @@ const Contact = () => {
                   </div>
                   <div className="text-left">
                     <h3 className="font-semibold text-left">For support, contact:</h3>
-                    <p className="text-gray-600 text-left">info@dividify.co.uk</p>
+                    <p className="text-gray-600 text-left">noreply@dividify.co.uk</p>
                   </div>
                 </div>
                 
