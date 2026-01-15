@@ -145,7 +145,7 @@ serve(async (req) => {
           },
           body: JSON.stringify({
             from: 'Dividify <onboarding@resend.dev>',
-            to: ['info@dividify.co.uk'],
+            to: ['noreply@dividify.co.uk'],
             subject: 'New Contact Form Submission - Dividify',
             html: `
               <h2>New Contact Form Submission from Dividify</h2>
