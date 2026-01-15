@@ -44,8 +44,8 @@ const Signup = () => {
       setError("Please enter a valid email address");
       return false;
     }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long");
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
       return false;
     }
     return true;
@@ -58,7 +58,7 @@ const Signup = () => {
       case "User already registered":
         return "An account with this email already exists. Please sign in instead.";
       case "Password should be at least 6 characters":
-        return "Password must be at least 6 characters long.";
+        return "Password must be at least 8 characters long.";
       case "Invalid email":
         return "Please enter a valid email address.";
       default:
@@ -254,7 +254,7 @@ const Signup = () => {
               <Input
                 id="password"
                 type="password"
-                placeholder="Password (min. 6 characters)"
+                placeholder="Password (min. 8 characters)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
