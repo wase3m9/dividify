@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const FeedbackPopup = () => {
   const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"feature" | "support">("feature");
+  const [activeTab, setActiveTab] = useState<"feature" | "support">("support");
   
   // Feature request state
   const [featureRequest, setFeatureRequest] = useState("");
@@ -159,13 +159,13 @@ export const FeedbackPopup = () => {
           
           <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "feature" | "support")} className="w-full">
             <TabsList className="w-full grid grid-cols-2 rounded-none border-b">
-              <TabsTrigger value="feature" className="flex items-center gap-2">
-                <Lightbulb className="h-4 w-4" />
-                Feature
-              </TabsTrigger>
               <TabsTrigger value="support" className="flex items-center gap-2">
                 <HelpCircle className="h-4 w-4" />
                 Support
+              </TabsTrigger>
+              <TabsTrigger value="feature" className="flex items-center gap-2">
+                <Lightbulb className="h-4 w-4" />
+                Feature
               </TabsTrigger>
             </TabsList>
             
