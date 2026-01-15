@@ -27,7 +27,7 @@ import { MissingBoardMinutesBanner } from "@/components/dashboard/MissingBoardMi
 import { DividendAnalyticsSection } from "@/components/dividend/analytics/DividendAnalyticsSection";
 import { EmailClientDialog } from "@/components/dividend/email/EmailClientDialog";
 import { SentEmailsSection } from "@/components/dividend/email/SentEmailsSection";
-import { FeatureRequestPopup } from "@/components/dashboard/FeatureRequestPopup";
+import { FeedbackPopup } from "@/components/dashboard/FeedbackPopup";
 import { ScheduleList } from "@/components/dividend/scheduling/ScheduleList";
 import { UpcomingDividendsWidget } from "@/components/dividend/scheduling/UpcomingDividendsWidget";
 
@@ -565,7 +565,7 @@ const CompanyDashboard = () => {
           )}
         </div>
       </div>
-      <FeatureRequestPopup />
+      <FeedbackPopup />
     </div>
   );
 };
