@@ -82,7 +82,7 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           from: "Dividify <noreply@dividify.co.uk>",
-          to: ["noreply@dividify.co.uk"],
+          to: ["info@dividify.co.uk"],
           subject: `New Resource Download: ${safeResourceName}`,
           html: `
             <h2>New Resource Download</h2>
