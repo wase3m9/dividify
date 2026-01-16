@@ -781,23 +781,31 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Verify cron secret for authentication
+    // Verify cron secret for authentication - REQUIRED for security
     const cronSecret = Deno.env.get("CRON_SECRET");
     const providedSecret = req.headers.get("x-cron-secret");
     
-    // If CRON_SECRET is configured, require it for all requests
-    if (cronSecret) {
-      if (!providedSecret || providedSecret !== cronSecret) {
-        console.error("Unauthorized cron invocation attempt - invalid or missing x-cron-secret header");
-        return new Response(
-          JSON.stringify({ error: "Unauthorized" }),
-          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
-        );
-      }
-      console.log("Cron invocation authorized via x-cron-secret header");
-    } else {
-      console.warn("CRON_SECRET not configured - running without authentication (not recommended for production)");
+    // CRON_SECRET is REQUIRED - reject all requests without valid authentication
+    if (!cronSecret) {
+      console.error("CRITICAL: CRON_SECRET environment variable is not configured. This endpoint is disabled for security.");
+      return new Response(
+        JSON.stringify({ 
+          error: "Service unavailable - authentication not configured",
+          message: "Please configure CRON_SECRET in Edge Function secrets" 
+        }),
+        { status: 503, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
     }
+    
+    if (!providedSecret || providedSecret !== cronSecret) {
+      console.error("Unauthorized cron invocation attempt - invalid or missing x-cron-secret header");
+      return new Response(
+        JSON.stringify({ error: "Unauthorized" }),
+        { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+    
+    console.log("Cron invocation authorized via x-cron-secret header");
     
     console.log("=== Processing Scheduled Dividends ===");
     console.log(`Timestamp: ${new Date().toISOString()}`);
