@@ -1,25 +1,26 @@
 // Tax rates and thresholds for UK dividend and S455 calculations
 
 /**
- * Test case for dividend tax calculation:
- * - dividends = £37,600
- * - otherIncome = £12,400
- * - taxYear = 2025/26
+ * ACCEPTANCE TEST - MUST PASS:
  * 
- * Expected calculation:
- * - Personal Allowance = £12,570
- * - Unused PA = max(0, 12,570 - 12,400) = £170
- * - Dividend after PA = max(0, 37,600 - 170) = £37,430
- * - Dividend Allowance = £500
- * - Taxable Dividend = max(0, 37,430 - 500) = £36,930
+ * Input:
+ *   salary = 12166, dividends = 50000, otherIncome = 0, taxYear = "2025/26"
  * 
- * Band allocation (other income uses bands first):
- * - Taxable other income = max(0, 12,400 - 12,570) = £0
- * - Basic band limit = £50,270
- * - Remaining basic band = max(0, 50,270 - max(12,400, 12,570)) = 50,270 - 12,570 = £37,700
- * - Basic rate tax = £36,930 × 8.75% = £3,231.38
- * 
- * Total tax = £3,231.38
+ * Expected Output:
+ *   remainingPA = 404
+ *   taxableDividendsBeforeAllowance = 49596
+ *   dividendAllowanceUsed = 500
+ *   taxableDividendsAfterAllowance = 49096
+ *   taxableNonDividend = 0
+ *   basicBandRemaining = 37700
+ *   dividendsThatUseBands = 49596 (KEY: includes allowance for band consumption)
+ *   dividendsInBasicBand = 37700 (of which 500 at 0%, 37200 at 8.75%)
+ *   dividendsInHigherBand = 11896 (at 33.75%)
+ *   
+ *   Basic rate tax: 37200 × 8.75% = 3255.00
+ *   Higher rate tax: 11896 × 33.75% = 4014.90
+ *   Total tax: 7269.90
+ *   Net dividend: 42730.10
  */
 
 export interface TaxYearConfig {
@@ -114,58 +115,84 @@ export function calculateDividendTax(
 ): DividendTaxResult {
   const config = TAX_YEARS[taxYear] || TAX_YEARS["2024/25"];
   
-  // Step 1: Apply unused Personal Allowance to dividends first
+  // Step 1: Apply Personal Allowance to non-dividend income first
+  // Any remaining PA can reduce dividends
   const unusedPersonalAllowance = Math.max(0, config.personalAllowance - otherIncome);
   const dividendAfterPA = Math.max(0, dividendAmount - unusedPersonalAllowance);
   
-  // Step 2: Apply Dividend Allowance
+  // Step 2: Apply Dividend Allowance (taxed at 0% but STILL consumes band space)
   const dividendAllowanceUsed = Math.min(dividendAfterPA, config.dividendAllowance);
   const taxableDividend = Math.max(0, dividendAfterPA - config.dividendAllowance);
   
-  // Step 3: Calculate band allocation
-  // Other income uses up tax bands first
-  const incomeForBandCalc = Math.max(otherIncome, config.personalAllowance);
-  const remainingBasicBand = Math.max(0, config.basicBandLimit - incomeForBandCalc);
-  const remainingHigherBand = Math.max(0, config.higherBandLimit - config.basicBandLimit);
+  // Step 3: Calculate taxable non-dividend income (portion above Personal Allowance)
+  const taxableNonDividend = Math.max(0, otherIncome - config.personalAllowance);
   
+  // Step 4: Calculate basic band remaining after non-dividend income uses it
+  // Basic band = £37,700 (the band itself, not including PA)
+  const basicBand = config.basicBandLimit - config.personalAllowance; // £37,700
+  const basicBandRemaining = Math.max(0, basicBand - taxableNonDividend);
+  
+  // Step 5: KEY FIX - Dividend allowance still consumes band capacity even though taxed at 0%
+  // This is the critical fix: we allocate bands based on dividends INCLUDING the allowance
+  const dividendsThatUseBands = taxableDividend + dividendAllowanceUsed;
+  
+  // Step 6: Allocate dividends to bands
+  const dividendsInBasicBand = Math.min(dividendsThatUseBands, basicBandRemaining);
+  const dividendsAboveBasicBand = dividendsThatUseBands - dividendsInBasicBand;
+  
+  // Step 7: Within basic band, first portion is allowance (0%), rest is 8.75%
+  const allowanceInBasicBand = Math.min(dividendAllowanceUsed, dividendsInBasicBand);
+  const basicRateTaxable = dividendsInBasicBand - allowanceInBasicBand;
+  
+  // Step 8: Allocate remaining to higher and additional bands
+  const higherBand = config.higherBandLimit - config.basicBandLimit; // £74,870
+  const dividendsInHigherBand = Math.min(dividendsAboveBasicBand, higherBand);
+  const dividendsInAdditionalBand = Math.max(0, dividendsAboveBasicBand - higherBand);
+  
+  // Build bands array
   const bands: DividendTaxBand[] = [];
-  let remainingDividend = taxableDividend;
   let totalTax = 0;
   
-  // Basic rate band
-  if (remainingDividend > 0 && remainingBasicBand > 0) {
-    const basicRateAmount = Math.min(remainingDividend, remainingBasicBand);
-    const basicRateTax = basicRateAmount * config.basicRate;
+  // Dividend Allowance band (0%)
+  if (dividendAllowanceUsed > 0) {
+    bands.push({
+      band: "Dividend Allowance (0%)",
+      amount: dividendAllowanceUsed,
+      rate: 0,
+      tax: 0,
+    });
+  }
+  
+  // Basic rate band (8.75% / 10.75%)
+  if (basicRateTaxable > 0) {
+    const basicRateTax = basicRateTaxable * config.basicRate;
     bands.push({
       band: `Basic Rate (${(config.basicRate * 100).toFixed(2)}%)`,
-      amount: basicRateAmount,
+      amount: basicRateTaxable,
       rate: config.basicRate,
       tax: basicRateTax,
     });
     totalTax += basicRateTax;
-    remainingDividend -= basicRateAmount;
   }
   
-  // Higher rate band
-  if (remainingDividend > 0 && remainingHigherBand > 0) {
-    const higherRateAmount = Math.min(remainingDividend, remainingHigherBand);
-    const higherRateTax = higherRateAmount * config.higherRate;
+  // Higher rate band (33.75% / 35.75%)
+  if (dividendsInHigherBand > 0) {
+    const higherRateTax = dividendsInHigherBand * config.higherRate;
     bands.push({
       band: `Higher Rate (${(config.higherRate * 100).toFixed(2)}%)`,
-      amount: higherRateAmount,
+      amount: dividendsInHigherBand,
       rate: config.higherRate,
       tax: higherRateTax,
     });
     totalTax += higherRateTax;
-    remainingDividend -= higherRateAmount;
   }
   
-  // Additional rate band
-  if (remainingDividend > 0) {
-    const additionalRateTax = remainingDividend * config.additionalRate;
+  // Additional rate band (39.35%)
+  if (dividendsInAdditionalBand > 0) {
+    const additionalRateTax = dividendsInAdditionalBand * config.additionalRate;
     bands.push({
       band: `Additional Rate (${(config.additionalRate * 100).toFixed(2)}%)`,
-      amount: remainingDividend,
+      amount: dividendsInAdditionalBand,
       rate: config.additionalRate,
       tax: additionalRateTax,
     });
